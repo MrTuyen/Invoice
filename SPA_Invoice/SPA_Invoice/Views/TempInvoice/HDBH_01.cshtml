@@ -1,0 +1,490 @@
+﻿@using DS.BusinessLogic.Invoice;
+@{
+    var invoiceBLL = new InvoiceBLL();
+    DS.BusinessObject.Invoice.InvoiceBO obj = (DS.BusinessObject.Invoice.InvoiceBO)Model;
+    var orgInvoice = new DS.BusinessObject.Invoice.InvoiceBO();
+    if (obj.INVOICETYPE == (int)DS.Common.Enums.EnumHelper.INVOICE_TYPE.ALTERNATIVE || obj.INVOICETYPE == (int)DS.Common.Enums.EnumHelper.INVOICE_TYPE.MODIFIED)
+    {
+        orgInvoice = invoiceBLL.GetInvoiceById(obj.REFERENCE, obj.USINGINVOICETYPE);
+    }
+    var i = obj.ID <= 0 ? 1 : obj.M_INDEX;
+    string currencyWords = "";
+}
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Mẫu một thuế 002</title>
+    <link rel="stylesheet" href="https://onfinance.asia/tracuu/Content/bootstrap.min.css">
+
+    <style>
+        body {
+            height: 1440px;
+            background-image: none;
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+            background-position: center;
+        }
+
+        body, table {
+            font-size: 16px;
+            font-family: 'Times New Roman';
+            color: #000;
+        }
+
+            table th, table td {
+                vertical-align: middle !important;
+            }
+
+            table th {
+                text-align: center !important;
+                padding: .3rem 0 !important;
+            }
+
+                table th i {
+                    font-weight: 400;
+                }
+
+            table tr.rowlist td {
+                padding: .5rem .3rem;
+                border-right-color: #000;
+            }
+
+        .logo {
+            display: none;
+            border: 0;
+            width: 140px;
+            height: 80px;
+            margin-right: 15px;
+            background-repeat: no-repeat;
+            background-size: contain;
+            background-position: center;
+        }
+
+        #layer1 {
+            position: relative;
+            height: 100%;
+            margin: 5px;
+            padding: 30px;
+            box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            border-width: 0px;
+            border-style: solid;
+            border-color: #fff;
+            background-image: url('');
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+            background-position: center;
+        }
+
+        .x-image {
+            position: absolute;
+            width: 70%;
+            top: 500px;
+            left: calc(15%);
+        }
+
+        .col-md-3 {
+            max-width: 23%;
+        }
+    </style>
+</head>
+
+<body>
+    @if (obj.ID <= 0)
+    {
+        <img class="temp" style="position: absolute; width: 200px; top: 600px; left: calc(50% - 100px); transform: rotate(-30deg)" src="https://e.onfinance.asia/Images/temp_hoa_don_mau.png" />
+    }
+    @if (obj.INVOICETYPE == (int)DS.Common.Enums.EnumHelper.INVOICE_TYPE.CANCEL)
+    {
+        <img class="x-image" src="https://e.onfinance.asia/Images/backgorundX.png" />
+    }
+
+    <div class="bg">
+        <div id="layer1">
+            <table class="table table-sm table-borderless">
+                <tbody>
+                    <tr>
+                        <td style="width: 220px; text-align: center">
+                            <div class="logo"></div>
+                        </td>
+                        <td align="center" valign="top" style="vertical-align: top !important;">
+                            <div style="font-size: 38px;color: #FF0000;font-weight: bold;line-height: 35px;margin-bottom: 10px;">
+                                HÓA ĐƠN BÁN HÀNG
+                                @if (obj.ISCONVERTED && obj.ID != 0)
+                                {
+                                    <div>HÓA ĐƠN CHUYỂN ĐỔI TỪ HÓA ĐƠN ĐIỆN TỬ</div>
+                                }
+                            </div>
+                            <i style="font-size: 20px;">(Bản thể hiện của hóa đơn điện tử)</i>
+                            @if (obj.INVOICESTATUS == 2)
+                            {
+                                <p style="padding: 0;margin: 0;font-size: 16px;margin-top: 10px;">Ngày <i>(Date)</i> @(obj.ID == 0 ? "" : obj.SIGNEDTIME.Day.ToString("D2")) tháng <i>(month)</i> @(obj.ID == 0 ? "" : obj.SIGNEDTIME.Month.ToString("D2")) năm <i>(year)</i> @(obj.ID == 0 ? "" : obj.SIGNEDTIME.Year.ToString()) </p>
+                            }
+                            else
+                            {
+                                <p style="padding: 0; margin: 0;">Ngày <i>(Date)</i> @(obj.ID <= 0 ? "" : DateTime.Now.Day.ToString("D2")) tháng <i>(month)</i> @(obj.ID <= 0 ? "" : DateTime.Now.Month.ToString("D2")) năm <i>(year)</i> @(obj.ID <= 0 ? "" : DateTime.Now.Year.ToString()) </p>
+                            }
+                        </td>
+                        <td style="width: 230px; line-height: 24px; vertical-align: top !important;">
+                            Mẫu số <i>(Form)</i>: <span id="form_invoice_template">@obj.FORMCODE</span><br>
+                            Ký hiệu <i>(Serial No)</i>: <span id="symbol_invoice_template">@obj.SYMBOLCODE</span><br>
+                            Số <i>(Invoice No)</i>: <strong style="color: #FF0000; font-size: 24px;">@obj.NUMBER.ToString("D7")</strong>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="border-top border-dark my-4" style="margin-bottom: 0.6rem!important;margin-top: 0.6rem!important;"></div>
+            <div class="d-flex">
+                <div class="flex-grow-1">
+                    <div class="row">
+                        <div class="col-md-3">Đơn vị bán hàng <i>(Seller)</i>:</div>
+                        <div class="col-md-9"><b style="font-size: 20px;font-weight: 100;">@obj.COMNAME</b></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">Mã số thuế <i>(Tax code)</i>:</div>
+                        <div class="col-md-9">@obj.COMTAXCODE</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">Địa chỉ <i>(Address)</i>:</div>
+                        <div class="col-md-9">@obj.COMADDRESS</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">Điện thoại <i>(Tel)</i>:</div>
+                        <div class="col-md-9">@obj.COMPHONENUMBER</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">Số tài khoản <i>(Acct.No)</i>:</div>
+                        <div class="col-md-9">
+                            @obj.COMACCOUNTNUMBER @if (!string.IsNullOrEmpty(obj.COMBANKNAME))
+                            {
+                                <span> tại Ngân hàng @obj.COMBANKNAME</span>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div style="width: 70px">
+                    @if (obj.ID <= 0)
+                    {<img class="qrcode" style="width: 70px" src="https://e.onfinance.asia/Images/qrcode.png">}
+                    else
+                    {<img class="qrcode" style="width: 70px" src="data:image/gif;base64,@obj.QRCODEBASE64">}
+                </div>
+            </div>
+            <div class="border-top border-dark my-4" style="margin-bottom: 0.6rem!important;margin-top: 0.6rem!important;"></div>
+            <div class="row">
+                <div class="col-md-3 pr-0">Người mua hàng <i>(Buyer)</i>:</div>
+                <div class="col-md-9 pl-0">@obj.CUSBUYER</div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 pr-0">Đơn vị <i>(Enterprice)</i>:</div>
+                <div class="col-md-9 pl-0">@obj.CUSNAME</div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 pr-0">Mã số thuế <i>(Tax code)</i>:</div>
+                <div class="col-md-9 pl-0"> @obj.CUSTAXCODE</div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 pr-0">Địa chỉ <i>(Address)</i>:</div>
+                <div class="col-md-9 pl-0">@obj.CUSADDRESS</div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 pr-0">Số tài khoản <i>(Acct.No)</i>:</div>
+                <div class="col-md-9 pl-0">
+                    @obj.CUSACCOUNTNUMBER
+                    @if (!string.IsNullOrEmpty(obj.CUSBANKNAME))
+                    {
+                        <text>
+                            tại Ngân hàng @obj.CUSBANKNAME
+                        </text>
+                    }
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 pr-0"> HTTT <i>(Payment method)</i>:</div>
+                <div class="col-md-9 pl-0">@obj.CUSPAYMENTMETHOD</div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    @if (obj.INVOICETYPE == (int)DS.Common.Enums.EnumHelper.INVOICE_TYPE.ALTERNATIVE)
+                    {
+                        <text>
+                            Thay thế cho hóa đơn: @orgInvoice.NUMBER.ToString("D7"), mẫu số @orgInvoice.FORMCODE, ký hiệu @orgInvoice.SYMBOLCODE, ký ngày @orgInvoice.SIGNEDTIME.ToString("dd/MM/yyyy")
+                        </text>
+                    }
+
+                    @if (obj.INVOICETYPE == (int)DS.Common.Enums.EnumHelper.INVOICE_TYPE.MODIFIED)
+                    {
+                        <text>
+                            Điều chỉnh cho hóa đơn: @orgInvoice.NUMBER.ToString("D7"), mẫu số @orgInvoice.FORMCODE, ký hiệu @orgInvoice.SYMBOLCODE, ký ngày @orgInvoice.SIGNEDTIME.ToString("dd/MM/yyyy")
+                        </text>
+                        <br />
+                        <text>
+                            Lý do: @obj.CHANGEREASON
+                        </text>
+                    }
+                </div>
+            </div>
+            <table class="table table-bordered table-sm" style="border: 1px solid #000 !important;border: 1px solid #000 !important;margin-top: 0.6rem;">
+                <tbody>
+                    <tr>
+                        <th class="border-dark" align="center" style="width: 40px;">STT<br><i>(No)</i></th>
+                        <th class="border-dark" align="center">Tên hàng hóa, dịch vụ<br><i>(Service, goods name)</i></th>
+                        <th class="border-dark" align="center" style="width: 100px;">Đơn vị tính<br><i>(Unit)</i></th>
+                        <th class="border-dark" align="center" style="width: 70px;">Số lượng<br><i>(Quantity)</i></th>
+                        <th class="border-dark" align="center" style="width: 105px;">Đơn giá<br><i>(Price)</i></th>
+                        @if (obj.DISCOUNTTYPE == "CHIET_KHAU_THEO_HANG_HOA")
+                        {
+                            <th class="border-dark" align="center" style="width: 125px;">Chiết khấu<br><i>(Discount)</i></th>
+                            <th class="border-dark" align="center" style="width: 125px;">Thành tiền<br><i>(Amount)</i></th>
+                        }
+                        else
+                        {
+                            <th class="border-dark" align="center" style="width: 125px;">Thành tiền<br><i>(Amount)</i></th>
+                        }
+                    </tr>
+                    <tr>
+                        <th class="border-dark" align="center"> (1) </th>
+                        <th class="border-dark" align="center"> (2) </th>
+                        <th class="border-dark" align="center"> (3) </th>
+                        <th class="border-dark" align="center"> (4) </th>
+                        <th class="border-dark" align="center"> (5) </th>
+                        @if (obj.DISCOUNTTYPE == "CHIET_KHAU_THEO_HANG_HOA")
+                        {
+                            <th class="border-dark" align="center"> (6) </th>
+                            <th class="border-dark" align="center"> (7) </th>
+                        }
+                        else
+                        {
+                            <th class="border-dark" align="center"> (6) = (4) x (5) </th>
+                        }
+                    </tr>
+                    @foreach (var inv in obj.LISTPRODUCT)
+                    {
+                        if (inv.GROUPID == 1)
+                        {
+                            <tr class="rowlist" rows>
+                                <td align="center" style="border-left: 1px solid #000">@i</td>
+                                <td style="font-weight:bold;" colspan="8">@inv.PRODUCTNAME</td>
+                            </tr>
+                        }
+                        else
+                        {
+                            <tr class="rowlist">
+                                <td align="center" style="border-left: 1px solid #000">@i</td>
+                                <td>@inv.PRODUCTNAME <br /><i>@inv.DESCRIPTION</i></td>
+                                <td align="center">@inv.QUANTITYUNIT</td>
+                                <td align="center">@(obj.ID <= 0 ? "" : (inv.QUANTITY == 0 ? "" : DS.Common.Helpers.CommonFunction.FormatMoney(inv.QUANTITY, obj.QUANTITYPLACE, ",", ".")))</td>
+                                <td align="right">@(obj.ID <= 0 ? "" : (inv.RETAILPRICE == 0 ? "" : DS.Common.Helpers.CommonFunction.FormatMoney(inv.RETAILPRICE, obj.PRICEPLACE, ",", ".")))</td>
+                                @if (obj.DISCOUNTTYPE == "CHIET_KHAU_THEO_HANG_HOA")
+                                {
+                                    <td align="right">@(obj.ID <= 0 ? "" : DS.Common.Helpers.CommonFunction.FormatMoney(inv.TOTALDISCOUNT, 0, ",", "."))</td>
+                                }
+                                <td align="right">@(obj.ID <= 0 ? "" : DS.Common.Helpers.CommonFunction.FormatMoney(inv.TOTALMONEY, obj.MONEYPLACE, ",", "."))</td>
+                            </tr>
+                        }
+                        i++;
+                    }
+                    @if (obj.M_ISMULTIPLEPAGE)
+                    {
+                        if ((int)ViewData["Index"] == obj.M_TOTALPAGES)
+                        {
+                            currencyWords = DS.Common.Helpers.ReadNumberToCurrencyWords.ConvertToWordsWithPostfix((decimal)(obj.TOTALPAYMENT), obj.CURRENCY);
+                            <tr>
+                                <td colspan="7" class="border-dark" style="height: 1px; padding: 0;"></td>
+                            </tr>
+                            <tr>
+                                <td colspan="7" class="border-dark pl-3" style="font-weight:bold;"> Tổng tiền thanh toán <i>(Total Amount)</i>: @(obj.ID <= 0 ? "" : DS.Common.Helpers.CommonFunction.FormatMoney(obj.TOTALPAYMENT, 0, ",", "."))</td>
+                            </tr>
+                            <tr>
+                                <th colspan="9" class="border-dark text-left pl-3">
+                                    Số tiền bằng chữ <i style="font-weight:bold;">(Amount in words): @(obj.ID <= 0 ? "" : currencyWords)</i>
+                                </th>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        var lstKCT = obj.LISTPRODUCT.Where(x => x.TAXRATE == -1).Count();
+                        var lstProducts = obj.LISTPRODUCT.Count();
+                        currencyWords = DS.Common.Helpers.ReadNumberToCurrencyWords.ConvertToWordsWithPostfix((decimal)(obj.TOTALPAYMENT), obj.CURRENCY);
+
+                        <tr>
+                            <td colspan="7" class="border-dark" style="height: 1px; padding: 0;"></td>
+                        </tr>
+                        <tr>
+                            <td colspan="7" class="border-dark pl-3" style="font-weight:bold;"> Tổng tiền thanh toán <i>(Total Amount)</i>: @(obj.ID <= 0 ? "" : DS.Common.Helpers.CommonFunction.FormatMoney(obj.TOTALPAYMENT, 0, ",", "."))</td>
+                        </tr>
+                        <tr>
+                            <th colspan="9" class="border-dark text-left pl-3">
+                                Số tiền bằng chữ <i style="font-weight:bold;">(Amount in words): @(obj.ID <= 0 ? "" : currencyWords)</i>
+                            </th>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            @if (obj.M_ISMULTIPLEPAGE)
+            {
+                if ((int)ViewData["Index"] == obj.M_TOTALPAGES)
+                {
+                    if (obj.CURRENCY != "VND" && obj.ID > 0)
+                    {
+                        <table class="table table-borderless">
+                            <tbody>
+                                <tr>
+                                    <td width="40%"><strong>Tỷ giá </strong><i>(Exchange rate): </i></td>
+                                    <td>@obj.EXCHANGERATE.ToString("##,###").Replace(",", ".") VND/@obj.CURRENCY</td>
+                                </tr>
+                                <tr>
+                                    <td width="40%"><strong>Quy đổi </strong><i>(Exchange): </i></td>
+                                    <td>@obj.TOTALPAYMENT.ToString("##,###").Replace(",", ".") VND</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    }
+                    <table class="table table-borderless">
+                        <tbody>
+                            <tr>
+                                @* Nếu là hóa đơn chuyển đổi *@
+                                @if (obj.ISCONVERTED && obj.ID != 0)
+                                {
+                                    <td valign="top" class="text-center" style="width: 33.3333%; padding-bottom: 120px; vertical-align: top !important">
+                                        <strong>Người chuyển đổi</strong> <i>(Converter)</i><br>
+                                        (Ký, ghi rõ họ, tên)<br>
+                                        <i>(Signature &amp; fullname)</i>
+
+                                        <div style="text-align: center; margin-top: 50px;">
+                                            <b>@obj.CONVERTUSERNAME</b> <br />
+                                            @if (obj.ID == -1)
+                                            {
+                                                <div>Ngày chuyển đổi <i>(Conversion date): .../.../...</i></div>
+                                            }
+                                            else
+                                            {
+                                                <div>Ngày chuyển đổi <i>(Conversion date): @obj.CONVERTTIME.ToString("dd/MM/yyyy")</i></div>
+                                            }
+                                        </div>
+                                    </td>
+                                }
+                                <td valign="top" class="text-center" style="width: 33.3333%; padding-bottom: 120px; vertical-align: top !important">
+                                    <strong>Người mua hàng</strong> <i>(Buyer)</i> <br>
+                                    (Ký, ghi rõ họ, tên) <br>
+                                    <i> (Signature &amp; fullname)</i>
+                                </td>
+                                <td class="text-center" style="width: 33.3333%; padding-bottom: 120px;">
+                                    <strong>Người bán hàng</strong> <i>(Seller)</i><br>
+                                    (Ký, ghi rõ họ, tên)<br>
+                                    <i>(Signature &amp; fullname)</i>
+                                    @if (obj.INVOICESTATUS == 2 || obj.INVOICESTATUS == -1)
+                                    {
+                                        <div style="font-weight: bold;border: 3px solid red;color: red;text-align: left;padding: 12px;width: 300px;margin: auto;margin-top: 20px; background: url('https://e.onfinance.asia/Images/check-mark-icon-png-11.png') no-repeat center center; background-size: 29%">
+                                            Signature Valid<br>
+                                            Ký bởi: @obj.COMNAME<br>
+                                            Ký ngày: @(obj.ID <= 0 ? "" : obj.SIGNEDTIME.ToString("dd/MM/yyyy"))
+                                        </div>
+                                    }
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                }
+            }
+            else
+            {
+                if (obj.CURRENCY != "VND" && obj.ID > 0)
+                {
+                    <table class="table table-borderless">
+                        <tbody>
+                            <tr>
+                                <td width="40%"><strong>Tỷ giá </strong><i>(Exchange rate): </i></td>
+                                <td>@obj.EXCHANGERATE.ToString("##,###").Replace(",", ".") VND/@obj.CURRENCY</td>
+                            </tr>
+                            <tr>
+                                <td width="40%"><strong>Quy đổi </strong><i>(Exchange): </i></td>
+                                <td>@obj.TOTALPAYMENT.ToString("##,###").Replace(",", ".") VND</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                }
+                <table class="table table-borderless">
+                    <tbody>
+                        <tr>
+                            @* Nếu là hóa đơn chuyển đổi *@
+                            @if (obj.ISCONVERTED && obj.ID != 0)
+                            {
+                                <td valign="top" class="text-center" style="width: 33.3333%; padding-bottom: 120px; vertical-align: top !important">
+                                    <strong>Người chuyển đổi</strong> <i>(Converter)</i><br>
+                                    (Ký, ghi rõ họ, tên)<br>
+                                    <i>(Signature &amp; fullname)</i>
+
+                                    <div style="text-align: center; margin-top: 50px;">
+                                        <b>@obj.CONVERTUSERNAME</b> <br />
+                                        @if (obj.ID == -1)
+                                        {
+                                            <div>Ngày chuyển đổi <i>(Conversion date): .../.../...</i></div>
+                                        }
+                                        else
+                                        {
+                                            <div>Ngày chuyển đổi <i>(Conversion date): @obj.CONVERTTIME.ToString("dd/MM/yyyy")</i></div>
+                                        }
+                                    </div>
+                                </td>
+                            }
+                            <td valign="top" class="text-center" style="width: 33.3333%; padding-bottom: 120px; vertical-align: top !important">
+                                <strong>Người mua hàng</strong> <i>(Buyer)</i> <br>
+                                (Ký, ghi rõ họ, tên) <br>
+                                <i> (Signature &amp; fullname)</i>
+                            </td>
+                            <td class="text-center" style="width: 33.3333%; padding-bottom: 120px;">
+                                <strong>Người bán hàng</strong> <i>(Seller)</i><br>
+                                (Ký, ghi rõ họ, tên)<br>
+                                <i>(Signature &amp; fullname)</i>
+
+                                @if (obj.INVOICESTATUS == 2 || obj.INVOICESTATUS == -1)
+                                {
+                                    <div style="font-weight: bold;border: 3px solid red;color: red;text-align: left;padding: 12px;width: 300px;margin: auto;margin-top: 20px; background: url('https://e.onfinance.asia/Images/check-mark-icon-png-11.png') no-repeat center center; background-size: 29%">
+                                        Signature Valid<br>
+                                        Ký bởi: @obj.COMNAME<br>
+                                        Ký ngày: @(obj.ID <= 0 ? "" : obj.SIGNEDTIME.ToString("dd/MM/yyyy"))
+                                    </div>
+                                }
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            }
+            <div style="position: absolute; left: 0; right: 0; height: 70px; bottom: 20px; padding: 0 20px; ">
+                <p class="m-0" style="text-align: center;">
+                    Mã tra cứu:
+                    @if (obj.INVOICESTATUS == 2)
+                    {
+                        @obj.REFERENCECODE
+                    }
+                    <span style="padding-left: 20px">Trang tra cứu: <a style="color: black" href="https://onfinance.asia/tracuu/?referencecode=@obj.REFERENCECODE"> https://onfinance.asia/tracuu</a></span>
+                    @if (obj.M_ISMULTIPLEPAGE)
+                    {
+                        if ((int)ViewData["Index"] == 1)
+                        {
+                            <span class="float-right">@((int)ViewData["Index"])/@obj.M_TOTALPAGES</span>
+                        }
+                        if ((int)ViewData["Index"] > 1)
+                        {
+                            <span class="float-right">tiep theo trang truoc -  @((int)ViewData["Index"])/@obj.M_TOTALPAGES</span>
+                        }
+                    }
+                </p>
+                <table class="table table-borderless table-sm">
+                    <tbody>
+                        <tr>
+                            <td align="center" class="border-top border-dark">
+                                (Cần kiểm tra, đối chiếu khi lập, giao nhận hóa đơn)<br>
+                                (Khởi tạo từ phần mềm OnFinance.asia - Công ty cổ phần tập đoàn truyền thông và công nghệ NOVA MST: 0101990346)
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

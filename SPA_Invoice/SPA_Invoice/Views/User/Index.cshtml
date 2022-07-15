@@ -1,0 +1,268 @@
+﻿<div ng-init="GetUser()" id="user-controller" ng-controller="UserController" ng-cloak>
+    <div class="d-flex justify-content-between">
+        <h2><strong>Danh sách người dùng</strong></h2>
+        <div class="btn-group btn-sm pr-0">
+            <button type="button" class="btn btn-success" ng-click="ModalAddEditUser(item, 1)">
+                <span class="fa fa-plus"></span> &nbsp; Thêm mới
+            </button>
+            @*<button type="button" class="btn btn-success dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="sr-only">Toggle Dropdown</span>
+            </button>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="javascript:;" ng-click="OpenImportCustomerModal()">Tạo hàng loạt từ file excel</a>
+            </div>*@
+        </div>
+    </div>
+    <div class="bg-white border mt-2">
+        <div class="header-filter px-3 py-2">
+            <div class="d-flex justify-content-between mt-2">
+                <div class="d-flex justify-content-center align-items-center">
+                    <input type="text" class="form-control input100 input-text ml-2" id="productandservice" placeholder="Tìm kiếm tên đăng nhập, họ tên, email" ng-model="KEYWORD" my-enter="ReloadUser(1)" />
+                </div> 
+            </div>
+        </div>
+        <div class="d-flex justify-content-between">
+            <div class="btn-filter table_overflow_absolute onscrollbar">
+                <table class="table table-bordered  table-sm table-vertical-center table-head-green bg-white table-hover">
+                    <thead>
+                        <tr class="text-center">
+                            <th class="text-center">STT</th>
+                            <th>Họ tên</th>
+                            <th>Địa chỉ email</th>
+                            <th>Số điện thoại</th>
+                            <th>Admin</th>
+                            <th>Trạng thái hoạt động</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody class="product-table">
+                        <tr ng-repeat="item in ListUser" class="text-center" style="cursor:pointer">
+                            <td class="text-center" ng-click="EditUser(item)">
+                                <label>{{$index + 1}}</label>
+                            </td>
+                            <td>
+                                <label>{{item.FULLNAME}}</label>
+                            </td>
+                            <td>
+                                <label>{{item.EMAIL}}</label>
+                            </td>
+                            <td>
+                                <label>{{item.PHONENUMBER}}</label>
+                            </td>
+                            <td ng-if="item.ISADMIN" class="text-center success-result">
+                                <i class="fa fa-check"></i>
+                            </td>
+                            <td ng-if="!item.ISADMIN" class="text-center error-result">
+                                <i class="fa fa-times"></i>
+                            </td>
+                            <td ng-if="item.ISACTIVED" class="text-center success-result">
+                                <i class="fa fa-check"></i>
+                            </td>
+                            <td ng-if="!item.ISACTIVED" class="text-center error-result">
+                                <i class="fa fa-times"></i>
+                            </td>
+                            <td class="text-right">
+                                <label data-toggle="tooltip" data-placement="bottom" title="Chỉnh sửa thông tin người dùng">
+                                    <button type="button" class="btn btn-light btn-link" ng-click="ModalAddEditUser(item, 2)" ng-disabled="item.ISADMIN == true">
+                                        <span class="fa fa-pencil-square-o"></span>
+                                    </button>
+                                </label>
+                                <label data-toggle="tooltip" data-placement="bottom" title="Xóa user khỏi công ty">
+                                    <button type="button" class="btn btn-light btn-link" ng-click="DeleteUser(item)" ng-disabled="item.ISADMIN == true">
+                                        <span class="fa fa-trash-o text-danger"></span>
+                                    </button>
+                                </label>
+                                <label data-toggle="tooltip" data-placement="bottom" title="Nhân bản thông tin người dùng và quyền của người dùng đó">
+                                    <button type="button" class="btn btn-light btn-link" ng-click="ModalAddEditUser(item, 2)" ng-disabled="item.ISADMIN == true">
+                                        <span class="fa fa-user-o text-success"></span>
+                                    </button>
+                                </label>
+                                @*<label data-toggle="tooltip" data-placement="bottom" title="Phân quyền user">
+                                    <button type="button" class="btn btn-light btn-link" ng-click="DeleteUser(item)">
+                                        <span class="fa fa-user-o text-success"></span>
+                                    </button>
+                                </label>*@
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="paging-absolute">
+                <table class="table table-bordered table-sm table-vertical-center table-head-green">
+                    <tr>
+                        <td class="text-left border-0 " colspan="4" ng-model="currentpage">
+                            <div class="mt-2 ml-4 pagination-area">
+                                <label class="pagination-current">{{(currentpage - 1) * 10 + 1}}  - {{currentpage * 10 > TotalRow ? TotalRow : currentpage * 10}}  trong <strong>{{TotalRow}}</strong> bản ghi</label>
+                            </div>
+                        </td>
+                        <td class="text-right border-0" colspan="10" ng-model="currentpage">
+                            <div class="mt-2 ml-4 pagination-area">
+                                <button class="pagination-first" ng-disabled="currentpage == 1" ng-click="GetUser(1)">< Đầu tiên</button>
+                                <button class="pagination-previous" ng-disabled="currentpage == 1" ng-click="GetUser(currentpage - 1)">Trước</button>
+                                <label class="pagination-current"><strong><input class="form-control form-control-sm paging-textbox" type="number" ng-model="currentpage" min="1" max="{{TotalPages}}" my-enter="GetUser(currentpage)" /> / {{TotalPages}}</strong></label>
+                                <button class="pagination-next" ng-disabled="currentpage == TotalPages" ng-click="GetUser(currentpage + 1)">Sau</button>
+                                <button class="pagination-last" ng-disabled="currentpage == TotalPages" ng-click="GetUser(TotalPages)">Cuối cùng ></button>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="modal-addedit-user" style="display: none; padding-left: 0!important; padding-right: 0!important;">
+        <div class="d-flex">
+            <div class="w-50">
+                <div class="form-group mb-1">
+                    <div class="d-flex">
+                        <label class="col-4">Email <span class="text-danger">(*)</span>:</label>
+                        <div class="col-8">
+                            <input type="text" class="form-control form-control-sm" ng-disabled="ISEDIT" autocomplete="off" ng-model="User.EMAIL" value="" />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group mb-1">
+                    <div class="d-flex">
+                        <label class="col-4">Mật khẩu <span class="text-danger">(*)</span>:</label>
+                        <div class="col-8">
+                            @*<input type="text" class="form-control form-control-sm" ng-disabled="ISEDIT" autocomplete="off" ng-model="User.PASSWORD" value="" />*@
+                            @*<p class="text-danger" ng-if="ISEDIT">(Nếu không đổi mật khẩu, vui lòng để trống)</p>*@
+                            <span class="btn-show-pass" ng-click="OpenHidePassword()">
+                                <i class="fa fa-eye open-hide-pass"></i>
+                            </span>
+                            <input class="form-control input100 input-text password" type="password" ng-disabled="ISEDIT" ng-model="User.PASSWORD" />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group mb-1 mt-2">
+                    @*<div class="d-flex">
+                        <label class="col-4">Admin:</label>
+                        <div class="col-8">
+                            <label for="cbx_isadmin" class="label-cbx">
+                                <input type="checkbox" id="cbx_isadmin" class="invisible" ng-model="User.ISADMIN">
+                                <span class="checkbox">
+                                    <svg width="20px" height="20px" viewBox="0 0 20 20">
+                                        <path d="M3,1 L17,1 L17,1 C18.1045695,1 19,1.8954305 19,3 L19,17 L19,17 C19,18.1045695 18.1045695,19 17,19 L3,19 L3,19 C1.8954305,19 1,18.1045695 1,17 L1,3 L1,3 C1,1.8954305 1.8954305,1 3,1 Z"></path>
+                                        <polyline points="4 11 8 15 16 6"></polyline>
+                                    </svg>
+                                </span>
+                                &nbsp; (Người dùng là admin)
+                            </label>
+                        </div>
+                    </div>*@
+                </div>
+            </div>
+            <div class="w-50">
+                <div class="form-group mb-1">
+                    <div class="d-flex">
+                        <label class="col-4">Họ và tên:</label>
+                        <div class="col-8">
+                            <input type="text" class="form-control form-control-sm" autocomplete="off" ng-model="User.FULLNAME" value="" />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group mb-1">
+                    <div class="d-flex">
+                        <label class="col-4">Số điện thoại:</label>
+                        <div class="col-8">
+                            <input type="text" class="form-control form-control-sm" autocomplete="off" ng-model="User.PHONENUMBER" value="" />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group mb-1 mt-2">
+                    <div class="d-flex">
+                        <label class="col-4">Trạng thái:</label>
+                        <div class="col-8">
+                            <label for="cbx_activeuser" class="label-cbx">
+                                <input type="checkbox" id="cbx_activeuser" class="invisible" ng-model="User.ISACTIVED">
+                                <span class="checkbox">
+                                    <svg width="20px" height="20px" viewBox="0 0 20 20">
+                                        <path d="M3,1 L17,1 L17,1 C18.1045695,1 19,1.8954305 19,3 L19,17 L19,17 C19,18.1045695 18.1045695,19 17,19 L3,19 L3,19 C1.8954305,19 1,18.1045695 1,17 L1,3 L1,3 C1,1.8954305 1.8954305,1 3,1 Z"></path>
+                                        <polyline points="4 11 8 15 16 6"></polyline>
+                                    </svg>
+                                </span>
+                                &nbsp; (Cick để đánh dấu user hoạt động)
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex justify-content-between p-0 pt-2">
+            <div class="d-flex justify-content-start">
+                <span ng-if="!ISEDIT" class="text-danger ml-3">Chú ý thêm người dùng trước khi phân quyền.</span>
+            </div>
+            <div class="d-flex justify-content-between" ng-if="CURRENT_USER_ROLE.includes(USER_ROLE.PHAN_QUYEN_NGUOI_DUNG.toString())">
+                <button class="btn btn-success mr-3" ng-click="AddUser()"> <span class="fa fa-floppy-o"></span> &nbsp; Lưu thông tin người dùng </button>
+            </div>
+            <div class="d-flex justify-content-between" ng-if="!CURRENT_USER_ROLE.includes(USER_ROLE.PHAN_QUYEN_NGUOI_DUNG.toString())">
+                <button class="btn btn-success mr-3" disabled="disabled" ng-click="AddUser()"> <span class="fa fa-floppy-o"></span> &nbsp; Lưu thông tin người dùng </button>
+            </div>
+        </div>
+        <hr />
+        <div class="ui-dialog-titlebar ui-corner-all ui-widget-header ui-helper-clearfix ui-draggable-handle">
+            <span id="ui-id-1" class="ui-dialog-title">
+                Phân quyền cho người dùng:
+                <span class="text-danger"><b>{{User.EMAIL}}</b></span>
+            </span>
+        </div>
+        <div class="mt-3">
+            <div class="box box-default">
+                <div class="box-header with-border">
+                    <nav>
+                        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                            <a class="nav-item nav-link" ng-class="{true: 'active'}[item.ID == 1]" ng-repeat="item in ListRole" data-toggle="tab" role="tab" aria-selected="true" ng-click="ShowActiveTab(item.ID)"><b>{{item.ROLENAME}}</b></a>
+                        </div>
+                    </nav>
+                </div>
+                <div class="box-body with-border mt-3">
+                    <div class="tab-content" id="nav-tabContent">
+                        <div class="tab-pane fade show active" id="nav-role" role="tabpanel" aria-labelledby="user-tab">
+                            <table class="table table-bordered  table-sm table-vertical-center table-head-green bg-white table-hover">
+                                <tr>
+                                    @*<td class="text-center">Chọn tất cả</td>*@
+                                    <td class="text-center" ng-repeat="item in ListRoleDetail" ng-show="item.ROLEID == ActiveTab">{{item.ROLEDETAILNAME}}</td>
+                                </tr>
+                                <tr>
+                                    @*<td class="text-center">
+                                        <label for="cbx_title" class="label-cbx">
+                                            <input id="cbx_title" type="checkbox" class="invisible">
+                                            <span class="checkbox">
+                                                <svg width="20px" height="20px" viewBox="0 0 20 20">
+                                                    <path d="M3,1 L17,1 L17,1 C18.1045695,1 19,1.8954305 19,3 L19,17 L19,17 C19,18.1045695 18.1045695,19 17,19 L3,19 L3,19 C1.8954305,19 1,18.1045695 1,17 L1,3 L1,3 C1,1.8954305 1.8954305,1 3,1 Z"></path>
+                                                    <polyline points="4 11 8 15 16 6"></polyline>
+                                                </svg>
+                                            </span>
+                                        </label>
+                                    </td>*@
+                                    <td class="text-center" ng-repeat="item in ListRoleDetail" ng-show="item.ROLEID == ActiveTab">
+                                        <label for="cbx_{{item.ID}}" class="label-cbx">
+                                            <input id="cbx_{{item.ID}}" type="checkbox" class="invisible" ng-click="SelectCheckbox(item.ISSELECTED, item.ID)" ng-model="item.ISSELECTED">
+                                            <span class="checkbox">
+                                                <svg width="20px" height="20px" viewBox="0 0 20 20">
+                                                    <path d="M3,1 L17,1 L17,1 C18.1045695,1 19,1.8954305 19,3 L19,17 L19,17 C19,18.1045695 18.1045695,19 17,19 L3,19 L3,19 C1.8954305,19 1,18.1045695 1,17 L1,3 L1,3 C1,1.8954305 1.8954305,1 3,1 Z"></path>
+                                                    <polyline points="4 11 8 15 16 6"></polyline>
+                                                </svg>
+                                            </span>
+                                        </label>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex justify-content-between p-0 pt-2">
+            <div class="d-flex justify-content-start">
+            </div>
+            <div class="d-flex justify-content-between" ng-if="CURRENT_USER_ROLE.includes(USER_ROLE.PHAN_QUYEN_NGUOI_DUNG.toString())">
+                <button class="btn btn-success mr-3" ng-click="UpdateUserRole()"> <span class="fa fa-floppy-o"></span> &nbsp; Lưu cập nhật phân quyền người dùng </button>
+            </div>
+            <div class="d-flex justify-content-between" ng-if="!CURRENT_USER_ROLE.includes(USER_ROLE.PHAN_QUYEN_NGUOI_DUNG.toString())">
+                <button class="btn btn-success mr-3" disabled="disabled" ng-click="UpdateUserRole()"> <span class="fa fa-floppy-o"></span> &nbsp; Lưu cập nhật phân quyền người dùng </button>
+            </div>
+        </div>
+    </div>
+</div>

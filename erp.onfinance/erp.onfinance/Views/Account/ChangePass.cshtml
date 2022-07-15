@@ -1,0 +1,37 @@
+﻿<div class="scrollable-content" ng-controller="AccountController">
+    <div ng-show="isLoading" class="app-content-loading">
+        <img class="loading-spinner" src="~/Content/img/loading.gif" />
+    </div>
+
+    <div ng-hide="isLoading">
+        <div class="px-4 py-3">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Đổi mật khẩu</h3>
+                </div>
+                <div class="panel-body">
+
+                    <div class="form-group">
+                        <label>Mật khẩu cũ</label>
+                        <input type="password" class="form-control" ng-model="password">
+                    </div>
+                    <div class="dropdown-divider"></div>
+
+                    <div class="form-group">
+                        <label>Mật khẩu mới</label>
+                        <input type="password" class="form-control" ng-model="newpassword">
+                    </div>
+                    <div class="form-group">
+                        <label>Nhập lại mật khẩu mới</label>
+                        <input type="password" class="form-control" ng-model="renewpassword">
+                    </div>
+
+                    <button class="btn btn-primary" ng-click="ChangePass()">Đồng ý</button>
+                    <div class="alert alert-danger mt-2" role="alert" ng-show="ErrorMessge != null && ErrorMessge != ''">
+                        {{ErrorMessge}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

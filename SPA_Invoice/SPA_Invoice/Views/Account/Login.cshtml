@@ -1,0 +1,52 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutSimple.cshtml";
+    ViewBag.Title = "Login - NOVAON EINVOICE";
+}
+<style>
+    .error {
+        display: none;
+        color: red;
+        font-size: 14px;
+    }
+</style>
+<div id="popop-login">
+    <p class="logo text-center"><img src="~/Images/logo_full.jpg" /></p>
+    <div class="message-login-form text-center">
+        Bạn đã có tài khoản?
+    </div>
+
+
+    <form class="validate-form" method="post">
+        <div>
+            <span class="error">*<span id="errorMessgage"></span></span>
+        </div>
+        <div class="wrap-input100 validate-input">
+            <input type="text" name="username" id="username" class="form-control input100 input-text" />
+            <span class="focus-input100">Số điện thoại/Email</span>
+        </div>
+        <div class="wrap-input100 validate-input" data-validate="Enter password">
+            <span class="btn-show-pass">
+                <i class="zmdi zmdi-eye"></i>
+            </span>
+            <input class="form-control input100 input-text" type="password" name="password" id="password" />
+            <span class="focus-input100">Mật khẩu</span>
+        </div>
+        <button class="btn btn-success btn-block mt-3 btn-register" id="btn-login" type="button">
+            <img src="~/Images/oval-white-loading.svg" /> Đăng nhập
+        </button>
+        <p class="text-center pt-3"><a href="/user-account/forgot-password" class="link-reference">Quên mật khẩu</a></p>
+    </form>
+    <p class="text-center text-line-center">
+        <span>Hoặc</span>
+    </p>
+    <button id="googleLogin" class="login-with-google mt-3" type="button">
+        <span class="icon-g"></span>Đăng nhập với Google
+    </button>
+
+
+    <p class="link-active text-center">
+        Bạn chưa có tài khoản? <a href="/user-account/register" class="text-primary">Đăng ký</a>
+    </p>
+    <p class="clear"></p>
+
+</div>

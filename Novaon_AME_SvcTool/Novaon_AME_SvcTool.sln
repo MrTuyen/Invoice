@@ -1,0 +1,29 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.757
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Novaon_AME_SvcTool", "Novaon_AME_SvcTool\Novaon_AME_SvcTool.csproj", "{B3A4BA68-9E84-4A72-92EF-231587DC5697}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Novaon_Ame_Setup_v1.0.1", "Novaon_Ame_Setup_v1.0.1\Novaon_Ame_Setup_v1.0.1.vdproj", "{D4D255F4-539A-4F1B-882C-6C130D4E06F5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B3A4BA68-9E84-4A72-92EF-231587DC5697}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3A4BA68-9E84-4A72-92EF-231587DC5697}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3A4BA68-9E84-4A72-92EF-231587DC5697}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3A4BA68-9E84-4A72-92EF-231587DC5697}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4D255F4-539A-4F1B-882C-6C130D4E06F5}.Debug|Any CPU.ActiveCfg = Debug
+		{D4D255F4-539A-4F1B-882C-6C130D4E06F5}.Release|Any CPU.ActiveCfg = Release
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {15938873-9C58-45CC-9C90-40C5604C8E8D}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,155 @@
+﻿<div class="modal hide fade modal-onboarding" tabindex="-1" role="dialog" ng-controller="HomeController">
+    <div class="modal-dialog modal-dialog-scrollable modal-xl full-modal" role="document">
+        <div class="modal-content">
+            <div class="modal-header border-0">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body onscrollbar">
+                <div class="d-flex">
+                    <div class="col-3 onboarding-leftside">
+                        <div class="text-center">
+                            <img src="~/Images/logo_full.jpg" width="100" alt="onfinance logo" />
+                        </div>
+                        <div class="nav flex-column nav-pills mt-5" id="nav-tab" role="tablist" aria-orientation="vertical">
+                            <a ng-class="{true: 'active'}[ActiveTab == 1]">Bắt đầu</a>
+                            <a ng-class="{true: 'active'}[ActiveTab == 2]">Cập nhật thông tin</a>
+                            <a ng-class="{true: 'active'}[ActiveTab == 3]">Tạo mẫu hóa đơn</a>
+                            <a ng-class="{true: 'active'}[ActiveTab == 4]">Tạo thông báo phát hành</a>
+                        </div>
+                    </div>
+                    <div class="col-9 pr-0">
+                        <div class="tab-content" id="v-pills-tabContent">
+                            <div class="tab-pane fade show active" ng-if="ActiveTab == 1">
+                                <h4 class="text-center"><b>Chào mừng bạn đến với OnFinance Invoice</b></h4>
+                                <div class="mt-5">
+                                    <div class="text-center">
+                                        <img src="~/Images/header-banner-1.png" alt="onfinance banner" width="80%" />
+                                    </div>
+                                    <div class="mt-3 text-center">
+                                        <h5>Dễ dàng tạo lập hóa đơn điện tử cùng Onfinance Invoice</h5>
+                                        <p>
+                                            Onfinance đồng hành cùng bạn tạo lập, quản lý hóa đơn điện tử hiệu quả
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade show active" ng-if="ActiveTab == 2">
+                                <h4 class="text-center"><b>Cập nhật thông tin doanh nghiệp</b></h4>
+                                <div class="d-flex">
+                                    <div class="mt-2 mr-5 pr-2 text-danger"><i><strong>Đây là phiên bản miễn phí. Vui lòng điền đầy đủ thông tin phía dưới để hoàn thành thông tin cho mẫu hóa đơn và thông báo phát hành. Nếu không điền đầy đủ thông tin trên hóa đơn của bạn sẽ thiếu.</strong></i></div>
+                                    @*<div class="text-right">
+                                        <button class="btn btn-success btn-sm" ng-click="SaveEnterpriseInfo()" style="width: 85px;"><span class="fa fa-save"></span>&nbsp; <span>Lưu</span></button>
+                                    </div>*@
+                                </div>
+                                <div id="enterpriseInfoPopUp" class="mt-3">
+                                    <div class="d-flex">
+                                        <div class="w-50 mr-2">
+                                            <div class="mb-2">
+                                                <p class="mb-1"><strong>Mã số thuế doanh nghiệp <text class="text-danger">(*)</text></strong></p>
+                                                <input class="form-control" type="text" ng-model="Enterprise.COMTAXCODE" my-enter="LoadInfoByTaxcode()" ng-blur="LoadInfoByTaxcode()" placeholder="ví dụ: 0336692560" />
+                                                <div id="loadTaxinfo" class="d-none"></div>
+                                            </div>
+                                            <div class="mb-2">
+                                                <p class="mb-1"><strong>Tên doanh nghiệp <text class="text-danger">(*)</text></strong></p>
+                                                <input type="text" class="form-control" ng-model="Enterprise.COMNAME" placeholder="ví dụ: Công ty TNHH ABC" />
+                                            </div>
+                                            <div class="mb-2">
+                                                <p class="mb-1"><strong>Địa chỉ doanh nghiệp <text class="text-danger">(*)</text></strong></p>
+                                                <input type="text" class="form-control" ng-model="Enterprise.COMADDRESS" placeholder="ví dụ: Số 5, đường ABC, quận 1, thành phố HCM, Việt Nam" />
+                                            </div>
+                                            <div class="mb-2">
+                                                <p class="mb-1"><strong>Số điện thoại</strong></p>
+                                                <input type="text" class="form-control" ng-model="Enterprise.COMPHONENUMBER" placeholder="ví dụ: 0336692489" />
+                                            </div>
+                                            <div class="mb-2">
+                                                <p class="mb-1"><strong>Tên pháp nhân (người đại diện pháp luật)</strong></p>
+                                                <input type="text" class="form-control" ng-model="Enterprise.COMLEGALNAME" placeholder="ví dụ: Nguyễn Văn A" />
+                                            </div>
+                                        </div>
+                                        <div class="w-50">
+                                            <div class="mb-2">
+                                                <p class="mb-1"><strong>Email</strong></p>
+                                                <input type="text" class="form-control" ng-model="Enterprise.COMEMAIL" placeholder="ví dụ: abcxyz@gmail.com" />
+                                            </div>
+                                            <div class="mb-2">
+                                                <p class="mb-1"><strong>Số tài khoản ngân hàng</strong></p>
+                                                <input type="text" class="form-control" ng-model="Enterprise.COMACCOUNTNUMBER" />
+                                            </div>
+                                            <div class="mb-2">
+                                                <p class="mb-1"><strong>Ngân hàng</strong></p>
+                                                <input type="text" class="form-control" ng-model="Enterprise.COMBANKNAME" placeholder="ví dụ: Ngân hàng TP Bank - Chi nhánh Hà Nội" />
+                                            </div>
+                                            <div class="mb-2">
+                                                <p class="mb-1"><strong>Cơ quan nộp thuế</strong></p>
+                                                <input type="text" class="form-control" ng-model="Enterprise.TAXDEPARTEMENT" placeholder="ví dụ: Chi cục thuế quận Cầu Giấy" />
+                                            </div>
+                                            <div class="mb-2">
+                                                <p class="mb-1"><strong>Mã cơ quan nộp thuế</strong></p>
+                                                <input type="text" class="form-control" ng-model="Enterprise.TAXDEPARTEMENTCODE" placeholder="ví dụ: 0100786940-007" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="text-right">
+                                        <button class="btn btn-success btn-sm" ng-click="SaveEnterpriseInfo()" style="width: 90px;"><span class="fa fa-save"></span>&nbsp; <span>Lưu</span></button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane fade show active" ng-if="ActiveTab == 3">
+                                <h4 class="text-center"><b>Tạo lập mẫu hóa đơn cho doanh nghiệp của bạn</b></h4>
+                                <div class="d-flex mt-5">
+                                    <div class="w-50">
+                                        <h5>Các bước tạo lập hóa đơn mẫu</h5>
+                                        <ol>
+                                            <li class="mt-4">Cài đặt <span class="fa fa-arrow-right"></span> Thông báo phát hành</li>
+                                            <li class="mt-4">Chọn mẫu <span class="fa fa-arrow-right"></span> Chọn mẫu số và ký hiệu</li>
+                                            <li class="mt-4">Lưu thông tin</li>
+                                        </ol>
+                                    </div>
+                                    <div class="w-50">
+                                        <div class="text-center">
+                                            <img src="~/Images/mau-tao-hoa-don.png" width="65%" alt="mau hoa don" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane fade show active" ng-if="ActiveTab == 4">
+                                <h4 class="text-center"><b>Nộp thông báo phát hành lên trang thuế điện tử</b></h4>
+                                <div class="d-flex mt-5">
+                                    <div class="w-50">
+                                        <h5>Các bước nộp thông báo phát hành</h5>
+                                        <ol>
+                                            <li class="mt-4">Tải mẫu biên bản phát hành xml (ảnh trên) hoặc tự tạo trên phần mềm HTTK của cục thuế</li>
+                                            <li class="mt-4">Bạn đăng nhập vào <a href="https://thuedientu.gdt.gov.vn/" target="_blank">https://thuedientu.gdt.gov.vn/</a> </li>
+                                            <li class="mt-4">Nộp tờ khai XML TB01/AC - Thông báo phát hành</li>
+                                            <li class="mt-4">Sau khi được cơ quan thuế chấp nhận bạn quay lại phần mềm cập nhật trạng thái đã phát hành cho mẫu hóa đơn đã tạo (ảnh dưới)</li>
+                                            <li class="mt-4 text-danger"><i>Đăng xuất và đăng nhập lại phần mềm và tạo hóa đơn của bạn</i></li>
+                                        </ol>
+                                        <a href="http://support.onfinance.asia/posts/tong-quan-huong-dan-phat-hanh-hoa-don-dien-tu-voi-co-quan-thue-cqt" target="_blank">Xem chi tiết tại đây</a>
+                                    </div>
+                                    <div class="w-50">
+                                        <div class="text-center">
+                                            <a href="~/Images/thong-bao-phat-hanh.png" target="_blank" class="onboarding-image"><img src="~/Images/thong-bao-phat-hanh.png" width="100%" alt="mau hoa don" /></a>
+                                            <a href="~/Images/thay-doi-trang-thai-phat-hanh.png" target="_blank" class="onboarding-image"><img src="~/Images/thay-doi-trang-thai-phat-hanh.png" class="mt-4" width="100%" alt="mau hoa don" /></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer mt-3 d-flex justify-content-between pr-3 border-0 pt-0">
+                <div class="d-flex justify-content-start" style="margin-left: 26%">
+                    <button class="btn btn-light btn-sm" ng-click="SetActiveTab(-1)" ng-if="ActiveTab > 1"><span class="fa fa-arrow-left"></span> &nbsp; Quay lại</button>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <button class="btn btn-success btn-sm" ng-click="SetActiveTab(1)" ng-if="ActiveTab < 4"> 
+                        <span ng-if="ActiveTab > 1">Tiếp tục</span><span ng-if="ActiveTab == 1">Bắt đầu ngay</span> &nbsp;<span class="fa fa-arrow-right"></span> 
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

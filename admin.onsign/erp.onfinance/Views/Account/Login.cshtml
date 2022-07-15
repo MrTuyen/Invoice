@@ -1,0 +1,62 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="/favicon.ico">
+    <title>Login</title>
+
+    <!-- Bootstrap core CSS -->
+    <!-- Custom styles for this template -->
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+    <link href="/Content/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="/Content/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="/Content/css/icheck/blue.min.css" rel="stylesheet" />
+    <link href="~/Content/css/signin.css" rel="stylesheet">
+
+    <script src="/Content/js/jquery-1.9.1.min.js"></script>
+    <script src="/Content/js/plugins/bootstrap/bootstrap.min.js"></script>
+    <script src="/Content/js/jquery-ui.min.js?v=1.01"></script>
+    <script src="/Content/js/jquery-ui-timepicker-addon.min.js?v=1.01"></script>
+    <script src="/Content/js/jquery.number.min.js?v=1.01"></script>
+    <script src="/Content/js/jquery.multiselect.min.js"></script>
+    <script src="/Content/js/jquery.multiselect.filter.min.js"></script>
+    <script src="/Content/js/angular.min.js?v=1.01"></script>
+
+    <link href="/Minifier/sablanca.styles.css?v=1.01" rel="stylesheet" />
+    <script src="/Minifier/sablanca.scripts.js?v=1.01"></script>
+    <script src="/Minifier/factory.min.js?v=1.01"></script>
+    <script src="/Minifier/controller.js?v=1.05"></script>
+
+</head>
+
+<body ng-app="onfinance">
+    <div class="container" ng-controller="AccountController">
+        <div ng-show="isLoading" class="app-content-loading">
+            <img class="loading-spinner" src="~/Content/img/loading.gif" />
+        </div>
+        <form class="form-signin" ng-hide="isLoading">
+            <div class="logo">
+                <img src="~/Content/img/logo.png" style="" />
+            </div>
+            <label for="inputUsername" class="sr-only">Tài khoản</label>
+            <input type="text" id="inputUsername" class="form-control" placeholder="Tài khoản" ng-model="UserName" ng-keypress="PressEnter($event)" required autofocus>
+            <label for="inputPassword" class="sr-only">Mật khẩu</label>
+            <input type="password" id="inputPassword" class="form-control" placeholder="Mật khẩu" ng-model="Password" ng-keypress="PressEnter($event)" required>
+            <button class="btn btn-lg btn-success btn-block" type="button" ng-click="Login()">Đăng nhập</button>
+            <div class="alert alert-danger" role="alert" ng-show="ErrorMessge != null && ErrorMessge != ''">
+                {{ErrorMessge}}
+            </div>
+        </form>
+    </div>
+</body>
+</html>

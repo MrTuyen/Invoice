@@ -1,0 +1,25 @@
+﻿<aside class="main-sidebar">
+    <section class="sidebar">
+        <ul class="sidebar-menu" data-widget="tree">
+            <li class="header">Điều hướng</li>
+            <li class="">
+                <a href="/Home/Index"><i class="fa fa-home"></i> <span>Trang chủ</span></a>
+            </li>
+            <li class="">
+                <a href="/Manager/Company"><i class="fa fa-building-o"></i><span>Thông tin doanh nghiệp</span></a>
+            </li>
+            @*<li class="">
+                <a href="/Manager/User"><i class="fa fa-user"></i><span>Thông tin khách hàng</span></a>
+            </li>*@
+            @*<li class="">
+                <a href="/InfoCom/Index"><i class="fa fa-user"></i><span>hosodoanhnghiep.vn</span></a>
+            </li>*@
+            <li class="">
+                <a href="@Url.Action("Statistics","Manager")"><i class="fa fa-bar-chart"></i> <span>Báo cáo người dùng</span></a>
+            </li>
+            <li class="">
+                <a href="@Url.Action("StatisticInWeek","Manager")"><i class="fa fa-calendar-check-o"></i> <span>Thống kê trong tuần</span></a>
+            </li>
+        </ul>
+    </section>
+</aside>

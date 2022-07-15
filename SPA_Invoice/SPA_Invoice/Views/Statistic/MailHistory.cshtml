@@ -1,0 +1,135 @@
+﻿<div class="email-history-area" ng-controller="StatisticController" ng-init="GetEmailHistory()">
+    <div class="d-flex justify-content-between">
+        <h2><strong>Lịch sử gửi mail</strong></h2>
+    </div>
+
+    <div class="bg-white border mt-2">
+        <div class="header-filter px-3 py-2">
+            <div class="d-flex justify-content-between mt-2">
+                <div class="d-flex justify-content-center align-items-center">
+                    <div class="btn-group btn-filter">
+                        <button type="button" class="btn btn-light btn-sm dropdown-toggle" data-toggle="dropdown">
+                            Bộ lọc
+                        </button>
+                        <div class="dropdown-menu p-3" style="z-index: 10000;">
+                            <form>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <p class="mb-1">Tên đơn vị</p>
+                                        <input type="text" class="form-control form-control-sm" placeholder="Công ty TNHH ABC" ng-model="Filter.CUSNAME" />
+                                        <p class="mb-1 mt-3">Loại email</p>
+                                        <select class="form-control form-control-sm" ng-model="Filter.MAILTYPE">
+                                            <option value="{{null}}" selected>Chọn loại email</option>
+                                            <option ng-repeat="t in LISTMAILTYPE" value="{{t.value}}">{{t.name}}</option>
+                                        </select>
+                                        <p class="mb-1 mt-3">Thời gian</p>
+                                        <select class="form-control form-control-sm" ng-model="Filter.TIME">
+                                            <option value="" selected>Tất cả</option>
+                                            <option ng-repeat="t in Timepickers.Options" value="{{t.value}}">{{t.text}}</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-6">
+                                        <p class="mb-1">Mail người nhận</p>
+                                        <input type="text" class="form-control form-control-sm" placeholder="abc@xyz.com" ng-model="Filter.MAILTO" />
+                                        <p class="mb-1 mt-3">Trạng thái</p>
+                                        <select class="form-control form-control-sm" ng-model="Filter.STATUS">
+                                            <option value="{{null}}" selected>Chọn trạng thái</option>
+                                            <option ng-repeat="t in LISTMAILSTATUS" value="{{t.value}}">{{t.name}}</option>
+                                        </select>
+                                        <p class="mb-1 mt-3">Số hóa đơn</p>
+                                        <input type="text" class="form-control form-control-sm" placeholder="" ng-model="Filter.NUMBER" />
+                                    </div>
+                                </div>
+                                <div class="row" ng-show="(Filter.TIME == 5)" ng-if="Filter.TIME==5">
+                                    <div class="col-6">
+                                        <p class="mb-1 mt-3">Từ ngày</p>
+                                        <input type="date" ng-model="FROMTIME" data-date-format="DD MMMM YYYY" id="pk_fromtime" class="w-100">
+                                    </div>
+                                    <div class="col-6">
+                                        <p class="mb-1 mt-3">Đến ngày</p>
+                                        <input type="date" ng-model="TOTIME" data-date-format="DD MMMM YYYY" id="pk_totimecancel" class="w-100">
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center mt-4">
+                                    <button class="btn btn-success btn-sm pl-5 pr-5" ng-click="GetEmailHistory(1)">Lọc</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="btn-filter table_overflow_absolute onscrollbar">
+            <div class="bg-white">
+                <table class="table table-bordered table-sm table-vertical-center table-head-green table-mail table-hover">
+                    <thead>
+                        <tr>
+                            <th width="3%">STT</th>
+                            <th>Mail người nhận</th>
+                            <th>Loại mail</th>
+                            <th>Tên khách hàng</th>
+                            <th>Ngày gửi</th>
+                            <th>Số hóa đơn</th>
+                            <th>Trạng thái</th>
+                            <th class="text-center">Chi tiết</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="data" ng-hide="ListEmailHistory.length >= 1">
+                            <td colspan="12">Dữ liệu đang trống!</td>
+                        </tr>
+                        <tr ng-repeat="item in ListEmailHistory track by $index">
+                            <td class="text-center">{{$index + 1}}</td>
+                            <td>
+                                <label>
+                                    {{item.MAILTO}}
+                                </label>
+                            </td>
+                            <td>
+                                <label ng-if="item.MAILTYPE == 'Phat-hanh'">Email phát hành</label>
+                                <label ng-if="item.MAILTYPE == 'Huy'">Email hủy</label>
+                            </td>
+                            <td>
+                                <label>{{item.CUSNAME}}</label>
+                            </td>
+                            <td>
+                                <label>{{item.INITTIME | dateTimeFormat}}</label>
+                            </td>
+                            <td>
+                                <label>{{item.NUMBER | numberFixedLen:7}}</label>
+                            </td>
+                            <td>
+                                <label ng-if="item.STATUS == 1" class="text-info">Đã gửi</label>
+                                <label ng-if="item.STATUS == 2" class="text-success">Đã xem</label>
+                                <label ng-if="item.STATUS == 3" class="text-danger">Gửi không thành công</label>
+                            </td>
+                            <td>
+                                <label>{{item.PAYMENTSTATUS}}</label>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="paging-fixed" ng-hide="ListEmailHistory.length < 1" style="left: 242px">
+            <table class="table table-bordered table-sm table-vertical-center table-head-green">
+                <tr>
+                    <td class="text-left border-0 " ng-model="currentpage">
+                        <div class="mt-2 ml-4 pagination-area">
+                            <label class="pagination-current">{{(currentpage - 1) * currentRow + 1}}  - {{currentpage * currentRow > TotalRow ? TotalRow : currentpage * currentRow}}  trong <strong>{{TotalRow}}</strong> bản ghi</label>
+                        </div>
+                    </td>
+                    <td class="text-right border-0" ng-model="currentpage">
+                        <div class="mt-2 ml-4 pagination-area">
+                            <button class="pagination-first" ng-disabled="currentpage == 1" ng-click="GetEmailHistory(1)">< Đầu tiên</button>
+                            <button class="pagination-previous" ng-disabled="currentpage == 1" ng-click="GetEmailHistory(currentpage - 1)">Trước</button>
+                            <label class="pagination-current"><strong>{{currentpage}}/{{TotalPages}}</strong></label>
+                            <button class="pagination-next" ng-disabled="currentpage == TotalPages" ng-click="GetEmailHistory(currentpage + 1)">Sau</button>
+                            <button class="pagination-last" ng-disabled="currentpage == TotalPages" ng-click="GetEmailHistory(TotalPages)">Cuối cùng ></button>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

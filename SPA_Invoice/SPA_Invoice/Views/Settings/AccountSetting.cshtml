@@ -1,0 +1,483 @@
+﻿<div class="account-setting-area" ng-controller="SettingsController" >
+    <div class="bg-white border">
+        <div @*ng-show="IsInfo"*@>
+            <div class="card card-body border-0">
+                <div class="row" ng-hide="IsEnterpriseNameUpdate">
+                    <div class="col-3 text-right">
+                        <h5>Tên doanh nghiệp</h5>
+                    </div>
+                    <div class="col-6">
+                        <div class="text-center">
+                            <img ng-src="{{Enterprise.COMLOGO != null ? Enterprise.COMLOGO : '/Images/64px_image-add.png'}}" width="64" class="logo-lg">
+                        </div>
+                        <div class="col-12 mt-4">
+                            <div class="row">
+                                <div class="col-5">
+                                    Tên doanh nghiệp/đơn vị:
+                                </div>
+                                <div class="col-7">
+                                    <strong>
+                                        {{Enterprise.COMNAME}}
+                                    </strong>
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-5">
+                                    Tên pháp nhân:
+                                </div>
+                                <div class="col-7">
+                                    <strong>
+                                        {{Enterprise.COMLEGALNAME}}
+                                    </strong>
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-5">
+                                    Mã số thuế:
+                                </div>
+                                <div class="col-7">
+                                    <strong>
+                                        {{Enterprise.COMTAXCODE}}
+                                    </strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @*<div class="col-3">
+                            <div class="text-center">
+                                <button class="btn btn-default" ng-click="IsEnterpriseNameUpdate = true;"><b>Chỉnh sửa</b></button>
+                            </div>
+                        </div>*@
+                </div>
+                @*<div class="row" ng-show="IsEnterpriseNameUpdate">
+                        <div class="col-3 text-right">
+                            <h5>Tên doanh nghiệp</h5>
+                        </div>
+                        <div class="col-6">
+                            <div class="text-center">
+                                <label class="d-flex align-items-center justify-content-center change-enterprise-logo">
+                                    <span>
+                                        <img ng-src="{{Enterprise.COMLOGO != null ? Enterprise.COMLOGO : '/Images/64px_image-add.png'}}" />
+                                        <input type="file" accept=".jpg, .jpeg, .png" custom-on-change="uploadFile" mul class="display-none" />
+                                    </span>
+                                </label>
+                                <div class="d-flex justify-content-center align-items-center">
+                                    <label class="button-circle-hover mb-0 " data-placement="bottom" title="Thay đổi ảnh">
+                                        <span class="fa fa-pencil-square-o" aria-hidden="false"></span>
+                                        <input type="file" accept=".jpg, .jpeg, .png" custom-on-change="uploadFile" class="display-none" />
+                                    </label>
+                                    |
+                                    <div class="button-circle-hover" data-placement="bottom" title="Xóa ảnh" ng-click="Enterprise.COMLOGO = null">
+                                        <span class="fa fa-trash-o" aria-hidden="false"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 mt-4">
+                                <div class="row">
+                                    <div class="col-5">
+                                        Tên doanh nghiệp/đơn vị:
+                                    </div>
+                                    <div class="col-7">
+                                        <input type="text" class="form-control" ng-model="Enterprise.COMNAME" />
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-5">
+                                        Tên pháp nhân:
+                                    </div>
+                                    <div class="col-7">
+                                        <input type="text" class="form-control" ng-model="Enterprise.COMLEGALNAME" />
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-5">
+                                        Mã số thuế:
+                                    </div>
+                                    <div class="col-7">
+                                        <input type="text" class="form-control" ng-model="Enterprise.COMTAXCODE" />
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-5">
+
+                                    </div>
+                                    <div class="col-7">
+                                        <button class="btn btn-default" ng-click="IsEnterpriseNameUpdate = false;">Hủy</button>
+                                        <button class="btn btn-success" ng-click="SaveInfoEnterprise()">Lưu</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>*@
+                <hr />
+                <div class="row" ng-hide="IsEnterpriseTypeUpdate">
+                    <div class="col-3 text-right">
+                        <h5>Loại hình doanh nghiệp</h5>
+                    </div>
+                    <div class="col-6">
+                        <div class="col-12 mt-5">
+                            <div class="row">
+                                <div class="col-5">
+                                    Loại hình doanh nghiệp:
+                                </div>
+                                <div class="col-7">
+                                    <strong>
+                                        {{Enterprise.COMSIZE}}
+                                    </strong>
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-5">
+                                    Lĩnh vực hoạt động:
+                                </div>
+                                <div class="col-7">
+                                    <strong>
+                                        {{Enterprise.COMACTIVITY}}
+                                    </strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @*<div class="col-3">
+                            <div class="text-center">
+                                <button class="btn btn-default" ng-click="IsEnterpriseTypeUpdate = true" ng-show="Enterprise.USERNAME == 'demo'"><b>Chỉnh sửa</b></button>
+                            </div>
+                        </div>*@
+                </div>
+                @*<div class="row" ng-show="IsEnterpriseTypeUpdate">
+                        <div class="col-3 text-right">
+                            <h5>Loại hình doanh nghiệp</h5>
+                        </div>
+                        <div class="col-6">
+                            <div class="col-12 mt-5">
+                                <div class="row">
+                                    <div class="col-5">
+                                        Loại hình doanh nghiệp:
+                                    </div>
+                                    <div class="col-7">
+                                        <input type="text" class="form-control" ng-model="Enterprise.COMSIZE" />
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-5">
+                                        Lĩnh vực hoạt động:
+                                    </div>
+                                    <div class="col-7">
+                                        <input type="text" class="form-control" ng-model="Enterprise.COMACTIVITY" />
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-5">
+
+                                    </div>
+                                    <div class="col-7">
+                                        <button class="btn btn-default" ng-click="IsEnterpriseTypeUpdate = false;">Hủy</button>
+                                        <button class="btn btn-success" ng-click="SaveInfoEnterprise()">Lưu</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>*@
+                <hr />
+                <div class="row" ng-hide="IsEnterpriseInfoUpdate">
+                    <div class="col-3 text-right">
+                        <h5>Thông tin doanh nghiệp</h5>
+                    </div>
+                    <div class="col-6">
+                        <div class="col-12 mt-5">
+                            <div class="row">
+                                <div class="col-5">
+                                    Email doanh nghiệp:
+                                </div>
+                                <div class="col-7">
+                                    <strong>
+                                        {{Enterprise.COMEMAIL}}
+                                    </strong>
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-5">
+                                    Số điện thoại:
+                                </div>
+                                <div class="col-7">
+                                    <strong>
+                                        {{Enterprise.COMPHONENUMBER}}
+                                    </strong>
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-5">
+                                    Website:
+                                </div>
+                                <div class="col-7">
+                                    <strong>
+                                        {{Enterprise.COMWEBSITE}}
+                                    </strong>
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-5">
+                                    Địa chỉ
+                                </div>
+                                <div class="col-7">
+                                    <strong>
+                                        {{Enterprise.COMADDRESS}}
+                                    </strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @*<div class="col-3">
+                            <div class="text-center">
+                                <button class="btn btn-default" ng-click="IsEnterpriseInfoUpdate = true;"><b>Chỉnh sửa</b></button>
+                            </div>
+                        </div>*@
+                </div>
+                @*<div class="row" ng-show="IsEnterpriseInfoUpdate">
+                        <div class="col-3 text-right">
+                            <h5>Thông tin doanh nghiệp</h5>
+                        </div>
+                        <div class="col-6">
+                            <div class="col-12 mt-5">
+                                <div class="row">
+                                    <div class="col-5">
+                                        Email doanh nghiệp:
+                                    </div>
+                                    <div class="col-7">
+                                        <input type="text" class="form-control" ng-model="Enterprise.COMEMAIL" />
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-5">
+                                        Số điện thoại:
+                                    </div>
+                                    <div class="col-7">
+                                        <input type="text" class="form-control" ng-model="Enterprise.COMPHONENUMBER" />
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-5">
+                                        Website:
+                                    </div>
+                                    <div class="col-7">
+                                        <input type="text" class="form-control" ng-model="Enterprise.COMWEBSITE" />
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-5">
+                                        Địa chỉ
+                                    </div>
+                                    <div class="col-7">
+                                        <input type="text" class="form-control" ng-model="Enterprise.COMADDRESS" />
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-5">
+
+                                    </div>
+                                    <div class="col-7">
+                                        <button class="btn btn-default" ng-click="IsEnterpriseInfoUpdate = false;">Hủy</button>
+                                        <button class="btn btn-success" ng-click="SaveInfoEnterprise()">Lưu</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>*@
+                <hr />
+                <div class="row" ng-hide="IsGeneralInfoUpate">
+                    <div class="col-3 text-right">
+                        <h5>Thông tin chung</h5>
+                    </div>
+                    <div class="col-6">
+                        <div class="col-12 mt-5">
+                            <div class="row">
+                                <div class="col-5">
+                                    Tài khoản ngân hàng:
+                                </div>
+                                <div class="col-7">
+                                    <strong>
+                                        {{Enterprise.COMACCOUNTNUMBER}}
+                                    </strong>
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-5">
+                                    Ngân hàng:
+                                </div>
+                                <div class="col-7">
+                                    <strong>
+                                        {{Enterprise.COMBANKNAME}}
+                                    </strong>
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-5">
+                                    Cơ quan nộp thuế:
+                                </div>
+                                <div class="col-7">
+                                    <input type="text" class="form-control" placeholder="Ví dụ: Chi cục Thuế Quận 5" ng-model="Enterprise.TAXDEPARTEMENT" />
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-5">
+                                    Mã cơ quan nộp thuế:
+                                </div>
+                                <div class="col-7">
+                                    <input type="text" class="form-control" placeholder="Ví dụ: 70109" ng-model="Enterprise.TAXDEPARTEMENTCODE" />
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-5">
+
+                                </div>
+                                <div class="col-7">
+                                    <button class="btn btn-success" ng-click="SaveInfoEnterprise()">Lưu</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @*<div class="col-3">
+                            <div class="text-center">
+                                <button class="btn btn-default" ng-click="IsGeneralInfoUpate = true" ng-show="Enterprise.USERNAME == 'demo'"><b>Chỉnh sửa</b></button>
+                            </div>
+                        </div>*@
+                </div>
+                @*<div class="row" ng-show="IsGeneralInfoUpate">
+                        <div class="col-3 text-right">
+                            <h5>Thông tin chung</h5>
+                        </div>
+                        <div class="col-6">
+                            <div class="col-12 mt-5">
+                                <div class="row">
+                                    <div class="col-5">
+                                        Tài khoản ngân hàng:
+                                    </div>
+                                    <div class="col-7">
+                                        <input type="text" class="form-control" ng-model="Enterprise.COMACCOUNTNUMBER" />
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-5">
+                                        Ngân hàng:
+                                    </div>
+                                    <div class="col-7">
+                                        <select class="form-control" ng-model="Enterprise.COMBANKNAME">
+                                            <option value="TP Bank">TP Bank</option>
+                                            <option value="Vietcom Bank">Vietcom Bank</option>
+                                            <option value="Agribank">Agribank</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-5">
+
+                                    </div>
+                                    <div class="col-7">
+                                        <button class="btn btn-default" ng-click="IsGeneralInfoUpate = false">Hủy</button>
+                                        <button class="btn btn-success" ng-click="SaveInfoEnterprise()">Lưu</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>*@
+                <hr />
+                <div class="row" ng-hide="IsSignatureUpdate">
+                    <div class="col-3 text-right">
+                        <h5>Chữ ký số</h5>
+                    </div>
+                    <div class="col-6">
+                        <div class="col-12 mt-5">
+                            <div class="row">
+                                <div class="col-5">
+                                    Kiểu chữ ký số:
+                                </div>
+                                <div class="col-7">
+                                    <strong>
+                                        @*{{Enterprise.SIGNATURETYPE}}*@USB Token
+                                    </strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @*<div class="col-3">
+                            <div class="text-center">
+                                <button class="btn btn-default" ng-click="IsSignatureUpdate = true"><b>Chỉnh sửa</b></button>
+                            </div>
+                        </div>*@
+                </div>
+                @*<div class="row" ng-show="IsSignatureUpdate">
+                        <div class="col-3 text-right">
+                            <h5>Chữ ký số</h5>
+                        </div>
+                        <div class="col-6">
+                            <div class="col-12 mt-5">
+                                <div class="row">
+                                    <div class="col-5">
+                                        Kiểu chữ ký số:
+                                    </div>
+                                    <div class="col-7">
+                                        <select class="form-control" ng-model="Enterprise.SIGNATURETYPE">
+                                            <option value="">USB Token</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-5">
+                                    </div>
+                                    <div class="col-7">
+                                        <button class="btn btn-default" ng-click="IsSignatureUpdate = false">Hủy</button>
+                                        <button class="btn btn-success" ng-click="SaveInfoEnterprise()">Lưu</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>*@
+            </div>
+        </div>
+
+        @*<div ng-hide="IsInfo">
+                <div class="card card-body border-0">
+                    <div class="col-12 mt-4">
+                        <div class="row">
+                            <div class="col-3">
+                                Dịch vụ mail:
+                            </div>
+                            <div class="col-7">
+                                <select type="text" class="form-control" ng-model="Enterprise.MAILSERVICEID" convert-to-number>
+                                    <option value="" selected disabled>--Chọn dịch vụ gửi mail--</option>
+                                    <option value="1">Gmail</option>
+                                    <option value="2">Hotmail</option>
+                                    <option value="3">Yahoo</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-3">
+                                Tên đăng nhập:
+                            </div>
+                            <div class="col-7">
+                                <input type="text" class="form-control" ng-model="Enterprise.MAILSERVICEACCOUNT"/>
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-3">
+                                Mật khẩu:
+                            </div>
+                            <div class="col-7">
+                                <input type="password" class="form-control" ng-model="Enterprise.MAILSERVICEPASSWORD"/>
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-3">
+
+                            </div>
+                            <div class="col-7">
+                                <button class="btn btn-success" ng-click="SaveEmailConfig()">Lưu</button>
+                                <button class="btn btn-success" ng-click="SendEmailTest()">Gửi email test</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>*@
+    </div>
+</div>

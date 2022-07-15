@@ -1,0 +1,2 @@
+C:\NGUYENVANTUYEN\Invoice\SPA_Invoice\SPA_Invoice\obj\Debug\SPA_Invoice.csprojResolveAssemblyReference.cache
+C:\NGUYENVANTUYEN\Invoice\SPA_Invoice\SPA_Invoice\obj\Debug\SPA_Invoice.csproj.ResolveComReference.cache

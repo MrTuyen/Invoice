@@ -1,0 +1,19 @@
+[
+  {
+    "outputFileName": "css/novaon.homepage.css",
+    "inputFiles": [
+      "css/animate.css",
+      "css/reset.css",
+      "css/header-new.css",
+      "css/footer-new.css",
+      "css/style-new.css",
+      "css/responsive-new.css"
+    ]
+  },
+  {
+    "outputFileName": "Scripts/novaon.homepage.js",
+    "inputFiles": [
+      "Scripts/main.js"
+    ]
+  }
+]

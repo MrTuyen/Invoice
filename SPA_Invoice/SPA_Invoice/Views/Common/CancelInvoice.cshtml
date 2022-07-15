@@ -1,0 +1,129 @@
+﻿<div class="modal hide fade modal-cancel-invoice" tabindex="-1" role="dialog" ng-controller="ModalCancelInvoiceController">
+    <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title"><strong>Hủy bỏ hóa đơn</strong></h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+
+            <div class="modal-body">
+                @*Tên người mua, số điện thoại*@
+                <div class="row">
+                    <div class="col-xl-6">
+                        <table class="table table-sm table-borderless table-vertical-center">
+                            <tr>
+                                <td>Khách hàng: </td>
+                                <td class="text-right" ng-show="CancelInvoice.CUSNAME != null">
+                                    {{CancelInvoice.CUSNAME}}
+                                </td>
+                                <td class="text-right" ng-show="CancelInvoice.CUSNAME == null">
+                                    {{CancelInvoice.CUSBUYER}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Số tiền: </td>
+                                <td class="text-right">
+                                    {{CancelInvoice.TOTALPAYMENT|numberFormat:0}} vnđ
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="col-xl-1"></div>
+                    <div class="col-xl-5">
+                        <table class="table table-sm table-borderless table-vertical-center">
+                            <tr>
+                                <td>Mẫu số: </td>
+                                <td>
+                                    <strong>{{CancelInvoice.FORMCODE}}</strong>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Ký hiệu: </td>
+                                <td>
+                                    <strong>{{CancelInvoice.SYMBOLCODE}}</strong>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Số hóa đơn: </td>
+                                <td>
+                                    <span class="text-success">
+                                        <strong>
+                                            {{CancelInvoice.NUMBER | numberFixedLen:7}}
+                                        </strong>
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Ngày hóa đơn: </td>
+                                <td>
+                                    {{CancelInvoice.SIGNEDTIME | dateFormat:'dd/MM/yyyy'}}
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <label class="col-xl-2" style="margin-right: 20px;">Ngày hủy bỏ <span class="text-danger">*</span></label>
+                        <div class="col-xl-4">
+                            <input type="text" class="form-control form-control-sm editor_invoice datepicker invoice_datepicker_icon" ng-model="CancelInvoice.STRCANCELTIME" autocomplete="off" />
+                            @*<span>{{CancelInvoice.STRCANCELTIME}}</span>*@
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <label class="col-xl-2" style="margin-right: 20px;">Lý do hủy bỏ <span class="text-danger">*</span></label>
+                        <div class="col-xl-9">
+                            <textarea type="text" class="form-control form-control-sm" placeholder="Mô tả" ng-model="CancelInvoice.CANCELREASON"></textarea>
+                        </div>
+                    </div>
+                </div>
+                @*<div class="form-group">
+                        <div class="row">
+                            <label class="col-xl-2" style="margin-right: 20px;">Đính kèm</label>
+                            <label class="btn btn-sm btn-success col-xl-3 ml-3" style="cursor: pointer;">
+                                <span class="fa fa-cloud-upload" aria-hidden="true"></span> Chọn tệp biên bản
+                                <input type="file" accept=".jpg, .jpeg, .png" multiple style="display: none" custom-on-change="uploadFile" />
+                            </label>
+                        </div>
+                    </div>*@
+                <div class="form-group">
+                    <div class="row">
+                        <label class="col-xl-6">
+                            <input type="checkbox" ng-model="CancelInvoice.AttachEmail" ng-init="CancelInvoice.AttachEmail = true" style="transform: scale(1.5)" />
+                            &nbsp; Gửi email thông báo hủy hóa đơn cho khách hàng
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <label class="col-xl-2" style="margin-right: 20px;">Tên người nhận<span class="text-danger">*</span></label>
+                        <div class="col-xl-9">
+                            <input type="text" class="form-control form-control-sm" placeholder="Tên người nhận" ng-model="CancelInvoice.RECIEVERNAME" ng-disabled="!CancelInvoice.AttachEmail" />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <label class="col-xl-2" style="margin-right: 20px;">Email<span class="text-danger">*</span></label>
+                        <div class="col-xl-9">
+                            <textarea type="text" class="form-control form-control-sm" placeholder="xyz@gmai.com,abc@gmail.com,..." ng-model="CancelInvoice.CUSEMAIL" ng-disabled="!CancelInvoice.AttachEmail"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer d-flex">
+                <div class="d-flex justify-content-start" style="height:40px;">
+                    <button class="btn btn-secondary btn-sm mr-3" data-dismiss="modal" style="margin-left:-560px;">Hủy</button>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <button class="btn btn-success mr-3" ng-click="CancelInv()"> <span class="fa fa-save"></span> &nbsp; Hủy bỏ hóa đơn </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

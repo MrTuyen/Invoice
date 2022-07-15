@@ -1,0 +1,29 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_LayoutSimple.cshtml";
+    ViewBag.Title = "Complete Phone Number - NOVAON EINVOICE";
+    string email = ViewBag.Email;
+}
+
+<div id="popop-login">
+    <p class="logo text-center"><img src="~/Images/logo_full.jpg" /></p>
+    <div class="message-login-form text-center">
+        Hoàn thành đăng ký
+    </div>
+
+    <p class="text-center">
+        Chúng tôi cần thêm thông tin của bạn để hỗ trợ tốt hơn.
+    </p>
+
+    <form class="validate-form">
+        <div class="wrap-input100 validate-input">
+            <input type="hidden" id="login-email" name="login-email" value="@email" />
+            <input type="text" name="phonenumber" id="phonenumber" class="form-control input100 input-text" />
+            <span class="focus-input100">Số điện thoại</span>
+        </div>
+        <button class="btn btn-success btn-block mt-3 btn-register" type="button" onclick="UpdatePhoneNumber()">
+            Hoàn thành
+        </button>
+    </form>
+    <p class="clear"></p>
+</div>

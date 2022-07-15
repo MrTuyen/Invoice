@@ -1,0 +1,1 @@
+C:\NGUYENVANTUYEN\Invoice\SPA_Invoice\SearchInvoiceCustomer\obj\Debug\SearchInvoiceCustomer.csprojResolveAssemblyReference.cache

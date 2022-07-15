@@ -1,0 +1,26 @@
+﻿
+<div class="modal hide fade modal-quantityunit " tabindex="-1" role="dialog" ng-controller="ModalQuantityUnitController">
+    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered" role="document">
+        <div class="modal-content container">
+            <div class="modal-header">
+                <h3 class="modal-title">Thông tin đơn vị tính  </h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <form class="modal-body">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Tên đơn vị<span class="text-danger">*</span></label>
+                    <input class="form-control" id="quantityunit" type="text" ng-model="quantityunit.QUANTITYUNIT" placeholder="Nhập vào tên đơn vị tính" /><br />
+                    <input class="form-check-input" id="check2" type="checkbox" ng-model="quantityunit.ISACTIVED" style="transform:scale(1.5); margin-left:10px;" />
+                    <label class="form-check-label" for="check2" style="margin-left:30px">Hoạt động</label>
+                </div>
+            </form>
+            <div class="modal-footer">
+                <div class="d-flex justify-content-between">
+                    <button class="btn btn-success" ng-click="AddQuantityUnit()">
+                        Lưu và đóng
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

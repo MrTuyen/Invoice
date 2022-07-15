@@ -1,0 +1,185 @@
+﻿<div class="modal hide fade modal-product" tabindex="-1" role="dialog" ng-controller="ModalProductController">
+    <div class="modal-dialog modal-dialog-scrollable modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" ng-show="Enterprise.USINGINVOICETYPE === @((int)DS.Common.Enums.EnumHelper.AccountObjectType.HOADONTIENDIEN)">Thông tin biểu giá điện</h3>
+                <h3 class="modal-title" ng-show="Enterprise.USINGINVOICETYPE === @((int)DS.Common.Enums.EnumHelper.AccountObjectType.HOADONTIENNUOC)">Thông tin biểu giá nước</h3>
+                <h3 class="modal-title" ng-show="Enterprise.USINGINVOICETYPE === @((int)DS.Common.Enums.EnumHelper.AccountObjectType.HOADONGTGT)">Thông tin sản phẩm</h3>
+                <h3 class="modal-title" ng-show="Enterprise.USINGINVOICETYPE === @((int)DS.Common.Enums.EnumHelper.AccountObjectType.HOADONBANHANG)">Thông tin sản phẩm</h3>
+                <h3 class="modal-title" ng-show="Enterprise.USINGINVOICETYPE === @((int)DS.Common.Enums.EnumHelper.AccountObjectType.HOADONTRUONGHOC)">Thông tin sản phẩm</h3>
+                <h3 class="modal-title" ng-show="Enterprise.USINGINVOICETYPE === @((int)DS.Common.Enums.EnumHelper.AccountObjectType.PHIEUXUATKHO)">Thông tin sản phẩm</h3>
+                <button type="button" class="close " data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <form class="modal-body">
+                <div class="row">
+                    @*Danh mục hàng hóa, dịch vụ*@
+                    <div class="col-6">
+                        <div class="custom-control custom-radio pl-3">
+                            <input type="radio" class="custom-control-input" id="rdp_11" name="defaultExampleRadios1" ng-model="Product.PRODUCTTYPE" ng-value="1">
+                            <label class="custom-control-label" for="rdp_11" data-toggle="tooltip" data-placement="bottom"
+                                   title="Các sản phẩm bạn mua hoặc bán nhưng không cần phải (hoặc có thể) theo dõi số lượng (ví dụ: các loại hạt và bu lông được sử dụng trong quá trình cài đặt)">
+                                <strong ng-if="Enterprise.USINGINVOICETYPE === @((int)DS.Common.Enums.EnumHelper.AccountObjectType.HOADONGTGT)">Hàng hóa</strong>
+                                <strong ng-if="Enterprise.USINGINVOICETYPE === @((int)DS.Common.Enums.EnumHelper.AccountObjectType.HOADONBANHANG)">Hàng hóa</strong>
+                                <strong ng-if="Enterprise.USINGINVOICETYPE === @((int)DS.Common.Enums.EnumHelper.AccountObjectType.HOADONTRUONGHOC)">Hàng hóa</strong>
+                                <strong ng-if="Enterprise.USINGINVOICETYPE === @((int)DS.Common.Enums.EnumHelper.AccountObjectType.HOADONTIENDIEN)">Sinh hoạt</strong>
+                                <strong ng-if="Enterprise.USINGINVOICETYPE === @((int)DS.Common.Enums.EnumHelper.AccountObjectType.HOADONTIENNUOC)">Sinh hoạt</strong>
+                                <strong ng-if="Enterprise.USINGINVOICETYPE === @((int)DS.Common.Enums.EnumHelper.AccountObjectType.PHIEUXUATKHO)">Hàng hóa</strong>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="col-6">
+                        <div class="custom-control custom-radio">
+                            <input type="radio" class="custom-control-input" id="rdp_22" name="defaultExampleRadios2" ng-model="Product.PRODUCTTYPE" ng-value="2">
+                            <label class="custom-control-label" for="rdp_22" data-toggle="tooltip" data-placement="bottom"
+                                   title="Dịch vụ mà bạn cung cấp cho khách hàng (ví dụ: đóng gói, vận chuyển,...)">
+                                <strong ng-if="Enterprise.USINGINVOICETYPE === @((int)DS.Common.Enums.EnumHelper.AccountObjectType.HOADONGTGT)">Dịch vụ</strong>
+                                <strong ng-if="Enterprise.USINGINVOICETYPE === @((int)DS.Common.Enums.EnumHelper.AccountObjectType.HOADONBANHANG)">Dịch vụ</strong>
+                                <strong ng-if="Enterprise.USINGINVOICETYPE === @((int)DS.Common.Enums.EnumHelper.AccountObjectType.HOADONTRUONGHOC)">Dịch vụ</strong>
+                                <strong ng-if="Enterprise.USINGINVOICETYPE === @((int)DS.Common.Enums.EnumHelper.AccountObjectType.HOADONTIENDIEN)">Ngoài sinh hoạt</strong>
+                                <strong ng-if="Enterprise.USINGINVOICETYPE === @((int)DS.Common.Enums.EnumHelper.AccountObjectType.HOADONTIENNUOC)">Ngoài sinh hoạt</strong>
+                                <strong ng-if="Enterprise.USINGINVOICETYPE === @((int)DS.Common.Enums.EnumHelper.AccountObjectType.PHIEUXUATKHO)">Dịch vụ</strong>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex bd-highlight">
+                    <div class="flex-grow-1 bd-highlight pr-3">
+                        <p class="mb-1 mt-3">Tên sản phẩm: <strong class="text-danger">*</strong> </p>
+                        <input class="form-control form-control-sm" type="text" id="idProductName" ng-model="Product.PRODUCTNAME" autofocus/>
+
+                        <p class="mb-1 mt-3">Mã hàng hóa, dịch vụ <i>(SKU)</i>:</p>
+                        <input class="form-control form-control-sm" type="text" ng-model="Product.SKU" />
+                        <div>
+                            <p class="mb-1 mt-3">Danh mục  </p>
+                            <select class="form-control form-control-sm" id="idCategory" ng-model="Product.CATEGORY" @*ng-options="item.CATEGORYID as item.CATEGORYNAME for item in ListCategory track by item.CATEGORYID"*@>
+                                <option value="" disabled selected>--Chọn Danh mục--</option>
+                                <option  ng-repeat="item in ListCategory" ng-if="item.ISACTIVE == true"  value="{{item.CATEGORY}}">{{item.CATEGORY}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="bd-highlight cls-image-product mt-4">
+                        <label class="d-flex align-items-center justify-content-center">
+                            <img ng-src="{{Product.IMAGE != null ? Product.IMAGE : '/Images/64px_image-add.png'}}" />
+                            <input type="file" accept=".jpg, .jpeg, .png" custom-on-change="uploadFile" class="display-none" />
+                        </label>
+
+                        <div class="d-flex justify-content-center align-items-center">
+                            <label class="button-circle-hover" data-placement="bottom" title="Thêm mới danh mục">
+                                <span class="fa fa-plus" aria-hidden="false"></span>
+                                <input type="button" class="display-none" data-toggle="modal" data-target=".modal-category" />
+                            </label>
+                            |
+                            <label class="button-circle-hover" data-placement="bottom" title="Thay đổi ảnh">
+                                <span class="fa fa-pencil-square-o" aria-hidden="false"></span>
+                                <input type="file" accept=".jpg, .jpeg, .png" custom-on-change="uploadFile" class="display-none" />
+                            </label>
+                            |
+                            <div class="button-circle-hover" data-placement="bottom" title="Xóa ảnh" ng-click="Product.IMAGE = null">
+                                <span class="fa fa-trash-o" aria-hidden="false"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" ng-if="Enterprise.USINGINVOICETYPE === @((int)DS.Common.Enums.EnumHelper.AccountObjectType.HOADONTIENDIEN) && Product.PRODUCTTYPE === 1">
+                    <div class="col-6">
+                        <p class="mb-1 mt-3">Từ mức: </p>
+                        <input class="form-control form-control-sm" type="number" id="idfromlevel" ng-model="Product.FROMLEVEL" min="0" />
+                    </div>
+                    <div class="col-6">
+                        <p class="mb-1 mt-3">Đến mức: </p>
+                        <input class="form-control form-control-sm" type="number" id="idtolevel" ng-model="Product.TOLEVEL" min="0" />
+                    </div>
+                </div>
+                <div class="row" ng-if="Enterprise.USINGINVOICETYPE === @((int)DS.Common.Enums.EnumHelper.AccountObjectType.HOADONTIENNUOC) && Product.PRODUCTTYPE === 1">
+                    <div class="col-6">
+                        <p class="mb-1 mt-3">Từ mức: </p>
+                        <input class="form-control form-control-sm" type="number" id="idfromlevel2" ng-model="Product.FROMLEVEL" min="0" />
+                    </div>
+                    <div class="col-6">
+                        <p class="mb-1 mt-3">Đến mức: </p>
+                        <input class="form-control form-control-sm" type="number" id="idtolevel2" ng-model="Product.TOLEVEL" min="0" />
+                    </div>
+                </div>
+                <div class="row" ng-if="Enterprise.USINGINVOICETYPE === @((int)DS.Common.Enums.EnumHelper.AccountObjectType.HOADONTIENDIEN)">
+                    <div class="col-12">
+                        <p class="mb-1 mt-3">Đơn giá: </p>
+                        <input class="form-control form-control-sm" type="number" id="idProductPrice" ng-model="Product.PRICE" />
+                    </div>
+                </div>
+                <div class="row" ng-if="Enterprise.USINGINVOICETYPE === @((int)DS.Common.Enums.EnumHelper.AccountObjectType.HOADONTIENNUOC)">
+                    <div class="col-12">
+                        <p class="mb-1 mt-3">Đơn giá: </p>
+                        <input class="form-control form-control-sm" type="number" id="idProductPrice2" ng-model="Product.PRICE" />
+                    </div>
+                </div>
+                <div class="row" ng-if="Enterprise.USINGINVOICETYPE === @((int)DS.Common.Enums.EnumHelper.AccountObjectType.HOADONGTGT) || Enterprise.USINGINVOICETYPE === @((int)DS.Common.Enums.EnumHelper.AccountObjectType.PHIEUXUATKHO)">
+                    <div class="col-6">
+                        <p class="mb-1 mt-3">Đơn giá (chưa VAT): </p>
+                        <clearabletextbox textboxmodel="Product.STRPRICE" textview="Product.PRICE" iconposition="left"
+                                          resultchange="ChangeRetailPrice(Product)"
+                                          textboxmaxlength="20" isnumberformat="true">
+                        </clearabletextbox>
+                    </div>
+
+                    <div class="col-6">
+                        <p class="mb-1 mt-3">Đơn vị tính 
+                        @*<input class="form-control form-control-sm" id="quantityunitproduct" type="text" ng-model="Product.QUANTITYUNIT" autocomplete="off" ng-change="QuantityUnitChange(Product.QUANTITYUNIT)" />*@
+                        <select class="form-control form-control-sm" id="idlistCategory1" ng-model="Product.QUANTITYUNIT" @*ng-options="item.CATEGORYID as item.CATEGORYNAME for item in ListCategory track by item.CATEGORYID"*@>
+                        <option value="" disabled selected>--Chọn đơn vị tính--</option>
+                        <option ng-repeat="item in ListQuantityUnit" ng-if="item.ISACTIVED==true" value="{{item.QUANTITYUNIT}}">{{item.QUANTITYUNIT}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row" ng-if="Enterprise.USINGINVOICETYPE === @((int)DS.Common.Enums.EnumHelper.AccountObjectType.HOADONBANHANG)">
+                    <div class="col-6">
+                        <p class="mb-1 mt-3">Đơn giá (chưa VAT): </p>
+                        <clearabletextbox textboxmodel="Product.STRPRICE" textview="Product.PRICE" iconposition="left"
+                                          resultchange="ChangeRetailPrice(Product)"
+                                          textboxmaxlength="20" isnumberformat="true">
+                        </clearabletextbox>
+                    </div>
+
+                    <div class="col-6">
+                        <p class="mb-1 mt-3">Đơn vị tính  </p>
+                        @*<input class="form-control form-control-sm" id="quantityunitproduct2" type="text" ng-model="Product.QUANTITYUNIT" autocomplete="off" ng-change="QuantityUnitChange(Product.QUANTITYUNIT)" />*@
+                        <select class="form-control form-control-sm" id="idListCategory2" ng-model="Product.QUANTITYUNIT" @*ng-options="item.CATEGORYID as item.CATEGORYNAME for item in ListCategory track by item.CATEGORYID"*@>
+                            <option value="" disabled selected>--Chọn đơn vị tính--</option>
+                            <option ng-repeat="item in ListQuantityUnit" ng-if="item.ISACTIVED===true" value="{{item.QUANTITYUNIT}}">{{item.QUANTITYUNIT}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row" ng-if="Enterprise.USINGINVOICETYPE === @((int)DS.Common.Enums.EnumHelper.AccountObjectType.HOADONTRUONGHOC)">
+                    <div class="col-6">
+                        <p class="mb-1 mt-3">Đơn giá (chưa VAT): </p>
+                        <clearabletextbox textboxmodel="Product.STRPRICE" textview="Product.PRICE" iconposition="left"
+                                          resultchange="ChangeRetailPrice(Product)"
+                                          textboxmaxlength="20" isnumberformat="true">
+                        </clearabletextbox>
+                    </div>
+
+                    <div class="col-6">
+                        <p class="mb-1 mt-3">Đơn vị tính @*<span class="text-danger">* :</span>*@ </p>
+                        <input class="form-control form-control-sm" id="quantityunitproduct3" type="text" ng-model="Product.QUANTITYUNIT" autocomplete="off" ng-change="QuantityUnitChange(Product.QUANTITYUNIT)" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 w-100">
+                        <p class="mb-1 mt-3">Mô tả: </p>
+                        <textarea type="text" class="form-control form-control-sm" placeholder="Mô tả sản phẩm" rows="2" ng-model="Product.DESCRIPTION"> </textarea>
+                    </div>
+                </div>
+            </form>
+            <div class="modal-footer d-flex justify-content-between" style="padding-right: 1rem;">
+                <div class="d-flex justify-content-start">
+                    <button class="btn btn-secondary btn-sm mr-3" data-dismiss="modal" ng-click="Customer = null">Hủy</button>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <button class="btn btn-success" ng-click="AddProduct()" ng-show="TYPECHANGE == 1"> <span class="fa fa-save"></span> &nbsp; Lưu tạo mới</button>
+                    <button class="btn btn-success" ng-click="AddProduct()" ng-show="TYPECHANGE == 3"> <span class="fa fa-save"></span> &nbsp; Lưu sao chép </button>
+                    <button class="btn btn-success" ng-click="UpdateProduct()" ng-show="TYPECHANGE == 2"> <span class="fa fa-save"></span> &nbsp; Lưu chỉnh sửa</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

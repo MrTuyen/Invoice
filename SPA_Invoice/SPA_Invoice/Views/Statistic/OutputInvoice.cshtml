@@ -1,0 +1,397 @@
+﻿@using DS.BusinessObject.Account;
+@{
+    AccountBO user = (AccountBO)Session[DS.Common.Helpers.ConfigHelper.User];
+}
+@**@
+<style>
+    .using-invoice-area .dropdown-menu {
+        width: 200px !important;
+    }
+
+    .using-invoice-area .treeview-menu ul li {
+        list-style: none;
+        position: relative;
+        width: 100%;
+        height: 30px;
+        font-size: 14px;
+        cursor: pointer;
+        padding: 10px 10px 30px 20px;
+    }
+
+        .using-invoice-area .treeview-menu ul li:hover {
+            background: #d0f7cc 0% 0% no-repeat padding-box;
+        }
+
+        .using-invoice-area .treeview-menu ul li a {
+            color: black;
+            text-decoration: none;
+        }
+
+    .table-bordered thead th {
+        vertical-align: middle;
+    }
+
+    .invoice-template-header .header-left {
+        font-size: 12px;
+        padding-top: 7%;
+    }
+</style>
+<div class="using-invoice-area" ng-init="GetOutputInvoice()">
+    <div class="d-flex justify-content-between">
+        <h2><strong>Bảng kê hóa đơn đầu ra</strong></h2>
+    </div>
+
+    <div class="bg-white border mt-4">
+        <div class="header-filter px-3 py-2">
+            <div class="d-flex justify-content-between mt-2">
+                <div class="d-flex justify-content-center align-items-center">
+                    <div class="btn-group btn-filter">
+                        <button type="button" class="btn btn-light btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                            Bộ lọc
+                        </button>
+                        <div class="dropdown-menu p-3" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 31px, 0px); top: 0px; left: 0px; will-change: transform;">
+                            <form class="ng-pristine ng-valid">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p class="mb-1">Kỳ báo cáo</p>
+                                        <select class="form-control form-control-sm" ng-model="ReportInvoice.MONTHQUARTER">
+                                            <option value="M1" selected="selected">Tháng 1</option>
+                                            <option value="M2">Tháng 2</option>
+                                            <option value="M3">Tháng 3</option>
+                                            <option value="M4">Tháng 4</option>
+                                            <option value="M5">Tháng 5</option>
+                                            <option value="M6">Tháng 6</option>
+                                            <option value="M7">Tháng 7</option>
+                                            <option value="M8">Tháng 8</option>
+                                            <option value="M9">Tháng 9</option>
+                                            <option value="M10">Tháng 10</option>
+                                            <option value="M11">Tháng 11</option>
+                                            <option value="M12">Tháng 12</option>
+
+                                            <option value="Q1">Quý I</option>
+                                            <option value="Q2">Quý II</option>
+                                            <option value="Q3">Quý III</option>
+                                            <option value="Q4">Quý IV</option>
+                                        </select>
+
+                                        <p class="mb-1 mt-3">Năm</p>
+                                        <select class="form-control form-control-sm" ng-model="ReportInvoice.YEAR" convert-to-number>
+                                            <option value="2019">2019</option>
+                                            <option value="2020">2020</option>
+                                            <option value="2021">2021</option>
+                                            <option value="2022">2022</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center mt-4 float-right">
+                                    <button class="btn btn-success btn-sm pl-5 pr-5" ng-click="GetOutputInvoice()">Lọc</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-center align-items-center">
+                    <div class="d-flex justify-content-center align-items-center">
+                        <div class="button-circle-hover" data-toggle="dropdown">
+                            <span class="fa fa-download"></span>
+                        </div>
+                        <div class="dropdown-menu dropdown-menu-settings p-0">
+                            <form class="frm_custom_view_column">
+                                <div class="treeview-menu">
+                                    <ul class="p-0 m-0">
+                                        @*<li ng-if="@user.USINGINVOICETYPE !== @((int)DS.Common.Enums.EnumHelper.AccountObjectType.HOADONTIENNUOC)" class="header"><a href="/Statistic/DownloadOutputInvoiceExcel">Tải xuống Excel</a></li>*@
+                                        <li ng-if="@user.USINGINVOICETYPE !== @((int)DS.Common.Enums.EnumHelper.AccountObjectType.HOADONTIENNUOC)" class="header"><a href="/Statistic/DownloadOutputInvoiceExcelWithoutProduct">Tải xuống Excel</a></li>
+                                        <li ng-if="@user.USINGINVOICETYPE === @((int)DS.Common.Enums.EnumHelper.AccountObjectType.HOADONTIENNUOC)" class="header"><a href="/Statistic/DownloadOutputWaterInvoiceExcel">Tải xuống Excel</a></li>
+                                    </ul>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="btn-filter mt-2">
+            <div class="invoice-template">
+                <div class="invoice-template-header">
+                    <div class="d-flex">
+                        <div class="col-4 header-left">
+                            <p class="mb-0">
+                                <b>
+                                    [01]Kỳ tính thuế: {{ReportTime.TERM}}
+                                </b>
+                            </p>
+                            <p class="mb-0">
+                                <b>
+                                    [02]Tên người nộp thuế: {{Enterprise.COMNAME}}
+                                </b>
+                            </p>
+                            <p class="mb-0">
+                                [03]Mã số thuế: <b>{{Enterprise.COMTAXCODE}}</b>
+                            </p>
+                            <p class="mb-0">
+                                <b>
+                                    [04]Tên đại lý thuế(nếu có): {{Enterprise.TAXDEPARTEMENT}}
+                                </b>
+                            </p>
+                            <p class="mb-0">
+                                [05]Mã số thuế: {{Enterprise.TAXDEPARTEMENTCODE}}
+                            </p>
+                        </div>
+                        <div class="col-4 text-center">
+                            <p class="mb-0"><b>PHỤ LỤC</b></p>
+                            <p class="mb-0"><b>BẢNG KÊ HÓA ĐƠN, CHỨNG TỪ HÀNG HÓA, DỊCH VỤ BÁN RA</b></p>
+                            <p class="mb-0"><i>(Kèm theo tờ khai thuế GTGT theo mẫu số 01/GTGT)</i></p>
+                        </div>
+                        <div class="col-4 text-center">
+                            <div>
+                                <p class="mb-0"><b>Mẫu số: 01-1/GTGT</b></p>
+                                <p class="mb-0">(Ban hành kèm theo Thông tư số 26/2015/TT-BTC</p>
+                                <p class="mb-0">ngày 27/02/2015 của bộ Tài chính)</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="float-right p-3">
+                    Đơn vị tiền: đồng Việt Nam (VND)
+                </div>
+                <div class="invoice-template-body">
+                    <table class="table table-responsive table-bordered">
+                        <thead>
+                            <tr class="text-center">
+                                <th rowspan="2">STT</th>
+                                <th colspan="4">Hóa đơn, chứng từ bán</th>
+                                <th rowspan="2">Tên người mua(Buyer Name)</th>
+                                <th rowspan="2">Mã số thuế người mua(Tax code)</th>
+                                <th rowspan="2">Doanh số bán chưa có thuế(Revenue excluding VAT)</th>
+                                <th rowspan="2">Thuế GTGT(VAT amount)</th>
+                                <th rowspan="2">Ghi chú(Note)</th>
+                            </tr>
+                            <tr class="text-center">
+                                <th>Ký hiệu mẫu hóa đơn</th>
+                                <th>Số hiệu hóa đơn</th>
+                                <th>Số hóa đơn</th>
+                                <th>Ngày, tháng, năm phát hành</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-center" ng-if="@user.USINGINVOICETYPE !== @((int)DS.Common.Enums.EnumHelper.AccountObjectType.HOADONBANHANG)">
+                            <tr>
+                                <td>(1)</td>
+                                <td>(2)</td>
+                                <td>(3)</td>
+                                <td>(4)</td>
+                                <td>(5)</td>
+                                <td>(6)</td>
+                                <td>(7)</td>
+                                <td>(8)</td>
+                                <td>(9)</td>
+                                <td>(10)</td>
+                            </tr>
+                            <tr>
+                                <td colspan="10" class="text-left">
+                                    <b>1. Hàng hóa dịch vụ không chịu thuế giá trị gia tăng (GTGT)</b>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="7" class="text-left">
+                                    <b>Tổng Cộng</b>
+                                </td>
+                                <td>{{OutputInvoiceData.SUMREVENUENOTAX | numberFormat}}</td>
+                                <td> </td>
+                                <td> </td>
+                            </tr>
+                            <tr>
+                                <td colspan="10" class="text-left">
+                                    <b>2. Hàng hoá, dịch vụ chịu thuế suất thuế GTGT 0%:</b>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="7" class="text-left">
+                                    <b>Tổng Cộng</b>
+                                </td>
+                                <td>{{OutputInvoiceData.SUMREVENUEZEROPERCENTTAX | numberFormat}}</td>
+                                <td>0</td>
+                                <td> </td>
+                            </tr>
+                            <tr>
+                                <td colspan="10" class="text-left">
+                                    <b>3. Hàng hoá, dịch vụ chịu thuế suất thuế GTGT 5%:</b>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="7" class="text-left">
+                                    <b>Tổng Cộng</b>
+                                </td>
+                                <td>{{OutputInvoiceData.SUMREVENUEFIVEPERCENTTAX | numberFormat}}</td>
+                                <td>{{((0.05) * OutputInvoiceData.SUMREVENUEFIVEPERCENTTAX) | numberFormat}}</td>
+                                <td> </td>
+                            </tr>
+                            <tr>
+                                <td colspan="10" class="text-left">
+                                    <b>4. Hàng hoá, dịch vụ chịu thuế suất thuế GTGT 10%:</b>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="7" class="text-left">
+                                    <b>Tổng Cộng</b>
+                                </td>
+                                <td>{{OutputInvoiceData.SUMREVENUETENPERCENTTAX | numberFormat}}</td>
+                                <td>{{((0.1) * OutputInvoiceData.SUMREVENUETENPERCENTTAX) | numberFormat}}</td>
+                                <td> </td>
+                            </tr>
+                        </tbody>
+                        <tbody class="text-center" ng-if="@user.USINGINVOICETYPE === @((int)DS.Common.Enums.EnumHelper.AccountObjectType.HOADONBANHANG)">
+                            <tr>
+                                <td>(1)</td>
+                                <td>(2)</td>
+                                <td>(3)</td>
+                                <td>(4)</td>
+                                <td>(5)</td>
+                                <td>(6)</td>
+                                <td>(7)</td>
+                                <td>(8)</td>
+                                <td>(9)</td>
+                                <td>(10)</td>
+                            </tr>
+                            <tr>
+                                <td colspan="10" class="text-left">
+                                    <b>1. Hàng hóa dịch vụ không chịu thuế GTGT hoặc hàng hóa dịch vụ chịu thuế 0%</b>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="7" class="text-left">
+                                    <b>Tổng Cộng</b>
+                                </td>
+                                <td>{{OutputInvoiceData.SUMREVENUEZEROPERCENTTAX | numberFormat}}</td>
+                                <td>0</td>
+                                <td> </td>
+                            </tr>
+                            <tr>
+                                <td colspan="10" class="text-left">
+                                    <b>2. Phân phối, cung cấp hàng hóa áp dụng thuế suất 1%:</b>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="7" class="text-left">
+                                    <b>Tổng Cộng</b>
+                                </td>
+                                <td>{{OutputInvoiceData.SUMREVENUEONEPERCENTTAX | numberFormat}}</td>
+                                <td>{{((0.01) * OutputInvoiceData.SUMREVENUEFIVEPERCENTTAX) | numberFormat}}</td>
+                                <td> </td>
+                            </tr>
+                            <tr>
+                                <td colspan="10" class="text-left">
+                                    <b>3. Dịch vụ, xây dựng không bao thầu nguyên vật liệu áp dụng thuế suất 5%:</b>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="7" class="text-left">
+                                    <b>Tổng Cộng</b>
+                                </td>
+                                <td>{{OutputInvoiceData.SUMREVENUEFIVEPERCENTTAX | numberFormat}}</td>
+                                <td>{{((0.05) * OutputInvoiceData.SUMREVENUEFIVEPERCENTTAX) | numberFormat}}</td>
+                                <td> </td>
+                            </tr>
+                            <tr>
+                                <td colspan="10" class="text-left">
+                                    <b>4. Sản xuất, vận tải, dịch vụ gắn với hàng hóa, xây dựng có bao thầu nguyên vật liệu áp dụng thuế suất 3%:</b>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="7" class="text-left">
+                                    <b>Tổng Cộng</b>
+                                </td>
+                                <td>{{OutputInvoiceData.SUMREVENUETHREEPERCENTTAX | numberFormat}}</td>
+                                <td>{{((0.03) * OutputInvoiceData.SUMREVENUETHREEPERCENTTAX) | numberFormat}}</td>
+                                <td> </td>
+                            </tr>
+                            <tr>
+                                <td colspan="10" class="text-left">
+                                    <b>5. Hoạt động kinh doanh khác áp dụng thuế suất 2%:</b>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="7" class="text-left">
+                                    <b>Tổng Cộng</b>
+                                </td>
+                                <td>{{OutputInvoiceData.SUMREVENUETWOPERCENTTAX | numberFormat}}</td>
+                                <td>{{((0.02) * OutputInvoiceData.SUMREVENUETWOPERCENTTAX) | numberFormat}}</td>
+                                <td> </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="mt-5 invoice-template-footer">
+                    <div class="d-flex">
+                        <div class="col-12">
+                            <p class="mb-0" ng-if="@user.USINGINVOICETYPE !== @((int)DS.Common.Enums.EnumHelper.AccountObjectType.HOADONBANHANG)">
+                                <b>
+                                    Tổng doanh thu hàng hoá, dịch vụ bán ra trước thuế (*): {{TOTALREVENUEPRETAX | numberFormat}}
+                                </b>
+                            </p>
+                            <p class="mb-0">
+                                <b>
+                                    Tổng doanh thu hàng hoá, dịch vụ bán ra chịu thuế GTGT (*): {{TOTALREVENUEUNDERTAX | numberFormat}}
+                                </b>
+                            </p>
+                            <p class="mb-0">
+                                <b>
+                                    Tổng số thuế GTGT của hàng hóa, dịch vụ bán ra (**): {{TOTALTAXMONEY | numberFormat}}
+                                </b>
+                            </p>
+                            <p class="mb-0 mt-5">
+                                Tôi cam đoan số liệu khai trên là đúng và chịu trách nhiệm trước pháp luật về những số liệu đã khai./...
+                            </p>
+                        </div>
+                    </div>
+                    <div class="d-flex mt-5">
+                        <div class="col-6">
+                            <p class="mb-0">
+                                <b>
+                                    NHÂN VIÊN ĐẠI LÝ THUẾ
+                                </b>
+                            </p>
+                            <p class="mb-0">
+                                <i>
+                                    Họ và tên:
+                                </i>
+                            </p>
+                            <p class="mb-0">
+                                <i>
+                                    Chứng chỉ hành nghề số:
+                                </i>
+                            </p>
+                        </div>
+                        <div class="col-6 text-center">
+                            <p class="mb-0"><b>......, ngày ... tháng ... năm ...  </b></p>
+                            <p class="mb-0"><b>NGƯỜI NỘP THUẾ hoặc ĐẠI DIỆN HỢP PHÁP CỦA NGƯỜI NỘP THUẾ </b></p>
+                            <p class="mb-0">
+                                <i>
+                                    Ký, ghi rõ họ tên, chức vụ và đóng dấu (nếu có)
+                                </i>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="d-flex mt-5">
+                        <div class="col-12">
+                            <p class="mb-0">
+                                <b>
+                                    Ghi Chú
+                                </b>
+                            </p>
+                            <p class="mb-0">
+                                (*) Tổng doanh thu hàng hóa, dịch vụ bán ra chịu thuế GTGT là tổng cộng số liệu tại cột 8 của dòng tổng của các chỉ tiêu 2, 3, 4.
+                            </p>
+                            <p class="mb-0">
+                                (**) Tổng số thuế GTGT của hàng hóa, dịch vụ bán ra là tổng cộng số liệu tại cột 9 của dòng tổng của các chỉ tiêu 2, 3, 4.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr />
+            <span class="text-success p-5"><i>Ký điện tử bởi: CÔNG TY CỔ PHẦN TẬP ĐOÀN TRUYỀN THÔNG VÀ CÔNG NGHỆ NOVAON</i></span>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,1657 @@
+﻿@using DS.BusinessObject.Account;
+@{
+    AccountBO user = (AccountBO)Session[DS.Common.Helpers.ConfigHelper.User];
+}
+<style>
+    .disable-span {
+        color: #E6E6E6;
+        cursor: not-allowed;
+    }
+
+    .ui-resizable {
+        z-index: 111111;
+    }
+
+    #idOnlyTaxRate option[value="? string:undefined ?"], #idOnlyTaxRate option[value="? string:[object Object] ?"] {
+        display: none;
+    }
+
+    #currencyList option[value="? string:undefined ?"], #currencyList option[value="? string:[object Object] ?"], #currencyList option[value="? undefined:undefined ?"] {
+        display: none;
+    }
+
+    span.date {
+        clear: left;
+        margin: 5px auto 0;
+        font-size: 12px;
+    }
+
+    .float-right.item-ac-actions {
+        display: flex;
+        position: absolute;
+        left: 45%;
+        z-index: 150;
+    }
+
+    .zf-item-remove svg {
+        cursor: pointer;
+        width: 14px;
+        height: 14px;
+        vertical-align: middle;
+    }
+
+    i.zf-item-remove {
+        cursor: pointer;
+        margin-left: 5px;
+        position: relative;
+        color: #b4b4b4;
+        fill: currentColor;
+        cursor: pointer;
+        top: 0;
+    }
+
+    .item-group-title {
+        margin: 0;
+        height: 30px;
+    }
+
+    .item-text-area-title {
+        border-style: dashed;
+        border-width: 1px;
+        border-color: #ccc;
+        font-weight: 600;
+        background-color: #f8f8fd;
+    }
+    .progressbar1 li.active:before {
+        background: #55b776 url(user.svg) no-repeat center center;
+        background-size: 60%;
+    }
+
+    .progressbar1 li.active:before {
+        border-color: #55b776;
+        background: #10BC83 !important;
+        color: white !important;
+    }
+    .progressbar1 li:before {
+        /*content: counter(step);*/
+        counter-increment: step;
+    }
+
+    .progressbar1 li::before {
+        background: #fff url(user.svg) no-repeat center center;
+        background-size: 60%;
+    }
+    
+    .progressbar1 li:before {
+        width: 12px;
+        height: 12px;
+        content: "";
+        line-height: 30px;
+        display: block;
+        text-align: center;
+        margin: 0 auto 3px auto;
+        border-radius: 50%;
+        position: relative;
+        z-index: 2;
+        background-color: #fff;
+        font-size: 16px;
+        color: #57b729;
+        border: 1px solid #57b729;
+        margin-top: 14px;
+    }
+    .list-inline-item:not(:last-child) {
+        margin-right: 6.5rem;
+    }
+    .barlength {
+        width: 140px;
+        height: 2px;
+        margin-left: 53px;
+        margin-top: -46px;
+        margin-bottom: 53px;
+        background-color: #28A745;
+    }
+    .barlength1 {
+        width: 133px;
+        height: 2px;
+        margin-left: 199px;
+        margin-top: -55px;
+        margin-bottom: 53px;
+        background-color: #000042;
+    }
+    .barlength3 {
+        width: 140px;
+        height: 2px;
+        margin-left: 53px;
+        margin-top: -46px;
+        margin-bottom: 53px;
+        background-color: #000042;
+    }
+
+    .barlength4 {
+        width: 133px;
+        height: 2px;
+        margin-left: 199px;
+        margin-top: -55px;
+        margin-bottom: 53px;
+        background-color: #28A745;
+    }
+</style>
+<div class="modal fade modal-invoice modal-report" tabindex="-1" ng-controller="ModalInvoiceController">
+    @Html.Partial("~/Views/Common/InvoiceNote.cshtml")
+    <div class="modal-dialog modal-dialog-scrollable modal-full " role="document">
+        <div class="modal-content">
+            <button type="button" class="close d-none d-sm-block" data-dismiss="modal" aria-label="Close"><span  aria-hidden="true">x</span></button>
+            <button type="button" class="close d-block d-sm-none" data-dismiss="modal" aria-label="Close" style="padding-right: 322px;padding-top: 15px;font-size:20px;"><span  aria-hidden="true"><</span></button>
+            <div class="modal-body d-none d-sm-block">
+                @*Desktop*@
+                <div class="d-none d-sm-block">
+                    <h4 class="modal-title">
+                        <strong ng-if="Enterprise.USINGINVOICETYPE == 0"> HÓA ĐƠN GIÁ TRỊ GIA TĂNG </strong>
+                        <strong ng-if="Enterprise.USINGINVOICETYPE == 3"> HÓA ĐƠN BÁN HÀNG </strong>
+                        <strong ng-if="Enterprise.USINGINVOICETYPE == 2"> HÓA ĐƠN GTGT (TIỀN ĐIỆN) </strong>
+                        <strong ng-if="Enterprise.USINGINVOICETYPE == 4"> HÓA ĐƠN GTGT (TIỀN NƯỚC) </strong>
+                        <strong ng-if="Enterprise.USINGINVOICETYPE == 5"> PHIẾU XUẤT KHO KIÊM VẬN CHUYỂN NỘI BỘ </strong>
+                        <br />
+                        @if (user.USINGINVOICETYPE != (int)DS.Common.Enums.EnumHelper.AccountObjectType.HOADONTIENDIEN)
+                        {
+                            <span style="font-size: 14px;">Ngày {{CurrentDay}} tháng {{CurrentMonth}} năm {{CurrentYear}} </span>
+                        }
+                        else
+                        {
+                            <span class="date">
+                                <span> Kỳ thanh toán:&nbsp; </span><span> Từ ngày&nbsp; </span>
+                                <label style="border-bottom: 1px solid #DEE2E6;width:100px">
+                                    <input type="text" class="form-control form-control-sm datepicker" style="border: none;" ng-model="Invoice.FROMDATE" id="dtefromdate" autocomplete="off" ng-change="SetDatepikerDate()" />
+                                </label><span> &nbsp;&nbsp;&nbsp; đến ngày&nbsp; </span>
+                                <label style="border-bottom: 1px solid #DEE2E6;width:100px">
+                                    <input type="text" style="border: none;" class="form-control form-control-sm datepicker" ng-model="Invoice.TODATE" id="dtetodate" autocomplete="off" ng-change="SetDatepikerDate()" />
+                                </label>
+                            </span>
+                        }
+                    </h4>
+                    <!--Thông tin doanh nghiệp-->
+                    <div class="row">
+                        <div class="col-12 col-md-8">
+                            <table class="table table-borderless table-sm">
+                                <tbody>
+                                    <tr>
+                                        <td>Đơn vị bán hàng:</td>
+                                        <td id="id_comname">{{Enterprise.COMNAME}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Mã số thuế:</td>
+                                        <td id="id_comtaxcode" class="taxcode-account" ng-bind-html="ViewTaxcode(Enterprise.COMTAXCODE)"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="id_address">Địa chỉ:</td>
+                                        <td style="max-width: 500px">{{Enterprise.COMADDRESS}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-12 col-md-1"></div>
+                        <div class="col-12 col-md-3">
+                            <table class="table table-borderless table-sm table-vertical-center">
+                                <tbody>
+                                    <tr>
+                                        <td>Mẫu số: </td>
+                                        <td id="id_formcode">
+                                            <select class="form-control form-control-sm editor_invoice ddl-novaon-invoice" id="form-code" ng-model="Invoice.FORMCODE" ng-disabled="Invoice.INVOICESTATUS == 2 || Invoice.ISINVOICEWAITING" ng-change="FormCodeChange(Invoice.FORMCODE)">
+                                                <option value="" disabled selected>--Chọn mẫu số--</option>
+                                                <option ng-repeat="item in ListFormCode" value="{{item.FORMCODE + '-' + item.SYMBOLCODE}}">{{item.FORMCODE}} - {{item.SYMBOLCODE}}</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Ký hiệu: </td>
+                                        <td id="id_symbolcode">
+                                            <label class="w-100 border-bottom grey m-0">
+                                                {{Invoice.FORMCODE.split('-')[1]}}
+                                            </label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Số: </td>
+                                        <td ng-if="Invoice.NUMBER != 0">
+                                            <label class="w-100 border-bottom grey">
+                                                <b> {{Invoice.NUMBER | numberFixedLen:7}}</b>
+                                            </label>
+                                        </td>
+                                        <td ng-if="Invoice.NUMBER === 0">
+                                            <label class="w-100 border-bottom grey">
+                                                <b>[Chưa cấp số]</b>
+                                            </label>
+                                        </td>
+                                    </tr>
+                                    @*<tr >
+            <td>Ngày lập: </td>
+            <td>
+                <input type="text" class="form-control form-control-sm editor_invoice datepicker" ng-model="Invoice.STRINVOICEWAITINGTIME" />
+            </td>
+        </tr>*@
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!--Tên cá nhân tổ chức doanh nghiệp-->
+                    <form class="row" ng-if="@user.USINGINVOICETYPE !== @((int)DS.Common.Enums.EnumHelper.AccountObjectType.PHIEUXUATKHO)">
+                        <div class="col-12 col-xl-9">
+                            <table class="table table-borderless table-sm  table-vertical-center">
+                                <tr>
+                                    <td>Mã khách hàng:</td>
+                                    <td id="id_customercode">
+                                        <suggestcustomer pagesize="10" delayresearch="300" url="'/Customer/SuggestCusByObject'"
+                                                         selectsearchresult="SuggestCustomer()"
+                                                         keyword="Invoice.CUSID"
+                                                         disabled="Invoice.INVOICESTATUS == 2">
+                                        </suggestcustomer>
+                                    </td>
+                                    <td style="width: 150px;">Mã số thuế: </td>
+                                    <td class="w-250" ng-if="Enterprise.USINGINVOICETYPE === 0 || Enterprise.USINGINVOICETYPE === 1 || Enterprise.USINGINVOICETYPE === 3">
+                                        <input id="input_taxcode" class="form-control form-control-sm editor_invoice"
+                                               type="text" ng-model="Invoice.CUSTAXCODE" ng-disabled="Invoice.INVOICESTATUS == 2" ng-click="oldTaxcode = Invoice.CUSTAXCODE" />
+                                    </td>
+                                    <td class="w-250" ng-if="Enterprise.USINGINVOICETYPE === 2">
+                                        <suggestcustomer pagesize="10" delayresearch="300" url="'/Customer/SuggestCusByObject'"
+                                                         selectsearchresult="SuggestCustomer()"
+                                                         keyword="Invoice.CUSTAXCODE"
+                                                         disabled="Invoice.INVOICESTATUS == 2">
+                                        </suggestcustomer>
+                                    </td>
+                                    <td class="w-250" ng-if="Enterprise.USINGINVOICETYPE === 4">
+                                        <suggestcustomer pagesize="10" delayresearch="300" url="'/Customer/SuggestCusByObject'"
+                                                         selectsearchresult="SuggestCustomer()"
+                                                         keyword="Invoice.CUSTAXCODE"
+                                                         disabled="Invoice.INVOICESTATUS == 2">
+                                        </suggestcustomer>
+                                    </td>
+                                    <td style="width:55px;">
+                                        <button class="btn btn-success btn-sm" ng-click="LoadInfoByTaxcode()" data-toggle="tooltip" title="Lấy thông tin từ tổng cục thuế"><i class="fa fa-search"></i></button>
+                                        <div id="tempLoadTaxinfo" class="d-none"></div>
+                                    </td>
+                                <tr>
+                                    <td style="width: 150px;">Tên đơn vị</td>
+                                    <td colspan="3" ng-if="Enterprise.USINGINVOICETYPE === 0 || Enterprise.USINGINVOICETYPE === 1 || Enterprise.USINGINVOICETYPE === 3">
+                                        <suggestcustomer pagesize="10" delayresearch="300" url="'/Customer/SuggestByObject'"
+                                                         selectsearchresult="SuggestCustomer()"
+                                                         keyword="Invoice.CUSNAME"
+                                                         disabled="Invoice.INVOICESTATUS == 2">
+                                        </suggestcustomer>
+                                    </td>
+                                    <td colspan="3" ng-if="Enterprise.USINGINVOICETYPE === 2 || Enterprise.USINGINVOICETYPE === 4">
+                                        <suggestcustomer pagesize="10" delayresearch="300" url="'/Customer/SuggestCusByObject'"
+                                                         selectsearchresult="SuggestCustomer()"
+                                                         keyword="Invoice.CUSNAME"
+                                                         disabled="Invoice.INVOICESTATUS == 2">
+                                        </suggestcustomer>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Địa chỉ</td>
+                                    <td colspan="3">
+                                        <input class="form-control form-control-sm editor_invoice" type="text" ng-model="Invoice.CUSADDRESS" ng-disabled="Invoice.INVOICESTATUS == 2" />
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>Người mua hàng</td>
+                                    <td>
+                                        <input class="form-control form-control-sm w-250 editor_invoice" type="text" ng-model="Invoice.CUSBUYER" ng-disabled="Invoice.INVOICESTATUS == 2" />
+                                    </td>
+                                    <td style="width: 150px;">Email </td>
+                                    <td class="w-250">
+                                        <input class="form-control form-control-sm w-250 editor_invoice" type="text" ng-model="Invoice.CUSEMAIL" ng-disabled="Invoice.INVOICESTATUS == 2" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Số điện thoại </td>
+                                    <td>
+                                        <input class="form-control form-control-sm w-250 editor_invoice" type="text" ng-model="Invoice.CUSPHONENUMBER" ng-disabled="Invoice.INVOICESTATUS == 2" />
+                                    </td>
+                                    <td>Hình thức thanh toán</td>
+                                    <td>
+                                        <select class="form-control form-control-sm w-250 editor_invoice ddl-novaon-invoice" ng-model="Invoice.CUSPAYMENTMETHOD" ng-disabled="Invoice.INVOICESTATUS == 2">
+                                            <option value="" disabled selected>--Chọn hình thức thanh toán--</option>
+                                            <option ng-repeat="item in ListPaymentMethod" ng-if="item.ISACTIVED===true" value="{{item.PAYMENTMETHOD}}">{{item.PAYMENTMETHOD}}</option>
+                                            <option value="-1">Khác</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Tài khoản ngân hàng</td>
+                                    <td>
+                                        <input class="form-control form-control-sm w-250 editor_invoice" type="text" ng-model="Invoice.CUSACCOUNTNUMBER" ng-disabled="Invoice.INVOICESTATUS == 2" />
+                                    </td>
+                                    <td>Tên ngân hàng</td>
+                                    <td>
+                                        <input class="form-control form-control-sm editor_invoice" type="text" placeholder="Ví dụ: TP BANK - Chi nhánh Hà Nội" ng-model="Invoice.CUSBANKNAME" ng-disabled="Invoice.INVOICESTATUS == 2" />
+                                    </td>
+                                </tr>
+                                <tr ng-show="Enterprise.USINGINVOICETYPE === 4">
+                                    <td>Số hộ</td>
+                                    <td>
+                                        <input class="form-control form-control-sm w-250 editor_invoice" type="text" ng-model="Invoice.APARTMENTNO" ng-disabled="Invoice.INVOICESTATUS == 2" />
+                                    </td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr ng-show="Enterprise.USINGINVOICETYPE === 4">
+                                    <td>Từ ngày</td>
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm w-250 editor_invoice datepicker" placeholder="dd/MM/yyyy" ng-model="Invoice.FROMDATE" id="dte_fromdate" name="dte_fromdate" autocomplete="off" ng-change="SetDatepikerDate()" />
+                                    </td>
+                                    <td>Đến ngày</td>
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm w-250 editor_invoice datepicker" placeholder="dd/MM/yyyy" ng-model="Invoice.TODATE" id="dte_todate" name="dte_todate" autocomplete="off" ng-change="SetDatepikerDate()" />
+                                    </td>
+                                </tr>
+                                <tr ng-if="Enterprise.USINGINVOICETYPE === 2">
+                                    <td>Số công tơ</td>
+                                    <td>
+                                        <select title="Chọn số công tơ" class="form-control form-control-sm w-250 editor_invoice ddl-novaon-invoice" id="ddlMeter" name="ddlMeter"
+                                                ng-options="option.METERNAME for option in MeterList track by option.CODE"
+                                                ng-model="Invoice.METER"
+                                                ng-change="ChooseMeter()"></select>
+                                    </td>
+                                    <td colspan="3">
+                                        <button type="button" class="btn btn-info btn-sm waves-effect waves-classic ng-pristine ng-valid ng-touched ng-empty" ng-click="GetMeterByCustaxcode(Invoice.CUSID)"><span class="fa fa-refresh"></span> Gửi yêu cầu cập nhật thông tin</button>
+                                    </td>
+                                </tr>
+                                <tr ng-if="Enterprise.USINGINVOICETYPE === 4">
+                                    <td>Số công tơ</td>
+                                    <td>
+                                        <select title="Chọn số công tơ" class="form-control form-control-sm w-250 editor_invoice ddl-novaon-invoice" id="ddlMeter2" name="ddlMeter2"
+                                                ng-options="option.METERNAME for option in MeterList track by option.CODE"
+                                                ng-model="Invoice.METER"
+                                                ng-change="ChooseMeter()"></select>
+                                    </td>
+                                    <td colspan="3">
+                                        <button type="button" class="btn btn-info btn-sm waves-effect waves-classic ng-pristine ng-valid ng-touched ng-empty" ng-click="GetMeterByCustaxcode(Invoice.CUSID)"><span class="fa fa-refresh"></span> Gửi yêu cầu cập nhật thông tin</button>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="col-12 col-xl-3">
+                            <div class="custom-control custom-radio pl-1">
+                                <label for="cbx_paymentstatus" class="label-cbx">
+                                    <input id="cbx_paymentstatus" type="checkbox" class="invisible ng-pristine ng-untouched ng-valid ng-not-empty" ng-model="Invoice.PAYMENTSTATUS" ng-true-value="2" ng-false-value="1">
+                                    <span class="checkbox">
+                                        <svg width="20px" height="20px" viewBox="0 0 20 20">
+                                            <path d="M3,1 L17,1 L17,1 C18.1045695,1 19,1.8954305 19,3 L19,17 L19,17 C19,18.1045695 18.1045695,19 17,19 L3,19 L3,19 C1.8954305,19 1,18.1045695 1,17 L1,3 L1,3 C1,1.8954305 1.8954305,1 3,1 Z"></path>
+                                            <polyline points="4 11 8 15 16 6"></polyline>
+                                        </svg>
+                                    </span>
+                                    <span class="cbx-text pt-1 pl-2">Đã thanh toán</span>
+                                </label>
+                            </div>
+
+                            @*Nếu điều chỉnh hóa đơn thì show div này lên*@
+                            <div class="pl-1" ng-if="Invoice.INVOICETYPE === 5">
+                                <fieldset class="novaon-fieldset col-xs-4 fieldsetInvHeaderGeneral" style="border: #DEE2E6 1px solid !important;border-radius: 4px;margin-top: 20px;">
+                                    <legend class="text-center" style="width: auto;border-bottom: none;padding-right: 10px;padding-left: 10px;font-family: helvetica, arial, sans-serif;font-size: 16px;font-weight: 600;">Loại hóa đơn điều chỉnh</legend>
+                                    <div class="">
+                                        <table class="table table-borderless table-sm  table-vertical-center">
+                                            <tr>
+                                                <td colspan="3">
+                                                    <div class="custom-control custom-radio">
+                                                        <input type="radio" class="custom-control-input" id="typeChangeIncrease" name="typeIncrease" ng-model="Invoice.INVOICEMETHOD" ng-value="1" ng-click="ChangeInvoiceMethod(1)">
+                                                        <label class="custom-control-label" for="typeChangeIncrease" data-toggle="tooltip" data-placement="bottom">
+                                                            <span>Điều chỉnh tăng</span>
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="3">
+                                                    <div class="custom-control custom-radio">
+                                                        <input type="radio" class="custom-control-input" id="typeChangeDecrease" name="typeDecrease" ng-model="Invoice.INVOICEMETHOD" ng-value="2" ng-click="ChangeInvoiceMethod(2)">
+                                                        <label class="custom-control-label" for="typeChangeDecrease" data-toggle="tooltip" data-placement="bottom">
+                                                            <span>Điều chỉnh giảm</span>
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="3">
+                                                    <div class="custom-control custom-radio">
+                                                        <input type="radio" class="custom-control-input" id="typeChangeInfo" name="typeChangeInfo" ng-model="Invoice.INVOICEMETHOD" ng-value="3" ng-click="ChangeInvoiceMethod(3)">
+                                                        <label class="custom-control-label" for="typeChangeInfo" data-toggle="tooltip" data-placement="bottom">
+                                                            <span>Điều chỉnh thông tin</span>
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </div>
+                    </form>
+                    <!--Tên cá nhân tổ chức doanh nghiệp phiếu xuất kho-->
+                    <form class="row" ng-if="@user.USINGINVOICETYPE === @((int)DS.Common.Enums.EnumHelper.AccountObjectType.PHIEUXUATKHO)">
+                        <div class="col-12 col-xl-12">
+                            <table class="table table-borderless table-sm  table-vertical-center">
+                                <tr>
+                                    <td>Căn cứ điều lệnh số: </td>
+                                    <td>
+                                        <input class="form-control form-control-sm w-100 editor_invoice" type="text" ng-model="Invoice.DELIVERYORDERNUMBER" ng-disabled="Invoice.INVOICESTATUS == 2" />
+                                    </td>
+                                    <td>Ngày <span class="text-danger">(*)</span></td>
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm w-100 editor_invoice datepicker" placeholder="dd/MM/yyyy" ng-model="Invoice.DELIVERYORDERDATE" id="dte_orderdate" name="dte_orderdate" autocomplete="off" ng-change="SetDatepikerDate()" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 170px;">Của <span class="text-danger">(*)</span></td>
+                                    <td>
+                                        <input class="form-control form-control-sm editor_invoice" type="text" ng-model="Invoice.CUSNAME" ng-disabled="Invoice.INVOICESTATUS == 2" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 170px;">Về việc</td>
+                                    <td>
+                                        <input class="form-control form-control-sm editor_invoice" type="text" ng-model="Invoice.DELIVERYORDERCONTENT" ng-disabled="Invoice.INVOICESTATUS == 2" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Họ tên người vận chuyển: </td>
+                                    <td>
+                                        <input class="form-control form-control-sm w-500 editor_invoice" type="text" ng-model="Invoice.CUSBUYER" ng-disabled="Invoice.INVOICESTATUS == 2" />
+                                    </td>
+                                    <td style="width: 150px;">Hợp đồng số: </td>
+                                    <td class="w-250">
+                                        <input class="form-control form-control-sm w-100 editor_invoice" type="text" ng-model="Invoice.CONTRACTNUMBER" ng-disabled="Invoice.INVOICESTATUS == 2" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Phương tiện vận chuyển: </td>
+                                    <td>
+                                        <input class="form-control form-control-sm editor_invoice" type="text" ng-model="Invoice.TRANSPORTATIONMETHOD" ng-disabled="Invoice.INVOICESTATUS == 2" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Xuất kho tại: </td>
+                                    <td>
+                                        <input class="form-control form-control-sm w-100 editor_invoice" type="text" ng-model="Invoice.FROMWAREHOUSENAME" ng-disabled="Invoice.INVOICESTATUS == 2" />
+                                    </td>
+                                    <td>Ngày xuất kho <span class="text-danger">(*)</span></td>
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm w-100 editor_invoice datepicker" placeholder="dd/MM/yyyy" ng-model="Invoice.FROMDATE" @*id="dte_fromdate"*@ name="dte_fromdate" autocomplete="off" ng-change="SetDatepikerDate()" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Nhập kho tại: </td>
+                                    <td>
+                                        <input class="form-control form-control-sm w-100 editor_invoice" type="text" ng-model="Invoice.TOWAREHOUSENAME" ng-disabled="Invoice.INVOICESTATUS == 2" />
+                                    </td>
+                                    <td>Ngày nhập kho </td>
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm w-100 editor_invoice datepicker" placeholder="dd/MM/yyyy" ng-model="Invoice.TODATE" @*id="dte_todate"*@ name="dte_todate" autocomplete="off" ng-change="SetDatepikerDate()" />
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </form>
+
+                    @*Điều chỉnh, thay thế*@
+                    <div class="row" ng-if="Invoice.INVOICETYPE == 5">
+                        <label class="col-12 col-xl-12">
+                            Điều chỉnh cho hóa đơn: <b class="text-success">{{Invoice.NUMBERTEMP | numberFixedLen:7}}</b>, mẫu số <b>{{Invoice.FORMCODE}}</b>, ký hiệu <b>{{Invoice.SYMBOLCODE}}</b>, ngày <b>{{Invoice.SIGNEDTIME | dateFormat:'dd/MM/yyyy'}}</b>.
+                            <bt /><br /><b>Lý do điều chỉnh</b>:
+                            <input class="form-control form-control-sm editor_invoice" type="text" ng-model="Invoice.CHANGEREASON" ng-disabled="Invoice.INVOICESTATUS == 2" />
+                        </label>
+                    </div>
+                    <div class="row" ng-if="Invoice.INVOICETYPE == 6">
+                        <label class="col-12 col-xl-12">Thay thế cho hóa đơn: <b class="text-success">{{Invoice.NUMBERTEMP | numberFixedLen:7}}</b>, mẫu số <b>{{Invoice.FORMCODE}}</b>, ký hiệu <b>{{Invoice.SYMBOLCODE}}</b>, ngày <b>{{Invoice.SIGNEDTIME | dateFormat:'dd/MM/yyyy'}}</b>.</label>
+                    </div>
+
+                    @*Ngoại tệ và chiết khấu*@
+                    <div class="d-flex bd-highlight" ng-if="@user.USINGINVOICETYPE === @((int)DS.Common.Enums.EnumHelper.AccountObjectType.HOADONGTGT) || @user.USINGINVOICETYPE === @((int)DS.Common.Enums.EnumHelper.AccountObjectType.HOADONBANHANG) || @user.USINGINVOICETYPE === @((int)DS.Common.Enums.EnumHelper.AccountObjectType.PHIEUXUATKHO)">
+                        <strong class="mr-auto p-2 bd-highlight align-self-center">Hàng hóa, dịch vụ</strong>
+                        <strong class="p-2 bd-highlight align-self-center">Loại tiền</strong>
+                        <div class="p-2 bd-highlight">
+                            <select class="form-control form-control-sm editor_invoice ddl-novaon-invoice" id="currencyList" ng-model="Invoice.CURRENCY" ng-disabled="Invoice.INVOICESTATUS == 2" @*ng-change="ChangeCurrencyType(Invoice.CURRENCY)*@>
+                                <option ng-repeat="item in CurrencyList" value="{{item.type}}">{{item.type}}</option>
+                            </select>
+                        </div>
+                        <strong class="p-2 bd-highlight align-self-center">Tỷ giá</strong>
+                        <div class="p-2 bd-highlight">
+                            <input class="form-control form-control-sm editor_invoice text-right" id="exchangeRateInput" ng-keyup="ExchangeRateFormat()" type="text" ng-model="Invoice.EXCHANGERATE" ng-change="CalMoneyAfterChangeValue()" />
+                        </div>
+                        <strong class="p-2 bd-highlight align-self-center" ng-if="@user.USINGINVOICETYPE !== @((int)DS.Common.Enums.EnumHelper.AccountObjectType.PHIEUXUATKHO)">Chiết khấu</strong>
+                        <div class="p-2 bd-highlight" ng-if="@user.USINGINVOICETYPE !== @((int)DS.Common.Enums.EnumHelper.AccountObjectType.PHIEUXUATKHO)">
+                            <select class="form-control form-control-sm editor_invoice ddl-novaon-invoice" ng-model="Invoice.DISCOUNTTYPE" ng-disabled="Invoice.INVOICESTATUS == 2" ng-change="CalMoneyAfterChangeValue()">
+                                <option ng-repeat="item in DiscountType" value="{{item.value}}">{{item.name}}</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    @*Hàng hóa*@
+                    <div id="product-container" ng-if="@user.USINGINVOICETYPE === @((int)DS.Common.Enums.EnumHelper.AccountObjectType.HOADONGTGT) || @user.USINGINVOICETYPE === @((int)DS.Common.Enums.EnumHelper.AccountObjectType.HOADONBANHANG)">
+                        <table class="table table-sm table-condensed table-bordered table-vertical-center table-invoice-itemlist mb-0">
+                            <thead>
+                                <tr>
+                                    <td class="text-center" style="width: 50px">
+                                        <strong>
+                                            STT<br />
+                                        </strong>
+                                        <i>(No.)</i>
+                                    </td>
+                                    <td class="text-center" style="width: 150px" ng-show="cookie_customField.FieldConsignment">
+                                        <strong>
+                                            Mã số xuất hàng<br />
+                                        </strong>
+                                        <i>(UCR)</i>
+                                    </td>
+                                    <td class="text-center">
+                                        <strong>
+                                            Hàng hóa, dịch vụ<br />
+                                        </strong>
+                                        <i>(Goods name, service)</i>
+                                    </td>
+                                    <td class="text-center" style="width: 75px">
+                                        <strong>
+                                            Đơn vị tính<br />
+                                        </strong>
+                                        <i>(Unit)</i>
+                                    </td>
+                                    <td class="text-center" style="width: 75px">
+                                        <strong>
+                                            Số lượng<br />
+                                        </strong>
+                                        <i>(Quantity)</i>
+                                    </td>
+                                    <td class="text-center" style="width: 100px">
+                                        <strong>
+                                            Đơn giá<br />
+                                        </strong>
+                                        <i>(Rate)</i>
+                                    </td>
+                                    <td class="text-center" ng-show="Invoice.DISCOUNTTYPE == 'CHIET_KHAU_THEO_HANG_HOA'" style="width: 50px">
+                                        <strong>
+                                            Chiết khấu (%)<br />
+                                        </strong>
+                                        <i>(Discount rate)</i>
+                                    </td>
+                                    <td class="text-center" ng-show="Invoice.DISCOUNTTYPE == 'CHIET_KHAU_THEO_HANG_HOA'" style="width: 100px">
+                                        <strong>
+                                            Chiết khấu<br />
+                                        </strong>
+                                        <i>(Discount)</i>
+                                    </td>
+                                    <td class="text-center" style="width: 75px" ng-if="!(TAXRATE == 1 || TAXRATE == 3)" ng-hide="@user.USINGINVOICETYPE === @((int)DS.Common.Enums.EnumHelper.AccountObjectType.HOADONBANHANG)">
+                                        <strong>
+                                            Thuế suất<br />
+                                        </strong>
+                                        <i>(VAT rate)</i>
+                                    </td>
+                                    <td class="text-center" style="width: 75px" ng-show="cookie_customField.FieldOtherTaxFee">
+                                        <strong>
+                                            Thuế, phí khác<br />
+                                        </strong>
+                                        <i>(Other taxes/fees)</i>
+                                    </td>
+                                    <td class="text-center" style="width: 75px" ng-show="cookie_customField.FieldRefundFee">
+                                        <strong>
+                                            Phí hoàn<br />
+                                        </strong>
+                                        <i>(Other charges)</i>
+                                    </td>
+                                    <td class="text-center" style="width: 100px" ng-if="@user.USINGINVOICETYPE === @((int)DS.Common.Enums.EnumHelper.AccountObjectType.HOADONBANHANG)">
+                                        <strong>
+                                            Nhóm ngành<br />
+                                        </strong>
+                                        <i>(Group)</i>
+                                    </td>
+                                    <td class="text-center" style="width: 100px">
+                                        <strong ng-if="@user.USINGINVOICETYPE === @((int)DS.Common.Enums.EnumHelper.AccountObjectType.HOADONGTGT)">
+                                            Thành tiền trước thuế<br />
+                                        </strong>
+                                        <strong ng-if="@user.USINGINVOICETYPE === @((int)DS.Common.Enums.EnumHelper.AccountObjectType.HOADONBANHANG)">
+                                            Thành tiền<br />
+                                        </strong>
+                                        <i>(Total)</i>
+                                    </td>
+                                    <td class="text-center" style="width: 50px">
+                                        <strong>
+                                            Khuyến mãi<br />
+                                        </strong>
+                                        <i>(Promotion)</i>
+                                    </td>
+                                    <td class="" style="width: 50px"></td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in Invoice.LISTPRODUCT">
+                                    @*Add item header*@
+                                    <td class="text-center" ng-if="item.GROUPID === 1" ng-model="item.SORTORDER">
+                                        {{$index + 1}}
+                                    </td>
+                                    <td style="padding: 0;border: 1px solid #ccc;background-color: #fff;vertical-align: top;" colspan="6" ng-if="item.GROUPID === 1">
+                                        <div class="item-group-title" id="Item_p_{{$index + 1}}">
+                                            <textarea style="border-radius: 0; border:0;height:30px;" placeholder="Nhóm hàng hóa, dịch vụ" ng-model="item.PRODUCTNAME" id="Item_{{$index + 1}}" class="form-control form-control-sm item-text-area-title" name="Item_{{$index + 1}}"></textarea>
+                                        </div>
+                                    </td>
+                                    <td class="text-center" ng-if="item.GROUPID === 1">
+                                        <span class="fa fa-trash-o del-icon" ng-click="RemoveRow(item)" ng-hide="Invoice.INVOICESTATUS == 2" style="color: rgba(44,160,28,1);"></span>
+                                    </td>
+                                    @*Add item detail*@
+                                    <td class="text-center" ng-if="item.GROUPID === 0">
+                                        {{$index + 1}}
+                                    </td>
+                                    <td class="text-center" ng-show="cookie_customField.FieldConsignment" ng-if="item.GROUPID === 0">
+                                        <input class="form-control form-control-sm" type="text" ng-model="item.CONSIGNMENTID" ng-disabled="Invoice.INVOICESTATUS == 2" />
+                                    </td>
+                                    <td style="padding: 0;border: 1px solid #ccc;background-color: #fff;vertical-align: top;" ng-if="item.GROUPID === 0">
+                                        <suggestproduct pagesize="5" delayresearch="300"
+                                                        selectsearchresult="SuggestProduct(item)"
+                                                        userkeycode="item.keyCode"
+                                                        keypress="onKeypress($index)"
+                                                        textview="item.PRODUCTNAME"
+                                                        fucusme="item.isFocus"
+                                                        disabled="Invoice.INVOICESTATUS == 2">
+                                        </suggestproduct>
+                                        <div class="desc-div" style="border-top: 1px solid #ced4da;" ng-show="item.DESCRIPTION" id="Item_p_{{$index + 1}}">
+                                            <textarea style="border-radius: 0; border:0;height:auto;" ng-model="item.DESCRIPTION" placeholder="Thêm mô tả cho hàng hóa, dịch vụ" id="Item_{{$index + 1}}" class="form-control form-control-sm" name="Item_{{$index + 1}}"></textarea>
+                                        </div>
+                                    </td>
+                                    <td ng-if="item.GROUPID === 0">
+                                        <input class="form-control form-control-sm" type="text" ng-model="item.QUANTITYUNIT" ng-disabled="Invoice.INVOICESTATUS == 2" ng-change="QuantityUnitChange(item)" />
+                                    </td>
+                                    <td ng-if="item.GROUPID === 0">
+                                        <input class="form-control form-control-sm " type="text" ng-model="item.QUANTITY" ng-change="QuantityChange(item)" min="0" ng-disabled="Invoice.INVOICESTATUS == 2" />
+                                    </td>
+                                    <td ng-if="item.GROUPID === 0">
+                                        <clearabletextbox textboxmodel="item.PRICE" textview="item.RETAILPRICE" iconposition="left"
+                                                          resultchange="ChangeRetailPrice(item)"
+                                                          textboxmaxlength="20" isnumberformat3digit="true">
+                                        </clearabletextbox>
+                                    </td>
+                                    <td ng-if="item.GROUPID === 0" ng-show="Invoice.DISCOUNTTYPE == 'CHIET_KHAU_THEO_HANG_HOA'">
+                                        <input class="form-control form-control-sm" type="number" ng-change="DiscountChange(item, true)" ng-model="item.DISCOUNTRATE" min="0" max="100" ng-disabled="Invoice.INVOICESTATUS == 2" />
+                                    </td>
+                                    <td ng-if="item.GROUPID === 0" ng-show="Invoice.DISCOUNTTYPE == 'CHIET_KHAU_THEO_HANG_HOA'">
+                                        <input class="form-control form-control-sm" type="text" ng-change="DiscountChange(item, false)" format="number" ng-model="item.TOTALDISCOUNT" ng-disabled="Invoice.INVOICESTATUS == 2" />
+                                    </td>
+                                    <td ng-if="!(TAXRATE == 1 || TAXRATE == 3) && item.GROUPID === 0" ng-hide="@user.USINGINVOICETYPE === @((int)DS.Common.Enums.EnumHelper.AccountObjectType.HOADONBANHANG)">
+                                        <select class="form-control form-control-sm" id="idTaxRate" ng-model="item.TAXRATE" ng-change="CalMoneyAfterChangeValue()" convert-to-number ng-disabled="Invoice.INVOICESTATUS == 2">
+                                            <option ng-repeat="item in TaxRateList" value="{{item.value}}">{{item.name}}</option>
+                                        </select>
+                                    </td>
+                                    <td ng-show="@user.USINGINVOICETYPE === @((int)DS.Common.Enums.EnumHelper.AccountObjectType.HOADONBANHANG)" ng-if="item.GROUPID === 0">
+                                        <select class="form-control form-control-sm" ng-model="item.TAXRATE" convert-to-number ng-disabled="Invoice.INVOICESTATUS == 2">
+                                            <option ng-repeat="item in Hoa_Don_Ban_Hang_TaxRateList" value="{{item.value}}">{{item.name}}</option>
+                                        </select>
+                                    </td>
+                                    <td class="text-center" ng-show="cookie_customField.FieldOtherTaxFee" ng-if="item.GROUPID === 0">
+                                        <input class="form-control form-control-sm" type="text" ng-model="item.OTHERTAXFEE" format="number" ng-change="CalMoneyAfterChangeValue()" ng-disabled="Invoice.INVOICESTATUS == 2" />
+                                    </td>
+                                    <td class="text-center" ng-show="cookie_customField.FieldRefundFee" ng-if="item.GROUPID === 0">
+                                        <input class="form-control form-control-sm" type="text" ng-model="item.REFUNDFEE" format="number" ng-change="CalMoneyAfterChangeValue()" ng-disabled="Invoice.INVOICESTATUS == 2" />
+                                    </td>
+                                    <td class="text-right" ng-if="item.GROUPID === 0">
+                                        <clearabletextbox textboxmodel="item.ITEMMONEY" textview="item.ITEMTOTALMONEY" iconposition="left"
+                                                          resultchange="ChangeTotalPrice(item)"
+                                                          textboxmaxlength="20" isnumberformat3digit="true">
+                                        </clearabletextbox>
+                                    </td>
+                                    <td class="text-center" ng-if="item.GROUPID === 0">
+                                        <label for="cbx_promotion_{{$index}}" class="label-cbx">
+                                            <input id="cbx_promotion_{{$index}}" type="checkbox" ng-change="CalMoneyAfterChangeValue()" class="invisible" ng-model="item.ISPROMOTION" ng-disabled="Invoice.INVOICESTATUS == 2">
+                                            <span class="checkbox" ng-class="{true: 'disable-span'}[Invoice.INVOICESTATUS == 2]">
+                                                <svg width="20px" height="20px" viewBox="0 0 20 20">
+                                                    <path d="M3,1 L17,1 L17,1 C18.1045695,1 19,1.8954305 19,3 L19,17 L19,17 C19,18.1045695 18.1045695,19 17,19 L3,19 L3,19 C1.8954305,19 1,18.1045695 1,17 L1,3 L1,3 C1,1.8954305 1.8954305,1 3,1 Z"></path>
+                                                    <polyline points="4 11 8 15 16 6"></polyline>
+                                                </svg>
+                                            </span>
+                                        </label>
+                                    </td>
+                                    <td class="text-center" ng-if="item.GROUPID === 0">
+                                        <span title="Thêm ghi chú" class="fa fa-file-text" ng-click="CreateRowDescription($index + 1)" ng-hide="Invoice.INVOICESTATUS == 2" style="cursor: pointer;color: rgba(44,160,28,1);"></span>
+                                        <span title="Xóa" class="fa fa-trash-o del-icon" ng-click="RemoveRow(item)" ng-hide="Invoice.INVOICESTATUS == 2" style="cursor: pointer;color: rgba(44,160,28,1);"></span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        @*@*Chân bảng sản phẩm cho hóa đơn giá trị gia tăng*@
+                        <div ng-if="@user.USINGINVOICETYPE === @((int)DS.Common.Enums.EnumHelper.AccountObjectType.HOADONGTGT)">
+                            <table class="table mb-0">
+                                <tbody>
+                                    <tr>
+                                        <td class="border-0 pl-0 pr-0 pb-0">
+                                            <div class="btn-group ml-2" style="vertical-align: top;margin-left:0 !important;">
+                                                <button type="button" class="btn btn-sm btn-secondary" ng-click="AddRow()" style="color: #212529;background-color: #f5f5f5;border-color: #ddd;">Thêm dòng</button>
+                                                <button type="button" class="btn btn-sm btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: #212529;background-color: #f5f5f5;border-color: #ddd;">
+                                                    <span class="sr-only">Toggle Dropdown</span>
+                                                </button>
+                                                <div class="dropdown-menu">
+                                                    <a class="dropdown-item" href="javascript:;" ng-click="AddRowHeader()">Thêm dòng tiêu đề</a>
+                                                </div>
+                                            </div>
+                                            <div class="btn-group ml-2" style="vertical-align: top;margin-left:0;">
+                                                <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: #212529;background-color: #f5f5f5;border-color: #ddd;">
+                                                    <i style="color:rgba(44,160,28,1);" class="fa fa-cog"></i> Thêm trường mở rộng
+                                                </button>
+                                                <div class="dropdown-menu" aria-labelledby="dropdownMenu2" ng-init="LoadCookie_Invoice_CustomField()">
+                                                    <div class="frm_custom_view_column" style="padding-left: 10px;">
+                                                        <p class="mb-0">Hàng hóa, dịch vụ</p>
+                                                        <label for="cbx_FieldConsignment" class="label-cbx">
+                                                            <input id="cbx_FieldConsignment" type="checkbox" class="invisible" ng-model="cookie_customField.FieldConsignment" ng-click="Check(cookie_customField.FieldConsignment,'FieldConsignment')">
+                                                            <span class="checkbox">
+                                                                <svg width="20px" height="20px" viewBox="0 0 20 20">
+                                                                    <path d="M3,1 L17,1 L17,1 C18.1045695,1 19,1.8954305 19,3 L19,17 L19,17 C19,18.1045695 18.1045695,19 17,19 L3,19 L3,19 C1.8954305,19 1,18.1045695 1,17 L1,3 L1,3 C1,1.8954305 1.8954305,1 3,1 Z"></path>
+                                                                    <polyline points="4 11 8 15 16 6"></polyline>
+                                                                </svg>
+                                                            </span>
+                                                            <span class="cbx-text">Mã số xuất hàng</span>
+                                                        </label>
+                                                        <label for="cbx_FieldProductService" class="label-cbx">
+                                                            <input id="cbx_FieldProductService" type="checkbox" class="invisible" ng-model="cookie_customField.FieldProductService" ng-click="Check(cookie_customField.FieldProductService,'FieldProductService')">
+                                                            <span class="checkbox">
+                                                                <svg width="20px" height="20px" viewBox="0 0 20 20">
+                                                                    <path d="M3,1 L17,1 L17,1 C18.1045695,1 19,1.8954305 19,3 L19,17 L19,17 C19,18.1045695 18.1045695,19 17,19 L3,19 L3,19 C1.8954305,19 1,18.1045695 1,17 L1,3 L1,3 C1,1.8954305 1.8954305,1 3,1 Z"></path>
+                                                                    <polyline points="4 11 8 15 16 6"></polyline>
+                                                                </svg>
+                                                            </span>
+                                                            <span class="cbx-text">Hàng hóa, dịch vụ</span>
+                                                        </label>
+                                                        <label for="cbx_FieldUnit" class="label-cbx">
+                                                            <input id="cbx_FieldUnit" type="checkbox" class="invisible" ng-model="cookie_customField.FieldUnit" ng-click="Check(cookie_customField.FieldUnit,'FieldUnit')">
+                                                            <span class="checkbox">
+                                                                <svg width="20px" height="20px" viewBox="0 0 20 20">
+                                                                    <path d="M3,1 L17,1 L17,1 C18.1045695,1 19,1.8954305 19,3 L19,17 L19,17 C19,18.1045695 18.1045695,19 17,19 L3,19 L3,19 C1.8954305,19 1,18.1045695 1,17 L1,3 L1,3 C1,1.8954305 1.8954305,1 3,1 Z"></path>
+                                                                    <polyline points="4 11 8 15 16 6"></polyline>
+                                                                </svg>
+                                                            </span>
+                                                            <span class="cbx-text">Đơn vị tính</span>
+                                                        </label>
+                                                        <label for="cbx_FieldQuantity" class="label-cbx">
+                                                            <input id="cbx_FieldQuantity" type="checkbox" class="invisible" ng-model="cookie_customField.FieldQuantity" ng-click="Check(cookie_customField.FieldQuantity,'FieldQuantity')">
+                                                            <span class="checkbox">
+                                                                <svg width="20px" height="20px" viewBox="0 0 20 20">
+                                                                    <path d="M3,1 L17,1 L17,1 C18.1045695,1 19,1.8954305 19,3 L19,17 L19,17 C19,18.1045695 18.1045695,19 17,19 L3,19 L3,19 C1.8954305,19 1,18.1045695 1,17 L1,3 L1,3 C1,1.8954305 1.8954305,1 3,1 Z"></path>
+                                                                    <polyline points="4 11 8 15 16 6"></polyline>
+                                                                </svg>
+                                                            </span>
+                                                            <span class="cbx-text">Số lượng</span>
+                                                        </label>
+
+                                                        <label for="cbx_FieldPrice" class="label-cbx">
+                                                            <input id="cbx_FieldPrice" type="checkbox" class="invisible" ng-model="cookie_customField.FieldPrice" ng-click="Check(cookie_customField.FieldPrice,'FieldPrice')">
+                                                            <span class="checkbox">
+                                                                <svg width="20px" height="20px" viewBox="0 0 20 20">
+                                                                    <path d="M3,1 L17,1 L17,1 C18.1045695,1 19,1.8954305 19,3 L19,17 L19,17 C19,18.1045695 18.1045695,19 17,19 L3,19 L3,19 C1.8954305,19 1,18.1045695 1,17 L1,3 L1,3 C1,1.8954305 1.8954305,1 3,1 Z"></path>
+                                                                    <polyline points="4 11 8 15 16 6"></polyline>
+                                                                </svg>
+                                                            </span>
+                                                            <span class="cbx-text">Đơn giá</span>
+                                                        </label>
+
+                                                        <label for="cbx_FieldMoney" class="label-cbx">
+                                                            <input id="cbx_FieldMoney" type="checkbox" class="invisible" ng-model="cookie_customField.FieldMoney" ng-click="Check(cookie_customField.FieldMoney,'FieldMoney')">
+                                                            <span class="checkbox">
+                                                                <svg width="20px" height="20px" viewBox="0 0 20 20">
+                                                                    <path d="M3,1 L17,1 L17,1 C18.1045695,1 19,1.8954305 19,3 L19,17 L19,17 C19,18.1045695 18.1045695,19 17,19 L3,19 L3,19 C1.8954305,19 1,18.1045695 1,17 L1,3 L1,3 C1,1.8954305 1.8954305,1 3,1 Z"></path>
+                                                                    <polyline points="4 11 8 15 16 6"></polyline>
+                                                                </svg>
+                                                            </span>
+                                                            <span class="cbx-text">Thành tiền</span>
+                                                        </label>
+                                                        <p class="mb-0">Thông tin thanh toán</p>
+                                                        <label for="cbx_FieldExchangeRateAdd" class="label-cbx">
+                                                            <input id="cbx_FieldExchangeRateAdd" type="checkbox" class="invisible" ng-model="cookie_customField.FieldExchangeRateAdd" ng-click="Check(cookie_customField.FieldExchangeRateAdd,'FieldExchangeRateAdd')">
+                                                            <span class="checkbox">
+                                                                <svg width="20px" height="20px" viewBox="0 0 20 20">
+                                                                    <path d="M3,1 L17,1 L17,1 C18.1045695,1 19,1.8954305 19,3 L19,17 L19,17 C19,18.1045695 18.1045695,19 17,19 L3,19 L3,19 C1.8954305,19 1,18.1045695 1,17 L1,3 L1,3 C1,1.8954305 1.8954305,1 3,1 Z"></path>
+                                                                    <polyline points="4 11 8 15 16 6"></polyline>
+                                                                </svg>
+                                                            </span>
+                                                            <span class="cbx-text">Tỷ giá</span>
+                                                        </label>
+                                                        <label for="cbx_FieldExchangeAdd" class="label-cbx">
+                                                            <input id="cbx_FieldExchangeAdd" type="checkbox" class="invisible" ng-model="cookie_customField.FieldExchangeAdd" ng-click="Check(cookie_customField.FieldExchangeAdd,'FieldExchangeAdd')">
+                                                            <span class="checkbox">
+                                                                <svg width="20px" height="20px" viewBox="0 0 20 20">
+                                                                    <path d="M3,1 L17,1 L17,1 C18.1045695,1 19,1.8954305 19,3 L19,17 L19,17 C19,18.1045695 18.1045695,19 17,19 L3,19 L3,19 C1.8954305,19 1,18.1045695 1,17 L1,3 L1,3 C1,1.8954305 1.8954305,1 3,1 Z"></path>
+                                                                    <polyline points="4 11 8 15 16 6"></polyline>
+                                                                </svg>
+                                                            </span>
+                                                            <span class="cbx-text">Quy đổi</span>
+                                                        </label>
+                                                        <label for="cbx_FieldOtherTaxFee" class="label-cbx">
+                                                            <input id="cbx_FieldOtherTaxFee" type="checkbox" class="invisible" ng-model="cookie_customField.FieldOtherTaxFee" ng-click="Check(cookie_customField.FieldOtherTaxFee,'FieldOtherTaxFee')">
+                                                            <span class="checkbox">
+                                                                <svg width="20px" height="20px" viewBox="0 0 20 20">
+                                                                    <path d="M3,1 L17,1 L17,1 C18.1045695,1 19,1.8954305 19,3 L19,17 L19,17 C19,18.1045695 18.1045695,19 17,19 L3,19 L3,19 C1.8954305,19 1,18.1045695 1,17 L1,3 L1,3 C1,1.8954305 1.8954305,1 3,1 Z"></path>
+                                                                    <polyline points="4 11 8 15 16 6"></polyline>
+                                                                </svg>
+                                                            </span>
+                                                            <span class="cbx-text">Thuế phí khác</span>
+                                                        </label>
+                                                        <label for="cbx_FieldRefundFee" class="label-cbx">
+                                                            <input id="cbx_FieldRefundFee" type="checkbox" class="invisible" ng-model="cookie_customField.FieldRefundFee" ng-click="Check(cookie_customField.FieldRefundFee,'FieldRefundFee')">
+                                                            <span class="checkbox">
+                                                                <svg width="20px" height="20px" viewBox="0 0 20 20">
+                                                                    <path d="M3,1 L17,1 L17,1 C18.1045695,1 19,1.8954305 19,3 L19,17 L19,17 C19,18.1045695 18.1045695,19 17,19 L3,19 L3,19 C1.8954305,19 1,18.1045695 1,17 L1,3 L1,3 C1,1.8954305 1.8954305,1 3,1 Z"></path>
+                                                                    <polyline points="4 11 8 15 16 6"></polyline>
+                                                                </svg>
+                                                            </span>
+                                                            <span class="cbx-text">Phí hoàn</span>
+                                                        </label>
+                                                        <label for="cbx_FieldServiceFee" class="label-cbx">
+                                                            <input id="cbx_FieldServiceFee" type="checkbox" class="invisible" ng-model="cookie_customField.FieldServiceFee" ng-click="Check(cookie_customField.FieldServiceFee,'FieldServiceFee')">
+                                                            <span class="checkbox">
+                                                                <svg width="20px" height="20px" viewBox="0 0 20 20">
+                                                                    <path d="M3,1 L17,1 L17,1 C18.1045695,1 19,1.8954305 19,3 L19,17 L19,17 C19,18.1045695 18.1045695,19 17,19 L3,19 L3,19 C1.8954305,19 1,18.1045695 1,17 L1,3 L1,3 C1,1.8954305 1.8954305,1 3,1 Z"></path>
+                                                                    <polyline points="4 11 8 15 16 6"></polyline>
+                                                                </svg>
+                                                            </span>
+                                                            <span class="cbx-text">Phí dịch vụ</span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="mb-1">
+                                                <table ng-show="cookie_customField.FieldServiceFee">
+                                                    <tr>
+                                                        <td class="text-right border-0">
+                                                            <p>Phí dịch vụ: </p>
+                                                            <p>Thuế GTGT: </p>
+                                                            <p>Tiền thuế GTGT: </p>
+                                                            <p>Tổng tiền phí dịch vụ: </p>
+                                                        </td>
+                                                        <td class="text-right border-0 font-weight-bold">
+                                                            <p class="m-0">
+                                                                <input class="form-control form-control-sm w-250 editor_invoice" type="text" format="number" ng-model="Invoice.SERVICEFEE" ng-change="CalServiceFeeTax()" ng-disabled="Invoice.INVOICESTATUS == 2">
+                                                            </p>
+                                                            <p class="m-0">
+                                                                <select class="form-control form-control-sm border-left-0 border-right-0 border-top-0" ng-model="Invoice.SERVICEFEETAXRATE" ng-change="CalServiceFeeTax()" convert-to-number ng-disabled="Invoice.INVOICESTATUS == 2">
+                                                                    <option ng-repeat="item in TaxRateList" value="{{item.value}}">{{item.name}}</option>
+                                                                </select>
+                                                            </p>
+                                                            <p class="m-0">
+                                                                <input class="form-control form-control-sm w-250 editor_invoice" type="text" disabled format="number" ng-model="Invoice.SERVICEFEETAX">
+                                                            </p>
+                                                            <p class="m-0">
+                                                                <input class="form-control form-control-sm w-250 editor_invoice mt-1" type="text" disabled format="number" ng-model="Invoice.TOTALSERVICEFEE">
+                                                            </p>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                                <table>
+                                                    <tr>
+                                                        <td class="text-right border-0 pl-0">
+                                                            <p ng-show="cookie_customField.FieldExchangeRateAdd">Tỷ giá (Exchange rate):</p>
+                                                            <p ng-show="cookie_customField.FieldExchangeAdd">Quy đổi (Exchange):</p>
+                                                        </td>
+                                                        <td class="text-right border-0 font-weight-bold pl-0">
+                                                            <p class="m-0" ng-show="cookie_customField.FieldExchangeRateAdd">
+                                                                <input class="form-control form-control-sm w-250 editor_invoice" id="txtExchangeRate" type="text" ng-model="Invoice.CUSTOMFIELDEXCHANGERATE" ng-change="CalExChangeStr()" ng-disabled="Invoice.INVOICESTATUS == 2" />
+                                                            </p>
+                                                            <p class="m-0" ng-show="cookie_customField.FieldExchangeAdd">
+                                                                <input class="form-control form-control-sm w-250 editor_invoice" id="txtExchange" type="text" ng-model="Invoice.CUSTOMFIELDEXCHANGE" ng-disabled="Invoice.INVOICESTATUS == 2" />
+                                                            </p>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                            <div>
+                                                <div class="mb-2">Ghi chú hóa đơn</div>
+                                                <div>
+                                                    <textarea rows="2" id="txtnote" class="form-control ember-text-area w-75" ng-model="Invoice.NOTE" placeholder="Ghi chú hóa đơn..." autofocus></textarea>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="border-top-0 pb-0">
+                                            <div>
+                                                <table>
+                                                    <tr>
+                                                        <td class="text-right border-0">
+                                                            <p>Tổng tiền trước thuế: </p>
+                                                            <p ng-show="Invoice.DISCOUNTTYPE == 'CHIET_KHAU_THEO_HANG_HOA'">Tiền chiết khấu: </p>
+                                                            <p ng-if="TAXRATE == 1">Thuế GTGT: </p>
+                                                            <p>Tiền thuế: </p>
+                                                            <p ng-show="cookie_customField.FieldOtherTaxFee">Thuế, phí khác: </p>
+                                                            <p ng-show="cookie_customField.FieldRefundFee">Phí hoàn: </p>
+                                                            <p>Tổng tiền thanh toán: </p>
+                                                        </td>
+                                                        <td class="text-right border-0 font-weight-bold" ng-if="!(Invoice.EXCHANGERATE == 1)">
+                                                            <p>{{Invoice.TOTALMONEYRAW | numberFormat: (Invoice.CURRENCY != 'VND' ? Enterprise.MONEYPLACE : 0)}}</p>
+                                                            <p ng-show="Invoice.DISCOUNTTYPE == 'CHIET_KHAU_THEO_HANG_HOA'">{{Invoice.DISCOUNTMONEYRAW | numberFormat: (Invoice.CURRENCY != 'VND' ? Enterprise.MONEYPLACE : 0)}}</p>
+                                                            <p id="product-container" ng-if="TAXRATE == 1">
+                                                                <select class="form-control form-control-sm" id="idOnlyTaxRate" ng-model="ONLYTAXRATE" ng-change="CalMoneyAfterChangeValue()" convert-to-number ng-disabled="Invoice.INVOICESTATUS == 2">
+                                                                    <option ng-repeat="item in TaxRateList" value="{{item.value}}">{{item.name}}</option>
+                                                                </select>
+                                                            </p>
+                                                            <p>{{Invoice.TAXMONEYRAW | numberFormat: (Invoice.CURRENCY != 'VND' ? Enterprise.MONEYPLACE : 0)}}</p>
+                                                            <p ng-show="cookie_customField.FieldOtherTaxFee">{{Invoice.OTHERTAXFEE}}</p>
+                                                            <p ng-show="cookie_customField.FieldRefundFee">{{Invoice.REFUNDFEE}}</p>
+                                                            <p>{{Invoice.TOTALPAYMENTRAW | numberFormat: (Invoice.CURRENCY != 'VND' ? Enterprise.MONEYPLACE : 0)}}</p>
+                                                        </td>
+                                                        <td class="text-right border-0 font-weight-bold">
+                                                            <p>{{Invoice.TOTALMONEY | numberFormat: (Invoice.CURRENCY != 'VND' ? Enterprise.MONEYPLACE : 0)}}</p>
+                                                            <p ng-show="Invoice.DISCOUNTTYPE == 'CHIET_KHAU_THEO_HANG_HOA'">{{Invoice.DISCOUNTMONEY | numberFormat: (Invoice.CURRENCY != 'VND' ? Enterprise.MONEYPLACE : 0)}}</p>
+                                                            <p ng-if="TAXRATE == 1 && (Invoice.EXCHANGERATE == 1)">
+                                                                <select class="form-control form-control-sm" id="idOnlyTaxRate" ng-model="ONLYTAXRATE" ng-change="CalMoneyAfterChangeValue()" convert-to-number ng-disabled="Invoice.INVOICESTATUS == 2">
+                                                                    <option ng-repeat="item in TaxRateList" value="{{item.value}}">{{item.name}}</option>
+                                                                </select>
+                                                            </p>
+                                                            <p ng-if="TAXRATE == 1 && !(Invoice.EXCHANGERATE == 1)">
+                                                                <input class="form-control form-control-sm editor_invoice border-0 bg-white" disabled type="text" />
+                                                            </p>
+                                                            <p>{{Invoice.TAXMONEY | numberFormat: (Invoice.CURRENCY != 'VND' ? Enterprise.MONEYPLACE : 0)}}</p>
+                                                            <p ng-show="cookie_customField.FieldOtherTaxFee">{{Invoice.OTHERTAXFEE | numberFormat: (Invoice.CURRENCY != 'VND' ? Enterprise.MONEYPLACE : 0)}}</p>
+                                                            <p ng-show="cookie_customField.FieldRefundFee">{{Invoice.REFUNDFEE | numberFormat: (Invoice.CURRENCY != 'VND' ? Enterprise.MONEYPLACE : 0)}}</p>
+                                                            <p>{{Invoice.TOTALPAYMENT | numberFormat: (Invoice.CURRENCY != 'VND' ? Enterprise.MONEYPLACE : 0)}}</p>
+                                                        </td>
+                                                        <td class="text-left border-0">
+                                                            <p>{{Invoice.CURRENCY}}</p>
+                                                            <p ng-show="Invoice.DISCOUNTTYPE == 'CHIET_KHAU_THEO_HANG_HOA'">{{Invoice.CURRENCY}}</p>
+                                                            <p ng-if="TAXRATE == 1" class="pt-2">
+                                                                %
+                                                            </p>
+                                                            <p>{{Invoice.CURRENCY}}</p>
+                                                            <p ng-show="cookie_customField.FieldOtherTaxFee">{{Invoice.CURRENCY}}</p>
+                                                            <p ng-show="cookie_customField.FieldRefundFee">{{Invoice.CURRENCY}}</p>
+                                                            <p>{{Invoice.CURRENCY}}</p>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="text-center">
+                                Số tiền bằng chữ:
+                                <strong id="totalamount-text">{{NumberToCurrencyWords}}</strong>
+                            </div>
+                        </div>
+
+                        @*Chân bảng sản phẩm cho hóa đơn bán hàng*@
+                        <table class="table" ng-if="@user.USINGINVOICETYPE === @((int)DS.Common.Enums.EnumHelper.AccountObjectType.HOADONBANHANG)">
+                            <tbody>
+                                <tr>
+                                    <td class="border-0" colspan="2" style="vertical-align: top !important;">
+                                        <button class="btn btn-sm btn-outline-secondary mb-2" ng-click="AddRow()">Thêm dòng</button>
+                                        <br />
+                                        <a href="javascript:;" ng-click="ModalInvoiceNote();"> <i class="fa fa-plus"></i>&nbsp;&nbsp;Ghi chú</a>
+                                    </td>
+                                    <td class="text-right border-0" colspan="3">
+                                        <p>Tổng tiền hàng: </p>
+                                        <p ng-show="Invoice.DISCOUNTTYPE == 'CHIET_KHAU_THEO_HANG_HOA'">Tiền chiết khấu: </p>
+                                        <p>Tổng tiền thanh toán: </p>
+                                    </td>
+                                    <td class="text-right border-0 font-weight-bold" ng-if="!(Invoice.EXCHANGERATE == 1)">
+                                        <p>{{Invoice.TOTALMONEYRAW | numberFormat:0}}</p>
+                                        <p ng-show="Invoice.DISCOUNTTYPE == 'CHIET_KHAU_THEO_HANG_HOA'">{{Invoice.DISCOUNTMONEYRAW | numberFormat:0}}</p>
+                                        <p>{{Invoice.TOTALPAYMENTRAW | numberFormat:0}}</p>
+                                    </td>
+                                    <td class="text-right border-0 font-weight-bold">
+                                        <p>{{Invoice.TOTALMONEY | numberFormat:0}}</p>
+                                        <p ng-show="Invoice.DISCOUNTTYPE == 'CHIET_KHAU_THEO_HANG_HOA'">{{Invoice.DISCOUNTMONEY | numberFormat:0}}</p>
+                                        <p>{{Invoice.TOTALPAYMENT | numberFormat:0}}</p>
+                                    </td>
+                                    <td class="text-left border-0">
+                                        <p>{{Invoice.CURRENCY}}</p>
+                                        <p ng-show="Invoice.DISCOUNTTYPE == 'CHIET_KHAU_THEO_HANG_HOA'">{{Invoice.CURRENCY}}</p>
+                                        <p>{{Invoice.CURRENCY}}</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="6" class="text-right border-0">
+                                        Số tiền bằng chữ: <strong id="totalamount-text">{{NumberToCurrencyWords}}</strong>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    @*Phiếu xuất kho thì show div này lên*@
+                    <div id="product-container" ng-if="@user.USINGINVOICETYPE === @((int)DS.Common.Enums.EnumHelper.AccountObjectType.PHIEUXUATKHO)">
+                        <table class="table table-sm table-condensed table-bordered table-vertical-center table-invoice-itemlist">
+                            <thead>
+                                <tr>
+                                    <td class="text-center" rowspan="2" style="width: 50px">
+                                        <strong>
+                                            STT<br />
+                                        </strong>
+                                        <i>(No.)</i>
+                                    </td>
+                                    <td class="text-center" rowspan="2" style="width: 80px">
+                                        <strong>
+                                            Mã số<br />
+                                        </strong>
+                                        <i>(SKU)</i>
+                                    </td>
+                                    <td class="text-center" rowspan="2">
+                                        <strong>
+                                            Tên nhãn hiệu, quy cách, phẩm chất vật tư <br />
+                                            (sản phẩm, hàng hóa)<br />
+                                        </strong>
+                                        <i>(Goods name, service)</i>
+                                    </td>
+                                    <td class="text-center" rowspan="2" style="width: 100px;">
+                                        <strong>
+                                            Đơn vị tính<br />
+                                        </strong>
+                                        <i>(Unit)</i>
+                                    </td>
+                                    <td class="text-center" colspan="2" rowspan="1" style="width: 100px">
+                                        <strong>
+                                            Số lượng<br />
+                                        </strong>
+                                        <i>(Quantity)</i>
+                                    </td>
+                                    <td class="text-center" rowspan="2" style="width: 150px">
+                                        <strong>
+                                            Đơn giá<br />
+                                        </strong>
+                                        <i>(Price)</i>
+                                    </td>
+                                    <td class="text-center" rowspan="2" style="width: 150px">
+                                        <strong ng-if="@user.USINGINVOICETYPE === @((int)DS.Common.Enums.EnumHelper.AccountObjectType.HOADONGTGT)">
+                                            Thành tiền trước thuế<br />
+                                        </strong>
+                                        <strong ng-if="@user.USINGINVOICETYPE === @((int)DS.Common.Enums.EnumHelper.AccountObjectType.HOADONBANHANG)">
+                                            Thành tiền<br />
+                                        </strong>
+                                        <strong ng-if="@user.USINGINVOICETYPE === @((int)DS.Common.Enums.EnumHelper.AccountObjectType.PHIEUXUATKHO)">
+                                            Thành tiền<br />
+                                        </strong>
+                                        <i>(Total)</i>
+                                    </td>
+                                    <td class="" rowspan="2" style="width: 50px"></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">
+                                        <strong>
+                                            Thực xuất<br />
+                                        </strong>
+                                    </td>
+                                    <td class="text-center">
+                                        <strong>
+                                            Thực nhập<br />
+                                        </strong>
+                                    </td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in Invoice.LISTPRODUCT">
+                                    @*Add item header*@
+                                    <td class="text-center" ng-if="item.GROUPID === 1" ng-model="item.SORTORDER">
+                                        {{$index + 1}}
+                                    </td>
+                                    <td style="padding: 0;border: 1px solid #ccc;background-color: #fff;vertical-align: top;" colspan="6" ng-if="item.GROUPID === 1">
+                                        <div class="item-group-title" id="Item_p_{{$index + 1}}">
+                                            <textarea style="border-radius: 0; border:0;height:30px;" placeholder="Nhóm hàng hóa, dịch vụ" ng-model="item.PRODUCTNAME" id="Item_{{$index + 1}}" class="form-control form-control-sm item-text-area-title" name="Item_{{$index + 1}}"></textarea>
+                                        </div>
+                                    </td>
+                                    <td class="text-center" ng-if="item.GROUPID === 1">
+                                        <span class="fa fa-trash-o del-icon" ng-click="RemoveRow(item)" ng-hide="Invoice.INVOICESTATUS == 2" style="color: rgba(44,160,28,1);"></span>
+                                    </td>
+                                    @*Add item detail*@
+                                    <td class="text-center" ng-if="item.GROUPID === 0">
+                                        {{$index + 1}}
+                                    </td>
+                                    <td class="text-center">
+                                        <input class="form-control form-control-sm" type="text" ng-model="item.SKU" ng-disabled="Invoice.INVOICESTATUS == 2" />
+                                    </td>
+                                    <td style="padding: 0;border: 1px solid #ccc;background-color: #fff;vertical-align: top;" ng-if="item.GROUPID === 0">
+                                        <suggestproduct pagesize="5" delayresearch="300"
+                                                        selectsearchresult="SuggestProduct(item)"
+                                                        userkeycode="item.keyCode"
+                                                        keypress="onKeypress($index)"
+                                                        textview="item.PRODUCTNAME"
+                                                        fucusme="item.isFocus"
+                                                        disabled="Invoice.INVOICESTATUS == 2">
+                                        </suggestproduct>
+                                        <div class="desc-div" style="border-top: 1px solid #ced4da;" ng-show="item.DESCRIPTION" id="Item_p_{{$index + 1}}">
+                                            <textarea style="border-radius: 0; border:0;height:auto;" ng-model="item.DESCRIPTION" placeholder="Thêm mô tả cho hàng hóa, dịch vụ" id="Item_{{$index + 1}}" class="form-control form-control-sm" name="Item_{{$index + 1}}"></textarea>
+                                        </div>
+                                    </td>
+                                    <td ng-if="item.GROUPID === 0">
+                                        <input class="form-control form-control-sm" type="text" ng-model="item.QUANTITYUNIT" ng-disabled="Invoice.INVOICESTATUS == 2" ng-change="QuantityUnitChange(item)" />
+                                    </td>
+                                    <td ng-if="item.GROUPID === 0">
+                                        <input class="form-control form-control-sm " type="text" ng-model="item.QUANTITY" ng-change="QuantityChange(item)" min="0" ng-disabled="Invoice.INVOICESTATUS == 2" />
+                                    </td>
+                                    <td ng-if="item.GROUPID === 0">
+                                        <input class="form-control form-control-sm " type="text" ng-model="item.INQUANTITY" ng-change="QuantityChange(item)" min="0" ng-disabled="Invoice.INVOICESTATUS == 2" />
+                                    </td>
+                                    <td ng-if="item.GROUPID === 0">
+                                        <clearabletextbox textboxmodel="item.PRICE" textview="item.RETAILPRICE" iconposition="left"
+                                                          resultchange="ChangeRetailPrice(item)"
+                                                          textboxmaxlength="20" isnumberformat3digit="true">
+                                        </clearabletextbox>
+                                    </td>
+                                    <td class="text-right" ng-if="item.GROUPID === 0">
+                                        <clearabletextbox textboxmodel="item.ITEMMONEY" textview="item.ITEMTOTALMONEY" iconposition="left"
+                                                          resultchange="ChangeTotalPrice(item)"
+                                                          textboxmaxlength="20" isnumberformat3digit="true">
+                                        </clearabletextbox>
+                                    </td>
+                                    <td class="text-center" ng-if="item.GROUPID === 0">
+                                        <span title="Thêm ghi chú" class="fa fa-file-text" ng-click="CreateRowDescription($index + 1)" ng-hide="Invoice.INVOICESTATUS == 2" style="cursor: pointer;color: rgba(44,160,28,1);"></span>
+                                        <span title="Xóa" class="fa fa-trash-o del-icon" ng-click="RemoveRow(item)" ng-hide="Invoice.INVOICESTATUS == 2" style="cursor: pointer;color: rgba(44,160,28,1);"></span>
+                                    </td>
+                                </tr>
+                            </tbody>
+
+                            <tfoot ng-if="@user.USINGINVOICETYPE === @((int)DS.Common.Enums.EnumHelper.AccountObjectType.PHIEUXUATKHO)">
+                                <tr>
+                                    <td class="border-0" colspan="2" style="vertical-align: top !important;">
+                                        <button class="btn btn-sm btn-outline-secondary mb-2" ng-click="AddRow()">Thêm dòng</button>
+                                        <br />
+                                        <a href="javascript:;" ng-click="ModalInvoiceNote();"> <i class="fa fa-plus"></i>&nbsp;&nbsp;Ghi chú</a>
+                                    </td>
+                                    <td class="text-right border-0" colspan="3">
+                                        <p>Tổng tiền hàng: </p>
+                                    </td>
+                                    <td class="text-right border-0 font-weight-bold" ng-if="!(Invoice.EXCHANGERATE == 1)">
+                                        <p>{{Invoice.TOTALMONEYRAW | numberFormat:0}}</p>
+                                    </td>
+                                    <td class="text-right border-0 font-weight-bold">
+                                        <p>{{Invoice.TOTALMONEY | numberFormat:0}}</p>
+                                    </td>
+                                    <td class="text-left border-0">
+                                        <p>{{Invoice.CURRENCY}}</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="6" class="text-right border-0">
+                                        Số tiền bằng chữ: <strong id="totalamount-text">{{NumberToCurrencyWords}}</strong>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+
+                    @*Hóa đơn tiền điện thì show div này lên*@
+                    <div class="form-group table-responsive" ng-if="@user.USINGINVOICETYPE === @((int)DS.Common.Enums.EnumHelper.AccountObjectType.HOADONTIENDIEN)">
+                        @*<div class="tablesaw-modeswitch tablesaw-bar-section" ng-if="@user.USINGINVOICETYPE === @((int)DS.Common.Enums.EnumHelper.AccountObjectType.HOADONTIENDIEN)">
+                <label>
+                    <span class="longform">Chọn số công tơ</span>:<span class="btn tablesaw-btn btn-select tablesaw-btn-select waves-effect waves-classic">
+                        <select title="Chọn số công tơ" class="form-control form-control-sm editor_invoice ddl-novaon-invoice" id="ddlMeter" ng-model="item.METERNAME" ng-change="ChooseMeter(this)" convert-to-number ng-disabled="Invoice.INVOICESTATUS == 2" style="width:288px;">
+                            <option ng-repeat="item in MeterList" value="{{item.CODE}}">{{item.METERNAME}}</option>
+                        </select>
+                    </span>
+                    <button type="button" class="btn btn-info btn-sm waves-effect waves-classic ng-pristine ng-valid ng-touched ng-empty" ng-click="GetMeterByCustaxcode(Invoice.CUSTAXCODE)"><span class="fa fa-refresh"></span> Gửi yêu cầu cập nhật thông tin</button>
+                </label>
+            </div>*@
+                        <table id="ITEM_HOADONTIENDIEN" class="table table-sm table-condensed table-bordered table-vertical-center table-invoice-itemlist">
+                            <thead>
+                                <tr>
+                                    <td class="text-center" style="width: 260px">
+                                        <strong>
+                                            Bộ chỉ số
+                                        </strong>
+                                    </td>
+                                    <td class="text-center" style="width: 90px;">
+                                        <strong>
+                                            Chỉ số cũ
+                                        </strong>
+                                    </td>
+                                    <td class="text-center" style="width: 90px;">
+                                        <strong>
+                                            Chỉ số mới
+                                        </strong>
+                                    </td>
+                                    <td class="text-center" style="width: 90px">
+                                        <strong>
+                                            HS Nhân
+                                        </strong>
+                                    </td>
+                                    <td class="text-center" style="width: 120px">
+                                        <strong>
+                                            Điện năng tiêu thụ
+                                        </strong>
+                                    </td>
+                                    <td class="text-center" style="width: 100px">
+                                        <strong>
+                                            Đơn giá
+                                        </strong>
+                                    </td>
+                                    <td class="text-center" style="width: 150px">
+                                        <strong>
+                                            Thành tiền
+                                        </strong>
+                                    </td>
+                                    <td class="" style="width: 30px"></td>
+                                </tr>
+                            </thead>
+                            <tbody ng-if="TYPECHANGE === 1 && IsCopy === false">
+                                <tr style="background-color: #dee2e6;">
+                                    <td class="item_customer_name">
+                                        <strong id="customer_name" class="innertext-cusname" rel="{{Invoice.METER.CODE}}">{{Invoice.METER.METERNAME}}</strong>
+                                    </td>
+                                    <td colspan="7"></td>
+                                </tr>
+                                <tr ng-repeat="item in Invoice.LISTPRODUCT">
+                                    <td>
+                                        <input class="form-control form-control-sm " type="text" ng-model="item.PRODUCTNAME" ng-disabled="Invoice.INVOICESTATUS == 2" />
+                                    </td>
+                                    <td>
+                                        <input class="form-control form-control-sm " type="text" ng-model="item.OLDNO" ng-change="ElectricInvoiceQuantityChange(item)" min="0" ng-disabled="Invoice.INVOICESTATUS == 2" />
+                                    </td>
+                                    <td>
+                                        <input class="form-control form-control-sm " type="text" ng-model="item.NEWNO" ng-change="ElectricInvoiceQuantityChange(item)" min="0" ng-disabled="Invoice.INVOICESTATUS == 2" />
+                                    </td>
+                                    <td class="">
+                                        <input class="form-control form-control-sm " type="text" ng-model="item.FACTOR" ng-change="ElectricInvoiceQuantityChange(item)" min="0" ng-disabled="Invoice.INVOICESTATUS == 2" />
+                                    </td>
+                                    <td class="">
+                                        <input class="form-control form-control-sm " type="text" ng-model="item.QUANTITY" ng-change="ElectricInvoiceQuantityChange(item)" min="0" ng-disabled="Invoice.INVOICESTATUS == 2" />
+                                    </td>
+                                    <td class="">
+                                        <clearabletextbox textboxmodel="item.PRICE" textview="item.RETAILPRICE" iconposition="left"
+                                                          resultchange="ChangeRetailPrice(item)"
+                                                          textboxmaxlength="20" isnumberformat3digit="true">
+                                        </clearabletextbox>
+                                    </td>
+                                    <td class="text-right">
+                                        <clearabletextbox textboxmodel="item.ITEMMONEY" textview="item.ITEMTOTALMONEY" iconposition="left"
+                                                          resultchange="ChangeTotalPrice(item)"
+                                                          textboxmaxlength="20" isnumberformat="true">
+                                        </clearabletextbox>
+                                    </td>
+                                    <td class="text-center">
+                                        <span class="fa fa-trash-o del-icon" ng-click="RemoveRow(item)" ng-hide="Invoice.INVOICESTATUS == 2"></span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tbody ng-if="TYPECHANGE === 2 || TYPECHANGE === 5 || TYPECHANGE === 6 || IsCopy === true" ng-repeat="itemx in MeterList">
+                                <tr style="background-color: #dee2e6;">
+                                    <td class="item_customer_name">
+                                        <strong id="customer_name" class="innertext-cusname" rel="{{itemx.CODE}}">{{itemx.METERNAME}}</strong>
+                                    </td>
+                                    <td colspan="7"></td>
+                                </tr>
+                                <tr ng-repeat="item in Invoice.LISTPRODUCT | filter:itemx.CODE">
+                                    <td>
+                                        <input class="form-control form-control-sm " type="text" ng-model="item.PRODUCTNAME" ng-change="ElectricInvoiceQuantityChange(item)" min="0" ng-disabled="Invoice.INVOICESTATUS == 2" />
+                                    </td>
+                                    <td>
+                                        <input class="form-control form-control-sm " type="text" ng-model="item.OLDNO" ng-change="ElectricInvoiceQuantityChange(item)" min="0" ng-disabled="Invoice.INVOICESTATUS == 2" />
+                                    </td>
+                                    <td>
+                                        <input class="form-control form-control-sm " type="text" ng-model="item.NEWNO" ng-change="ElectricInvoiceQuantityChange(item)" min="0" ng-disabled="Invoice.INVOICESTATUS == 2" />
+                                    </td>
+                                    <td class="">
+                                        <input class="form-control form-control-sm " type="text" ng-model="item.FACTOR" ng-change="ElectricInvoiceQuantityChange(item)" min="0" ng-disabled="Invoice.INVOICESTATUS == 2" />
+                                    </td>
+                                    <td class="">
+                                        <input class="form-control form-control-sm " type="text" ng-model="item.QUANTITY" ng-change="ElectricInvoiceQuantityChange(item)" min="0" ng-disabled="Invoice.INVOICESTATUS == 2" />
+                                    </td>
+                                    <td class="">
+                                        <clearabletextbox textboxmodel="item.PRICE" textview="item.RETAILPRICE" iconposition="left"
+                                                          resultchange="ChangeRetailPrice(item)"
+                                                          textboxmaxlength="20" isnumberformat3digit="true">
+                                        </clearabletextbox>
+                                    </td>
+                                    <td class="text-right">
+                                        <clearabletextbox textboxmodel="item.ITEMMONEY" textview="item.ITEMTOTALMONEY" iconposition="left"
+                                                          resultchange="ChangeTotalPrice(item)"
+                                                          textboxmaxlength="20" isnumberformat="true">
+                                        </clearabletextbox>
+                                    </td>
+                                    <td class="text-center">
+                                        <span class="fa fa-trash-o del-icon" ng-click="RemoveRow(item)" ng-hide="Invoice.INVOICESTATUS == 2"></span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td class="border-0" colspan="2" style="vertical-align: top !important;" ng-if="@user.USINGINVOICETYPE === @((int)DS.Common.Enums.EnumHelper.AccountObjectType.HOADONGTGT) || @user.USINGINVOICETYPE === @((int)DS.Common.Enums.EnumHelper.AccountObjectType.HOADONBANHANG)">
+                                        <button class="btn btn-sm btn-outline-secondary mb-2" ng-click="AddRow()">Thêm dòng</button>
+                                        <br />
+                                        <a href="javascript:;" ng-click="ModalInvoiceNote();"> <i class="fa fa-plus"></i>&nbsp;&nbsp;Ghi chú</a>
+                                    </td>
+                                    <td class="text-right border-0" colspan="3">
+                                        <p>Tổng tiền trước thuế: </p>
+                                        <p ng-show="Invoice.DISCOUNTTYPE == 'CHIET_KHAU_THEO_HANG_HOA'">Tiền chiết khấu: </p>
+                                        <p ng-if="TAXRATE == 1">Thuế GTGT: </p>
+                                        <p>Tiền thuế: </p>
+                                        <p>Tổng tiền thanh toán: </p>
+                                    </td>
+                                    <td class="text-right border-0 font-weight-bold" ng-if="!(Invoice.EXCHANGERATE == 1)">
+                                        <p>{{Invoice.TOTALMONEYRAW | numberFormat:0}}</p>
+                                        <p ng-show="Invoice.DISCOUNTTYPE == 'CHIET_KHAU_THEO_HANG_HOA'">{{Invoice.DISCOUNTMONEYRAW | numberFormat:0}}</p>
+                                        <p id="product-container" ng-if="TAXRATE == 1">
+                                            <select class="form-control form-control-sm" id="idOnlyTaxRate" ng-model="ONLYTAXRATE" ng-change="CalMoneyAfterChangeValue()" convert-to-number ng-disabled="Invoice.INVOICESTATUS == 2">
+                                                <option ng-repeat="item in TaxRateList" value="{{item.value}}">{{item.name}}</option>
+                                            </select>
+                                        </p>
+                                        <p>{{Invoice.TAXMONEYRAW | numberFormat:0}}</p>
+                                        <p>{{Invoice.TOTALPAYMENTRAW | numberFormat:0}}</p>
+                                    </td>
+                                    <td class="text-right border-0 font-weight-bold">
+                                        <p>{{Invoice.TOTALMONEY | numberFormat:0}}</p>
+                                        <p ng-show="Invoice.DISCOUNTTYPE == 'CHIET_KHAU_THEO_HANG_HOA'">{{Invoice.DISCOUNTMONEY | numberFormat:0}}</p>
+                                        <p ng-if="TAXRATE == 1 && (Invoice.EXCHANGERATE == 1)">
+                                            <select class="form-control form-control-sm" id="idOnlyTaxRate" ng-model="ONLYTAXRATE" ng-change="CalMoneyAfterChangeValue()" convert-to-number ng-disabled="Invoice.INVOICESTATUS == 2">
+                                                <option ng-repeat="item in TaxRateList" value="{{item.value}}">{{item.name}}</option>
+                                            </select>
+                                        </p>
+                                        <p ng-if="TAXRATE == 1 && !(Invoice.EXCHANGERATE == 1)">
+                                            <input class="form-control form-control-sm editor_invoice border-0 bg-white" disabled type="text" />
+                                        </p>
+                                        <p>{{Invoice.TAXMONEY | numberFormat:0}}</p>
+                                        <p>{{Invoice.TOTALPAYMENT | numberFormat:0}}</p>
+                                    </td>
+                                    <td class="text-left border-0">
+                                        <p>{{Invoice.CURRENCY}}</p>
+                                        <p ng-show="Invoice.DISCOUNTTYPE == 'CHIET_KHAU_THEO_HANG_HOA'">{{Invoice.CURRENCY}}</p>
+                                        <p ng-if="TAXRATE == 1" class="pt-2">
+                                            %
+                                        </p>
+                                        <p>{{Invoice.CURRENCY}}</p>
+                                        <p>{{Invoice.CURRENCY}}</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="6" class="text-right border-0">
+                                        Số tiền bằng chữ: <strong id="totalamount-text">{{NumberToCurrencyWords}}</strong>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+
+                    @*Hóa đơn tiền nước thì show div này lên*@
+                    <div class="form-group table-responsive" ng-if="@user.USINGINVOICETYPE === @((int)DS.Common.Enums.EnumHelper.AccountObjectType.HOADONTIENNUOC)">
+                        @*<div class="tablesaw-modeswitch tablesaw-bar-section" ng-if="@user.USINGINVOICETYPE === @((int)DS.Common.Enums.EnumHelper.AccountObjectType.HOADONTIENNUOC)">
+                <label>
+                    <span class="longform">Chọn số công tơ</span>:<span class="btn tablesaw-btn btn-select tablesaw-btn-select waves-effect waves-classic">
+                        <select title="Chọn số công tơ" class="form-control form-control-sm editor_invoice ddl-novaon-invoice" id="ddlMeter" ng-model="item.METERNAME" ng-change="ChooseMeter(this)" convert-to-number ng-disabled="Invoice.INVOICESTATUS == 2" style="width:288px;">
+                            <option ng-repeat="item in MeterList" value="{{item.CODE}}">{{item.METERNAME}}</option>
+                        </select>
+                    </span>
+                    <button type="button" class="btn btn-info btn-sm waves-effect waves-classic ng-pristine ng-valid ng-touched ng-empty" ng-click="GetMeterByCustaxcode(Invoice.CUSTAXCODE)"><span class="fa fa-refresh"></span> Gửi yêu cầu cập nhật thông tin</button>
+                </label>
+            </div>*@
+                        <table id="ITEM_HOADONTIENNUOC" class="table table-sm table-condensed table-bordered table-vertical-center table-invoice-itemlist">
+                            <thead>
+                                <tr>
+                                    <td class="text-center" style="width: 50px">
+                                        <strong>
+                                            STT
+                                        </strong>
+                                    </td>
+                                    <td class="text-center" style="width: 260px; display:none;">
+                                        <strong>
+                                            Số công tơ
+                                        </strong>
+                                    </td>
+                                    <td class="text-center" style="width: 90px;">
+                                        <strong>
+                                            Chỉ số cũ
+                                        </strong>
+                                    </td>
+                                    <td class="text-center" style="width: 90px;">
+                                        <strong>
+                                            Chỉ số mới
+                                        </strong>
+                                    </td>
+                                    <td class="text-center" style="width: 90px">
+                                        <strong>
+                                            Khối lượng
+                                        </strong>
+                                    </td>
+                                    <td class="text-center" style="width: 100px">
+                                        <strong>
+                                            Đơn giá
+                                        </strong>
+                                    </td>
+                                    <td class="text-center" style="width: 150px">
+                                        <strong>
+                                            Thành tiền
+                                        </strong>
+                                    </td>
+                                    <td class="" style="width: 30px"></td>
+                                </tr>
+                            </thead>
+                            <tbody ng-if="TYPECHANGE === 1 && IsCopy === false">
+                                <tr ng-repeat="item in Invoice.LISTPRODUCT">
+                                    <td class="text-center">
+                                        {{$index + 1}}
+                                    </td>
+                                    <td style="display:none;">
+                                        <input class="form-control form-control-sm " type="text" ng-model="item.PRODUCTNAME" ng-disabled="Invoice.INVOICESTATUS == 2" />
+                                    </td>
+                                    <td>
+                                        <input class="form-control form-control-sm " type="text" ng-model="item.OLDNO" ng-change="ElectricInvoiceQuantityChange(item)" min="0" ng-disabled="Invoice.INVOICESTATUS == 2" />
+                                    </td>
+                                    <td>
+                                        <input class="form-control form-control-sm " type="text" ng-model="item.NEWNO" ng-change="ElectricInvoiceQuantityChange(item)" min="0" ng-disabled="Invoice.INVOICESTATUS == 2" />
+                                    </td>
+                                    <td class="">
+                                        <input class="form-control form-control-sm " type="text" ng-model="item.QUANTITY" ng-change="ElectricInvoiceQuantityChange(item)" min="0" ng-disabled="Invoice.INVOICESTATUS == 2" />
+                                    </td>
+                                    <td class="">
+                                        <clearabletextbox textboxmodel="item.PRICE" textview="item.RETAILPRICE" iconposition="left"
+                                                          resultchange="ChangeRetailPrice(item)"
+                                                          textboxmaxlength="20" isnumberformat3digit="true">
+                                        </clearabletextbox>
+                                    </td>
+                                    <td class="text-right">
+                                        <clearabletextbox textboxmodel="item.ITEMMONEY" textview="item.ITEMTOTALMONEY" iconposition="left"
+                                                          resultchange="ChangeTotalPrice(item)"
+                                                          textboxmaxlength="20" isnumberformat="true">
+                                        </clearabletextbox>
+                                    </td>
+                                    <td class="text-center">
+                                        <span class="fa fa-trash-o del-icon" ng-click="RemoveRow(item)" ng-hide="Invoice.INVOICESTATUS == 2"></span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tbody ng-if="TYPECHANGE === 2 || TYPECHANGE === 5 || TYPECHANGE === 6 || IsCopy === true">
+                                <tr ng-repeat="item in Invoice.LISTPRODUCT">
+                                    <td class="text-center">
+                                        {{$index + 1}}
+                                    </td>
+                                    <td style="display:none;">
+                                        <input class="form-control form-control-sm " type="text" ng-model="item.PRODUCTNAME" ng-change="ElectricInvoiceQuantityChange(item)" min="0" ng-disabled="Invoice.INVOICESTATUS == 2" />
+                                    </td>
+                                    <td>
+                                        <input class="form-control form-control-sm " type="text" ng-model="item.OLDNO" ng-change="ElectricInvoiceQuantityChange(item)" min="0" ng-disabled="Invoice.INVOICESTATUS == 2" />
+                                    </td>
+                                    <td>
+                                        <input class="form-control form-control-sm " type="text" ng-model="item.NEWNO" ng-change="ElectricInvoiceQuantityChange(item)" min="0" ng-disabled="Invoice.INVOICESTATUS == 2" />
+                                    </td>
+                                    <td class="">
+                                        <input class="form-control form-control-sm " type="text" ng-model="item.QUANTITY" ng-change="ElectricInvoiceQuantityChange(item)" min="0" ng-disabled="Invoice.INVOICESTATUS == 2" />
+                                    </td>
+                                    <td class="">
+                                        <clearabletextbox textboxmodel="item.PRICE" textview="item.RETAILPRICE" iconposition="left"
+                                                          resultchange="ChangeRetailPrice(item)"
+                                                          textboxmaxlength="20" isnumberformat3digit="true">
+                                        </clearabletextbox>
+                                    </td>
+                                    <td class="text-right">
+                                        <clearabletextbox textboxmodel="item.ITEMMONEY" textview="item.ITEMTOTALMONEY" iconposition="left"
+                                                          resultchange="ChangeTotalPrice(item)"
+                                                          textboxmaxlength="20" isnumberformat="true">
+                                        </clearabletextbox>
+                                    </td>
+                                    <td class="text-center">
+                                        <span class="fa fa-trash-o del-icon" ng-click="RemoveRow(item)" ng-hide="Invoice.INVOICESTATUS == 2"></span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td class="text-right border-0" colspan="3">
+                                        <p>Tổng tiền trước thuế: </p>
+                                        <p ng-show="Invoice.DISCOUNTTYPE == 'CHIET_KHAU_THEO_HANG_HOA'">Tiền chiết khấu: </p>
+                                        <p ng-if="TAXRATE == 1">Thuế GTGT: </p>
+                                        <p ng-if="@user.USINGINVOICETYPE === @((int)DS.Common.Enums.EnumHelper.AccountObjectType.HOADONTIENNUOC)">Phí bảo vệ môi trường đối với nước thải sinh hoạt: </p>
+                                        <p>Tiền phí: </p>
+                                        <p>Tiền thuế: </p>
+                                        <p>Tổng tiền thanh toán: </p>
+                                    </td>
+                                    <td class="text-right border-0 font-weight-bold" ng-if="!(Invoice.EXCHANGERATE == 1)">
+                                        <p>{{Invoice.TOTALMONEYRAW | numberFormat:0}}</p>
+                                        <p ng-show="Invoice.DISCOUNTTYPE == 'CHIET_KHAU_THEO_HANG_HOA'">{{Invoice.DISCOUNTMONEYRAW | numberFormat:0}}</p>
+                                        <p id="product-container" ng-if="TAXRATE == 1">
+                                            <select class="form-control form-control-sm" id="idOnlyTaxRate" ng-model="ONLYTAXRATE" ng-change="CalMoneyAfterChangeValue()" convert-to-number ng-disabled="Invoice.INVOICESTATUS == 2">
+                                                <option ng-repeat="item in TaxRateList" value="{{item.value}}">{{item.name}}</option>
+                                            </select>
+                                        </p>
+                                        <p>{{Invoice.TAXMONEYRAW | numberFormat:0}}</p>
+                                        <p>{{Invoice.TOTALPAYMENTRAW | numberFormat:0}}</p>
+                                    </td>
+                                    <td class="text-right border-0 font-weight-bold">
+                                        <p>{{Invoice.TOTALMONEY | numberFormat:0}}</p>
+                                        <p ng-show="Invoice.DISCOUNTTYPE == 'CHIET_KHAU_THEO_HANG_HOA'">{{Invoice.DISCOUNTMONEY | numberFormat:0}}</p>
+                                        <p ng-if="TAXRATE == 1 && (Invoice.EXCHANGERATE == 1)">
+                                            <select class="form-control form-control-sm" id="idOnlyTaxRate" ng-model="ONLYTAXRATE" ng-change="CalMoneyAfterChangeValue()" convert-to-number ng-disabled="Invoice.INVOICESTATUS == 2">
+                                                <option ng-repeat="item in TaxRateList" value="{{item.value}}">{{item.name}}</option>
+                                            </select>
+                                        </p>
+                                        <p ng-if="@user.USINGINVOICETYPE === @((int)DS.Common.Enums.EnumHelper.AccountObjectType.HOADONTIENNUOC)">
+                                            <input class="form-control form-control-sm w-100 editor_invoice" id="txtTaxwater" name="txtTaxwater" ng-model="GLOBALTAXRATEWATER" ng-change="CalMoneyAfterChangeValue()" placeholder="VD: 10%" type="number" />
+                                        </p>
+                                        <p ng-if="TAXRATE == 1 && !(Invoice.EXCHANGERATE == 1)">
+                                            <input class="form-control form-control-sm editor_invoice border-0 bg-white" disabled type="text" />
+                                        </p>
+                                        <p>{{Invoice.TAXWATERMONEY | numberFormat:0}}</p>
+                                        <p>{{Invoice.TAXMONEY | numberFormat:0}}</p>
+                                        <p>{{Invoice.TOTALPAYMENT | numberFormat:0}}</p>
+                                    </td>
+                                    <td class="text-left border-0">
+                                        <p>{{Invoice.CURRENCY}}</p>
+                                        <p ng-show="Invoice.DISCOUNTTYPE == 'CHIET_KHAU_THEO_HANG_HOA'">{{Invoice.CURRENCY}}</p>
+                                        <p ng-if="TAXRATE == 1" class="pt-2">
+                                            %
+                                        </p>
+                                        <p ng-if="@user.USINGINVOICETYPE === @((int)DS.Common.Enums.EnumHelper.AccountObjectType.HOADONTIENNUOC)" class="pt-2">
+                                            %
+                                        </p>
+                                        <p>{{Invoice.CURRENCY}}</p>
+                                        <p>{{Invoice.CURRENCY}}</p>
+                                        <p>{{Invoice.CURRENCY}}</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="6" class="text-center border-0">
+                                        Số tiền bằng chữ: <strong id="totalamount-text">{{NumberToCurrencyWords}}</strong>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            @*Mobile*@
+            <div class="modal-body d-block d-sm-none p-0">
+                <div class="d-block d-sm-none p-0" style="font-size:14px;">
+                    <div style="background-color: #EFEFEF;">
+                        <p class="text-center text-secondary pt-3">Hóa đơn điện tử</p>
+                        <p class="text-center" style="margin-top:-8px;"><b>{{Invoice.CUSNAME}}</b></p>
+                        <p class="text-center text-success" style="font-size: 20px;margin-top:-17px;"><b>{{Invoice.TOTALMONEY | numberFormat:0}} VNĐ</b></p>
+                        <div class="text-center">
+                            <ul class="progressbar1" style="width: -webkit-fill-available; margin-left: -48px;margin-top:-18px;">
+                                <li ng-if="Invoice.INVOICESTATUS===1" class="mini-size list-inline-item active  "><span class="align-middle" style="font-size:8px; color:#28a745!important">Lập hóa đơn</span></li>
+                                <li ng-if="Invoice.INVOICESTATUS!=1" class="mini-size list-inline-item "><span class="align-middle" style="font-size:8px;color:#28a745!important">Lập hóa đơn</span></li>
+                                <li ng-if="Invoice.INVOICESTATUS===2" class="mini-size steptwo list-inline-item active "><span class="align-middle" style="font-size:8px;color:#28a745!important">Phát hành</span></li>
+                                <li ng-if="Invoice.INVOICESTATUS!=2" class="mini-size steptwo list-inline-item "><span class="align-middle" style="font-size:8px;color:#28a745!important">Phát hành</span></li>
+                                <li ng-if="Invoice.INVOICESTATUS===3" class="mini-size stepThree list-inline-item active "><span class="align-middle" style="font-size:8px;color:#28a745!important">Gửi</span></li>
+                                <li ng-if="Invoice.INVOICESTATUS!=3" class="mini-size stepThree list-inline-item"><span class="align-middle" style="font-size:8px;color:#28a745!important">Gửi</span></li>
+                            </ul>
+                            <div ng-if="Invoice.INVOICESTATUS===1" class="progress-bar barlength"></div>
+                            <div ng-if="Invoice.INVOICESTATUS===1" class="progress-bar barlength1"></div>
+                            <div ng-if="Invoice.INVOICESTATUS===2" class="progress-bar barlength3"></div>
+                            <div ng-if="Invoice.INVOICESTATUS===2" class="progress-bar barlength4"></div>
+                        </div>
+                        <div class="row ml-1 mr-1" style="font-size:10px;">
+                            <div class="col-6 " style="margin-left:-13px;">
+                                <span class="text-secondary font-size-min">Mẫu số</span><br />
+                                {{Invoice.FORMCODE}}
+                                <p class="mt-2">
+                                    <span class="text-secondary">Ký hiệu</span> <br />
+                                    {{Invoice.SYMBOLCODE.split(',')[0]}}
+                                </p>
+                            </div>
+                            <div class="col-6 text-right pr-0">
+                                <span class="text-secondary font-size-min">Số hóa đơn<br />
+                                <font class="text-dark" ng-if="Invoice.NUMBER != 0"> {{Invoice.NUMBER | numberFixedLen:7}}</font>
+                                <font ng-if="Invoice.NUMBER === 0"> [Chưa cấp số]</font></span>
+                                <p class="mt-2">
+                                    <span class="text-secondary">Ngày tạo</span><br />
+                                    {{Invoice.INITTIME | dateTimeFormat}}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row pt-3 ml-1 mr-1 border-bottom" ng-repeat="item in Invoice.LISTPRODUCT">
+                        <div class="col-7 pb-2">
+                            {{item.PRODUCTNAME}}<br />
+                            <span class="text-secondary font-size-min" style="font-size:8px;">
+                                {{item.QUANTITY}} cái x {{item.PRICE}} <br />
+                                <font style="background-color:#D1D1D1 ; border-radius: 5px;" class="p-1"> VAT {{ONLYTAXRATE}} %</font> {{item.TOTALMONEY | numberFormat:0}}
+                            </span>
+                        </div>
+                        <div class="col-5 text-right"><br /> {{Invoice.TOTALMONEY | numberFormat:0}}</div>
+                    </div>
+                    <div class=" text-right pt-4 font-size-min mr-1">
+                        Thành tiền : {{Invoice.TOTALMONEY | numberFormat:0}}<br />
+                        <span class="text-secondary ">
+                            <font class="text-right" >Thuế VAT:</font> {{ONLYTAXRATE}} %<br />
+                            <font class="text-right">Tiền thuế:</font> {{Invoice.TAXMONEY}}
+                        </span><br />
+                        <b>Tổng tiền thanh toán : {{Invoice.TOTALPAYMENT | numberFormat:0}}</b>
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-none d-sm-block">
+                <div class="modal-footer d-flex justify-content-between ">
+                    <div class="d-flex justify-content-start">
+                        <button class="btn btn-secondary btn-sm mr-3 pl-3 pr-3" data-dismiss="modal">Hủy</button>
+                    </div>
+                    <div class="d-flex justify-content-end">
+                        <div class="d-flex justify-content-between" ng-show="TYPECHANGE == 1">
+                            <div class="btn-group">
+                                <div>
+                                    <button type="button" class="btn btn-warning mr-3" ng-if="CURRENT_USER_ROLE.includes(USER_ROLE.KY.toString())" ng-disabled="Invoice.INVOICESTATUS == 2" ng-click="AddInvoice(3, true)"><img src="/Images/hand-writing-with-ballpen.svg" style="width: 16px;">&nbsp; Lưu và phát hành</button>
+                                    <button type="button" class="btn btn-warning mr-3 disabled-element" ng-if="!CURRENT_USER_ROLE.includes(USER_ROLE.KY.toString())" ng-disabled="Invoice.INVOICESTATUS == 2" ng-click="AddInvoice(3, true)"><img src="/Images/hand-writing-with-ballpen.svg" style="width: 16px;">&nbsp; Lưu và phát hành</button>
+                                </div>
+                                <button type="button" class="btn btn-success" ng-disabled="(Invoice.INVOICESTATUS == 2 && IsCopy == false) || IsLoading" ng-click="AddInvoice(3, false)"><span class="fa fa-send-o"></span> &nbsp; Lưu thêm mới</button>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-between" ng-show="TYPECHANGE == 2">
+                            <div class="btn-group">
+                                <div>
+                                    <button type="button" class="btn btn-warning mr-3" ng-if="CURRENT_USER_ROLE.includes(USER_ROLE.KY.toString())" ng-disabled="Invoice.INVOICESTATUS == 2" ng-click="UpdateInvoice(3, true)"><img src="/Images/hand-writing-with-ballpen.svg" style="width: 16px;"> &nbsp; Lưu và phát hành</button>
+                                    <button type="button" class="btn btn-warning mr-3 disabled-element" ng-if="!CURRENT_USER_ROLE.includes(USER_ROLE.KY.toString())" ng-disabled="Invoice.INVOICESTATUS == 2" ng-click="UpdateInvoice(3, true)"><img src="/Images/hand-writing-with-ballpen.svg" style="width: 16px;"> &nbsp; Lưu và phát hành</button>
+                                </div>
+                                <button type="button" class="btn btn-success" ng-disabled="Invoice.INVOICESTATUS == 2" ng-click="UpdateInvoice(3, false)"><span class="fa fa-send-o"></span> &nbsp; Lưu chỉnh sửa</button>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-between" ng-show="TYPECHANGE == 5">
+                            <div class="btn-group">
+                                <div>
+                                    <button type="button" class="btn btn-warning mr-3" ng-if="CURRENT_USER_ROLE.includes(USER_ROLE.KY.toString())" ng-disabled="Invoice.INVOICESTATUS == 2" ng-click="AddInvoice(3, true)"><img src="/Images/hand-writing-with-ballpen.svg" style="width: 16px;"> &nbsp; Lưu và phát hành</button>
+                                    <button type="button" class="btn btn-warning mr-3 disabled-element" ng-if="!CURRENT_USER_ROLE.includes(USER_ROLE.KY.toString())" ng-disabled="Invoice.INVOICESTATUS == 2" ng-click="AddInvoice(3, true)"><img src="/Images/hand-writing-with-ballpen.svg" style="width: 16px;"> &nbsp; Lưu và phát hành</button>
+                                </div>
+                                <button type="button" class="btn btn-success" ng-disabled="Invoice.INVOICESTATUS == 2" ng-click="AddInvoice(3, false)"><span class="fa fa-send-o"></span> &nbsp; Lưu hóa đơn điều chỉnh</button>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-between" ng-show="TYPECHANGE == 6">
+                            <div class="btn-group">
+                                <div>
+                                    <button type="button" class="btn btn-warning mr-3" ng-if="CURRENT_USER_ROLE.includes(USER_ROLE.KY.toString())" ng-disabled="Invoice.INVOICESTATUS == 2" ng-click="AddInvoice(3, true)"><img src="/Images/hand-writing-with-ballpen.svg" style="width: 16px;"> &nbsp; Lưu và phát hành</button>
+                                    <button type="button" class="btn btn-warning mr-3 disabled-element" ng-if="!CURRENT_USER_ROLE.includes(USER_ROLE.KY.toString())" ng-disabled="Invoice.INVOICESTATUS == 2" ng-click="AddInvoice(3, true)"><img src="/Images/hand-writing-with-ballpen.svg" style="width: 16px;"> &nbsp; Lưu và phát hành</button>
+                                </div>
+                                <button type="button" class="btn btn-success" ng-disabled="Invoice.INVOICESTATUS == 2" ng-click="AddInvoice(3, false)"><span class="fa fa-send-o"></span> &nbsp; Lưu hóa đơn thay thế</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

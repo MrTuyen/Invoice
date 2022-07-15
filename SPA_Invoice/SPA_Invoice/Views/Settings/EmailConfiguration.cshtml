@@ -1,0 +1,206 @@
+﻿
+<script src="~/Scripts/ckeditor/ckeditor.js"></script>
+<script src="~/Scripts/ckeditor/config.js"></script>
+<link href="~/Scripts/ckeditor/skins/moono-lisa/editor.css" rel="stylesheet" />
+<script src="~/Scripts/ckeditor/lang/vi.js"></script>
+<script src="~/Scripts/ckeditor/styles.js"></script>
+<link href="~/Scripts/ckeditor/plugins/tableselection/styles/tableselection.css" rel="stylesheet" />
+<link href="~/Scripts/ckeditor/plugins/copyformatting/styles/copyformatting.css" rel="stylesheet" />
+<div class="card card-body border-0 email-configuration p-0">
+    @*<h4><strong>Cấu hình email</strong></h4>
+        <h6>Gửi email thông báo phát hành hóa đơn tới khách hàng</h6>*@
+    <div class="btn-filter account-setting-content">
+        <a href="javascript:;" class="btn-switch" ng-model="TabEmail.Account" ng-click="TabEmailClick(1)" ng-class="{true: 'active'}[TabEmail.Account]">Tài khoản Email</a>
+        <a href="javascript:;" class="btn-switch" ng-model="TabEmail.Template" ng-click="TabEmailClick(2)" ng-class="{true: 'active'}[TabEmail.Template]">Nội dung Email</a>
+        <hr />
+        <div ng-if="TabEmail.Account">
+            <div class="card card-body border-0 pl-0">
+                <div class="col-md-12 mb-3">
+                    <div>
+                        <div>
+                            <div>
+                                <b>1. Cấu hình khác</b>
+                            </div>
+                            <div class="d-flex mt-2">
+                                <div class="col-3">
+                                    <p class="">Gửi mail tự động</p>
+                                </div>
+                                <div class="col-5">
+                                    <input type="checkbox" ng-model="Enterprise.AUTOSENDMAIL" name="AutoSendMail" style="transform: scale(1.5)" />
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <b>2. Thông tin máy chủ email</b>
+                        </div>
+                        <div class="d-flex mt-2">
+                            <div class="col-3">
+                                <p class="">Nhà cung cấp: </p>
+                            </div>
+                            <div class="col-5">
+                                <select class="w-100 cb-select-mail show-tick" data-width="220px" ng-model="Enterprise.MAILSERVICEID" ng-change="EnableDisableSaveButton()">
+                                    @*<option ng-repeat="item in EmailType" value="{{item.value}}">{{item.text}}</option>*@
+                                    <option value="1" ng-selected="Enterprise.MAILSERVICEID == '1'">Dịch vụ email NOVAON</option>
+                                    <option value="2" ng-selected="Enterprise.MAILSERVICEID == '2'">Gmail</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div ng-if="Enterprise.MAILSERVICEID == '2'">
+                            <div class="d-flex mt-2">
+                                <div class="col-3">
+                                    <p class="">
+                                        Tên đăng nhập Gmail
+                                        <span class="text-danger">(*)</span>:
+                                    </p>
+                                </div>
+                                <div class="col-5">
+                                    <input type="text" class="w-100 form-control form-control-sm" ng-model="Enterprise.MAILSERVICEACCOUNT" />
+                                </div>
+                            </div>
+                            <div class="d-flex mt-2">
+                                <div class="col-3">
+                                    <p class="">
+                                        Mật khẩu Gmail
+                                        <span class="text-danger">(*)</span>:
+                                    </p>
+                                </div>
+                                <div class="col-5">
+                                    <div class="wrap-input100 validate-input" data-validate="Enter password">
+                                        <span class="btn-show-pass" ng-click="OpenHidePassword()">
+                                            <i class="fa fa-eye open-hide-pass"></i>
+                                        </span>
+                                        <input class="form-control input100 input-text password" type="password" ng-model="Enterprise.MAILSERVICEPASSWORD" />
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <button class="btn btn-success btn-sm" ng-click="CheckSetupEmailConfig()">Kiểm tra kết nối</button>
+                                </div>
+                            </div>
+                            <div class="d-flex mt-2">
+                                <div class="col-3">
+                                </div>
+                                <div class="col-5">
+                                    <span class="text-danger"><i>Chú ý tài khoản gmail của quý khách phải bật allow less secure app <a href="https://myaccount.google.com/lesssecureapps?pli=1" target="_blank">tại đây</a></i></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div ng-if="Enterprise.MAILSERVICEID == '3'">
+                            <div class="d-flex mt-2">
+                                <div class="col-3">
+                                    <p class="">
+                                        Máy chủ Mail
+                                        <span class="text-danger">(*)</span>:
+                                    </p>
+                                </div>
+                                <div class="col-5">
+                                    <input type="text" class="w-75 form-control form-control-sm" name="name" value="" />
+                                </div>
+                            </div>
+                            <div class="d-flex mt-2">
+                                <div class="col-3">
+                                    <p class="">
+                                        Cổng
+                                        <span class="text-danger">(*)</span>:
+                                    </p>
+                                </div>
+                                <div class="col-5">
+                                    <input type="text" class="w-75 form-control form-control-sm" name="name" value="" />
+                                </div>
+                            </div>
+                            <div class="d-flex mt-2">
+                                <div class="col-3">
+                                    <p class="">
+                                        Email gửi
+                                        <span class="text-danger">(*)</span>:
+                                    </p>
+                                </div>
+                                <div class="col-5">
+                                    <input type="text" class="w-75 form-control form-control-sm" name="name" value="" />
+                                </div>
+                            </div>
+                            <div class="d-flex mt-2">
+                                <div class="col-3">
+                                    <p class="">
+                                        Tên đăng nhập
+                                        <span class="text-danger">(*)</span>:
+                                    </p>
+                                </div>
+                                <div class="col-5">
+                                    <input type="text" class="w-75 form-control form-control-sm" name="name" value="" />
+                                </div>
+                            </div>
+                            <div class="d-flex mt-2">
+                                <div class="col-3">
+                                    <p class="">
+                                        Mật khẩu
+                                        <span class="text-danger">(*)</span>:
+                                    </p>
+                                </div>
+                                <div class="col-5">
+                                    <input type="text" class="w-75 form-control form-control-sm" name="name" value="" />
+                                </div>
+                            </div>
+                            <div class="d-flex mt-2">
+                                <div class="col-3">
+                                    <p class="">
+                                        Phương thức bảo mật
+                                        <span class="text-danger">(*)</span>:
+                                    </p>
+                                </div>
+                                <div class="col-5">
+                                    <label class="mr-4">
+                                        <input type="radio" name="security-method" value="khong" /> &nbsp; &nbsp;Không
+                                    </label>
+                                    <label class="mr-4">
+                                        <input type="radio" name="security-method" value="ssl" /> &nbsp; &nbsp;SSL
+                                    </label>
+                                    <label class="mr-4">
+                                        <input type="radio" name="security-method" value="tls" /> &nbsp; &nbsp;TLS
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex mt-2">
+                            <div class="col-3">
+
+                            </div>
+                            <div class="col-5">
+                                <button class="btn btn-success btn-sm" ng-click="SaveEmailConfig()" ng-disabled="IsDisable">Lưu thay đổi</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div ng-if="TabEmail.Template" class="tabemail-template">
+            <div class="card card-body border-0 p-0">
+                <div class="col-md-12">
+                    <div class="d-flex mt-2">
+                        <div class="">
+                            <p class="">Loại email: </p>
+                        </div>
+                        <div class="col-3">
+                            <select class="w-100 show-tick cb-select-template" data-width="220px" ng-model="Enterprise.EMAILTEMPLATEID" ng-change="LoadEmailTemplate()">
+                                <option value="1" ng-selected="Enterprise.EMAILTEMPLATEID == '1'">Email phát hành hóa đơn</option>
+                                <option value="2" ng-selected="Enterprise.EMAILTEMPLATEID == '2'">Email hủy hóa đơn</option>
+                            </select>
+                        </div>
+                        <div class="col-7">
+                            <text class="text-danger"><i>Chú ý những chữ nằm trong cặp dấu { } ví dụ {FORMCODE} là các trường đại diện thông tin cần có.</i></text>
+                        </div>
+                    </div>
+                    <div class="d-flex mt-2 mb-1">
+                        <div class="w-100">
+                            <textarea ck-editor ng-model="Enterprise.EMAILTEMPLATECONTENT"></textarea>
+
+                            <div class="d-flex mt-2 float-right">
+                                <button class="btn btn-light btn-sm mr-2" ng-click="RestoreDefault()">Khôi phục mặc định</button>
+                                <button class="btn btn-success btn-sm" ng-click="SaveEmailTemplate()">Lưu thay đổi</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

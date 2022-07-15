@@ -1,0 +1,250 @@
+﻿@using DS.BusinessLogic.Invoice;
+@{
+    var invoiceBLL = new InvoiceBLL();
+    DS.BusinessObject.Invoice.InvoiceBO obj = (DS.BusinessObject.Invoice.InvoiceBO)Model;
+    var orgInvoice = new DS.BusinessObject.Invoice.InvoiceBO();
+    if (obj.INVOICETYPE == (int)DS.Common.Enums.EnumHelper.INVOICE_TYPE.ALTERNATIVE || obj.INVOICETYPE == (int)DS.Common.Enums.EnumHelper.INVOICE_TYPE.MODIFIED)
+    {
+        orgInvoice = invoiceBLL.GetInvoiceById(obj.REFERENCE, obj.USINGINVOICETYPE);
+    }
+    obj.TotalAmountInWords = DS.Common.Helpers.ReadNumberToCurrencyWords.ConvertToWordsWithPostfix((@obj.TOTALMONEY), obj.CURRENCY);
+}
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Mẫu nhiều thuế suất 01</title>
+    <link rel="stylesheet" href="https://onfinance.asia/tracuu/Content/bootstrap.min.css">
+
+    <style>
+        body {
+            height: 1440px;
+            background-image: none;
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+            background-position: center;
+        }
+
+        body, table {
+            font-size: 16px;
+            font-family: 'Times New Roman';
+            color: #000;
+        }
+
+            table th, table td {
+                vertical-align: middle !important;
+            }
+
+            table th {
+                text-align: center !important;
+                padding: .3rem 0 !important;
+            }
+
+                table th i {
+                    font-weight: 400;
+                }
+
+            table tr.rowlist td {
+                padding: .5rem .3rem;
+                border-right-color: #000;
+            }
+
+        .logo {
+            display: block;
+            border: 0;
+            width: 150px;
+            height: 150px;
+            margin-right: 15px;
+            background-repeat: no-repeat;
+            background-size: contain;
+            background-position: center;
+        }
+
+        .logo-left {
+            display: none;
+            border: 0;
+            width: 150px;
+        }
+
+        #layer1 {
+            position: relative;
+            height: 100%;
+            margin: 0;
+            padding: 40px;
+            box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            border-width: 0px;
+            border-style: solid;
+            border-color: #fff;
+            background-image: url('');
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+            background-position: center;
+        }
+
+        .x-image {
+            position: absolute;
+            width: 70%;
+            top: 12%;
+            left: calc(15%);
+        }
+
+        .col-content {
+            padding-left: 15px;
+        }
+    </style>
+</head>
+
+<body class="wrap-body-cls">
+    @if (obj.ID == 0)
+    {
+        <img class="temp" style="position: absolute; width: 200px; top: 45%; left: calc(50% - 100px); transform: rotate(-30deg)" src="https://e.onfinance.asia/Images/temp_hoa_don_mau.png" />
+    }
+    @if (obj.INVOICETYPE == (int)DS.Common.Enums.EnumHelper.INVOICE_TYPE.CANCEL)
+    {
+        <img class="x-image" src="https://e.onfinance.asia/Images/backgorundX.png" />
+    }
+    <div class="bg">
+        <div id="layer1">
+            <div class="d-flex">
+                <div class="flex-grow-1">
+                    <div class="row">
+                        <div class="col-md-6" style="text-align:center;">
+                            <b style="font-size: 20px;">@obj.COMNAME</b>
+                            <br>
+                            @obj.COMADDRESS
+                            <br>
+                            MST: <b>@obj.COMTAXCODE</b><br>
+                        </div>
+                        <br><div class="col-md-6" style="text-align: center;">
+                            <b style="font-size: 20px">CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</b>
+                            <br>
+                            <span style="font-size: 22px;">Độc lập - Tự do - Hạnh phúc</span><br>
+                            <span style="font-size: 22px;">-----o0o-----</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <table class="table table-sm table-borderless" style="margin-top: 0;margin-bottom: 0;">
+                <tbody>
+                    <tr>
+                        <td class="logo">
+                            @*<div class="logo"></div>*@
+                        </td>
+                        <td align="center" valign="top">
+                            <p style="font-size: 38px; color: #FF0000; font-weight: bold">
+                                HÓA ĐƠN THU HỌC PHÍ
+                            </p>
+                            <p style="padding: 0;margin: 0;font-size: 22px;"><i>(Bản thể hiện của hóa đơn điện tử)</i>  </p>
+                        </td>
+                        <td style="width: 220px; line-height: 24px;">
+                            Mẫu số <i>(Form)</i>: <span id="form_invoice_template">@obj.FORMCODE</span><br>
+                            Ký hiệu <i>(Serial No)</i>: <span id="symbol_invoice_template">@obj.SYMBOLCODE</span><br>
+                            Số <i>(Invoice No)</i>: <strong style="color: #FF0000; font-size: 20px;">@obj.NUMBER.ToString("D7")</strong>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="d-flex">
+                <div class="flex-grow-1">
+                    <div class="row">
+                        <div class="col-content">Họ tên học viên:</div>
+                        <div class="col-md-9"> @obj.CUSBUYER</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-content">Địa chỉ:</div>
+                        <div class="col-md-9"> @obj.CUSADDRESS</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-content">Lý do nộp:</div>
+                        <div class="col-md-9"> @obj.NOTE</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-content">Số tiền:</div>
+                        <div class="col-md-3"> @obj.TOTALMONEY.ToString("##,###")</div>
+                        <div class="col-content">(Viết bằng chữ):</div>
+                        <div class="col-md-5"> @obj.TotalAmountInWords</div>
+                    </div>
+                </div>
+            </div>
+            <table class="table table-borderless">
+                <tbody>
+                    <tr>
+                        <td colspan="6" class="text-right border-0" style="vertical-align: middle;">
+                            <p style="padding: 0;margin: 0;font-size: 16px;text-align: left;">
+                                @if (obj.INVOICETYPE == (int)DS.Common.Enums.EnumHelper.INVOICE_TYPE.ALTERNATIVE)
+                                {
+                                    <text>
+                                        Thay thế cho hóa đơn: @orgInvoice.NUMBER.ToString("D7"), mẫu số @orgInvoice.FORMCODE, ký hiệu @orgInvoice.SYMBOLCODE, ký ngày @orgInvoice.SIGNEDTIME.ToString("dd/MM/yyyy")
+                                    </text>
+                                }
+
+                                @if (obj.INVOICETYPE == (int)DS.Common.Enums.EnumHelper.INVOICE_TYPE.MODIFIED)
+                                {
+                                    <text>
+                                        Điều chỉnh cho hóa đơn: @orgInvoice.NUMBER.ToString("D7"), mẫu số @orgInvoice.FORMCODE, ký hiệu @orgInvoice.SYMBOLCODE, ký ngày @orgInvoice.SIGNEDTIME.ToString("dd/MM/yyyy"). Lý do: @obj.CHANGEREASON
+                                    </text>
+                                }
+                            </p>
+                            <p style="padding: 0;margin: 0;font-size: 20px;margin-right: 100px;"><i>Ngày @(obj.ID == 0 ? "....." : obj.SIGNEDTIME.Day.ToString("D2")) tháng @(obj.ID == 0 ? "....." : obj.SIGNEDTIME.Month.ToString("D2")) năm</i>  </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        @* Nếu là hóa đơn chuyển đổi *@
+                        @if (obj.INVOICETYPE == 4 && obj.ID != 0)
+                        {
+                            <td valign="top" class="text-center" style="width: 33.3333%; padding-bottom: 70px; vertical-align: top !important">
+                                <strong>Người chuyển đổi</strong> <i>(Converter)</i><br>
+                                <i>(Ký, ghi rõ họ, tên)</i><br>
+
+                                <div style="text-align: center; margin-top: 10px;">
+                                    <b>@obj.CONVERTUSERNAME</b> <br />
+                                    <div>Ngày chuyển đổi <i>(Conversion date): @obj.CONVERTTIME.ToString("dd/MM/yyyy")</i></div>
+                                </div>
+                            </td>
+                        }
+                        <td valign="top" class="text-center" style="width: 33.3333%; padding-bottom: 70px; vertical-align: top !important">
+                            <strong>Người nộp tiền</strong><br>
+                            <i>(Ký, ghi rõ họ, tên)</i> <br>
+                        </td>
+
+                        <td class="text-center" style="width: 33.3333%; padding-bottom: 70px;vertical-align: top !important">
+                            <strong>Người thu tiền</strong><br>
+                            <i>(Ký, ghi rõ họ, tên)</i><br>
+
+                            @if (obj.INVOICESTATUS == 2 || obj.INVOICESTATUS == -1)
+                            {
+                                <div style="font-weight: bold;border: 3px solid red;color: red;text-align: left;padding: 12px;width: 300px;margin: auto;margin-top: 20px; background: url('https://e.onfinance.asia/Images/check-mark-icon-png-11.png') no-repeat center center; background-size: 29%">
+                                    Signature Valid<br>
+                                    Ký bởi: @obj.COMNAME<br>
+                                    Ký ngày: @(obj.ID == 0 ? "" : obj.SIGNEDTIME.ToString("dd/MM/yyyy"))
+                                </div>
+                            }
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div style="position: absolute; left: 0; right: 0; height: 70px; bottom: 8px; padding: 0 20px; text-align:center;">
+                <p class="m-0">
+                    Mã tra cứu:
+                    @if (obj.INVOICESTATUS == 2)
+                    {
+                        @obj.REFERENCECODE
+                    }
+                    <span style="padding-left: 20px">Trang tra cứu: <a style="color: black" href="https://onfinance.asia/tracuu/?referencecode=@obj.REFERENCECODE"> https://onfinance.asia/tracuu</a></span>
+                </p>
+                <table class="table table-borderless table-sm">
+                    <tbody>
+                        <tr>
+                            <td align="center" class="border-top border-dark">
+                                (Cần kiểm tra, đối chiếu khi lập, giao nhận hóa đơn)<br>
+                                (Khởi tạo từ phần mềm OnFinance.asia - Công ty cổ phần tập đoàn truyền thông và công nghệ NOVA MST: 0101990346)
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

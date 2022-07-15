@@ -1,0 +1,217 @@
+﻿@using DS.BusinessObject.Account;
+@{
+    AccountBO user = (AccountBO)Session[DS.Common.Helpers.ConfigHelper.User];
+}
+<div class="modal hide fade modal-customer" tabindex="-1" role="dialog" ng-controller="ModalCustomerController">
+    <div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title"><strong>Thông tin khách hàng</strong></h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+
+            <div class="modal-body">
+                <div class="row" ng-if="@user.USINGINVOICETYPE!==1">
+                    @*Phân loại khách hàng*@
+                    <div class="col-md-2" style="padding-left: 26px;"></div>
+                    <div class="col-md-2" style="padding-left: 40px;">
+                        <div class="custom-control custom-radio pl-3">
+                            <input type="radio" class="custom-control-input" checked="checked" id="rdp_1" name="DefaultPersional" ng-model="Customer.CUSTOMERTYPE" ng-value="1" ng-click="SetRequiedTaxCode(1)">
+                            <label class="custom-control-label" for="rdp_1" data-toggle="tooltip" data-placement="bottom"
+                                   title="Đối với khách hàng là Tổ chức (Doanh nghiệp) chúng tôi yêu cầu cung cấp MST của doanh nghiệp khi khai báo">
+                                <strong>Tổ chức</strong>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-md-4 ml-3">
+                        <div class="custom-control custom-radio">
+                            <input type="radio" class="custom-control-input" id="rdp_2" name="DefaultCustomer" ng-model="Customer.CUSTOMERTYPE" ng-value="2" ng-click="SetRequiedTaxCode(2)">
+                            <label class="custom-control-label" for="rdp_2" data-toggle="tooltip" data-placement="bottom"
+                                   title="Đối với khách hàng là Cá nhân không bắt buộc nhập thông tin MST khi khai báo">
+                                <strong>Cá nhân</strong>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                @*Tên người mua, số điện thoại*@
+                <div class="row">
+                    <div class="col-xl-6">
+                        <table class="table table-sm table-borderless table-vertical-center">
+                            <tr ng-if="@user.USINGINVOICETYPE!==1">
+                                <td>Mã số thuế <span ng-if="Customer.CUSTOMERTYPE==1" class="text-danger">(*)</span></td>
+                                <td>
+                                    <input type="text" class="form-control form-control-sm" ng-model="Customer.CUSTAXCODE" ng-change="FillCustomerCode(Customer.CUSTAXCODE)" />
+                                </td>
+                                <td>
+                                    <button class="btn btn-success btn-sm" ng-click="LoadInfoByTaxcode()" data-toggle="tooltip" title="Lấy thông tin từ tổng cục thuế"><span class=" fa fa-search"></span></button>
+                                    <div id="tempLoadTaxinfo" class="d-none"></div>
+                                </td>
+                            </tr>
+                            <tr ng-if="@user.USINGINVOICETYPE===1">
+                                <td>Nhóm khách hàng <span class="text-danger">(*)</span></td>
+                                <td>
+                                    <input type="text" class="form-control form-control-sm" ng-model="Customer.CUSTAXCODE" ng-change="FillCustomerCode(Customer.CUSTAXCODE)" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Tên khách hàng <span class="text-danger">(*)</span></td>
+                                <td>
+                                    <input type="text" class="form-control form-control-sm" ng-model="Customer.CUSNAME" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Số điện thoại </td>
+                                <td>
+                                    <input type="tel" class="form-control form-control-sm" ng-model="Customer.CUSPHONENUMBER" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Email</td>
+                                <td>
+                                    <input type="text" class="form-control form-control-sm" ng-model="Customer.CUSEMAIL" />
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div class="col-xl-6">
+                        <table class="table table-sm table-borderless table-vertical-center">
+                            <tr>
+                                <td>Mã Khách hàng <span class="text-danger" ng-if="@user.USINGINVOICETYPE===1">(*)</span></td>
+                                <td>
+                                    <input type="tel" class="form-control form-control-sm" ng-model="Customer.CUSID" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="36%">Người mua hàng </td>
+                                <td>
+                                    <input type="text" class="form-control form-control-sm" ng-model="Customer.CUSBUYER" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Địa chỉ <span class="text-danger">(*)</span></td>
+                                <td>
+                                    <input type="text" class="form-control form-control-sm" ng-model="Customer.CUSADDRESS" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Website</td>
+                                <td>
+                                    <input type="text" class="form-control form-control-sm" ng-model="Customer.CUSWEBSITE" />
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="row" ng-show="Enterprise.USINGINVOICETYPE === @((int)DS.Common.Enums.EnumHelper.AccountObjectType.HOADONTIENDIEN)">
+                    <div class="col-xl-12">
+                        <table class="table table-sm table-borderless table-vertical-center">
+                            <tr>
+                                <td width="155px">Số công tơ</td>
+                                <td>
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <select title="Chọn số công tơ" ng-model="selectedValues" class="selectpicker" multiple data-live-search="true" style="width: 100%">
+                                                <option ng-repeat="item in ListMeters" value="{{item.CODE}}">{{item.METERNAME}}</option>
+                                            </select>
+                                            &nbsp;&nbsp;
+                                            <span class="input-group-btn">
+                                                <button type="button" class="btn btn-sm btn-info waves-effect waves-classic" style="cursor:pointer;" ng-model="Customer.METERCODE" ng-click="GetListMeters()"><span class="fa fa-refresh"></span> &nbsp; Làm mới dữ liệu</button>
+                                            </span>
+                                            &nbsp;&nbsp;
+                                            <span class="input-group-btn">
+                                                <button type="button" class="btn btn-sm btn-info waves-effect waves-classic" style="cursor:pointer;" ng-click="ModalMeter(Customer.CUSTAXCODE, 1)" data-target=".modal-add-meter" data-toggle="modal"><span class="fa fa-plus"></span> &nbsp; Thêm mới</button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-6">
+                        <table class="table table-sm table-borderless table-vertical-center">
+                            <tr>
+                                <td colspan="2" class="title-group-form"><span>THÔNG TIN THANH TOÁN</span></td>
+                            </tr>
+                            <tr>
+                                <td width="36%">Hình thức thanh toán </td>
+                                <td>
+                                    <select class="form-control form-control-sm" ng-model="Customer.CUSPAYMENTMETHOD">
+                                        <option ng-repeat="item in ListPaymentMethod" ng-if="item.ISACTIVED===true" value="{{item.PAYMENTMETHOD}}">{{item.PAYMENTMETHOD}}</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Ngân hàng</td>
+                                <td>
+                                    <input type="text" class="form-control form-control-sm" ng-model="Customer.CUSBANKNAME" placeholder="Tên ngân hàng" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Số tài khoản</td>
+                                <td>
+                                    <input type="text" class="form-control form-control-sm" ng-model="Customer.CUSACCOUNTNUMBER" placeholder="Số tài khoản" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Đơn vị tiền tệ</td>
+                                <td>
+                                    <select class="form-control form-control-sm" ng-model="Customer.CUSCURRENCYUNIT">
+                                        <option value="" title="Chọn đơn vị tiền tệ" disabled selected>--Chọn đơn vị tiền tệ--</option>
+                                        <option ng-repeat="item in ListCurrencyUnit" ng-if="item.ISACTIVED===true" value="{{item.CURRENCYUNIT}}">{{item.CURRENCYUNIT}}</option>
+                                    </select>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div class="col-xl-6">
+                        <table class="table table-sm table-borderless table-vertical-center">
+                            <tr>
+                                <td colspan="2" class="title-group-form"><span>MỞ RỘNG</span></td>
+                            </tr>
+                            <tr>
+                                <td>Ghi chú</td>
+                                <td>
+                                    <textarea type="text" class="form-control form-control-sm" placeholder="Mô tả" style="height: 73px;" ng-model="Customer.CUSNOTE"></textarea>
+                                </td>
+                            </tr>
+                            @*<tr>
+                                    <td>Tệp đính kèm</td>
+                                    <td>
+                                        <label class="drop-file-box">
+                                            <span class="fa fa-cloud-upload" aria-hidden="true"></span>
+                                            <span>Kéo thả tập tin ở đây hoặc nhấn vào biếu tượng</span>
+                                            <input type="file" accept=".*" multiple style="display: none" custom-on-change="uploadFile" size="5" />
+                                        </label>
+                                    </td>
+                                </tr>*@
+
+                        </table>
+                    </div>
+                </div>
+
+                @*<div>
+                        <label>
+                            <input type="checkbox" ng-model="Customer.CUSISDELETED" style="transform: scale(1.5)" />
+                            Ngừng kích hoạt
+                        </label>
+                    </div>*@
+
+            </div>
+
+            <div class="modal-footer d-flex justify-content-between" style="padding-right: 0;">
+                <div class="d-flex justify-content-start">
+                    <button class="btn btn-secondary btn-sm mr-3" data-dismiss="modal" ng-click="Customer = null">Hủy</button>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <button class="btn btn-success mr-3" ng-click="AddCustomer()" ng-show="TYPECHANGE == 1"> <span class="fa fa-save"></span> &nbsp; Lưu tạo mới </button>
+                    <button class="btn btn-success mr-3" ng-click="AddCustomer()" ng-show="TYPECHANGE == 3"> <span class="fa fa-save"></span> &nbsp; Lưu sao chép </button>
+                    <button class="btn btn-success mr-3" ng-click="UpdateCustomer()" ng-show="TYPECHANGE == 2"> <span class="fa fa-save"></span> &nbsp; Lưu chỉnh sửa </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

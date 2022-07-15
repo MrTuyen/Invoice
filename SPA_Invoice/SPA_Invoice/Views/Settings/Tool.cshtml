@@ -1,0 +1,120 @@
+﻿<div class="tool-setting-area" ng-controller="SettingsController">
+    <div class="bg-white border">
+        <div class="btn-filter mt-3 account-setting-content">
+            <a href="javascript:;" class="btn-switch active" ng-model="IsInfo" ng-click="IsInfo = true" ng-init="IsInfo = true" ng-class="{true: 'active'}[IsInfo]">Tải lên dữ liệu</a>
+            <a href="javascript:;" class="btn-switch" ng-click="IsInfo = false" ng-class="{false: 'active'}[IsInfo]">Tải xuống dữ liệu</a>
+            <hr />
+
+            @*Tải lên dữ liệu*@
+            <div ng-show="IsInfo">
+                <div class="card card-body border-0">
+                    <h4><strong>Tải lên dữ liệu</strong></h4>
+                    <h6>Đưa dữ liệu của bạn vào Onfinance Invoice</h6>
+                    <div class="row pt-4">
+                        <div class="col-xl-3 dashboard-review-box extend-invoice-list">
+                            <div class="title-review-box align-items-center justify-content-center" has-permission="{{USER_ROLE.IMPORT_EXCEL_HOA_DON}}" ng-click="OpenImportInvoiceModal()" style="cursor: pointer;">
+                                <img src="~/Images/bill.png" alt="bill" />
+                                <br />
+                                <h4 class="mt-4">Hoá đơn</h4>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-3 dashboard-review-box extend-invoice-list">
+                            <div class="title-review-box align-items-center justify-content-center" ng-click="OpenImportCustomerModal()" style="cursor: pointer;">
+                                <img src="~/Images/group.png" alt="group" />
+                                <br />
+                                <h4 class="mt-4">Khách hàng</h4>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-3 dashboard-review-box extend-invoice-list">
+                            <div class="title-review-box align-items-center justify-content-center" ng-click="OpenImportProductModal()" style="cursor: pointer;">
+                                <img src="~/Images/product.png" alt="product" />
+                                <br />
+                                <h4 class="mt-4">Hàng hóa, dịch vụ</h4>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-3 dashboard-review-box extend-invoice-list">
+                            <div class="title-review-box align-items-center justify-content-center" ng-click="OpenImportMeterModal()" style="cursor: pointer;">
+                                <img src="~/Images/product.png" alt="product" />
+                                <br />
+                                <h4 class="mt-4">Công tơ</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @*Tải xuông dữ liệu*@
+            <div ng-hide="IsInfo">
+                <div class="card card-body border-0">
+                    <h4><strong>Bạn muốn tải xuống dữ liệu nào</strong></h4>
+                    <h6>Thêm hoặc xóa các mục và lọc theo thời gian dữ liệu mà bạn cần.</h6>
+                    <div class="btn-filter mt-4 account-setting-content">
+                        <a href="javascript:;" class="btn-switch pl-0 active" ng-model="IsCategory" ng-click="IsCategory = true" ng-init="IsCategory = true" ng-class="{true: 'active'}[IsCategory]">Báo cáo thống kê</a>
+                        <a href="javascript:;" class="btn-switch pl-0" ng-click="IsCategory = false" ng-class="{false: 'active'}[IsCategory]">Danh mục</a>
+                        <a href="javascript:;" class="btn btn-success float-right" ng-click="ExportExcel()">Tải xuống excel</a>
+                        <hr />
+                        <div ng-hide="IsCategory">
+                            <div class="card card-body border-0 pl-0">
+                                @*<select class="form-control col-lg-2 col-md-2 col-sm-6">
+                                    <option value="value">Toàn thời gian</option>
+                                </select>*@
+                                <div class="d-flex mt-5">
+                                    <h6 class="col-11 p-0">Khách hàng</h6>
+                                    <div class="custom-control custom-switch col-1 text-right">
+                                        <input type="checkbox" class="custom-control-input" id="customSwitch1" ng-model="hasCustomerData" ng-init="hasCustomerData = true">
+                                        <label class="custom-control-label" for="customSwitch1"> </label>
+                                    </div>
+                                </div>
+                                <div class="d-flex mt-4">
+                                    <h6 class="col-11 p-0">Hàng hóa, dịch vụ</h6>
+                                    <div class="custom-control custom-switch col-1 text-right">
+                                        <input type="checkbox" class="custom-control-input" id="customSwitch2" ng-model="hasProductData" ng-init="hasProductData = true">
+                                        <label class="custom-control-label" for="customSwitch2"> </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div ng-show="IsCategory">
+                            <div class="card card-body border-0 pl-0">
+                                <div class="row">
+                                    @*<select class="form-control col-lg-2 col-md-2 col-sm-6" ng-model="Filter.TIME">
+                                        <option value="" disabled selected>Chọn thời gian</option>
+                                        <option value="1">Tuần này</option>
+                                        <option value="2">Tuần trước</option>
+                                        <option value="3">Tháng này</option>
+                                        <option value="4">Tháng trước</option>
+                                        <option value="-1">Khoảng thời gian</option>
+                                    </select>*@
+
+                                    <div class="col-2" ng-show="Filter.TIME == -1">
+                                        <input class="form-control " placeholder="Từ ngày: dd/MM/YYYY" />
+                                    </div>
+                                    <div class="col-2" ng-show="Filter.TIME == -1">
+                                        <input class="form-control "  placeholder="Đến ngày: dd/MM/YYYY"/>
+                                    </div>
+                                </div>
+                                <div class="d-flex mt-5">
+                                    <h6 class="col-11 p-0">Báo cáo tình hình sử dụng hóa đơn</h6>
+                                    <div class="custom-control custom-switch col-1 text-right">
+                                        <input type="checkbox" class="custom-control-input" id="customSwitch3" ng-model="hasInvoiceConsumingCircumstance" ng-init="hasInvoiceConsumingCircumstance = false">
+                                        <label class="custom-control-label" for="customSwitch3"> </label>
+                                    </div>
+                                </div>
+                                <div class="d-flex mt-4">
+                                    <h6 class="col-11 p-0">Bảng kê hóa đơn đầu ra</h6>
+                                    <div class="custom-control custom-switch col-1 text-right">
+                                        <input type="checkbox" class="custom-control-input" id="customSwitch4" ng-model="hasOutcomeInvoices" ng-init="hasOutcomeInvoices = false">
+                                        <label class="custom-control-label" for="customSwitch4"> </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

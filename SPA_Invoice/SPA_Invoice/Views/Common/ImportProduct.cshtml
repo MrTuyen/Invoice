@@ -1,0 +1,246 @@
+﻿<div class="modal hide fade import-product" tabindex="-1" ng-init="stepOne = true" ng-controller="ModalImportProductController">
+    <div class="modal-dialog modal-dialog-scrollable modal-full" role="document" ng-init="IsDiffent = true">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"><i class="fa fa-upload"></i> Tải lên file hàng hóa</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="progressbar-wrapper">
+                        <ul class="progressbar">
+                            <li ng-if="stepOne" class="list-inline-item active"><span class="align-middle">Chọn tệp nguồn</span></li>
+                            <li ng-if="!stepOne" class="list-inline-item"><span class="align-middle">Chọn tệp nguồn</span></li>
+                            <li ng-if="stepTwo" class="steptwo list-inline-item active"><span class="align-middle">Ghép dữ liệu</span></li>
+                            <li ng-if="!stepTwo" class="steptwo list-inline-item"><span class="align-middle">Ghép dữ liệu</span></li>
+                            <li ng-if="stepThree" class="stepThree list-inline-item active"><span class="align-middle">Nhập khẩu</span></li>
+                            <li ng-if="!stepThree" class="stepThree list-inline-item"><span class="align-middle">Nhập khẩu</span></li>
+                        </ul>
+                    </div>
+                </div>
+                <hr />
+                @*step1*@
+                <div class="form-group" style="padding: 10px 20% 10px 20%;" ng-show="stepOne == true || ListData.length == null ">
+                    @*<div class="form-group">
+                    <h6><strong>Lựa chọn file hàng hóa định dạng CSV hoặc Excel để tải lên.</strong></h6>
+                </div>
+
+                <div class="form-group">
+                    <button class="btn btn-outline-secondary" ng-click="ImportProductFromExcel()">Chọn file tải lên</button>
+                </div>
+                <div class="form-group">
+                    <a ng-if="Enterprise.USINGINVOICETYPE === 0" href="~/TemplateFiles/file_mau_hang_hoa.xlsx" style="color: dodgerblue; text-decoration: none;">Tải file mẫu <span class="fa fa-download"></span></a>
+                    <a ng-if="Enterprise.USINGINVOICETYPE === 1" href="~/TemplateFiles/file_mau_hang_hoa.xlsx" style="color: dodgerblue; text-decoration: none;">Tải file mẫu <span class="fa fa-download"></span></a>
+                    <a ng-if="Enterprise.USINGINVOICETYPE === 3" href="~/TemplateFiles/file_mau_hang_hoa.xlsx" style="color: dodgerblue; text-decoration: none;">Tải file mẫu <span class="fa fa-download"></span></a>
+                    <a ng-if="Enterprise.USINGINVOICETYPE === 2" href="~/TemplateFiles/file_mau_bieu_dien.xlsx?v=1" style="color: dodgerblue; text-decoration: none;">Tải file mẫu <span class="fa fa-download"></span></a>
+                    <a ng-if="Enterprise.USINGINVOICETYPE == 4" href="~/TemplateFiles/File_import_danh_muc_gia_nuoc.xlsx?v=2" style="color: dodgerblue; text-decoration: none;">Tải file mẫu<span class="fa fa-download"></span></a>
+                </div>
+
+                <form id="frmImportProduct" class="display-none">
+                    <input id="fileUploadProduct" type="file" name="fileUploadProduct">
+                </form>*@
+                    <div class="row">
+                        <div class="col-xl-6">
+                            <table class="table table-sm table-borderless table-vertical-center">
+                                <tbody>
+                                    <tr>
+                                        <td>Tệp đính kèm</td>
+                                        <td>
+                                            <label class="drop-file-box">
+                                                <span class="fa fa-cloud-upload" aria-hidden="true"></span>
+                                                <span>Kéo thả tập tin ở đây hoặc nhấn vào biếu tượng <br />Maximum File Size: 5 MB  |  File Format: CSV or TSV or XLS</span>
+                                                <form id="frmImportProduct" class="display-none">
+                                                    <input id="fileUploadProduct" type="file" name="fileUploadProduct">
+                                                </form>
+                                            </label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Chọn Sheet chứa dữ liệu </td>
+                                        <td>
+                                            <select id="ddlSheet" class="ddl_finance">
+                                                <option value="" disabled>--Chọn sheet dữ liệu--</option>
+                                                <option ng-repeat="item in Import.ListSheets" value="{{item.Index}}">{{item.SheetName}}</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Chọn dòng làm tiêu đề cột </td>
+                                        <td>
+                                            <input type="number" class="input-finance" ng-model="Import.HeaderRow" />
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-xl-6">
+                            <table class="table table-sm table-borderless table-vertical-center">
+                                <tbody>
+                                    <tr>
+                                        <td style="color:#e54643;width:120px">
+                                            Lưu ý: <svg version="1.1" id="Layer_1" xmlns="https://www.w3.org/2000/svg" x="0" y="0" viewBox="0 0 512 512" xml:space="preserve" class="icon align-text-top" style=" width: 16px;height: 16px; fill: currentColor;"><path fill="#F7B40A" d="M270.5 369.7c-19.4-22.5-46.1-56.6-71.6-102-45.8-81.6-78-139-54.3-191.5 20.9-46.1 79-74.9 131.5-73.4-29.8-2.9-60 2.2-88.2 15.4-41.5 19.4-73.2 53.6-89.3 96.3-8.7 23-12.1 46.3-10.1 69.2 1.1 16.3 4.5 32.4 10.2 47.8 2.2 7 4.6 13.9 6.9 20.6 11 32 20.5 59.6 9.2 89.7l-3.2 8.4 156.5 22.2 2.4-2.7c2.5-2.8 5.2-5.5 8-8.1-2.8 2.5-5.5 5.2-8 8.1z"></path><path fill="#F7D95C" d="M427.1 156c-.4-4.2-1-8.3-1.7-12.4-.5-2.8-1-5.5-1.6-8.2-2.4-10.9-5.9-21.7-10.5-32.2-.5-1.1-1-2.3-1.6-3.5-.1-.3-.3-.6-.4-.9-.3-.7-.7-1.4-1-2.2-7.8-16-22.4-39.3-48-59.5-.1 0-.1-.1-.2-.1-10.2-8-35-27-69-32.6-5.5-.9-11.2-1.4-16.9-1.6-52.5-1.5-110.6 27.3-131.5 73.4-23.8 52.5 8.4 109.9 54.3 191.5 25.5 45.3 52.2 79.5 71.6 102 2.5-2.8 5.2-5.5 8-8.1 2.8-2.6 5.8-5 9-7.4 1-.8 2.1-1.6 3.2-2.3 2.1-1.5 4.3-3 6.6-4.5 2.2-1.5 4.5-2.9 6.9-4.4 2.3-1.4 4.7-2.9 7.1-4.3 3.6-2.1 7.3-4.3 10.9-6.4 4.6-2.7 9.3-5.4 14-8.2 7-3.6 13.7-7.6 20.1-12.1 4.3-3 8.4-6.2 12.4-9.6 2-1.7 3.9-3.4 5.9-5.2 1.9-1.8 3.8-3.6 5.6-5.5 1.8-1.9 3.6-3.8 5.4-5.8 2-2.2 4-4.4 5.9-6.7.9-1.1 1.7-2.1 2.5-3.2 1.1-1.4 2.1-2.8 3.2-4.2 1.4-2 2.8-4.1 4.2-6.2 1.1-1.7 2.2-3.5 3.2-5.2.9-1.5 1.7-3 2.6-4.5 3.7-6.7 6.9-13.9 9.7-21.4 3-8 5.4-16.2 7.2-24.4 1.2-5.5 2.1-11 2.8-16.5.3-2.8.6-5.5.8-8.3.2-2.8.3-5.6.4-8.3v-4.2c-.2-5.7-.5-11.3-1.1-16.8z" style="width: 16px; height: 16px;"></path><path fill="#252733" d="M87.5 411.5c-11.8 38.1 7.7 79.3 45.5 93.6 37.3 14.1 78.4-3.3 95.2-38.7l-126.6-93.8-14.1 38.9z"></path><path fill="#2E324C" d="M228.2 466.5l27.7-71.7-154.3-22.1z"></path></svg>
+                                        </td>
+                                        <td style="background-color: #fff4e7;border: 0;color: #222;">
+                                            <span style="color:#e54643;">Nên sử dụng theo định dạng tệp dữ liệu mẫu của chương trình, chương trình sẽ tự động nhận biết các cột trên tệp dữ liệu với các thông tin tương ứng trên chương trình</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width:120px">File mẫu:</td>
+                                        <td>
+                                            <a ng-if="Enterprise.USINGINVOICETYPE === 0" href="~/TemplateFiles/file_mau_hang_hoa.xlsx" style="color: dodgerblue; text-decoration: none;">Tải file mẫu <span class="fa fa-download"></span></a>
+                                            <a ng-if="Enterprise.USINGINVOICETYPE === 1" href="~/TemplateFiles/file_mau_hang_hoa.xlsx" style="color: dodgerblue; text-decoration: none;">Tải file mẫu <span class="fa fa-download"></span></a>
+                                            <a ng-if="Enterprise.USINGINVOICETYPE === 3" href="~/TemplateFiles/file_mau_hang_hoa.xlsx" style="color: dodgerblue; text-decoration: none;">Tải file mẫu <span class="fa fa-download"></span></a>
+                                            <a ng-if="Enterprise.USINGINVOICETYPE === 2" href="~/TemplateFiles/file_mau_bieu_dien.xlsx?v=1" style="color: dodgerblue; text-decoration: none;">Tải file mẫu <span class="fa fa-download"></span></a>
+                                            <a ng-if="Enterprise.USINGINVOICETYPE == 4" href="~/TemplateFiles/File_import_danh_muc_gia_nuoc.xlsx?v=2" style="color: dodgerblue; text-decoration: none;">Tải file mẫu<span class="fa fa-download"></span></a>
+                                        </td>
+                                    </tr>
+                                    <tr ng-show="Import.FileName">
+                                        <td style="width:120px">Tệp bạn đã chọn:</td>
+                                        <td>
+                                            <b class="font-color-background">{{Import.FileName}}</b>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                @*step2*@
+                <div class="form-group align-items-center mt-3 m-auto col-md-6 col-sm-12" ng-show="ListData.length > 0 && stepTwo == true">
+                    @*<div class="form-group">
+                    <h6><strong>Kiểm tra định dạng trường dữ liệu của bạn với Onfinance Invoice</strong></h6>
+                </div>
+                <table class="table table-bordered table-striped table-sm table-vertical-center mt-4 table-head-green">
+                    <thead>
+                        <tr>
+                            <th width="40%">Dữ liệu Onfinance Invoice</th>
+                            <th width="40%">Dữ liệu của bạn</th>
+                            <th>Kết quả kiểm tra</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in ListData">
+                            <td>{{item.MYFIELD}}</td>
+                            <td>{{item.YOURFIELD}}</td>
+                            <td ng-if="item.ISDIFFERENT == false" class="text-center success-result">
+                                <i class="fa fa-check"></i>
+                            </td>
+                            <td ng-if="item.ISDIFFERENT == true" class="text-center error-result">
+                                <i class="fa fa-times"></i>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>*@
+
+                    <div class="alert alert-danger" ng-if="listColumnError.length == 0">
+                        <svg version="1.1" id="Layer_1" xmlns="https://www.w3.org/2000/svg" x="0" y="0" viewBox="0 0 512 512" xml:space="preserve" class="icon align-text-top" style="width: 16px;height: 16px;fill: currentColor;margin-right: 10px;">
+                        <path fill="#F7B40A" d="M270.5 369.7c-19.4-22.5-46.1-56.6-71.6-102-45.8-81.6-78-139-54.3-191.5 20.9-46.1 79-74.9 131.5-73.4-29.8-2.9-60 2.2-88.2 15.4-41.5 19.4-73.2 53.6-89.3 96.3-8.7 23-12.1 46.3-10.1 69.2 1.1 16.3 4.5 32.4 10.2 47.8 2.2 7 4.6 13.9 6.9 20.6 11 32 20.5 59.6 9.2 89.7l-3.2 8.4 156.5 22.2 2.4-2.7c2.5-2.8 5.2-5.5 8-8.1-2.8 2.5-5.5 5.2-8 8.1z"></path><path fill="#F7D95C" d="M427.1 156c-.4-4.2-1-8.3-1.7-12.4-.5-2.8-1-5.5-1.6-8.2-2.4-10.9-5.9-21.7-10.5-32.2-.5-1.1-1-2.3-1.6-3.5-.1-.3-.3-.6-.4-.9-.3-.7-.7-1.4-1-2.2-7.8-16-22.4-39.3-48-59.5-.1 0-.1-.1-.2-.1-10.2-8-35-27-69-32.6-5.5-.9-11.2-1.4-16.9-1.6-52.5-1.5-110.6 27.3-131.5 73.4-23.8 52.5 8.4 109.9 54.3 191.5 25.5 45.3 52.2 79.5 71.6 102 2.5-2.8 5.2-5.5 8-8.1 2.8-2.6 5.8-5 9-7.4 1-.8 2.1-1.6 3.2-2.3 2.1-1.5 4.3-3 6.6-4.5 2.2-1.5 4.5-2.9 6.9-4.4 2.3-1.4 4.7-2.9 7.1-4.3 3.6-2.1 7.3-4.3 10.9-6.4 4.6-2.7 9.3-5.4 14-8.2 7-3.6 13.7-7.6 20.1-12.1 4.3-3 8.4-6.2 12.4-9.6 2-1.7 3.9-3.4 5.9-5.2 1.9-1.8 3.8-3.6 5.6-5.5 1.8-1.9 3.6-3.8 5.4-5.8 2-2.2 4-4.4 5.9-6.7.9-1.1 1.7-2.1 2.5-3.2 1.1-1.4 2.1-2.8 3.2-4.2 1.4-2 2.8-4.1 4.2-6.2 1.1-1.7 2.2-3.5 3.2-5.2.9-1.5 1.7-3 2.6-4.5 3.7-6.7 6.9-13.9 9.7-21.4 3-8 5.4-16.2 7.2-24.4 1.2-5.5 2.1-11 2.8-16.5.3-2.8.6-5.5.8-8.3.2-2.8.3-5.6.4-8.3v-4.2c-.2-5.7-.5-11.3-1.1-16.8z" style="width: 16px;height: 16px;"></path>
+                        <path fill="#252733" d="M87.5 411.5c-11.8 38.1 7.7 79.3 45.5 93.6 37.3 14.1 78.4-3.3 95.2-38.7l-126.6-93.8-14.1 38.9z"></path><path fill="#2E324C" d="M228.2 466.5l27.7-71.7-154.3-22.1z"></path></svg><strong>Kiểm tra định dạng trường dữ liệu của bạn với Onfinance Invoice</strong>
+                    </div>
+
+                    <div class="alert alert-danger unauthenticate-warning" ng-if="listColumnError.length > 0">
+                        <svg xmlns="https://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 16px;height: 16px;fill: orange;margin-right: 10px;" class="icon icon-md-jar align-text-bottom fill-orange"><path d="M437.2 74.8C388.8 26.4 324.4-.2 256-.2c-68.4 0-132.8 26.7-181.2 75.1C26.4 123.2-.2 187.6-.2 256c0 68.4 26.7 132.8 75.1 181.2 48.4 48.4 112.7 75.1 181.2 75.1 68.4 0 132.8-26.7 181.2-75.1s75.1-112.7 75.1-181.2c-.2-68.4-26.8-132.8-75.2-181.2z"></path><path fill="#FFF" d="M256.5 348.9c-17.7 0-32 14.1-32 31.6s14.3 31.6 32 31.6 32-14.2 32-31.6c.1-17.4-14.3-31.6-32-31.6zm-.8-246.2c-25.8 0-45.7 22.6-42.5 47.9 2.7 20.9 22.5 125.3 29.2 159.9 1.3 6.5 7 12.3 13.7 12.3h.3c6.5 0 12.1-5.7 13.3-12 6.5-34.1 26.5-138.9 29.1-160.2 3.3-25.6-17-47.9-43.1-47.9z"></path></svg>
+                        <ul class="font-small font-light gs-video-steps">
+                            <li class="step" ng-repeat="colError in listColumnError">Dữ liệu cột <<b>{{colError}}</b>> chưa được ghép với dữ liệu Onfinance Invoice.</li>
+                        </ul>
+                    </div>
+
+                    <table class="table table-bordered table-striped table-sm table-vertical-center mt-4 table-head-green data-filret">
+                        <thead>
+                            <tr>
+                                <th>Dữ liệu Onfinance Invoice</th>
+                                <th>Dữ liệu của bạn</th>
+                                <th>Bắt buộc</th>
+                                <th>Diễn giải</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in ListData" ng-if="item.MYFIELD != null">
+                                <td style="width: 26%;" ng-if="!item.Required">{{item.MYFIELD}}</td>
+                                <td style="width: 26%;color:#e54643;" ng-if="item.Required">{{item.MYFIELD}}</td>
+                                <td style="width:16%" class="slect-box-ac">
+                                    <select ng-change="changeDataMapping()" title="&nbsp;" ng-model="ListMap[item.MYFIELD]" ng-init="ListMap[item.MYFIELD] = item.YOURFIELD" class="selectpicker" data-live-search="true" includeSelectAllOption="true" style="width: 100%">
+                                        <option ng-repeat="itemYourFields in lstYourField" value="{{itemYourFields.ColName}}" ng-selected="itemYourFields.ColName == ListMap[item.MYFIELD]">{{itemYourFields.ColName}}</option>
+                                    </select>
+                                    <span style="display:none;" class="ac-box ac-selected" ng-click="revmoveItem(item.YOURFIELD)"><i class="ac-selection-clear tooltip-container ember-view"> <svg version="1.1" id="Layer_1" xmlns="https://www.w3.org/2000/svg" x="0" y="0" viewBox="0 0 512 512" xml:space="preserve"><path d="M455.2 9.2L256 208.4 56.8 9.2C44.5-3.1 24.6-3.1 12.2 9.2l-2.9 2.9C-3 24.4-3 44.4 9.3 56.7L208.4 256 9.2 455.2c-12.3 12.3-12.3 32.3 0 44.6l2.9 2.9c12.3 12.3 32.3 12.3 44.6 0L256 303.6l199.2 199.2c12.3 12.3 32.3 12.3 44.6 0l2.9-2.9c12.3-12.3 12.3-32.3 0-44.6L303.6 256 502.8 56.8c12.3-12.3 12.3-32.3 0-44.6l-2.9-2.9c-12.5-12.4-32.4-12.4-44.7-.1z"></path></svg> </i></span>
+                                </td>
+                                <td style="width: 8%;text-align: center;">
+                                    <i ng-if="item.Required" style="color: red;" class="fa fa-check"></i>
+                                </td>
+                                <td>
+                                    {{item.EXPLAINT}}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+
+                @*step3*@
+                <div class="form-group align-items-center mt-3 m-auto col-md-12 col-sm-12" ng-show="ListData.length > 0 && stepThree == true">
+                    <div class="d-flex form-group">
+                        <h6 class="col-md-3 col-sm-6 mt-auto pl-0"><strong>{{ImportProducts.length}} hàng hóa đã sẵn sàng tải lên hệ thống Novaon Invoice</strong></h6>
+                        @*<input type="text" name="searchProduct" id="searchProduct" class="form-control input100 input-text col-md-2 col-sm-6" placeholder="Tìm kiếm hàng hóa" />*@
+                    </div>
+                    <table class="table table-bordered table-striped table-sm table-vertical-center mt-2 table-head-green">
+                        <thead>
+                            @*<tr>
+                            <th ng-repeat="column in ListData">{{column.MYFIELD}}</th>
+                        </tr>*@
+                            <tr>
+                                <th>Hàng hóa/Dịch vụ</th>
+                                <th>Mã hàng hóa/Dịch vụ</th>
+                                <th>Đơn vị tính</th>
+                                <th>Giá</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="product in ImportProducts">
+                                <td>{{product.PRODUCTNAME}}</td>
+                                <td>{{product.SKU}}</td>
+                                <td>{{product.QUANTITYUNIT}}</td>
+                                <td>{{product.PRICE}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+            @*<div class="modal-footer footer-import-product">
+            <button class="btn btn-secondary" data-dismiss="modal" ng-click="ResetAllStep()">
+                Hủy
+            </button>
+            <button class="btn btn-secondary" ng-show="ListData.length > 0 && stepThree == false" ng-click="ListData = null">
+                Quay lại
+            </button>
+            <button class="btn btn-success" ng-disabled="IsDiffent" ng-hide="stepThree==true" ng-click="ShowStepThree()">
+                Tiếp tục
+            </button>
+            <button class="btn btn-success" ng-show="stepThree==true" ng-click="SaveProductList()">
+                Tải danh sách
+            </button>
+        </div>*@
+            <div class="modal-footer footer-import-product">
+                <button class="btn btn-light" data-dismiss="modal" ng-click="ResetAllStep()">
+                    Hủy
+                </button>
+                <button class="btn btn-success" ng-if="stepOne == true" ng-click="ImportExcelMappingData()">
+                    Tiếp tục
+                </button>
+                <button class="btn btn-light" ng-if="stepTwo == true" ng-click="ImportBackToStep(1)">
+                    Quay lại
+                </button>
+                <button class="btn btn-success" ng-if="stepTwo == true" ng-click="ImportExcelPreviewData()">
+                    Tiếp tục
+                </button>
+                <button class="btn btn-light" ng-if="stepThree == true" ng-click="ImportBackToStep(2)">
+                    Quay lại
+                </button>
+                <button class="btn btn-success" ng-show="stepThree==true" ng-click="SaveProductList()">
+                    Tải danh sách
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

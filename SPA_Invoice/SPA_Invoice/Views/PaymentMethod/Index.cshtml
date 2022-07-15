@@ -1,0 +1,149 @@
+﻿<div ng-init="GetPaymentMethod(1)">
+    <div class="d-flex justify-content-between">
+        <h2><strong>Hình Thức Thanh Toán</strong></h2>
+    </div>
+
+    <div class="border mt-2">
+        <div class="bg-white header-filter px-3 py-2">
+            <div class="d-flex justify-content-between mt-2">
+                <div class="d-flex justify-content-center align-items-center">
+                    <input type="text" name="categoryandservice" id="productandservice" class="form-control input100 input-text" placeholder="Tìm kiếm theo tên HTTT" ng-model="Filter.KEYWORD" my-enter="ReloadPayment(1)" />
+                </div>
+                <div class="d-flex justify-content-center align-items-center">
+                    <div class="button-circle-hover" @*ng-hide="IsSelectAll"*@><span class="fa fa-download" title="Tải xuống file dữ liệu" ng-click="ExportExcell()"></span></div>
+                    <button type="button" class="btn btn-link btn-sm" ng-click="ModalPayment('')" data-toggle="modal" data-target=".modal-payment" title="Thêm mới"><span class="fa fa-plus color_btn"></span></button>
+                    <button type="button" class="btn btn-link btn-sm" ng-click="RemovePaymentMethod()" title="Xóa"><span class="fa fa-trash-o fa-2x color_btn"></span></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="btn-filter mt-2 table_overflow_absolute onscrollbar">
+            <table class="bg-white table table-bordered  table-sm table-vertical-center table-head-green table-hover ">
+                <thead class="text-center">
+                    <tr>
+                        <th class="text-center" style="width:60px;">
+                            <label for="cbx_title" class="label-cbx">
+                                <input id="cbx_title" type="checkbox" class="invisible" ng-click="SelectAll()" ng-model="IsSelectAll" ng-init="IsSelectAll = false">
+                                <span class="checkbox">
+                                    <svg width="20px" height="20px" viewBox="0 0 20 20">
+                                        <path d="M3,1 L17,1 L17,1 C18.1045695,1 19,1.8954305 19,3 L19,17 L19,17 C19,18.1045695 18.1045695,19 17,19 L3,19 L3,19 C1.8954305,19 1,18.1045695 1,17 L1,3 L1,3 C1,1.8954305 1.8954305,1 3,1 Z"></path>
+                                        <polyline points="4 11 8 15 16 6"></polyline>
+                                    </svg>
+                                </span>
+                            </label>
+                        </th>
+                        <th class="text-center" style="width:60px;" ng-show="cookie.FieldID">ID</th>
+                        <th ng-show="cookie.FieldPaymentMethod">Tên hình thức thanh toán</th>
+                        <th ng-show="cookie.FieldIsActived" style="width:80px;">Hoạt động</th>
+                        <th class="text-center" style="width: 135px">Hành động</th>
+                    </tr>
+                </thead>
+                <tbody class="product-table">
+                    <tr class="data" ng-hide="ListPayment.length > 0">
+                        <td colspan="12">Dữ liệu đang trống!</td>
+                    </tr>
+                    <tr ng-repeat="item in ListPayment">
+                        <td class="text-center">
+                            <label for="cbx_{{$index}}" class="label-cbx">
+                                <input id="cbx_{{$index}}" type="checkbox" class="invisible cbx-id" ng-model="item.ISSELECTED" ng-click="SeleteRow(item.ISSELECTED)" ng-disabled="item.COMTAXCODE==NULL">
+                                <span class="checkbox">
+                                    <svg width="20px" height="20px" viewBox="0 0 20 20">
+                                        <path d="M3,1 L17,1 L17,1 C18.1045695,1 19,1.8954305 19,3 L19,17 L19,17 C19,18.1045695 18.1045695,19 17,19 L3,19 L3,19 C1.8954305,19 1,18.1045695 1,17 L1,3 L1,3 C1,1.8954305 1.8954305,1 3,1 Z"></path>
+                                        <polyline points="4 11 8 15 16 6"></polyline>
+                                    </svg>
+                                </span>
+                            </label>
+                        </td>
+
+                        <td class="text-center" ng-show="cookie.FieldID">
+                            <label>{{$index + 1}}</label>
+                        </td>
+                        <td ng-show="cookie.FieldPaymentMethod">
+                            <label>{{item.PAYMENTMETHOD}}</label>
+                        </td>
+                        <td ng-show="cookie.FieldIsActived" class="text-center">
+                            <label ng-if="item.ISACTIVED == false" style="transform:scale(1.5)" ng-click="UpdatePaymentMethod(item)" title="Trạng thái đang tắt" ng-disabled="item.COMTAXCODE == '1'"><span class="text-success fa fa-toggle-off"></span></label>
+                            <label ng-if="item.ISACTIVED == true" style="transform:scale(1.5)" ng-click="UpdatePaymentMethod(item)" title="Trạng thái đang hoạt động" ng-disabled="item.COMTAXCODE == '1'"><span class="text-success fa fa-toggle-on"></span></label>
+                        </td>
+                        <td class="text-center" style="width:100px;">
+                            <div class="btn-group btn-sm">
+                                <button type="button" class="btn btn-link btn-sm" ng-click="ModalPayment(item)" ng-disabled="item.COMTAXCODE=='1'" data-toggle="modal" data-target=".modal-payment" title="Chỉnh sửa"><span class="fa fa-pencil-square-o color_btn"></span></button>
+                                <button type="button" class="btn btn-link btn-sm" ng-click="RemovePaymentMethod(item)" ng-disabled="item.COMTAXCODE=='1'" title="Xóa"><span class="fa fa-trash-o fa-2x color_btn"></span></button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+        <div class="paging-absolute" ng-hide="ListPayment.length < 1">
+            <table class="table  table-sm table-vertical-center table-head-green">
+                <tr>
+                    <td style="border:none;">
+                        <div class="d-flex align-items-center">
+                            <span style="padding-right: 5px;">Hiển thị</span>
+                            <select class="form-control form-control-sm" ng-model="cookie.RowNum" ng-change="Check(cookie.RowNum,'RowNum')" convert-to-number style="width:20%;">
+                                <option value="5">5</option>
+                                <option value="10">10</option>
+                                <option value="20">20</option>
+                                <option value="30">30</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select>
+                            <span style="padding-left: 5px;">dòng</span>
+                        </div>
+                    </td>
+                    <td class="text-left border-0 " colspan="3" ng-model="currentpage">
+                        <div class="mt-2 ml-4 pagination-area">
+                            <label class="pagination-current">{{(currentpage - 1) * cookie.RowNum + 1}}  - {{currentpage * cookie.RowNum > TotalRow ? TotalRow : currentpage * cookie.RowNum}}  trong <strong>{{TotalRow}}</strong> bản ghi</label>
+                        </div>
+                    </td>
+                    <td class="text-right border-0" colspan="10" ng-model="currentpage">
+                        <div class="mt-2 mr-4 pagination-area">
+                            <button class="pagination-first" ng-disabled="currentpage == 1" ng-click="GetPaymentMethod(1)">< Đầu tiên</button>
+                            <button class="pagination-previous" ng-disabled="currentpage == 1" ng-click="GetPaymentMethod(currentpage - 1)">Trước</button>
+                            <label class="pagination-current"><strong>{{currentpage}}/{{TotalPages}}</strong></label>
+                            <button class="pagination-next" ng-disabled="currentpage == TotalPages" ng-click="GetPaymentMethod(currentpage + 1)">Sau</button>
+                            <button class="pagination-last" ng-disabled="currentpage == TotalPages" ng-click="GetPaymentMethod(TotalPages)">Cuối cùng ></button>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+</div>
+<div class="paging-absolute" ng-hide="ListPayment.length < 1">
+    <table class="table  table-sm table-vertical-center table-head-green">
+        <tr>
+            <td>
+                <div class="d-flex align-items-center">
+                    <span style="padding-right: 5px;">Hiển thị</span>
+                    <select class="form-control form-control-sm" ng-model="cookie.RowNum" ng-change="Check(cookie.RowNum,'RowNum')" convert-to-number style="width:20%;">
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="30">30</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select>
+                    <span style="padding-left: 5px;">dòng</span>
+                </div>
+            </td>
+            <td class="text-left border-0 " colspan="3" ng-model="currentpage">
+                <div class="mt-2 ml-4 pagination-area">
+                    <label class="pagination-current">{{(currentpage - 1) * cookie.RowNum + 1}}  - {{currentpage * cookie.RowNum > TotalRow ? TotalRow : currentpage * cookie.RowNum}}  trong <strong>{{TotalRow}}</strong> bản ghi</label>
+                </div>
+            </td>
+            <td class="text-right border-0" colspan="10" ng-model="currentpage">
+                <div class="mt-2 mr-4 pagination-area">
+                    <button class="pagination-first" ng-disabled="currentpage == 1" ng-click="GetPaymentMethod(1)">< Đầu tiên</button>
+                    <button class="pagination-previous" ng-disabled="currentpage == 1" ng-click="GetPaymentMethod(currentpage - 1)">Trước</button>
+                    <label class="pagination-current"><strong>{{currentpage}}/{{TotalPages}}</strong></label>
+                    <button class="pagination-next" ng-disabled="currentpage == TotalPages" ng-click="GetPaymentMethod(currentpage + 1)">Sau</button>
+                    <button class="pagination-last" ng-disabled="currentpage == TotalPages" ng-click="GetPaymentMethod(TotalPages)">Cuối cùng ></button>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>

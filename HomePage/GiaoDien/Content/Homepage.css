@@ -1,0 +1,181 @@
+﻿body {
+    width: auto;
+    font: Regular 17px/17px Avenir Next;
+}
+
+.main-container {
+    width: 1365px;
+    margin: 0 auto;
+}
+
+.wrapper {
+    /*width: 1200px;*/
+    height: auto;
+    margin: 0 auto;
+}
+
+    .wrapper a {
+        color: black;
+    }
+
+        .wrapper a:hover {
+            text-decoration: none;
+        }
+
+    .wrapper .logo {
+        width: 102px;
+        height: 56px;
+    }
+
+.logo-img {
+    margin: 20px;
+}
+
+.box-top-header {
+    height: 100px;
+}
+
+.menu-list {
+    width: 90%;
+}
+
+    .menu-list .menu-item {
+        margin-left: 10%;
+        padding: 5px;
+    }
+
+.options {
+    width: 40%;
+}
+
+    .options button {
+        padding-left: 30px !important;
+        padding-right: 30px !important;
+    }
+
+.opt {
+    padding: 5px;
+}
+
+.intro-banner {
+    min-height: 476px;
+    margin-top: 100px;
+    box-sizing: border-box;
+}
+
+    .intro-banner h1 {
+        font-size: 36px;
+        line-height: 42px;
+        color: #000;
+        text-align: center;
+    }
+
+.banner-box {
+    align-self: center;
+}
+
+.no-padding {
+    padding: 0;
+}
+
+.left-content {
+    margin-top: 65px;
+    font-size: 32px;
+}
+
+.container {
+    display: flex;
+    max-width: 1200px;
+}
+
+.img-fluid {
+    padding-left: 50px;
+}
+
+.button-intro-banner {
+    text-align: center;
+    margin-top: 40px;
+}
+
+    .button-intro-banner .btn-success {
+        padding-right: 25px !important;
+        padding-left: 25px !important;
+    }
+
+.partners {
+    font-size: 12px;
+    background-color: #FFFFFF;
+}
+
+.invoice-intro {
+    margin-top: 100px;
+}
+
+.card {
+    border: none !important;
+    margin-bottom: 15px;
+    background-color: #FFFFFF !important;
+}
+
+.card-header {
+    background-color: #FFFFFF !important;
+}
+
+    .card-header img {
+        width: 20px;
+        height: 20px;
+        float: right;
+    }
+
+.card-link {
+    color: black;
+    font-weight: bold;
+    background-color: #FFFFFF !important;
+}
+
+.invoice-benefit {
+    text-align: center;
+    background-color: #F6F8F9;
+    margin-top: 50px;
+}
+
+    .invoice-benefit h2 {
+        padding-top: 50px;
+        padding-bottom: 50px;
+    }
+
+    .invoice-benefit .row {
+        margin-right: 0px !important;
+        margin-left: 0px !important;
+    }
+
+.benefit {
+    background-color: #fff;
+    text-align: center;
+    height: 300px;
+    margin-bottom: 35px;
+}
+
+    .benefit img {
+        margin-top: 30px;
+    }
+
+    .benefit h5 {
+        margin-top: 20px;
+    }
+
+    .benefit p {
+        margin-top: 20px;
+    }
+
+@media (max-width: 1367px) {
+    .main-container {
+        width: 1200px;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    .wrapper {
+        width: initial;
+    }
+}

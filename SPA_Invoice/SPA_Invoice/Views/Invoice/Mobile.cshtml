@@ -1,0 +1,686 @@
+﻿@*Mobile*@
+<div class="mobile_content_invoice d-block d-sm-none onscrollbar" onscroll="LoadPage()" id="all_invoice" style="margin-left:-20px;">
+    <div class="d-block d-sm-none ml-2 mb-1">
+        Loại hóa đơn:
+        <div class="btn-group pl-2" style="width:132px;height:28px;font-size:12px;">
+            <button type="button" class="btn btn-success btn-sm dropdown-toggle1 text-left" style="border-radius:4px;" data-toggle="dropdown" ng-if="Tab.All == true">
+                Tất cả <span class="fa fa-sort-desc fa-lg1" style="font-size:10px;"></span>
+            </button>
+            <button type="button" class="btn btn-success btn-sm dropdown-toggle1 text-left" style="border-radius:4px;" data-toggle="dropdown" ng-if="Tab.Wating == true">
+                HĐ CHỜ DUYỆT <span class="fa fa-sort-desc fa-lg1" style="font-size:10px;margin-left: -57px;"></span>
+            </button>
+            <button type="button" class="btn btn-success btn-sm dropdown-toggle1 text-left" style="border-radius:4px;" data-toggle="dropdown" ng-if="Tab.Cancel == true">
+                HĐ HỦY BỎ <span class="fa fa-sort-desc fa-lg1" style="font-size:10px;padding-left: 24px;"></span>
+            </button>
+            <button type="button" class="btn btn-success btn-sm dropdown-toggle1 text-left" style="border-radius:4px;" data-toggle="dropdown" ng-if="Tab.Change == true">
+                HĐ ĐIỀU CHỈNH <span class="fa fa-sort-desc fa-lg1" style="font-size:10px;margin-left: -57px;"></span>
+            </button>
+            <button type="button" class="btn btn-success btn-sm dropdown-toggle1 text-left" style="border-radius:4px;" data-toggle="dropdown" ng-if="Tab.Delete == true">
+                HĐ XÓA BỎ <span class="fa fa-sort-desc fa-lg1" style="font-size:10px;padding-left: 24px;"></span>
+            </button>
+            <button type="button" class="btn btn-success btn-sm dropdown-toggle1 text-left" style="border-radius:4px;" data-toggle="dropdown" ng-if="Tab.Replace == true">
+                HĐ THAY THẾ <span class="fa fa-sort-desc fa-lg1" style="font-size:10px;margin-left: -57px;"></span>
+            </button>
+            <div class="dropdown-menu dropdown-menu-sm" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" href="javascript:;" ng-model="Tab.All" ng-click="InvoiceTabClick(1)" ng-class="{true: 'active'}[Tab.All]" style="border:none;">Tất cả</a>
+                <a class="dropdown-item" href="javascript:;" ng-model="Tab.Wating" ng-click="InvoiceTabClick(8)" ng-class="{true: 'active'}[Tab.Wating]" style="border:none;">HĐ CHỜ DUYỆT</a>
+                <a class="dropdown-item" href="javascript:;" ng-model="Tab.Cancel" ng-click="InvoiceTabClick(2)" ng-class="{true: 'active'}[Tab.Cancel]" style="border:none;">HĐ HỦY BỎ</a>
+                <a class="dropdown-item" href="javascript:;" ng-model="Tab.Change" ng-click="InvoiceTabClick(4)" ng-class="{true: 'active'}[Tab.Change]" style="border:none;">HĐ ĐIỀU CHỈNH</a>
+                <a class="dropdown-item" href="javascript:;" ng-model="Tab.Delete" ng-click="InvoiceTabClick(7)" ng-class="{true: 'active'}[Tab.Delete]" style="border:none;">HĐ XÓA BỎ</a>
+                <a class="dropdown-item" href="javascript:;" ng-model="Tab.Replace" ng-click="InvoiceTabClick(5)" ng-class="{true: 'active'}[Tab.Replace]" style="border:none;">HĐ THAY THẾ</a>
+            </div>
+        </div>
+        <div class="btn-group btn-filter ml-3" ng-if="Tab.All == true">
+            <button type="button" class="btn btn-link btn-sm dropdown-toggle1 text-black-50" data-toggle="dropdown">
+                <span class="fa fa-filter"></span>
+            </button>
+            <div class="dropdown-menu pr-3 filter-size" style="width:350px;">
+                <form id="frmInvoiceFilter_all_mb">
+                    <div class="row ml-1">
+                        <div class="col-12">
+                            <p class="mb-1">Trạng thái hoá đơn</p>
+                            <select class="form-control form-control-sm ddl-novaon" name="INVOICESTATUS" ng-model="Filter.INVOICESTATUS">
+                                <option value="{{null}}" selected>Tất cả</option>
+                                <option ng-repeat="item in ListInvoiceStatus" value="{{item.INVOICESTATUSID}}">{{item.INVOICESTATUSNAME}}</option>
+                            </select>
+
+                            <p class="mb-1 mt-3">Mẫu số</p>
+                            <select class="form-control form-control-sm ddl-novaon" ng-model="Filter.FORMCODE">
+                                <option value="" selected>Tất cả</option>
+                                <option ng-repeat="item in ListFormCode" value="{{item.FORMCODE}}">{{item.FORMCODE}}</option>
+                            </select>
+
+
+                            <p class="mb-1 mt-3">Khách hàng</p>
+                            <input class="form-control form-control-sm" ng-model="Filter.CUSTOMER" placeholder="Tên doanh nghiệp..." />
+                            <p class="mb-1 mt-3">Từ số HĐ</p>
+                            <input class="form-control form-control-sm" ng-model="Filter.FROMNUMBER" placeholder="ví dụ 0001" />
+                            <p class="mb-1 mt-3">Tới số HĐ</p>
+                            <input class="form-control form-control-sm" ng-model="Filter.TONUMBER" placeholder="ví dụ 0010" />
+                            <p class="mb-1 mt-3">Sắp xếp</p>
+                            <select class="form-control form-control-sm ddl-novaon" ng-model="Filter.STATUS">
+                                <option value="" selected>Mặc định</option>
+                                <option value="0">Số HĐ tăng dần</option>
+                                <option value="1">Số HĐ giảm dần</option>
+                                <option value="2">Ngày tạo HĐ giảm dần </option>
+                                <option value="3">Ngày tạo HĐ tăng dần</option>
+                                <option value="4">Mã KH giảm dần</option>
+                                <option value="5">Mã KH tăng dần</option>
+                            </select>
+                        </div>
+
+                        <div class="col-12">
+                            <p class="mb-1">Ký hiệu</p>
+                            <select class="form-control form-control-sm ddl-novaon" ng-model="Filter.SYMBOLCODE">
+                                <option value="" selected>Tất cả</option>
+                                <option ng-repeat="item in ListSymbolCode" value="{{item.SYMBOLCODE}}">{{item.SYMBOLCODE}}</option>
+                            </select>
+
+                            <p class="mb-1 mt-3">Số</p>
+                            <input class="form-control form-control-sm" ng-model="Filter.NUMBER" placeholder="Số hóa đơn... (ví dụ: 0000009)" />
+                            <p class="mb-1 mt-3">Mã khách hàng</p>
+                            <input class="form-control form-control-sm" ng-model="Filter.CUSTOMERCODE" placeholder="CH00001" />
+                            <p class="mb-1 mt-3">Thời gian</p>
+                            <select class="form-control form-control-sm ddl-novaon" ng-model="Filter.TIME">
+                                <option value="{{null}}" selected>Tất cả</option>
+                                <option ng-repeat="t in Timepickers.Options" value="{{t.value}}">{{t.text}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row" ng-show="(Filter.TIME == 5)">
+                        <div class="col-6">
+                            <p class="mb-1 mt-3">Từ ngày</p>
+                            @*<input type="text" class="form-control form-control-sm editor_invoice datepicker invoice_datepicker_icon" ng-model="FROMTIME" id="pk_fromtime" autocomplete="off" ng-mouseover="SetDatepikerFromTime()" />*@
+                            <input type="date" ng-model="FROMTIME" data-date-format="DD MMMM YYYY" id="pk_fromtime_mb" class="w-100">
+                        </div>
+                        <div class="col-6">
+                            <p class="mb-1 mt-3">Đến ngày</p>
+                            @*<input type="text" class="form-control form-control-sm editor_invoice datepicker invoice_datepicker_icon" ng-model="TOTIME" id="pk_totime" autocomplete="off" ng-mouseover="SetDatepikerToTime()" />*@
+                            <input type="date" ng-model="TOTIME" data-date-format="DD MMMM YYYY" id="pk_totime_mb" class="w-100">
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mt-4">
+                        <div class="keyword-filter">
+
+                        </div>
+                        <button class="btn btn-success btn-sm pl-5 pr-5" ng-click=" GetInvoice(1)">Lọc</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="btn-group btn-filter ml-3" ng-if="Tab.Wating == true">
+            <button type="button" class="btn btn-link btn-sm dropdown-toggle1 text-black-50" data-toggle="dropdown">
+                <span class="fa fa-filter"></span>
+            </button>
+            <div class="dropdown-menu pr-3 filter-size" style="width:350px;">
+                <form id="frmInvoiceFilter_wating_mb">
+                    <div class="row ml-1">
+                        <div class="col-12">
+                            <p class="mb-1">Trạng thái hoá đơn</p>
+                            <select class="form-control form-control-sm ddl-novaon" name="INVOICESTATUS" ng-model="Filter.INVOICESTATUS">
+                                <option value="{{null}}" selected>Tất cả</option>
+                                <option ng-repeat="item in ListInvoiceStatus" value="{{item.INVOICESTATUSID}}">{{item.INVOICESTATUSNAME}}</option>
+                            </select>
+
+                            <p class="mb-1 mt-3">Mẫu số</p>
+                            <select class="form-control form-control-sm ddl-novaon" ng-model="Filter.FORMCODE">
+                                <option value="" selected>Tất cả</option>
+                                <option ng-repeat="item in ListFormCode" value="{{item.FORMCODE}}">{{item.FORMCODE}}</option>
+                            </select>
+
+
+                            <p class="mb-1 mt-3">Khách hàng</p>
+                            <input class="form-control form-control-sm" ng-model="Filter.CUSTOMER" placeholder="Tên doanh nghiệp..." />
+                            <p class="mb-1 mt-3">Sắp xếp</p>
+                            <select class="form-control form-control-sm ddl-novaon" ng-model="Filter.STATUS">
+                                <option value="" selected>Mặc định</option>
+                                <option value="0">Ngày tạo HĐ giảm dần </option>
+                                <option value="1">Ngày tạo HĐ tăng dần</option>
+                                <option value="2">Mã KH giảm dần</option>
+                                <option value="3">Mã KH tăng dần</option>
+                            </select>
+                        </div>
+
+                        <div class="col-12">
+                            <p class="mb-1">Ký hiệu</p>
+                            <select class="form-control form-control-sm ddl-novaon" ng-model="Filter.SYMBOLCODE">
+                                <option value="" selected>Tất cả</option>
+                                <option ng-repeat="item in ListSymbolCode" value="{{item.SYMBOLCODE}}">{{item.SYMBOLCODE}}</option>
+                            </select>
+
+                            <p class="mb-1 mt-3">Mã khách hàng</p>
+                            <input class="form-control form-control-sm" ng-model="Filter.CUSTOMERCODE" placeholder="CH00001" />
+                            <p class="mb-1 mt-3">Thời gian</p>
+                            <select class="form-control form-control-sm ddl-novaon" ng-model="Filter.TIME">
+                                <option value="{{null}}" selected>Tất cả</option>
+                                <option ng-repeat="t in Timepickers.Options" value="{{t.value}}">{{t.text}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row" ng-show="(Filter.TIME == 5)">
+                        <div class="col-6">
+                            <p class="mb-1 mt-3">Từ ngày</p>
+                            @*<input type="text" class="form-control form-control-sm editor_invoice datepicker invoice_datepicker_icon" ng-model="FROMTIME" id="pk_fromtime" autocomplete="off" ng-mouseover="SetDatepikerFromTime()" />*@
+                            <input type="date" ng-model="FROMTIME" data-date-format="DD MMMM YYYY" id="pk_fromtime_wating_mb" class="w-100">
+                        </div>
+                        <div class="col-6">
+                            <p class="mb-1 mt-3">Đến ngày</p>
+                            @*<input type="text" class="form-control form-control-sm editor_invoice datepicker invoice_datepicker_icon" ng-model="TOTIME" id="pk_totime" autocomplete="off" ng-mouseover="SetDatepikerToTime()" />*@
+                            <input type="date" ng-model="TOTIME" data-date-format="DD MMMM YYYY" id="pk_totime_wating_mb" class="w-100">
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mt-4">
+                        <div class="keyword-filter">
+
+                        </div>
+                        <button class="btn btn-success btn-sm pl-5 pr-5" ng-click=" GetInvoiceWating(1)">Lọc</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="btn-group btn-filter ml-3" ng-if="Tab.Cancel == true">
+            <button type="button" class="btn btn-link text-black-50 btn-sm dropdown-toggle" data-toggle="dropdown">
+                <span class="fa fa-filter"></span>
+            </button>
+            <div class="dropdown-menu pr-3 filter-size" style="width:350px;">
+                <form id="frmInvoiceFilterCancel_mb">
+                    <div class="row ml-1">
+                        <div class="col-12">
+                            <p class="mb-1 mt-3">Mẫu số</p>
+                            <select class="form-control form-control-sm ddl-novaon" ng-model="Filter.FORMCODE">
+                                <option value="" selected>Tất cả</option>
+                                <option ng-repeat="item in ListFormCode" value="{{item.FORMCODE}}">{{item.FORMCODE}}</option>
+                            </select>
+
+
+                            <p class="mb-1 mt-3">Khách hàng</p>
+                            <input class="form-control form-control-sm" ng-model="Filter.CUSTOMER" placeholder="Tên doanh nghiệp..." />
+
+                            <p class="mb-1 mt-3">Thời gian</p>
+                            <select class="form-control form-control-sm ddl-novaon" ng-model="Filter.TIME">
+                                <option value="{{null}}" disabled selected>Chọn thời gian</option>
+                                <option ng-repeat="t in Timepickers.Options" value="{{t.value}}">{{t.text}}</option>
+                            </select>
+
+                        </div>
+
+                        <div class="col-12">
+                            <p class="mb-1 mt-3">Ký hiệu</p>
+                            <select class="form-control form-control-sm ddl-novaon" ng-model="Filter.SYMBOLCODE">
+                                <option value="" disabled selected>Chọn ký hiệu</option>
+                                <option ng-repeat="item in ListSymbolCode" value="{{item.SYMBOLCODE}}">{{item.SYMBOLCODE}}</option>
+                            </select>
+
+                            <p class="mb-1 mt-3">Số</p>
+                            <input class="form-control form-control-sm" ng-model="Filter.NUMBER" placeholder="Số hóa đơn... (ví dụ: 0000009)" />
+                        </div>
+                    </div>
+                    <div class="row" ng-show="(Filter.TIME == 5)">
+                        <div class="col-12">
+                            <p class="mb-1 mt-3">Từ ngày</p>
+                            <input type="date" ng-model="FROMTIME" data-date-format="DD MMMM YYYY" id="pk_fromtimecancel" class="w-100">
+                        </div>
+                        <div class="col-12">
+                            <p class="mb-1 mt-3">Đến ngày</p>
+                            <input type="date" ng-model="TOTIME" data-date-format="DD MMMM YYYY" id="pk_totimecancel" class="w-100">
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mt-4">
+                        <div class="keyword-filter">
+
+                        </div>
+                        <button class="btn btn-success btn-sm pl-5 pr-5" ng-click="GetInvoiceByStatus(3, 1, 1)">Lọc</button>
+                    </div>
+                </form>
+            </div>
+            @* Gán thẻ đã lọc *@
+            <span class="has-tag" ng-repeat="f in FilterApply" ng-click="RemoveFilter(f)">{{f.value}} <img src="~/Images/close.png"></span>
+        </div>
+        <div class="btn-group btn-filter ml-3" ng-if="Tab.Change == true">
+            <button type="button" class="btn btn-link text-black-50 btn-sm dropdown-toggle1" data-toggle="dropdown">
+                <span class="fa fa-filter"></span>
+            </button>
+            <div class="dropdown-menu pr-3 filter-size" style="width:350px;">
+                <form id="frmInvoiceFilterChange_mb">
+                    <div class="row ml-1">
+                        <div class="col-12">
+                            <p class="mb-1 mt-3">Mẫu số</p>
+                            <select class="form-control form-control-sm ddl-novaon" ng-model="Filter.FORMCODE">
+                                <option value="" selected>Tất cả</option>
+                                <option ng-repeat="item in ListFormCode" value="{{item.FORMCODE}}">{{item.FORMCODE}}</option>
+                            </select>
+
+
+                            <p class="mb-1 mt-3">Khách hàng</p>
+                            <input class="form-control form-control-sm" ng-model="Filter.CUSTOMER" placeholder="Tên doanh nghiệp..." />
+
+                            <p class="mb-1 mt-3">Thời gian</p>
+                            <select class="form-control form-control-sm ddl-novaon" ng-model="Filter.TIME">
+                                <option value="{{null}}" disabled selected>Chọn thời gian</option>
+                                <option ng-repeat="t in Timepickers.Options" value="{{t.value}}">{{t.text}}</option>
+                            </select>
+
+                        </div>
+
+                        <div class="col-12">
+                            <p class="mb-1 mt-3">Ký hiệu</p>
+                            <select class="form-control form-control-sm ddl-novaon" ng-model="Filter.SYMBOLCODE">
+                                <option value="" disabled selected>Chọn ký hiệu</option>
+                                <option ng-repeat="item in ListSymbolCode" value="{{item.SYMBOLCODE}}">{{item.SYMBOLCODE}}</option>
+                            </select>
+
+                            <p class="mb-1 mt-3">Số</p>
+                            <input class="form-control form-control-sm" ng-model="Filter.NUMBER" placeholder="Số hóa đơn... (ví dụ: 0000009)" />
+                        </div>
+                    </div>
+                    <div class="row" ng-show="Filter.TIME==5">
+                        <div class="col-12">
+                            <p class="mb-1 mt-3">Từ ngày</p>
+                            <input type="date" ng-model="FROMTIME" data-date-format="DD MMMM YYYY" id="pk_fromtimeChange" class="w-100">
+                        </div>
+                        <div class="col-12 ">
+                            <p class="mb-1 mt-3">Đến ngày</p>
+                            <input type="date" ng-model="TOTIME" data-date-format="DD MMMM YYYY" id="pk_totimeChange" class="w-100">
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mt-4">
+                        <div class="keyword-filter">
+
+                        </div>
+                        <button class="btn btn-success btn-sm pl-5 pr-5" ng-click="GetInvoiceByStatus(5, 1, 2)">Lọc</button>
+                    </div>
+                </form>
+            </div>
+            @* Gán thẻ đã lọc *@
+            <span class="has-tag" ng-repeat="f in FilterApply" ng-click="RemoveFilter(f)">{{f.value}} <img src="~/Images/close.png"></span>
+        </div>
+        <div class="btn-group btn-filter ml-3" ng-if="Tab.Delete == true">
+            <button type="button" class="btn btn-link text-black-50 btn-sm dropdown-toggle1" data-toggle="dropdown">
+                <span class="fa fa-filter"></span>
+            </button>
+            <div class="dropdown-menu pr-3 filter-size" style="width:350px;">
+                <form id="frmInvoiceFilterDelete_mb">
+                    <div class="row ml-1">
+                        <div class="col-12">
+                            <p class="mb-1 mt-3">Mẫu số</p>
+                            <select class="form-control form-control-sm ddl-novaon" ng-model="Filter.FORMCODE">
+                                <option value="" selected>Tất cả</option>
+                                <option ng-repeat="item in ListFormCode" value="{{item.FORMCODE}}">{{item.FORMCODE}}</option>
+                            </select>
+
+
+                            <p class="mb-1 mt-3">Khách hàng</p>
+                            <input class="form-control form-control-sm" ng-model="Filter.CUSTOMER" placeholder="Tên doanh nghiệp..." />
+
+                            <p class="mb-1 mt-3">Thời gian</p>
+                            <select class="form-control form-control-sm ddl-novaon" ng-model="Filter.TIME">
+                                <option value="{{null}}" disabled selected>Chọn thời gian</option>
+                                <option ng-repeat="t in Timepickers.Options" value="{{t.value}}">{{t.text}}</option>
+                            </select>
+
+                        </div>
+
+                        <div class="col-12">
+                            <p class="mb-1 mt-3">Ký hiệu</p>
+                            <select class="form-control form-control-sm ddl-novaon" ng-model="Filter.SYMBOLCODE">
+                                <option value="" disabled selected>Chọn ký hiệu</option>
+                                <option ng-repeat="item in ListSymbolCode" value="{{item.SYMBOLCODE}}">{{item.SYMBOLCODE}}</option>
+                            </select>
+
+                            <p class="mb-1 mt-3">Số</p>
+                            <input class="form-control form-control-sm" ng-model="Filter.NUMBER" placeholder="Số hóa đơn... (ví dụ: 0000009)" />
+                        </div>
+                    </div>
+                    <div class="row" ng-show="(Filter.TIME == 5)">
+                        <div class="col-12">
+                            <p class="mb-1 mt-3">Từ ngày</p>
+                            <input type="date" ng-model="FROMTIME" data-date-format="DD MMMM YYYY" id="pk_fromtimeDelete" class="w-100">
+                        </div>
+                        <div class="col-12">
+                            <p class="mb-1 mt-3">Đến ngày</p>
+                            <input type="date" ng-model="TOTIME" data-date-format="DD MMMM YYYY" id="pk_totimeDelete" class="w-100">
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mt-4">
+                        <div class="keyword-filter">
+
+                        </div>
+                        <button class="btn btn-success btn-sm pl-5 pr-5" ng-click="GetInvoiceDelete(1)">Lọc</button>
+                    </div>
+                </form>
+            </div>
+            @* Gán thẻ đã lọc *@
+            <span class="has-tag" ng-repeat="f in FilterApply" ng-click="RemoveFilter(f)">{{f.value}} <img src="~/Images/close.png"></span>
+        </div>
+        <div class="btn-group btn-filter ml-3" ng-if="Tab.Replace == true">
+            <button type="button" class="btn btn-link text-black-50 btn-sm dropdown-toggle1" data-toggle="dropdown">
+                <span class="fa fa-filter"></span>
+            </button>
+            <div class="dropdown-menu pr-3 filter-size" style="width:350px;">
+                <form id="frmInvoiceFilterTranfer_mb">
+                    <div class="row ml-1">
+                        <div class="col-12">
+                            <p class="mb-1 mt-3">Mẫu số</p>
+                            <select class="form-control form-control-sm ddl-novaon" ng-model="Filter.FORMCODE">
+                                <option value="" selected>Tất cả</option>
+                                <option ng-repeat="item in ListFormCode" value="{{item.FORMCODE}}">{{item.FORMCODE}}</option>
+                            </select>
+
+
+                            <p class="mb-1 mt-3">Khách hàng</p>
+                            <input class="form-control form-control-sm" ng-model="Filter.CUSTOMER" placeholder="Tên doanh nghiệp..." />
+
+                            <p class="mb-1 mt-3">Thời gian</p>
+                            <select class="form-control form-control-sm ddl-novaon" ng-model="Filter.TIME">
+                                <option value="{{null}}" disabled selected>Chọn thời gian</option>
+                                <option ng-repeat="t in Timepickers.Options" value="{{t.value}}">{{t.text}}</option>
+                            </select>
+
+                        </div>
+
+                        <div class="col-12">
+                            <p class="mb-1 mt-3">Ký hiệu</p>
+                            <select class="form-control form-control-sm ddl-novaon" ng-model="Filter.SYMBOLCODE">
+                                <option value="" disabled selected>Chọn ký hiệu</option>
+                                <option ng-repeat="item in ListSymbolCode" value="{{item.SYMBOLCODE}}">{{item.SYMBOLCODE}}</option>
+                            </select>
+
+                            <p class="mb-1 mt-3">Số</p>
+                            <input class="form-control form-control-sm" ng-model="Filter.NUMBER" placeholder="Số hóa đơn... (ví dụ: 0000009)" />
+                        </div>
+                    </div>
+                    <div class="row" ng-show="Filter.TIME==5">
+                        <div class="col-12">
+                            <p class="mb-1 mt-3">Từ ngày</p>
+                            <input type="date" ng-model="FROMTIME" data-date-format="DD MMMM YYYY" id="pk_fromtimeReplace" class="w-100">
+                        </div>
+                        <div class="col-12">
+                            <p class="mb-1 mt-3">Đến ngày</p>
+                            <input type="date" ng-model="TOTIME" data-date-format="DD MMMM YYYY" id="pk_totimeReplace" class="w-100">
+                            <md-datepicker ng-model="myDate" md-placeholder="Enter date"></md-datepicker>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mt-4">
+                        <div class="keyword-filter">
+
+                        </div>
+                        <button class="btn btn-success btn-sm pl-5 pr-5" ng-click="GetInvoiceByStatus(6, 1, 4)">Lọc</button>
+                    </div>
+                </form>
+            </div>
+            @* Gán thẻ đã lọc *@
+            <span class="has-tag" ng-repeat="f in FilterApply" ng-click="RemoveFilter(f)">{{f.value}} <img src="~/Images/close.png"></span>
+        </div>
+    </div>
+    @*Tất cả HĐ*@
+    <div class="bg-white d-block d-sm-none" ng-show="Tab.All">
+        <div class="data text-center" ng-hide="ListInvoice.length >= 1">
+            <span colspan="12">Dữ liệu đang trống!</span>
+        </div>
+        <div>
+            <div class="row" ng-click="ModalInvoice(item, 2)" ng-repeat="item in ListInvoice" style=" border-bottom:1px solid #ced4da; margin-right:0;margin-left:0 ;padding-bottom:10px; padding-top:10px; font-size:14px;">
+                <div class="col-7">
+                    <div class="text-left" ng-show="cookie.FieldCustomer"><b>{{item.CUSNAME}}</b></div>
+                    <div class="text-left font-italic" ng-show="cookie.FieldNumber" ng-if="item.NUMBER == 0" style="font-size:11px;">[Chưa cấp số]</div>
+                    <div class="text-left" ng-show="cookie.FieldNumber" ng-if="item.NUMBER > 0"><span class="text-danger"><b style="font-size:11px;">{{item.NUMBER | numberFixedLen:7}}</b></span><i> {{item.SIGNEDTIME | dateFormat:'dd/MM/yyyy'}}</i></div>
+                    <div ng-show="cookie.FieldInvoiceStatus" class="text-left">
+                        <span class="p-1" ng-show="item.INVOICESTATUS == 1" style="background-color: #007bff!important;border-radius: 5px;color:white;font-size:10px;">
+                            {{item.INVOICESTATUSNAME}}
+                        </span>
+                        <span class="p-1" ng-show="item.INVOICESTATUS == 2" style="background-color: #28a745!important;border-radius: 5px;color:white;font-size:10px;">
+                            {{item.INVOICESTATUSNAME}}
+                        </span>
+                    </div>
+                </div>
+                <div class="col-5">
+                    <div ng-show="cookie.FieldTotalPayment" class="text-right"><b>{{item.TOTALPAYMENT | numberFormat: (item.CURRENCY != 'VND' ? 2 : 0)}}</b></div>
+                    <div ng-show="cookie.FieldBillDate" class="text-right font-italic" style="font-size:11px;">{{item.INITTIME | dateFormat: 'dd/MM/yyyy'}}</div>
+                    <div ng-show="cookie.FieldBillType" class="text-right">
+                        <span class="p-1  " ng-show="item.INVOICETYPE == 1" style="background-color: #007bff!important;border-radius: 5px;color:white;font-size:10px;">
+                            {{item.INVOICETYPENAME}}
+                        </span>
+                        <span class="p-1  " ng-show="item.INVOICETYPE == 2" style="background-color: #007bff!important;border-radius: 5px;color:white;font-size:10px;">
+                            {{item.INVOICETYPENAME}}
+                        </span>
+                        <span class="p-1" ng-show="item.INVOICETYPE == 3" style="background-color: #f5f5f5!important;border-radius: 5px;color:white;font-size:10px;">
+                            {{item.INVOICETYPENAME}}
+                        </span>
+                        <span class="p-1" ng-show="item.INVOICETYPE == 4" style="background-color: #ffc107!important;border-radius: 5px;color:white;font-size:10px;">
+                            {{item.INVOICETYPENAME}}
+                        </span>
+                        <span class="p-1" ng-show="item.INVOICETYPE == 5" style="background-color: #dc3545!important;border-radius: 5px;color:white;font-size:10px;">
+                            {{item.INVOICETYPENAME}}
+                        </span>
+                        <span class="p-1" ng-show="item.INVOICETYPE == 6" style="background-color: #17a2b8!important;border-radius: 5px;color:white;font-size:10px;">
+                            {{item.INVOICETYPENAME}}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*HĐ hủy bỏ*@
+    <div class="bg-white d-block d-sm-none" ng-show="Tab.Cancel">
+        <div class="data text-center" ng-hide="ListInvoice.length >= 1">
+            <span colspan="12">Dữ liệu đang trống!</span>
+        </div>
+        <div class="row" ng-click="ModalInvoice(item, 2)" ng-repeat="item in ListInvoice" style="border-bottom:1px solid #ced4da; margin-right:0;margin-left:0 ;padding-bottom:10px; padding-top:10px; font-size:14px;">
+            <div class="col-7">
+                <div class="text-left" ng-show="cookie.FieldCustomer"><b>{{item.CUSNAME}}</b></div>
+                <div class="text-left font-italic" ng-show="cookie.FieldNumber" ng-if="item.NUMBER == 0" style="font-size:11px;">[Chưa cấp số]</div>
+                <div class="text-left" ng-show="cookie.FieldNumber" ng-if="item.NUMBER > 0"><span class="text-danger"><b style="font-size:11px;">{{item.NUMBER | numberFixedLen:7}}</b></span><i> {{item.CANCELTIME | dateFormat:'dd/MM/yyyy'}}</i></div>
+                <div ng-show="cookie.FieldInvoiceStatus" class="text-left">
+                    <span class="pl-1 pr-1" ng-show="item.INVOICESTATUS == 1" style="background-color: #007bff!important;border-radius: 5px;color:white;font-size:10px;">
+                        {{item.INVOICESTATUSNAME}}
+                    </span>
+                    <span class="pl-1 pr-1" ng-show="item.INVOICESTATUS == 2" style="background-color: #28a745!important;border-radius: 5px;color:white;font-size:10px;">
+                        {{item.INVOICESTATUSNAME}}
+                    </span>
+                </div>
+            </div>
+            <div class="col-5">
+                <div ng-show="cookie.FieldTotalPayment" class="text-right"><b>{{item.TOTALPAYMENT | numberFormat: (item.CURRENCY != 'VND' ? 2 : 0)}}</b></div>
+                <div ng-show="cookie.FieldBillDate" class="text-right font-italic" style="font-size:11px;">{{item.INITTIME | dateTimeFormat}}</div>
+                <div ng-show="cookie.FieldBillType" class="text-right">
+                    <span class="pl-1 pr-1 " ng-show="item.INVOICETYPE == 1" style="background-color: #007bff!important;border-radius: 5px;color:white;font-size:10px;">
+                        {{item.INVOICETYPENAME}}
+                    </span>
+                    <span class="pl-1 pr-1 " ng-show="item.INVOICETYPE == 2" style="background-color: #007bff!important;border-radius: 5px;color:white;font-size:10px;">
+                        {{item.INVOICETYPENAME}}
+                    </span>
+                    <span class="pl-1 pr-1" ng-show="item.INVOICETYPE == 3" style="background-color: #f5f5f5!important;border-radius: 5px;color:white;font-size:10px;">
+                        {{item.INVOICETYPENAME}}
+                    </span>
+                    <span class="pl-1 pr-1" ng-show="item.INVOICETYPE == 4" style="background-color: #ffc107!important;border-radius: 5px;color:white;font-size:10px;">
+                        {{item.INVOICETYPENAME}}
+                    </span>
+                    <span class="pl-1 pr-1" ng-show="item.INVOICETYPE == 5" style="background-color: #dc3545!important;border-radius: 5px;color:white;font-size:10px;">
+                        {{item.INVOICETYPENAME}}
+                    </span>
+                    <span class="pl-1 pr-1" ng-show="item.INVOICETYPE == 6" style="background-color: #17a2b8!important;border-radius: 5px;color:white;font-size:10px;">
+                        {{item.INVOICETYPENAME}}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*HĐ điều chỉnh*@
+    <div class="bg-white d-block d-sm-none" ng-show="Tab.Change">
+        <div class="data text-center" ng-hide="ListInvoice.length >= 1">
+            <span colspan="12">Dữ liệu đang trống!</span>
+        </div>
+        <div class="row" ng-click="ModalInvoice(item, 2)" ng-repeat="item in ListInvoice" style="border-bottom:1px solid #ced4da; margin-right:0;margin-left:0 ;padding-bottom:10px; padding-top:10px; font-size:14px;">
+            <div class="col-7">
+                <div class="text-left" ng-show="cookie.FieldCustomer"><b>{{item.CUSNAME}}</b></div>
+                <div class="text-left font-italic" ng-show="cookie.FieldNumber" ng-if="item.NUMBER == 0" style="font-size:11px;">[Chưa cấp số]</div>
+                <div class="text-left" ng-show="cookie.FieldNumber" ng-if="item.NUMBER > 0"><span class="text-danger"><b style="font-size:11px;">{{item.NUMBER | numberFixedLen:7}}</b></span><i> {{item.SIGNEDTIMETEMP | dateFormat:'dd/MM/yyyy'}}</i></div>
+                <div ng-show="cookie.FieldInvoiceStatus" class="text-left">
+                    <span class="pl-1 pr-1" ng-show="item.INVOICESTATUS == 1" style="background-color: #007bff!important;border-radius: 5px;color:white;font-size:10px;">
+                        {{item.INVOICESTATUSNAME}}
+                    </span>
+                    <span class="pl-1 pr-1" ng-show="item.INVOICESTATUS == 2" style="background-color: #28a745!important;border-radius: 5px;color:white;font-size:10px;">
+                        {{item.INVOICESTATUSNAME}}
+                    </span>
+                </div>
+            </div>
+            <div class="col-5">
+                <div ng-show="cookie.FieldTotalPayment" class="text-right"><b>{{item.TOTALPAYMENT | numberFormat: (item.CURRENCY != 'VND' ? 2 : 0)}}</b></div>
+                <div ng-show="cookie.FieldBillDate" class="text-right font-italic" style="font-size:11px;">{{item.INITTIME | dateTimeFormat}}</div>
+                <div ng-show="cookie.FieldBillType" class="text-right">
+                    <span class="pl-1 pr-1 " ng-show="item.INVOICETYPE == 1" style="background-color: #007bff!important;border-radius: 5px;color:white;font-size:10px;">
+                        {{item.INVOICETYPENAME}}
+                    </span>
+                    <span class="pl-1 pr-1 " ng-show="item.INVOICETYPE == 2" style="background-color: #007bff!important;border-radius: 5px;color:white;font-size:10px;">
+                        {{item.INVOICETYPENAME}}
+                    </span>
+                    <span class="pl-1 pr-1" ng-show="item.INVOICETYPE == 3" style="background-color: #f5f5f5!important;border-radius: 5px;color:white;font-size:10px;">
+                        {{item.INVOICETYPENAME}}
+                    </span>
+                    <span class="pl-1 pr-1" ng-show="item.INVOICETYPE == 4" style="background-color: #ffc107!important;border-radius: 5px;color:white;font-size:10px;">
+                        {{item.INVOICETYPENAME}}
+                    </span>
+                    <span class="pl-1 pr-1" ng-show="item.INVOICETYPE == 5" style="background-color: #dc3545!important;border-radius: 5px;color:white;font-size:10px;">
+                        {{item.INVOICETYPENAME}}
+                    </span>
+                    <span class="pl-1 pr-1" ng-show="item.INVOICETYPE == 6" style="background-color: #17a2b8!important;border-radius: 5px;color:white;font-size:10px;">
+                        {{item.INVOICETYPENAME}}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*HĐ thay thế*@
+    <div class="bg-white d-block d-sm-none" ng-show="Tab.Replace">
+        <div class="data text-center" ng-hide="ListInvoice.length >= 1">
+            <span colspan="12">Dữ liệu đang trống!</span>
+        </div>
+        <div class="row" ng-click="ModalInvoice(item, 2)" ng-repeat="item in ListInvoice" style="border-bottom:1px solid #ced4da; margin-right:0;margin-left:0 ;padding-bottom:10px; padding-top:10px; font-size:14px;">
+            <div class="col-7">
+                <div class="text-left" ng-show="cookie.FieldCustomer"><b>{{item.CUSNAME}}</b></div>
+                <div class="text-left font-italic" ng-show="cookie.FieldNumber" ng-if="item.NUMBER == 0" style="font-size:11px;">[Chưa cấp số]</div>
+                <div class="text-left" ng-show="cookie.FieldNumber" ng-if="item.NUMBER > 0"><span class="text-danger"><b style="font-size:11px;">{{item.NUMBER | numberFixedLen:7}}</b></span><i> {{item.SIGNEDTIMETEMP | dateFormat:'dd/MM/yyyy'}}</i></div>
+                <div ng-show="cookie.FieldInvoiceStatus" class="text-left">
+                    <span class="pl-1 pr-1" ng-show="item.INVOICESTATUS == 1" style="background-color: #007bff!important;border-radius: 5px;color:white;font-size:10px;">
+                        {{item.INVOICESTATUSNAME}}
+                    </span>
+                    <span class="pl-1 pr-1" ng-show="item.INVOICESTATUS == 2" style="background-color: #28a745!important;border-radius: 5px;color:white;font-size:10px;">
+                        {{item.INVOICESTATUSNAME}}
+                    </span>
+                </div>
+            </div>
+            <div class="col-5">
+                <div ng-show="cookie.FieldTotalPayment" class="text-right"><b>{{item.TOTALPAYMENT | numberFormat: (item.CURRENCY != 'VND' ? 2 : 0)}}</b></div>
+                <div ng-show="cookie.FieldBillDate" class="text-right font-italic" style="font-size:11px;">{{item.INITTIME | dateTimeFormat}}</div>
+                <div ng-show="cookie.FieldBillType" class="text-right">
+                    <span class="pl-1 pr-1 " ng-show="item.INVOICETYPE == 1" style="background-color: #007bff!important;border-radius: 5px;color:white;font-size:10px;">
+                        {{item.INVOICETYPENAME}}
+                    </span>
+                    <span class="pl-1 pr-1 " ng-show="item.INVOICETYPE == 2" style="background-color: #007bff!important;border-radius: 5px;color:white;font-size:10px;">
+                        {{item.INVOICETYPENAME}}
+                    </span>
+                    <span class="pl-1 pr-1" ng-show="item.INVOICETYPE == 3" style="background-color: #f5f5f5!important;border-radius: 5px;color:white;font-size:10px;">
+                        {{item.INVOICETYPENAME}}
+                    </span>
+                    <span class="pl-1 pr-1" ng-show="item.INVOICETYPE == 4" style="background-color: #ffc107!important;border-radius: 5px;color:white;font-size:10px;">
+                        {{item.INVOICETYPENAME}}
+                    </span>
+                    <span class="pl-1 pr-1" ng-show="item.INVOICETYPE == 5" style="background-color: #dc3545!important;border-radius: 5px;color:white;font-size:10px;">
+                        {{item.INVOICETYPENAME}}
+                    </span>
+                    <span class="pl-1 pr-1" ng-show="item.INVOICETYPE == 6" style="background-color: #17a2b8!important;border-radius: 5px;color:white;font-size:10px;">
+                        {{item.INVOICETYPENAME}}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*HĐ xóa bỏ*@
+    <div class="bg-white d-block d-sm-none" ng-show="Tab.Delete">
+        <div class="data text-center" ng-hide="ListInvoice.length >= 1">
+            <span colspan="12">Dữ liệu đang trống!</span>
+        </div>
+        <div class="row" ng-click="ModalInvoice(item, 2)" ng-repeat="item in ListInvoice" style="border-bottom:1px solid #ced4da; margin-right:0;margin-left:0 ;padding-bottom:10px; padding-top:10px; font-size:14px;">
+            <div class="col-7">
+                <div class="text-left" ng-show="cookie.FieldCustomer"><b>{{item.CUSNAME}}</b></div>
+                <div class="text-left font-italic" ng-show="cookie.FieldNumber" ng-if="item.NUMBER == 0" style="font-size:11px;">[Chưa cấp số]</div>
+                <div class="text-left" ng-show="cookie.FieldNumber" ng-if="item.NUMBER > 0"><span class="text-danger"><b style="font-size:11px;">{{item.NUMBER | numberFixedLen:7}}</b></span><i> {{item.MODIFIEDDATE | dateFormat:'dd/MM/yyyy'}}</i></div>
+                <div ng-show="cookie.FieldInvoiceStatus" class="text-left">
+                    <span class="pl-1 pr-1" ng-show="item.INVOICESTATUS == 1" style="background-color: #007bff!important;border-radius: 5px;color:white;font-size:10px;">
+                        {{item.INVOICESTATUSNAME}}
+                    </span>
+                    <span class="pl-1 pr-1" ng-show="item.INVOICESTATUS == 2" style="background-color: #28a745!important;border-radius: 5px;color:white;font-size:10px;">
+                        {{item.INVOICESTATUSNAME}}
+                    </span>
+                </div>
+            </div>
+            <div class="col-5">
+                <div ng-show="cookie.FieldTotalPayment" class="text-right"><b>{{item.TOTALPAYMENT | numberFormat: (item.CURRENCY != 'VND' ? 2 : 0)}}</b></div>
+                <div ng-show="cookie.FieldBillDate" class="text-right font-italic" style="font-size:11px;">{{item.INITTIME | dateTimeFormat}}</div>
+                <div ng-show="cookie.FieldBillType" class="text-right">
+                    <span class="pl-1 pr-1 " ng-show="item.INVOICETYPE == 1" style="background-color: #007bff!important;border-radius: 5px;color:white;font-size:10px;">
+                        {{item.INVOICETYPENAME}}
+                    </span>
+                    <span class="pl-1 pr-1 " ng-show="item.INVOICETYPE == 2" style="background-color: #007bff!important;border-radius: 5px;color:white;font-size:10px;">
+                        {{item.INVOICETYPENAME}}
+                    </span>
+                    <span class="pl-1 pr-1" ng-show="item.INVOICETYPE == 3" style="background-color: #f5f5f5!important;border-radius: 5px;color:white;font-size:10px;">
+                        {{item.INVOICETYPENAME}}
+                    </span>
+                    <span class="pl-1 pr-1" ng-show="item.INVOICETYPE == 4" style="background-color: #ffc107!important;border-radius: 5px;color:white;font-size:10px;">
+                        {{item.INVOICETYPENAME}}
+                    </span>
+                    <span class="pl-1 pr-1" ng-show="item.INVOICETYPE == 5" style="background-color: #dc3545!important;border-radius: 5px;color:white;font-size:10px;">
+                        {{item.INVOICETYPENAME}}
+                    </span>
+                    <span class="pl-1 pr-1" ng-show="item.INVOICETYPE == 6" style="background-color: #17a2b8!important;border-radius: 5px;color:white;font-size:10px;">
+                        {{item.INVOICETYPENAME}}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*HĐ chờ*@
+    <div class="bg-white d-block d-sm-none" ng-show="Tab.Wating">
+        <div class="data text-center" ng-hide="ListInvoice.length >= 1">
+            <span colspan="12">Dữ liệu đang trống!</span>
+        </div>
+        <div class="row" ng-repeat="item in ListInvoice" ng-click="ModalInvoice(item, 2)" style="border-bottom:1px solid #ced4da; margin-right:0;margin-left:0;padding-bottom:10px;">
+            <div class="col-7">
+                <div class="text-left" ng-show="cookie.FieldCustomer"><b>{{item.CUSNAME}}</b></div>
+                <div class="text-left font-italic" ng-show="cookie.FieldNumber" ng-if="item.NUMBER == 0" style="font-size:11px;">[Chưa cấp số]</div>
+                <div ng-show="cookie.FieldInvoiceStatus" class="text-left">
+                    <span class="pl-1 pr-1" ng-show="item.INVOICESTATUS == 1" style="background-color: #007bff!important;border-radius: 5px;color:white;font-size:10px;">
+                        {{item.INVOICESTATUSNAME}}
+                    </span>
+                    <span class="pl-1 pr-1" ng-show="item.INVOICESTATUS == 2" style="background-color: #28a745!important;border-radius: 5px;color:white;font-size:10px;">
+                        {{item.INVOICESTATUSNAME}}
+                    </span>
+                </div>
+            </div>
+            <div class="col-5">
+                <div ng-show="cookie.FieldTotalPayment" class="text-right"><b>{{item.TOTALPAYMENT | numberFormat: (item.CURRENCY != 'VND' ? 2 : 0)}}</b></div>
+                <div ng-show="cookie.FieldBillDate" class="text-right font-italic" style="font-size:11px;">{{item.INITTIME | dateTimeFormat}}</div>
+                <div ng-show="cookie.FieldBillType" class="text-right">
+                    <span class=" pl-1 pr-1" ng-show="item.INVOICETYPE == 1" style="background-color: #007bff!important;border-radius: 5px;color:white;font-size:10px;">
+                        {{item.INVOICETYPENAME}}
+                    </span>
+                    <span class=" pl-1 pr-1" ng-show="item.INVOICETYPE == 2" style="background-color: #007bff!important;border-radius: 5px;color:white;font-size:10px;">
+                        {{item.INVOICETYPENAME}}
+                    </span>
+                    <span class="pl-1 pr-1" ng-show="item.INVOICETYPE == 3" style="background-color: #f5f5f5!important;border-radius: 5px;color:white;font-size:10px;">
+                        {{item.INVOICETYPENAME}}
+                    </span>
+                    <span class="pl-1 pr-1" ng-show="item.INVOICETYPE == 4" style="background-color: #ffc107!important;border-radius: 5px;color:white;font-size:10px;">
+                        {{item.INVOICETYPENAME}}
+                    </span>
+                    <span class="pl-1 pr-1" ng-show="item.INVOICETYPE == 5" style="background-color: #dc3545!important;border-radius: 5px;color:white;font-size:10px;">
+                        {{item.INVOICETYPENAME}}
+                    </span>
+                    <span class="pl-1 pr-1" ng-show="item.INVOICETYPE == 6" style="background-color: #17a2b8!important;border-radius: 5px;color:white;font-size:10px;">
+                        {{item.INVOICETYPENAME}}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

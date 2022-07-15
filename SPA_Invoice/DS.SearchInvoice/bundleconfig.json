@@ -1,0 +1,15 @@
+[
+  {
+    "outputFileName": "Content/novaon.review.css",
+    "inputFiles": [
+      "Content/review.css"
+    ]
+  },
+  {
+    "outputFileName": "Scripts/novaon.review.js",
+    "inputFiles": [
+      "Scripts/jquery.fileupload.js",
+      "Scripts/review.js"
+    ]
+  }
+]

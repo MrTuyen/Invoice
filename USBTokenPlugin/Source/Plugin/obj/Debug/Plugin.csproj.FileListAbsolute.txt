@@ -1,0 +1,1 @@
+C:\NGUYENVANTUYEN\Invoice\USBTokenPlugin\Source\Plugin\bin\Debug\Plugin.exe.config

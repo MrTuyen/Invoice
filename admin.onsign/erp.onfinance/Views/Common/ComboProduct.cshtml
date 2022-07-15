@@ -1,0 +1,22 @@
+﻿@using PostServer.Models
+
+
+<select multiple="multiple" id="ddlProduct" name="intProduct" style="width: 200px">
+    @if (Model != null)
+    {
+        foreach (PM_PRODUCT p in Model)
+        {
+            <option value="@p.PRODUCTID">
+                @p.PRODUCTNAME
+            </option>
+        }
+    }
+</select>
+<script type="text/javascript">
+    $("select#ddlProduct").pqSelect({
+        multiplePlaceholder: '- Chọn sản phẩm -',
+        checkbox: true,
+        maxDisplay: 0,
+        displayText: 'Đã chọn {0} / {1} nhóm'
+    });
+</script>

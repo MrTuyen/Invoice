@@ -1,0 +1,100 @@
+﻿@using PostServer.Models
+@if (Model != null)
+{
+    <table class="table table-bordered table-striped" style="width: 100%" data-totalpage="@ViewBag.TotalPages" data-currentpage="@ViewBag.CurrentPage">
+        <thead>
+            <tr>
+                <th class="text-center" style="width: 50px">
+                    <input type="checkbox" value="1" name="checkall" />
+                </th>
+                <th>Mã siêu thị</th>
+                <th>Tên siêu thị</th>
+            </tr>
+        </thead>
+        <tbody id="bodyListChonse">
+            @foreach (PM_STORE p in Model)
+            {
+                <tr class="gradeX RowChosen">
+                    <td class="text-center">
+                        <input type="checkbox" name="pItemObj" id="mk_@p.STOREID" value="@Newtonsoft.Json.JsonConvert.SerializeObject(p)" />
+                    </td>
+                    <td>
+                        <label for="mk_@p.STOREID">@p.STOREID</label>
+                    </td>
+                    <td>
+                        <label for="id_@p.STOREID"><span>@p.STORENAME</span></label>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="text-right">
+        <div class="btn-group divpage">
+            <!--[PAGER]-->
+        </div>
+    </div>
+}
+
+<script src="~/Scripts/smartpaginator.js"></script>
+
+<script>
+    function callPaginator() {
+        $('#pPagingSelectedProduct').smartpaginator({
+            totalrecords: $("#pTableSelectedProduct tbody input[type='checkbox']").length,
+            recordsperpage: 10,
+            length: 6,
+            datacontainer: 'pTableSelectedProduct',
+            dataelement: 'tr'
+        });
+        $("#pSelectedProductResult tbody tr").unbind();
+    }
+
+    function addSelectNewProduct(_tr) {
+        var newTR = _tr.clone();
+        var chk = newTR.find("input[type='checkbox']").change(function () {
+            var __tr = $(this).closest('tr');
+            __tr.remove();
+            callPaginator();
+        });
+
+        $("#pSelectedProductResult tbody").prepend(newTR);
+
+        if ($("#bodyListChonse").find('tr').length == 1) {
+            $("#pSearchProduct").trigger("click");
+        }
+    }
+
+    $('thead input[name="checkall"]').click(function () {
+        var _table = $(this).closest('table');
+        _table.find('tr:not(:hidden) input[type="checkbox"]').prop('checked', $(this).is(':checked'));
+        if (_table.attr('id') == 'pTableSelectedProduct') {
+            $("#pSelectedProductResult tbody input[type='checkbox']").each(function () {
+                if (!$(this).is(':checked')) {
+                    $(this).closest('tr').remove();
+                }
+            });
+        } else {
+            $("#pSearchProductResult tbody input[type='checkbox']:checked").each(function () {
+                var _this = $(this);
+                var _tr = _this.closest('tr');
+                addSelectNewProduct(_tr);
+                _tr.remove();
+            });
+        }
+
+        callPaginator();
+    });
+
+    $(document).ready(function () {
+        $('input[name="pItemObj"]').change(function () {
+            var _this = $(this);
+            var _tr = _this.closest('tr');
+            addSelectNewProduct(_tr);
+            _tr.remove();
+
+            callPaginator();
+        });
+    });
+</script>
+
+

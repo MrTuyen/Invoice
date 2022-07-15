@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<inv:invoice xmlns:inv="http://laphoadon.gdt.gov.vn/2014/09/invoicexml/v1" xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+  <inv:invoiceData id="data">
+    <inv:invoiceType>01BLP</inv:invoiceType>
+    <inv:templateCode>01BLP0-001</inv:templateCode>
+    <inv:invoiceSeries>AB-19E</inv:invoiceSeries>
+    <inv:invoiceNumber>0000011</inv:invoiceNumber>
+    <inv:invoiceIssuedDate>2020-02-06T00:00:00</inv:invoiceIssuedDate>
+    <inv:signedDate>2020-02-06T00:00:00</inv:signedDate>
+    <inv:currencyCode>VND</inv:currencyCode>
+    <inv:adjustmentType>1</inv:adjustmentType>
+    <inv:payments>
+      <inv:payment>
+        <inv:paymentMethodName>TM/CK</inv:paymentMethodName>
+      </inv:payment>
+    </inv:payments>
+    <inv:delivery />
+    <inv:sellerLegalName>CÔNG TY TNHH MỘT THÀNH VIÊN THƯƠNG MẠI DỊCH VỤ QUẢNG CÁO CƯỜNG NHÂN</inv:sellerLegalName>
+    <inv:sellerTaxCode>0101243150-999</inv:sellerTaxCode>
+    <inv:sellerAddressLine>130/76/10 Phan Văn Hớn, phường Tân Thới Nhất, Quận 12, TP Hồ Chí Minh</inv:sellerAddressLine>
+    <inv:sellerPhoneNumber></inv:sellerPhoneNumber>
+    <inv:sellerFaxNumber></inv:sellerFaxNumber>
+    <inv:sellerEmail>cuongnhan@yahoo.com.vn</inv:sellerEmail>
+    <inv:sellerWebSite>thangmaythienphong.com</inv:sellerWebSite>
+    <inv:sellerBankAccount></inv:sellerBankAccount>
+    <inv:sellerBankName>060030934124 tại Ngân hàng Sacombank - Chi nhánh Quận 12</inv:sellerBankName>
+    <inv:buyerLegalName>CÔNG TY TNHH ĐẠI LÝ THUẾ PHÚ THỌ</inv:buyerLegalName>
+    <inv:buyerTaxCode>2601000329</inv:buyerTaxCode>
+    <inv:buyerAddressLine>Tổ 4b, khu 5, Phường Vân Cơ, Thành phố Việt Trì, Tỉnh Phú Thọ, Việt Nam</inv:buyerAddressLine>
+    <inv:exchangeRate>1.000 </inv:exchangeRate>
+    <inv:items>
+      <inv:item>
+        <inv:lineNumber>1</inv:lineNumber>
+        <inv:itemCode>21502152</inv:itemCode>
+        <inv:itemName>Phí giám sát khử trùng vật thể thuộc diện kiểm dịch thực vật</inv:itemName>
+        <inv:quantity>1.00 </inv:quantity>
+        <inv:itemTotalAmountWithoutVat>0 </inv:itemTotalAmountWithoutVat>
+        <inv:vatAmount>0 </inv:vatAmount>
+        <inv:unitPrice>0 </inv:unitPrice>
+        <inv:promotion>0</inv:promotion>
+      </inv:item>
+    </inv:items>
+    <inv:invoiceTaxBreakdowns>
+      <inv:invoiceTaxBreakdown></inv:invoiceTaxBreakdown>
+    </inv:invoiceTaxBreakdowns>
+    <inv:totalAmountWithoutVAT>0 </inv:totalAmountWithoutVAT>
+    <inv:totalVATAmount>0 </inv:totalVATAmount>
+    <inv:totalAmountWithVAT>0 </inv:totalAmountWithVAT>
+    <inv:totalAmountWithVATInWords>Không đồng.</inv:totalAmountWithVATInWords>
+    <inv:discountAmount>0 </inv:discountAmount>
+    <inv:totalAmountWithVATFrn>0 </inv:totalAmountWithVATFrn>
+    <inv:userDefines><![CDATA[<TransactionID>_ESMT6Q9G5</TransactionID><InvoiceRefID>f8456809-8db5-4f09-8532-a2ced8f3176f</InvoiceRefID><OrgInvoiceIssuedDate>2020-02-06T14:26:34</OrgInvoiceIssuedDate><InvoiceTemplateID>1c8bcacb-e0a0-4ea4-a3bd-39754d31e7cf</InvoiceTemplateID><MainCurrency>VND</MainCurrency><UnitPriceDecimalDigits>0</UnitPriceDecimalDigits><UnitPriceOCDecimalDigits>1</UnitPriceOCDecimalDigits><QuantityDecimalDigits>2</QuantityDecimalDigits><AmountDecimalDigits>0</AmountDecimalDigits><AmountOCDecimalDigits>3</AmountOCDecimalDigits><ExchangRateDecimalDigits>3</ExchangRateDecimalDigits><CoefficientDecimalDigits>3</CoefficientDecimalDigits><TypeDiscount>0</TypeDiscount><ExchangeRateOperation>0</ExchangeRateOperation><UserItems><UserItem><LineNumber>1</LineNumber><AmountOC>0 </AmountOC><VATAmountOC>0 </VATAmountOC><DiscountRate>0.000 </DiscountRate><DiscountAmountOC>0 </DiscountAmountOC><DiscountAmount>0 </DiscountAmount><InventoryItemType>0</InventoryItemType><InWards>0</InWards><AmountAfterTax>0 </AmountAfterTax></UserItem></UserItems>]]></inv:userDefines>
+  </inv:invoiceData>
+  <inv:controlData>
+    <inv:systemCode>LHD_MISA</inv:systemCode>
+  </inv:controlData>
+  <Signature Id="seller" xmlns="http://www.w3.org/2000/09/xmldsig#">
+    <SignedInfo>
+      <CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" />
+      <SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256" />
+      <Reference URI="#data">
+        <Transforms>
+          <Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" />
+          <Transform Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315" />
+        </Transforms>
+        <DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256" />
+        <DigestValue>7WoqczVVmhrSMOkvSipQRC51rgJBnad7Ds9k0dAkkJI=</DigestValue>
+      </Reference>
+    </SignedInfo>
+    <SignatureValue>A/xsC8mpD/JOP/ewNxh+WxIL2VXXd7FER1AGfC2ULCCzEqW6ob1Px9nqiQynJU9Uav2Ngp/7MBUlV3KY1DpbT5hEsSGuP3t3vJoONzK6DzhkNYfe+Zuigfm6TOxASWJ+CHOH6sqPN0Y8hN+gy4XNiLmxO7A3gAuokyS/zlG5X+HCFnmw45/AcdNwWMRiBH0CTkqIOp2HSUwZRSbvF0cMHKrbIJYoPCktXdug1dgFhIIB3zq07l8EgKigIsxyMAyaMPu8GN9h3SJ7IVyetB11WT7KAKzQBlOKl2EDIDmqgqh8xY0yXoVFJVplvnFQHICkpwX1inaHs+FS9lmva0w2tw==</SignatureValue>
+    <KeyInfo>
+      <X509Data>
+        <X509IssuerSerial>
+          <X509IssuerName>C=VN, O=MISA JOINT STOCK COMPANY, CN=MISA-CA</X509IssuerName>
+          <X509SerialNumber>111660593585874073894501896417256795698</X509SerialNumber>
+        </X509IssuerSerial>
+        <X509SubjectName>C=VN, S=Hà Nội, L=Quận Cầu Giấy, O=Công ty CP MISA TEST, CN=Công ty CP MISA TEST, OID.0.9.2342.19200300.100.1.1=MST:0101243150-999, E=support@misa.com.vn, Phone=0902200858</X509SubjectName>
+        <X509Certificate>MIIEzjCCA7agAwIBAgIQVAEMTvBN/Uw82CS8/XnuMjANBgkqhkiG9w0BAQsFADBCMQswCQYDVQQGEwJWTjEhMB8GA1UECgwYTUlTQSBKT0lOVCBTVE9DSyBDT01QQU5ZMRAwDgYDVQQDDAdNSVNBLUNBMB4XDTIwMDEwMzA3MzU1MloXDTIzMDEwMjA3MzU1MlowgdwxCzAJBgNVBAYTAlZOMRIwEAYDVQQIDAlIw6AgTuG7mWkxHDAaBgNVBAcME1F14bqtbiBD4bqndSBHaeG6pXkxHjAcBgNVBAoMFUPDtG5nIHR5IENQIE1JU0EgVEVTVDEeMBwGA1UEAwwVQ8O0bmcgdHkgQ1AgTUlTQSBURVNUMSIwIAYKCZImiZPyLGQBAQwSTVNUOjAxMDEyNDMxNTAtOTk5MSIwIAYJKoZIhvcNAQkBFhNzdXBwb3J0QG1pc2EuY29tLnZuMRMwEQYDVQQUEwowOTAyMjAwODU4MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAh9tFkKXYn76HGXAsEspisN9FYX6uza+9LeYPqRsYnsQ+h9qFpeqLQob7iQny/g9DctcPkTKf12pNHuoPG1g94ElQsjt/sk6ayVQmx0Mm4IzGambrdw4dl2BRWVZxYzM78ipTqvvNUNsjZv3PB2VLkvvfrxzr6I9gweq/X6CxhRJBONXKintTG59amXwCbc8LwuRumOmrhlfnwmPOlqZNl71/Qa4hQivkwTjZgHqLzMs4kD2bLC23yS1uSvIh/HMUT/47NA2lqsmXLiwwQ4a4POm9eQm6SHNV8McssiNDzJRUqZnpJ/kc7WCWrIJabZT4T7aaqSBHOreiJvKAlkWQcQIDAQABo4IBIzCCAR8wDAYDVR0TAQH/BAIwADCBmgYIKwYBBQUHAQEEgY0wgYowOAYIKwYBBQUHMAKGLGh0dHA6Ly9wdWJsaWMucm9vdGNhLmdvdi52bi9jcnQvdm5yY2EyNTYucDdiMCsGCCsGAQUFBzAChh9odHRwOi8vbWlzYWNhLnZuL2NydC9taXNhY2EuY2VyMCEGCCsGAQUFBzABhhVodHRwOi8vb2NzcC5taXNhY2Eudm4wNAYDVR0lBC0wKwYIKwYBBQUHAwIGCCsGAQUFBwMEBgorBgEEAYI3CgMMBgkqhkiG9y8BAQUwLAYDVR0fBCUwIzAhoB+gHYYbaHR0cDovL21pc2FjYS52bi9taXNhY2EuY3JsMA4GA1UdDwEB/wQEAwIF4DANBgkqhkiG9w0BAQsFAAOCAQEArbiRrK8AZyZkd1ZcdTB3Jd3tRwb8Hqes1N1nGlnqHmJae+xmf/Qz7POxSgU8V92Z70/dAluksZ1LQPJoL0HsfhfwTd5jZI29BOzOD0ePtlOfjaTayx2UmUSOPpgFIIlxXPgjsmhZYY5p+zm/mkfmmuvmJOZaXMgvpiQFhwUJRg3n+QVtXJI6UdaIKCVg3LxuQB3FmLQ+FViyJ8oi+XkCa+rplFQUQnXNyRx8OWhaZ7vkqYlr/EZxXMD7uFx2lb/ZRv/kDeQYhbm1YuEDRRMjO6fSqd6v+XnHWk6CPVEh6+TNwOfWU2SwfgrybBJlkhW2OgVfkbRlLxi3fMi+GEApQA==</X509Certificate>
+      </X509Data>
+    </KeyInfo>
+  </Signature>
+</inv:invoice>

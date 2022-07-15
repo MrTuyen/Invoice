@@ -1,0 +1,205 @@
+﻿@*Hóa đơn điều chỉnh*@
+<div ng-show="Tab.Change">
+    <div class="bg-white border mt-2">
+
+        @*Bô lọc*@
+        <div class="header-filter px-3 p-2 d-none d-sm-block">
+            <div class="d-flex justify-content-between mt-2">
+                <div class="btn-group btn-filter">
+                    <button type="button" class="btn btn-light btn-sm dropdown-toggle" data-toggle="dropdown">
+                        <span class="fa fa-filter"></span> Bộ lọc
+                    </button>
+                    <div class="dropdown-menu p-3">
+                        <form id="frmInvoiceFilterChange">
+                            <div class="row">
+                                <div class="col-6">
+                                    <p class="mb-1 mt-3">Mẫu số</p>
+                                    <select class="form-control form-control-sm ddl-novaon" ng-model="Filter.FORMCODE">
+                                        <option value="" selected>Tất cả</option>
+                                        <option ng-repeat="item in ListFormCode" value="{{item.FORMCODE}}">{{item.FORMCODE}}</option>
+                                    </select>
+
+
+                                    <p class="mb-1 mt-3">Khách hàng</p>
+                                    <input class="form-control form-control-sm" ng-model="Filter.CUSTOMER" placeholder="Tên doanh nghiệp..." />
+
+                                    <p class="mb-1 mt-3">Thời gian</p>
+                                    <select class="form-control form-control-sm ddl-novaon" ng-model="Filter.TIME">
+                                        <option value="{{null}}" disabled selected>Chọn thời gian</option>
+                                        <option ng-repeat="t in Timepickers.Options" value="{{t.value}}">{{t.text}}</option>
+                                    </select>
+
+                                </div>
+
+                                <div class="col-6">
+                                    <p class="mb-1 mt-3">Ký hiệu</p>
+                                    <select class="form-control form-control-sm ddl-novaon" ng-model="Filter.SYMBOLCODE">
+                                        <option value="" disabled selected>Chọn ký hiệu</option>
+                                        <option ng-repeat="item in ListSymbolCode" value="{{item.SYMBOLCODE}}">{{item.SYMBOLCODE}}</option>
+                                    </select>
+
+                                    <p class="mb-1 mt-3">Số</p>
+                                    <input class="form-control form-control-sm" ng-model="Filter.NUMBER" placeholder="Số hóa đơn... (ví dụ: 0000009)" />
+                                </div>
+                            </div>
+                            <div class="row" ng-show="Filter.TIME==5">
+                                <div class="col-6">
+                                    <p class="mb-1 mt-3">Từ ngày</p>
+                                    <input type="date" ng-model="FROMTIME" data-date-format="DD MMMM YYYY" id="pk_fromtimeChange" class="w-100 form-control form-control-sm">
+                                </div>
+                                <div class="col-6 ">
+                                    <p class="mb-1 mt-3">Đến ngày</p>
+                                    <input type="date" ng-model="TOTIME" data-date-format="DD MMMM YYYY" id="pk_totimeChange" class="w-100 form-control form-control-sm">
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center mt-4">
+                                <div class="keyword-filter">
+
+                                </div>
+                                <button class="btn btn-success btn-sm pl-5 pr-5" ng-click="GetInvoiceByStatus(5, 1, 2)">Lọc</button>
+                            </div>
+                        </form>
+                    </div>
+                    @* Gán thẻ đã lọc *@
+                    <span class="has-tag" ng-repeat="f in FilterApply" ng-click="RemoveFilter(f)">{{f.value}} <img src="~/Images/close.png"></span>
+                </div>
+            </div>
+        </div>
+
+        @*Table*@
+        <div class="d-none d-sm-block">
+            @*Destop*@
+            <table class="table table-bordered table-sm table-vertical-center table-head-green table-hover">
+                <thead>
+                    <tr>
+                        <th colspan="4" class="text-center text-danger">Hóa đơn bị điều chỉnh</th>
+                        <th colspan="4" class="text-center text-primary">Hóa đơn điều chỉnh</th>
+                        <th colspan="5" class="text-center">Biên bản</th>
+                    </tr>
+                    <tr>
+                        <th class="text-center">STT</th>
+                        <th class="">
+                            Mẫu số<br />
+                            Ký hiệu
+                        </th>
+                        <th class="">
+                            Số hóa đơn <br />
+                            Ngày hóa đơn
+                        </th>
+                        <th>Khách hàng</th>
+                        <th></th>
+                        <th class="">
+                            Mẫu số<br />
+                            Ký hiệu
+                        </th>
+                        <th class="">
+                            Số hóa đơn <br />
+                            Ngày hóa đơn
+                        </th>
+                        <th></th>
+                        <th>Lý do điều chỉnh</th>
+                        <th>Biên bản đính kèm</th>
+                        <th>Tạo biên bản</th>
+                        @*<th>Tệp đính kèm</th>*@
+                        <th>Trạng thái biên bản</th>
+                        <th></th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr class="data" ng-hide="ListInvoice.length >= 1">
+                        <td colspan="12">Dữ liệu đang trống!</td>
+                    </tr>
+                    <tr class="" ng-repeat="item in ListInvoice" style="cursor:pointer">
+                        <td class="text-center">{{$index + 1}}</td>
+                        <td class="">
+                            {{item.FORMCODETEMP}}<br />
+                            {{item.SYMBOLCODETEMP}}
+                        </td>
+                        <td class="">
+                            <span class="text-danger">
+                                <span class="text-danger">{{item.NUMBERTEMP | numberFixedLen:7}}</span>
+                            </span><br />
+                            {{item.SIGNEDTIMETEMP | dateFormat:'dd/MM/yyyy'}}
+                        </td>
+                        <td width="15%">{{item.CUSBUYERTEMP}}</td>
+                        <td class="text-center">
+                            <label data-toggle="tooltip" data-placement="bottom" title="Xem trước" has-permission="{{USER_ROLE.XEM_HOA_DON}}">
+                                <button type="button" class="btn btn-light btn-link btn-sm color_btn" ng-click="PreviewReferenceInvoice(item.SIGNLINKTEMP)">
+                                    <span class="fa fa-eye"></span>
+                                </button>
+                            </label>
+                        </td>
+                        <td class="">
+                            {{item.FORMCODE}}<br />
+                            {{item.SYMBOLCODE}}
+                        </td>
+                        <td class="" ng-if="item.NUMBER > 0">
+                            <span class="text-danger">{{item.NUMBER | numberFixedLen:7}}</span><br />
+                            {{item.SIGNEDTIME | dateFormat:'dd/MM/yyyy'}}
+                        </td>
+                        <td class="" ng-if="item.NUMBER == 0">
+                            <span>0000000</span>
+                        </td>
+
+                        <td class="text-center">
+                            <label data-toggle="tooltip" data-placement="bottom" title="Chỉnh sửa" has-permission="{{USER_ROLE.CAP_NHAT_HOA_DON}}" ng-if="item.NUMBER == 0">
+                                <button type="button" class="btn btn-light btn-link btn-sm color_btn" ng-click="ModalInvoice(item, 2)"
+                                        data-toggle="modal" data-target=".modal-invoice">
+                                    <span class="fa fa-edit"></span>
+                                </button>
+                            </label>
+                            <label data-toggle="tooltip" data-placement="bottom" title="Tải file hóa đơn" has-permission="{{USER_ROLE.XEM_HOA_DON}}" ng-if="item.NUMBER > 0">
+                                <button type="button" class="btn btn-light btn-link btn-sm color_btn" ng-click="PreviewInvoice(item.SIGNLINK)">
+                                    <span class="fa fa-eye"></span>
+                                </button>
+                            </label>
+                        </td>
+                        <td width="15%">{{item.CHANGEREASON}}</td>
+                        <td class="text-center" width="10%" ng-if="!item.ATTACHMENTFILELINK">
+                            <label data-toggle="tooltip" data-placement="bottom" title="Chọn file dữ liệu">
+                                <button type="button" class="btn btn-light btn-link color_btn" ng-click="OpenModalUploadFileReport(item)">
+                                    <span class="fa fa-paperclip"></span>
+                                </button>
+                            </label>
+                        </td>
+                        <td class="text-center" width="10%" ng-if="item.ATTACHMENTFILELINK">
+                            <label data-toggle="tooltip" data-placement="bottom" title="Xóa file dữ liệu">
+                                <button type="button" class="btn btn-light btn-link color_btn" ng-click="RemoveFileReport(item)">
+                                    <span class="fa fa-times"></span>
+                                </button>
+                            </label>
+                            <label data-toggle="tooltip" data-placement="bottom" title="Tải xuống file dữ liệu">
+                                <button type="button" class="btn btn-light btn-link color_btn" ng-click="DownloadFileReport(item)">
+                                    <span class="fa fa-download"></span>
+                                </button>
+                            </label>
+                        </td>
+                        <td class="text-center" width="8%">
+                            <button type="button" class="btn btn-light btn-link btn-sm color_btn" has-permission="{{USER_ROLE.THEM_MOI_HOA_DON}}" ng-click="OpenModalModifiedReport(item);" ng-if="!(item.ISEXISTMODIFIEDREPORT == '2')">
+                                <span class="fa fa-plus"></span>
+                            </button>
+                            <span class="text-danger" ng-if="item.ISEXISTMODIFIEDREPORT == '2'">Đã tồn tại biên bản</span>
+                        </td>
+                        <td class="text-center" width="10%">{{item.REPORTSTATUSNAME}}</td>
+                        <td class="">
+                            @*<label data-toggle="tooltip" data-placement="bottom" title="Chỉnh sửa" ng-if="!(item.ISEXISTMODIFIEDREPORT == '2')">*@
+                            <label data-toggle="tooltip" data-placement="bottom" title="Chỉnh sửa" has-permission="{{USER_ROLE.CAP_NHAT_HOA_DON}}" ng-if="!(item.REPORTSTATUSNAME == 'Đã ký')">
+                                <button type="button" class="btn btn-light btn-link btn-sm color_btn" ng-click="OpenModalModifiedReport(item, 2);">
+                                    <span class="fa fa-edit"></span>
+                                </button>
+                            </label>
+                            @*<label data-toggle="tooltip" data-placement="bottom" title="Xem trước" ng-if="(item.ISEXISTMODIFIEDREPORT == '2')">*@
+                            <label data-toggle="tooltip" data-placement="bottom" title="Xem biên bản" has-permission="{{USER_ROLE.XEM_HOA_DON}}">
+                                <button type="button" class="btn btn-light btn-link btn-sm color_btn" ng-if="item.ISEXISTMODIFIEDREPORT == '2'" ng-click="PreviewModifiedReport(item)">
+                                    <span class="fa fa-eye"></span>
+                                </button>
+                            </label>
+                        </td>
+                    </tr>
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+</div>

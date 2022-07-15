@@ -1,0 +1,494 @@
+﻿@using DS.BusinessObject.Account;
+@using DS.BusinessObject.Output;
+
+@{
+    AccountBO user = (AccountBO)Session[DS.Common.Helpers.ConfigHelper.User];
+    List<AccountBO> users = (List<AccountBO>)Session["ONFINANCEUSERS"];
+    List<UsingInvoiceTypeBO> lstInvoiceTypeTmp = ((List<UsingInvoiceTypeBO>)Session["ONFINANCEUSERS_LISTTEMP"]);
+    string typename = Session["USINGINVOICETYPENAME"] != null ? Session["USINGINVOICETYPENAME"].ToString() : string.Empty;
+}
+
+<style type="text/css">
+    .custom-dll {
+        border: none;
+        background: none;
+    }
+
+        .custom-dll:hover {
+            background: #F2F2F3 !important;
+        }
+
+    .tooltip {
+        font-size: 0.6em;
+        width: 370px !important;
+    }
+
+    .sidenav {
+        height: 100%;
+        width: 0;
+        position: fixed;
+        z-index: 5;
+        top: 0;
+        right: 0;
+        overflow-x: hidden;
+        overflow-y: scroll;
+        background-color: #ffffff;
+        transition: 0.5s;
+        padding-top: 10px;
+    }
+
+        .sidenav a {
+            text-decoration: none;
+            font-size: 25px;
+            color: #818181;
+            display: block;
+            transition: 0.3s;
+        }
+
+            .sidenav a:hover {
+                color: #f1f1f1;
+            }
+
+        .sidenav .closebtn {
+            position: absolute;
+            top: 0;
+            right: 1px;
+            padding: 0 10px;
+            font-size: 36px;
+        }
+
+            .sidenav .closebtn:hover {
+                position: absolute;
+                color: #000000;
+            }
+</style>
+<script>
+
+    function openSynergyBar() {
+        document.getElementById("mySidenav").style.display = "block";
+        setTimeout(function () {
+            $('.full-overlay').css({ 'z-index': 4, 'opacity': .5 }).click(closeSynergyBar);
+        });
+    }
+
+    function closeSynergyBar() {
+        document.getElementById("mySidenav").style.display = "none";
+        $('.full-overlay').css({ 'z-index': -1, 'opacity': 0 });
+    }
+
+</script>
+
+<div class="main-sidebar" id="left-mainnavi">
+    <div class="pb-2 top-left-navi main-header d-flex align-items-center justify-content-center">
+        <a href="/" class="logo">
+            <img src="~/Images/mini-logo.png" class="logo-mini" />
+            <img src="~/Images/logo.png" class="logo-lg" />
+        </a>
+    </div>
+    <div class="main-sidebar">
+        <section class="sidebar">
+            <ul class="sidebar-menu" data-widget="tree">
+                <li ng-class="{true: 'active'}[CurrentURL.indexOf('tong-quan') !== -1]">
+                    <a href="/#/tong-quan"><i class="fa fa-pie-chart"></i> <span>Tổng quan</span></a>
+                </li>
+                @if (user.USINGINVOICETYPE == (int)DS.Common.Enums.EnumHelper.AccountObjectType.HOADONGTGT
+                    || user.USINGINVOICETYPE == (int)DS.Common.Enums.EnumHelper.AccountObjectType.HOADONBANHANG)
+                {
+                    <li ng-class="{true: 'active'}[CurrentURL.indexOf('quan-ly-hoa-don') !== -1]" ng-click="ChangeCurrentURL()">
+                        <a href="/#/quan-ly-hoa-don"><i class="fa fa-file-text"></i> <span>Quản lý hóa đơn</span></a>
+                    </li>
+                }
+                else if (user.USINGINVOICETYPE == (int)DS.Common.Enums.EnumHelper.AccountObjectType.PHIEUXUATKHO)
+                {
+                    <li ng-class="{true: 'active'}[CurrentURL.indexOf('quan-ly-hoa-don') !== -1]" ng-click="ChangeCurrentURL()">
+                        <a href="/#/quan-ly-hoa-don"><i class="fa fa-file-text"></i> <span>Phiếu xuất kho</span></a>
+                    </li>
+                }
+                else if (user.USINGINVOICETYPE == (int)DS.Common.Enums.EnumHelper.AccountObjectType.HOADONTRUONGHOC)
+                {
+                    <li ng-class="{true: 'active'}[CurrentURL.indexOf('bien-lai-thu-phi-le-phi') !== -1]" ng-click="ChangeCurrentURL()">
+                        <a href="/#/bien-lai-thu-phi-le-phi"><i class="fa fa-file-text"></i> <span>Hóa đơn thu học phí</span></a>
+                    </li>
+                }
+                else if (user.USINGINVOICETYPE == (int)DS.Common.Enums.EnumHelper.AccountObjectType.HOADONTIENDIEN)
+                {
+                    <li ng-class="{true: 'active'}[CurrentURL.indexOf('quan-ly-hoa-don') !== -1]" ng-click="ChangeCurrentURL()">
+                        <a href="/#/quan-ly-hoa-don"><i class="fa fa-file-text"></i> <span>Hóa đơn tiền điện</span></a>
+                    </li>
+                }
+                else if (user.USINGINVOICETYPE == (int)DS.Common.Enums.EnumHelper.AccountObjectType.HOADONTIENNUOC)
+                {
+                    <li ng-class="{true: 'active'}[CurrentURL.indexOf('quan-ly-hoa-don') !== -1]" ng-click="ChangeCurrentURL()">
+                        <a href="/#/quan-ly-hoa-don"><i class="fa fa-file-text"></i> <span>Hóa đơn tiền nước</span></a>
+                    </li>
+                }
+                @if (user.USINGINVOICETYPE != (int)DS.Common.Enums.EnumHelper.AccountObjectType.HOADONTIENNUOC && user.ISFREETRIAL == false && user.USERNAME != "demo" && !user.EMAIL.Contains("demo") && !user.SHOWMENUWAITINGSIGN)
+                {
+                    <li ng-class="{true: 'active'}[CurrentURL.indexOf('dai-hoa-don-cho') !== -1]">
+                        <a href="/#/dai-hoa-don-cho"><i class="fa fa-clock-o"></i> <span>Dải hóa đơn chờ</span></a>
+                    </li>
+                }
+                <li ng-class="{true: 'active'}[CurrentURL.indexOf('quan-ly-khach-hang') !== -1]">
+                    <a href="/#/quan-ly-khach-hang"><i class="fa fa-users"></i> <span>Khách hàng</span></a>
+                </li>
+
+                @if (user.USINGINVOICETYPE == (int)DS.Common.Enums.EnumHelper.AccountObjectType.HOADONTIENDIEN)
+                {
+                    <li ng-class="{true: 'active'}[CurrentURL.indexOf('quan-ly-san-pham') !== -1]">
+                        <a href="/#/quan-ly-san-pham"><i class="fa fa-shopping-cart"></i> <span>Biểu giá điện</span></a>
+                    </li>
+                }
+                else if (user.USINGINVOICETYPE == (int)DS.Common.Enums.EnumHelper.AccountObjectType.HOADONTIENNUOC)
+                {
+                    <li ng-class="{true: 'active'}[CurrentURL.indexOf('quan-ly-san-pham') !== -1]">
+                        <a href="/#/quan-ly-san-pham"><i class="fa fa-shopping-cart"></i> <span>Biểu giá nước</span></a>
+                    </li>
+                }
+                else
+                {
+                    <li ng-class="{true: 'active'}[CurrentURL.indexOf('quan-ly-san-pham') !== -1]">
+                        <a href="/#/quan-ly-san-pham"><i class="fa fa-shopping-cart"></i> <span>Hàng hóa, dịch vụ</span></a>
+                    </li>
+                }
+                @if (user.USINGINVOICETYPE == (int)DS.Common.Enums.EnumHelper.AccountObjectType.HOADONTIENDIEN || user.USINGINVOICETYPE == (int)DS.Common.Enums.EnumHelper.AccountObjectType.HOADONTIENNUOC)
+                {
+                    <li ng-class="{true: 'active'}[CurrentURL.indexOf('quan-ly-cong-to') !== -1]">
+                        <a href="/#/quan-ly-cong-to"><i class="fa fa-clock-o"></i> <span>Công tơ</span></a>
+                    </li>
+                }
+                <li class="treeview">
+                    <a href="javascript:;">
+                        <i class="fa fa-bar-chart"></i> <span>Báo cáo thống kê</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-right pull-right"></i>
+                        </span>
+                    </a>
+                    <div class="p-3 treeview-menu li-setting">
+                        <ul>
+                            <li class="header">@*<div class="arrow arrow-left"></div>*@Báo cáo thống kê</li>
+                            <li>
+                                <a href="/#/bao-cao-tinh-hinh-su-dung-hoa-don">Tình hình sử dụng hóa đơn</a>
+                            </li>
+                            <li>
+                                <a href="/#/bang-ke-hoa-don-dau-ra">Bảng kê hóa đơn đầu ra</a>
+                            </li>
+                            <li>
+                                <a href="/#/nhat-ky-truy-cap">Nhật ký truy cập</a>
+                            </li>
+                            <li>
+                                <a href="/#/lich-su-gui-mail">Lịch sử gửi email</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="treeview">
+                    <a href="javascript:;">
+                        <i class="fa fa-bars"></i> <span>Danh mục</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-right pull-right"></i>
+                        </span>
+                    </a>
+                    <div class="p-3 treeview-menu li-setting">
+                        <ul>
+                            <li class="header">@*<div class="arrow arrow-left"></div>*@Danh mục</li>
+                            <li>
+                                <a href="/#/quan-ly-hang-hoa-dich-vu">Nhóm dịch vụ</a>
+                            </li>
+                            <li>
+                                <a href="/#/tien-thanh-toan">Tiền thanh toán</a>
+                            </li>
+                            <li>
+                                <a href="/#/hinh-thuc-thanh-toan">Hình thức thanh toán</a>
+                            </li>
+                            <li>
+                                <a href="/#/don-vi-tinh">Đơn vị tính </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li ng-class="{true: 'active'}[CurrentURL.indexOf('quan-ly-nguoi-dung') !== -1]">
+                    <a href="/#/quan-ly-nguoi-dung"><i class="fa fa-user-o"></i> <span>Quản trị người dùng</span></a>
+                </li>
+                <li class="treeview">
+                    <a href="javascript:;">
+                        <i class="fa fa-gear"></i> <span>Cài đặt</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-right pull-right"></i>
+                        </span>
+                    </a>
+                    <div class="p-3 treeview-menu li-setting" id="last-child">
+                        <ul>
+                            <li class="header">@*<div class="arrow arrow-left"></div>*@Cài đặt</li>
+                            <li>
+                                <a href="/#/cai-dat-tai-khoan">Cài đặt tài khoản</a>
+                            </li>
+                            <li>
+                                <a href="/#/cai-dat-he-thong">Cài đặt hệ thống</a>
+                            </li>
+                            <li>
+                                <a href="/#/thong-bao-phat-hanh">Thông báo phát hành</a>
+                            </li>
+                            <li ng-if="Enterprise.ISFREETRIAL === false">
+                                <a href="/#/cong-cu">Công cụ</a>
+                            </li>
+                            <li>
+                                <a href="/#/danh-muc">Danh sách</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </section>
+    </div>
+</div>
+
+<div id="mySidenav" class="sidenav">
+    <div class="container-fluid">
+        <img src="/Images/menu_synergy/logo_novaon.svg" style="padding:20px;" />
+        <a href="javascript:void(0)" class="closebtn" onclick="closeSynergyBar()">&times;</a>
+    </div>
+
+    <a href="#" style="text-align:center;"><img src="/Images/menu_synergy/chuyendoiso.svg" /></a>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-4"><a target="_blank" href="https://onsales.asia/?utm_source=Onfinance&utm_mediu=referral&utm_campaign=Onfinance_Onsales_Admin"><img src="/Images/menu_synergy/onsales_CRM.svg" /></a></div>
+            <div class="col-sm-4"><a target="_blank" href="https://onsales.asia/?utm_source=Onfinance&utm_mediu=referral&utm_campaign=Onfinance_Caller_Admin"><img src="/Images/menu_synergy/onsales_Caller.svg" /></a></div>
+            <div class="col-sm-4"><a target="_blank" href="https://onfinance.asia/?utm_source=Onfinance&utm_medium=referral&utm_campaign=Onfinance_Invoice_Admin"><img src="/Images/menu_synergy/onfinace_invoice.svg" /></a></div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-sm-4"><a target="_blank" href="https://onsign.onfinance.asia/?utm_source=Onfinance&utm_medium=referral&utm_campaign=Onfinance_Onsign_Admin"><img src="/Images/menu_synergy/onfinace_onsign.svg" /></a></div>
+            <div class="col-sm-4"><a target="_blank" href="https://onpeople.asia/?utm_source=Onfinance&utm_medium=referral&utm_campaign=Onfinance_HRM_Admin"><img src="/Images/menu_synergy/onpeople_HRM.svg" /></a></div>
+        </div>
+    </div>
+
+    <a href="#" style="text-align:center;"><img src="/Images/menu_synergy/thuongmaidientu.svg" /></a>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-4"><a target="_blank" href="https://onshop.asia/onshop-website/?utm_source=Onfinance&utm_medium=referral&utm_campaign=Onfinance_Onshop-website_Admin"><img src="/Images/menu_synergy/onshop_website.svg" /></a></div>
+            <div class="col-sm-4"><a target="_blank" href="https://onshop.asia/onshop-pos/?utm_source=Onfinance&utm_medium=referral&utm_campaign=Onfinance_Onshop-POS_Admin"><img src="/Images/menu_synergy/onshop_pos.svg" /></a></div>
+            <div class="col-sm-4"><a target="_blank" href="https://onshop.asia/?utm_source=Onfinance&utm_medium=referral&utm_campaign=Onfinance_Onshop-San_Admin"><img src="/Images/menu_synergy/onshop_san.svg" /></a></div>
+
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-sm-4"><a target="_blank" href="https://chatbot3.novaonx.com/?utm_source=Onfinance&utm_medium=referral&utm_campaign=Onfinance_Chatbot_Admin"><img src="/Images/menu_synergy/novaonx_chatbox.svg" /></a></div>
+            <div class="col-sm-4"><a target="_blank" href="https://social.novaonx.com/?utm_source=Onfinance&utm_medium=referral&utm_campaign=Onfinance_Social_Admin"><img src="/Images/menu_synergy/novaonx_social.svg" /></a></div>
+            <div class="col-sm-4"><a target="_blank" href="https://onfluencer.net/Review/?utm_source=Onfinance&utm_medium=referral&utm_campaign=Onfinance_Review_Admin"><img src="/Images/menu_synergy/onfluencer_review.svg" /></a></div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4"><a target="_blank" href="https://onfluencer.net/Seller/?utm_source=Onfinance&utm_medium=referral&utm_campaign=Onfinance_Seller_Admin"><img src="/Images/menu_synergy/onfluencer_seller.svg" /></a></div>
+        </div>
+    </div>
+
+
+    <a href="#" style="text-align:center;"><img src="/Images/menu_synergy/digital_marketing.svg" /></a>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-4"><a href="#" onclick="refreshPage();"><img src="/Images/menu_synergy/autoads_maxlead.svg" /></a></div>
+            <div class="col-sm-4"><a target="_blank" href="https://maxpush.autoads.asia/?utm_source=Onfinance &utm_medium=referral&utm_campaign=Onfinance_maxpush_Admin"><img src="/Images/menu_synergy/autoads_maxflush.svg" /></a></div>
+            <div class="col-sm-4"><a target="_blank" href="https://autoads.asia/vi/cong-cu/chan-click-ao/?utm_source=Onfinance&utm_medium=referral&utm_campaign=Onfinance _Chanclickao_Admin"><img src="/Images/menu_synergy/autoads_chanclickao.svg" /></a></div>
+
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-sm-4"><a target="_blank" href="https://autoads.asia/vi/cong-cu/googleshopping/?utm_source=Onfinance&utm_medium=referral&utm_campaign=Onfinance _googleshopping_Admin"><img src="/Images/menu_synergy/google_shopping.svg" /></a></div>
+            <div class="col-sm-4"><a target="_blank" href="https://ongoogle1.autoads.asia/?utm_source=Onfinance&utm_medium=referral&utm_campaign=Onfinance_On-google_Admin"><img src="/Images/menu_synergy/dichvu_ongoogle.svg" /></a></div>
+            <div class="col-sm-4"><a target="_blank" href="https://oncustomer.asia/?utm_source=Onfinance&utm_medium=referral&utm_campaign=Onfinance_Livechat_Admin"><img src="/Images/menu_synergy/oncustomer.svg" /></a></div>
+        </div>
+    </div>
+</div>
+
+<div id="right-maincontent">
+    <iframe id="support" frameborder="0" allowfullscreen="" scrolling="no" width="70" height="70" src="https://sp.zalo.me/plugins/chat-widget?position=null&amp;oaid=3968490022311197298&amp;welcomemessage=Xin%20cha%CC%80o%20b%E1%BA%A1n.%20Bkav%20eHoaDon%20c%C3%B3%20th%E1%BB%83%20gi%C3%BAp%20g%C3%AC%20cho%20b%E1%BA%A1n%3F&amp;autopopup=0&amp;width=350&amp;height=420&amp;style=2&amp;id=c8396336-c452-4ad5-94d9-6b28d917fd77&amp;domain=demo.ehoadon.vn&amp;android=false&amp;ios=false" style="position: absolute; bottom: 0px; right: 0px;"></iframe>
+    <div id="top-header" class="d-flex align-items-center bd-highlight">
+        <span id="sidebar" class="navi-icon bd-highlight sidebar-toggle d-flex justify-content-center align-items-center" data-toggle="push-menu" role="button">
+            <img src="~/Images/48px_menu-4.svg" />
+        </span>
+        @if (users != null && users.Count >0)
+        {
+            @*<span style="width: 78px;padding-left: 10px;">Tài khoản:</span>*@
+            <ul class="nav navbar-toolbar navbar-right navbar-toolbar-right" style="font-size:12px;">
+                <li class="nav-item dropdown custom-hover">
+                    <a style="color: #616161;" class="nav-link navbar-avatar waves-effect waves-light waves-round" data-toggle="dropdown" href="javascript:void(0)" aria-expanded="false" data-animation="scale-up" role="button">
+                        <span class="header-company-name">@(user.COMNAME != null ? user.COMNAME : "")</span>
+                        <span class="show-comtax-code">
+                            | MST: @user.COMTAXCODE
+                        </span>
+                        <i class="fa fa-angle-down"></i>
+                        @*<img src="~/Images/48px_down-arrow.svg" alt="..." class="arow-down-header">*@
+                    </a>
+                    <div class="dropdown-menu" role="menu" id="menu-company">
+                        @foreach (var item in users)
+                        {
+                            <a id="show-checked_@item.COMTAXCODE" class="dropdown-item waves-effect waves-light waves-round" href="javascript:void(0)" ng-click="SelectedCompany('@item.COMTAXCODE');" role="menuitem">
+                                @(item.COMNAME != null ? item.COMNAME + " |" : "")  <b>MST: @item.COMTAXCODE</b>
+                            </a>
+                        }
+                    </div>
+                </li>
+            </ul>
+        }
+
+        @*<span class="fa fa-search icon-search"></span>
+            <input type="text" class="navi-search bd-highlight" placeholder="Tìm kiếm" />*@
+
+        <div class="fc-button flex-grow-1 bd-highlight d-flex justify-content-end align-items-center">
+            @if (user != null && user.ISFREETRIAL == true)
+            {
+                <div class="float-right over-flow text-right top-item-upgrade-msg font-xs" style="padding-right: 20px;"><span title="Bạn hiện đang sử dụng Gói miễn phí.">Bạn hiện đang sử dụng Gói miễn phí...</span>  <a class="float-right top-upgrade-button-item font-xs" target="_blank" href="https://onfinance.asia/bang-gia/" style="padding-left: 10px;">Nâng cấp</a></div>
+            }
+
+            @if (lstInvoiceTypeTmp != null)
+            {
+                <div class="btn-group" style="padding-right: 30px;">
+                    <button type="button" class="btn btn-light btn-sm dropdown-toggle custom-dll using-invoice-type" data-toggle="dropdown" aria-expanded="false" style="padding: 1.32rem .5rem;border-radius: 0;background: #D0F7CC 0% 0% no-repeat padding-box;">
+                        <span class="fa fa-file-text" style="color:#28a745;"></span><span style="padding-left: 12px;font-weight: bold;text-transform: uppercase;">@typename</span>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-sm" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 31px, 0px); top: 0px; left: 0px; will-change: transform;width: 87% !important;">
+                        @foreach (var item in lstInvoiceTypeTmp)
+                        {
+                            <a class="dropdown-item" href="javascript:void(0)" ng-click="ChooseUsingInvoiceType(@item.ID, '@item.TypeName');" style="padding: .25rem 0.5rem;"><i class="fa fa-file-text" style="color:#28a745;padding-right: 6px;"></i> @item.TypeName</a>
+                        }
+                    </div>
+                </div>
+                @*<ul class="nav navbar-toolbar navbar-right navbar-toolbar-right" style="font-size: 12px;">
+                        <li style="margin-top: 10px;text-transform:uppercase;">Chọn mẫu hóa đơn:</li>
+                        <li class="nav-item dropdown custom-hover">
+                            <a class="nav-link waves-effect waves-light waves-round" data-toggle="dropdown" href="javascript:void(0)" data-animation="scale-up" aria-expanded="false" role="button" style="text-transform:uppercase;color: #616161;">
+                                <span class="fa fa-file-text" style="font-weight: bold;">@typename</span>
+                                <i class="fa fa-angle-down"></i>
+                            </a>
+                            <div class="dropdown-menu" role="menu">
+                                @foreach (var item in lstInvoiceTypeTmp)
+                                {
+                                    <a class="dropdown-item waves-effect waves-light waves-round" href="javascript:void(0)" role="menuitem" onclick="ChooseUsingInvoiceType(@item.ID, '@item.TypeName');" style="text-transform:uppercase;padding: .25rem 0.5rem;">
+                                        <span class="fa fa-file-text" style="padding-right: 6px;color:#28a745;"></span> @item.TypeName
+                                    </a>
+                                }
+                            </div>
+                        </li>
+                    </ul>*@
+            }
+
+            <div id="fc-add" class="fc-icons flyout-button d-flex align-items-center justify-content-center" data-popup="#flyout-add-new" ng-click="popupAlert($event)">
+                <img src="~/Images/32px_c-add.svg" />
+            </div>
+
+            @*<div id="fc-notify" class="fc-icons flyout-button d-flex align-items-center justify-content-center" data-popup="#flyout-notify" ng-click="popupAlert($event)">
+                    <span id="number-of-notify" class="d-flex align-items-center justify-content-center">5</span>
+                    <span class="fa fa-bell-o"></span>
+                </div>*@
+
+            <a href="http://support.onfinance.asia/" target="_blank" style="text-decoration: none;">
+                <div id="fc-help" class="fc-icons d-flex align-items-center justify-content-center">
+                    <span class="fa fa-question-circle-o"></span>
+                </div>
+            </a>
+            <div id="fc-account" class="flyout-button d-flex align-items-center justify-content-between" style="margin-right:15px;" data-popup="#flyout-account" ng-click="popupAlert($event)">
+                <img src="~/Images/avata-3.jpg" id="avata-favicon" />
+                <div class="arrow-down"></div>
+            </div>
+            &nbsp;
+            <div class="fc-icons d-flex align-items-center justify-content-center mr-0" data-toggle="tooltip" data-placement="bottom" title=" Sản phẩm Novaon " onclick="openSynergyBar()">
+                <img src="/Images/default_icon.svg" />
+            </div>
+
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="flyout-view flyout-left" id="flyout-add-new">
+    <div class="arrow arrow-top"></div>
+    <div class="header">Tạo mới</div>
+    <div class="d-flex flex-column bd-highlight p-3">
+        @if (user.USINGINVOICETYPE == (int)DS.Common.Enums.EnumHelper.AccountObjectType.HOADONGTGT
+            || user.USINGINVOICETYPE == (int)DS.Common.Enums.EnumHelper.AccountObjectType.HOADONTIENDIEN
+            || user.USINGINVOICETYPE == (int)DS.Common.Enums.EnumHelper.AccountObjectType.HOADONBANHANG
+            || user.USINGINVOICETYPE == (int)DS.Common.Enums.EnumHelper.AccountObjectType.PHIEUXUATKHO)
+        {
+            <a href="javascript:;" ng-if="CURRENT_USER_ROLE.includes(USER_ROLE.THEM_MOI_HOA_DON.toString())" ng-click="ModalInvoice('', 1)" data-toggle="modal" data-target=".modal-invoice"><span class="fa fa-plus"></span> Hóa đơn</a>
+        }
+        else if (user.USINGINVOICETYPE == (int)DS.Common.Enums.EnumHelper.AccountObjectType.HOADONTIENNUOC)
+        {
+            <a href="javascript:;" ng-if="CURRENT_USER_ROLE.includes(USER_ROLE.THEM_MOI_HOA_DON.toString())" ng-click="ModalInvoice('', 1)" data-toggle="modal" data-target=".modal-invoice"><span class="fa fa-plus"></span> Hóa đơn</a>
+        }
+        else
+        {
+            <a href="javascript:;" ng-if="CURRENT_USER_ROLE.includes(USER_ROLE.THEM_MOI_HOA_DON.toString())" ng-click="ModalReceipt('', 1)" data-toggle="modal" data-target=".modal-receipt"><span class="fa fa-plus"></span> Hóa đơn</a>
+        }
+        <a href="javascript:;" ng-click="ModalCustomer('', 1)" data-toggle="modal" data-target=".modal-customer"><span class="fa fa-plus"></span> Khách hàng</a>
+        @if (user.USINGINVOICETYPE == (int)DS.Common.Enums.EnumHelper.AccountObjectType.HOADONTIENNUOC)
+        {
+            <a href="javascript:;" ng-click="ModalProduct('', 1)" data-toggle="modal" data-target=".modal-product"><span class="fa fa-plus"></span> Biểu giá nước</a>
+        }
+        else if (user.USINGINVOICETYPE == (int)DS.Common.Enums.EnumHelper.AccountObjectType.HOADONTIENDIEN)
+        {
+            <a href="javascript:;" ng-click="ModalProduct('', 1)" data-toggle="modal" data-target=".modal-product"><span class="fa fa-plus"></span> Biểu giá điện</a>
+        }
+        else
+        {
+            <a href="javascript:;" ng-click="ModalProduct('', 1)" data-toggle="modal" data-target=".modal-product"><span class="fa fa-plus"></span> Hàng hóa, dịch vụ</a>
+        }
+    </div>
+</div>
+
+<div class="flyout-view flyout-left" id="flyout-user-info">
+    <div class="arrow arrow-top"></div>
+    <div class="header"><img src="~/Images/g-icon1.png" id="avata-favicon" />&nbsp; @user.EMAIL</div>
+    <div class="d-flex flex-column bd-highlight p-3">
+        <a href="/#/thong-tin-tai-khoan"><span class="fa fa-user"></span> Thông tin người dùng</a>
+        <a href="user-account/logout"><span class="fa fa-sign-out"></span> Đăng xuất</a>
+    </div>
+</div>
+
+<div class="flyout-view flyout-left" id="flyout-notify">
+    <div class="arrow arrow-top"></div>
+    <div class="header">Thông báo</div>
+    <div class="d-flex flex-column bd-highlight p-2">
+        <div class="notify-item bg-hover p-2">
+            <a href="">
+                Chúng tôi vừa có bản cập nhật nhiều tính hữu dụng cho invoice của bạn
+                <span class="notify-link pt-2">Xem chi tiết bản cập nhật</span>
+            </a>
+        </div>
+
+        <div class="notify-item bg-hover p-2">
+            <a href="">
+                Chúng tôi vừa có bản cập nhật nhiều tính hữu dụng cho invoice của bạn
+                <span class="notify-link pt-2">Xem chi tiết bản cập nhật</span>
+            </a>
+        </div>
+
+        <div class="notify-item bg-hover p-2">
+            <a href="">
+                Chúng tôi vừa có bản cập nhật nhiều tính hữu dụng cho invoice của bạn
+                <span class="notify-link pt-2">Xem chi tiết bản cập nhật</span>
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="flyout-view flyout-left" id="flyout-account">
+    <div class="arrow arrow-top"></div>
+    <div id="userNameLogin" class="header">@user.EMAIL</div>
+    <div class="d-flex flex-column bd-highlight p-3">
+        <a href="/#/thong-tin-tai-khoan"><span class="fa fa-user"></span> Thông tin người dùng</a>
+        <a href="user-account/logout"><span class="fa fa-sign-out"></span> Đăng xuất</a>
+    </div>
+</div>
+
+
+<div class="flyout-view flyout-left" id="flyout-add-new">
+    <div class="arrow arrow-top"></div>
+    <div class="header">Báo cáo thống kê</div>
+    <div class="d-flex flex-column bd-highlight p-3">
+        <a href="#" data-toggle="modal" data-target=".modal-invoice"><span class="fa fa-plus"></span> Hóa đơn</a>
+        <a href="#" data-toggle="modal" data-target=".modal-customer"><span class="fa fa-plus"></span> Khách hàng</a>
+        <a href="#" data-toggle="modal" data-target=".modal-product"><span class="fa fa-plus"></span> Hàng hóa, dịch vụ</a>
+    </div>
+</div>

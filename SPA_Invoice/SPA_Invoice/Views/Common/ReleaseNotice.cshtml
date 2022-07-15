@@ -1,0 +1,50 @@
+﻿<div class="modal hide fade modal-release-notice" tabindex="-1" role="dialog" ng-controller="ModalReleaseNoticeController">
+    <div class="modal-dialog modal-dialog-scrollable modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Thông báo phát hành</h3>
+                <button type="button" class="close " data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <form class="modal-body">
+                <div class="row">
+                    <div class="col-6">
+                        <p class="mb-1 mt-3">Mẫu số: </p>
+                        <select class="form-control form-control-sm" ng-model="Number.FORMCODE">
+                            <option ng-value="" disabled ng-selected="true">--Chọn mẫu số--</option>
+                            <option ng-repeat="item in ListFormCode" value="{{item.FORMCODE}}">{{item.FORMCODE}}</option>
+                        </select>
+                    </div> <div class="col-6">
+                        <p class="mb-1 mt-3">Ký hiệu: </p>
+                        <input class="form-control form-control-sm" type="text" ng-model="Number.SYMBOLCODE" capitalize placeholder="vd: AA/20E" />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-6">
+                        <p class="mb-1 mt-3">Từ số: </p>
+                        <input class="form-control form-control-sm" type="number" ng-model="Number.FROMNUMBER" ng-maxlength="7" />
+                    </div>
+                    <div class="col-6">
+                        <p class="mb-1 mt-3">Đến số: </p>
+                        <input class="form-control form-control-sm" type="number" ng-model="Number.TONUMBER" ng-maxlength="7" />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <p class="mb-1 mt-3">Ngày bắt đầu sử dụng: </p>
+                        <input type="text" class="form-control form-control-sm datepicker" ng-model="Number.STRFROMTIME" />
+                    </div>
+                </div>
+            </form>
+            <div class="modal-footer d-flex justify-content-between">
+                <div class="d-flex justify-content-start">
+                    <button class="btn btn-secondary btn-sm mr-3" data-dismiss="modal" ng-click="Number = null">Hủy</button>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <button class="btn btn-success" ng-click="AddReleaseNotice()"> <span class="fa fa-save"></span> &nbsp; Lưu tạo thông báo phát hành</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

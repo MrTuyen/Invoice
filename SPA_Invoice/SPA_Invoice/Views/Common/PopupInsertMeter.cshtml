@@ -1,0 +1,61 @@
+﻿<div class="modal hide fade modal-add-meter" tabindex="-1" role="dialog" ng-controller="ModalMeterController">
+    <div class="modal-dialog modal-dialog-scrollable modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Thêm mới công tơ</h3>
+                <button type="button" class="close " data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <form class="modal-body">
+                <div class="d-flex bd-highlight">
+                    <div class="flex-grow-1 bd-highlight pr-0">
+                        <p class="mb-1 mt-3">MST khách hàng: <span class="text-danger">*</span> </p>
+                        <input class="form-control form-control-sm" type="text" placeholder="Vui lòng nhập đúng MST khách hàng" title="Nhập MST nếu khách hàng là doanh nghiệp,Nhập MKH nếu khách hàng là cá nhân" ng-model="Meter.CUSTAXCODE" />
+                        <p class="mb-1 mt-3">Hệ số: </p>
+                        <input class="form-control form-control-sm" type="number" placeholder="Nhập vào hệ số biểu giá điện" id="idFactor" ng-model="Meter.FACTOR" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-7">
+                        <p class="mb-1 mt-3">Số công tơ: </p>
+                        <input class="form-control form-control-sm" style="width:84%;" type="text" placeholder="098765223" id="idMetercode" ng-model="Meter.CODE" />
+                    </div>
+                    <div class="col-5">
+                        <p class="mb-1 mt-3">Tên công tơ: <span class="text-danger">*</span> </p>
+                        <input class="form-control form-control-sm" type="text" placeholder="VD: Tầng 1 - 098765223" id="idMetername" ng-model="Meter.METERNAME" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-7">
+                        <p class="mb-1 mt-3">Biểu giá điện: <span class="text-danger">*</span></p>
+                        <select title="Chọn biểu giá điện" ng-model="Meter.PRODUCTCODELIST" id="ddlPro" class="selectpicker" multiple data-live-search="true" includeSelectAllOption="true" style="width: 50%;">
+                            <option ng-repeat="item in ListProducts" value="{{item.PRODUCTNAME}}">{{item.PRODUCTNAME}}</option>
+                        </select>
+                        &nbsp;&nbsp;
+                        <span class="input-group-btn">
+                            <span class="fa fa-refresh" style="cursor:pointer;" ng-click="GetListProducts()"></span>
+                        </span>
+                    </div>
+                    <div class="col-5">
+                        <p class="mb-1 mt-3">Số hộ: </p>
+                        <select class="form-control form-control-sm" id="idTaxRate" ng-model="item.APARTMENTNO" ng-change="CalMoneyAfterChangeValue()" convert-to-number style="width:100%;">
+                            <option ng-repeat="item in ApartmentnoList" value="{{item.value}}">{{item.name}}</option>
+                        </select>
+                    </div>
+                </div>
+            </form>
+            <div class="modal-footer d-flex justify-content-between" style="padding-right: 1rem;">
+                <div class="d-flex justify-content-start">
+                    <button class="btn btn-secondary btn-sm mr-3" data-dismiss="modal" ng-click="Meter = null">Hủy</button>
+                </div>
+                <div class="d-flex justify-content-between">
+                    @*<button class="btn btn-success" ng-click="AddMeter(0)"> <span class="fa fa-save"></span> &nbsp; Lưu</button>*@
+                    &nbsp;&nbsp;
+                    @*<button class="btn btn-success" ng-click="AddMeter(1)"> <span class="fa fa-save"></span> &nbsp; Lưu & Nhập tiếp</button>*@
+                    <button class="btn btn-success" ng-click="AddMeter(1)" ng-show="TYPECHANGE == 1"> <span class="fa fa-save"></span> &nbsp; Lưu mới</button>
+                    <button class="btn btn-success" ng-click="AddMeter(3)" ng-show="TYPECHANGE == 3"> <span class="fa fa-save"></span> &nbsp; Lưu sao chép</button>
+                    <button class="btn btn-success" ng-click="UpdateMeter(2)" ng-show="TYPECHANGE == 2"> <span class="fa fa-save"></span> &nbsp; Lưu chỉnh sửa</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

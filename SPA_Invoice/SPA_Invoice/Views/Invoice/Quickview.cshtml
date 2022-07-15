@@ -1,0 +1,141 @@
+﻿@*Hóa đơn xem nhanh*@
+<div ng-hide="IsGridViewDisplay == '0'" class="quickview-area bg-white">
+    <div class="d-flex">
+        <div class="col-sm-4 col-md-4 invoice-quickview-left onscrollbar">
+            <div class="header">
+                <button type="button" class="btn btn-light btn-sm" ng-click="CloseSideBar()">
+                    <span class="fa fa-arrow-left"></span> Quay lại
+                </button>
+                <span><b>Danh sách hóa đơn xem nhanh </b></span>
+                <div class="d-flex justify-content-between mt-3">
+                    <div class="justify-content-start">
+                        <div class="btn-group btn-filter">
+                            <button type="button" class="btn btn-light btn-sm dropdown-toggle" data-toggle="dropdown">
+                                <span class="fa fa-filter"></span> Bộ lọc
+                            </button>
+                            <div class="p-3 dropdown-menu">
+                                <form id="frmInvoiceFilter1">
+                                    <div>
+                                        <p class="mb-1">Trạng thái hoá đơn</p>
+                                        <select class="form-control form-control-sm ddl-novaon" name="INVOICESTATUS" ng-model="Filter.INVOICESTATUS">
+                                            <option value="{{null}}" selected>Tất cả</option>
+                                            <option ng-repeat="item in ListInvoiceStatus" value="{{item.INVOICESTATUSID}}">{{item.INVOICESTATUSNAME}}</option>
+                                        </select>
+                                        <p class="mb-1 mt-2">Mẫu số</p>
+                                        <select class="form-control form-control-sm ddl-novaon" ng-model="Filter.FORMCODE">
+                                            <option value="" selected>Tất cả</option>
+                                            <option ng-repeat="item in ListFormCode" value="{{item.FORMCODE}}">{{item.FORMCODE}}</option>
+                                        </select>
+                                        <p class="mb-1 mt-2">Khách hàng</p>
+                                        <input class="form-control form-control-sm" ng-model="Filter.CUSTOMER" placeholder="Tên doanh nghiệp..." />
+                                        <p class="mb-1 mt-2">Ký hiệu</p>
+                                        <select class="form-control form-control-sm ddl-novaon" ng-model="Filter.SYMBOLCODE">
+                                            <option value="" selected>Tất cả</option>
+                                            <option ng-repeat="item in ListSymbolCode" value="{{item.SYMBOLCODE}}">{{item.SYMBOLCODE}}</option>
+                                        </select>
+                                        <p class="mb-1 mt-2">Số</p>
+                                        <input class="form-control form-control-sm" ng-model="Filter.NUMBER" placeholder="Số hóa đơn... (ví dụ: 0000009)" />
+                                        <p class="mb-1 mt-2">Thời gian</p>
+                                        <select class="form-control form-control-sm ddl-novaon" ng-model="Filter.TIME">
+                                            <option value="{{null}}" selected>Tất cả</option>
+                                            <option ng-repeat="t in Timepickers.Options" value="{{t.value}}">{{t.text}}</option>
+                                        </select>
+                                    </div>
+                                    <div ng-show="(Filter.TIME == 5)">
+                                        <p class="mb-1 mt-2">Từ ngày</p>
+                                        <input type="date" ng-model="FROMTIME" data-date-format="DD MMMM YYYY" id="pk_fromtime_quickview" class="form-control form-control-sm w-100">
+                                        <p class="mb-1 mt-2">Đến ngày</p>
+                                        <input type="date" ng-model="TOTIME" data-date-format="DD MMMM YYYY" id="pk_totime_quickview" class="form-control form-control-sm w-100" />
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center mt-4">
+                                        <div class="keyword-filter"></div>
+                                        <button class="btn btn-success btn-sm pl-5 pr-5" ng-click=" GetInvoice(1)">Lọc</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="justify-content-between">
+                        <button class="btn btn-light btn-sm" ng-disabled="currentpage == 1" ng-click="currentpage = currentpage - 1;GetInvoice(currentpage)"><i class="fa fa-angle-double-left"></i></button>
+                        <label class="pagination-current"><strong><input class="form-control form-control-sm paging-textbox" type="number" ng-model="currentpage" my-enter="GetInvoice(currentpage)" min="1" max="{{TotalPages}}" /> / {{TotalPages}}</strong></label>
+                        <button class="btn btn-light btn-sm" ng-disabled="currentpage == TotalPages" ng-click="currentpage = currentpage + 1;GetInvoice(currentpage)"><i class="fa fa-angle-double-right"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="onscrollbar" style="height: calc(100vh - 170px);overflow: auto; border: 1px dashed green">
+                <div class="data" ng-hide="ListInvoice.length >= 1">
+                    <span colspan="6">Dữ liệu đang trống!</span>
+                </div>
+                <div class="card quickview-item" ng-class="{true: 'quickview-active'}[item.ID === CurrentActive]" ng-repeat="item in ListInvoice" ng-click="QuickviewInvoice(item)">
+                    <div class="card-body p-2">
+                        <table>
+                            <tr>
+                                <td width="36">
+                                    <div style="font-size: 18px;"><b>{{$index + 1}}</b></div>
+                                </td>
+                                <td>
+                                    <div class="quickview-item-info">
+                                        <div><b>{{item.CUSNAME}}</b></div>
+                                        <div>
+                                            <span class="text-danger" ng-if="item.NUMBER > 0">{{item.NUMBER | numberFixedLen:7}}</span> <span ng-if="item.NUMBER == 0">[Chưa cấp số]</span>
+                                            <span ng-if="item.NUMBER > 0"> | {{item.SIGNEDTIME | dateFormat:'dd/MM/yyyy'}}</span>
+                                        </div>
+                                        <div>
+                                            <span>{{item.INVOICESTATUSNAME}} - Giá trị: {{item.TOTALPAYMENT | numberFormat: item.MONEYPLACE}} {{item.CURRENCY}}</span>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            @*<hr>
+            <div class="justify-content-between">
+                <button class="btn btn-light btn-sm" ng-disabled="currentpage == 1" ng-click="currentpage = currentpage - 1;GetInvoice(currentpage)"><i class="fa fa-angle-double-left"></i></button>
+                <label class="pagination-current"><strong><input class="form-control form-control-sm paging-textbox" type="number" ng-model="currentpage" my-enter="GetInvoice(currentpage)" min="1" max="{{TotalPages}}" /> / {{TotalPages}}</strong></label>
+                <button class="btn btn-light btn-sm" ng-disabled="currentpage == TotalPages" ng-click="currentpage = currentpage + 1;GetInvoice(currentpage)"><i class="fa fa-angle-double-right"></i></button>
+            </div>*@
+        </div>
+        <div class="col-sm-8 col-md-8 invoice-quickview-right text-center">
+            <div class="header mb-1">
+                <span><b>{{Enterprise.COMNAME}}</b></span>
+                <div class="d-flex justify-content-between function-toolbar">
+                    <div class="justify-content-start">
+                        <button type="button" class="btn btn-warning btn-sm" has-permission="{{USER_ROLE.GUI_EMAIL}}" ng-disabled="CurrentInvoice.INVOICESTATUS != 2" ng-click="ModalSendEmail(CurrentInvoice)" title="Gửi email khách hàng">
+                            <i class="text-success fa fa-envelope"></i> Gửi email
+                        </button>
+                        <button type="button" class="btn btn-warning btn-sm" has-permission="{{USER_ROLE.CAP_NHAT_HOA_DON}}" ng-click="ModalInvoice(CurrentInvoice, 2)" ng-disabled="CurrentInvoice.INVOICESTATUS != 1" data-toggle="modal" data-target=".modal-invoice">
+                            <i class="text-success fa fa-pencil-square-o"></i>&nbsp;Chỉnh sửa
+                        </button>
+                        <button type="button" class="btn btn-warning btn-sm" @*ng-disabled="!CurrentInvoice.PDF"*@ ng-click="DownloadInvoice(CurrentInvoice)">
+                            <i class="text-success fa fa-download"></i>&nbsp;Tải hóa đơn
+                        </button>
+                        <button type="button" class="btn btn-warning btn-sm" @*ng-disabled="!CurrentInvoice.PDF"*@ ng-click="QuickviewInvoice(CurrentInvoice)">
+                            <i class="text-success fa fa-file-text-o"></i>&nbsp;HĐ mẫu
+                        </button>
+                        <button type="button" class="btn btn-warning btn-sm" ng-click="QuickviewInvoiceConvert(CurrentInvoice)" ng-disabled="CurrentInvoice.INVOICESTATUS != 2">
+                            <i class="text-success fa fa-clipboard"></i>&nbsp;Chuyển đổi HĐ giấy
+                        </button>
+                        <button type="button" class="btn btn-warning btn-sm" has-permission="{{USER_ROLE.KY}}" ng-click="Sign(CurrentInvoice.ID)" ng-disabled="CurrentInvoice.INVOICESTATUS != 1">
+                            <img src="~/Images/hand-writing-with-ballpen.svg" style="width: 16px;" />&nbsp;Phát hành
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+            <div class="main-quickview-right" style="height: calc(100vh - 165px);">
+                @*<div ng-if="!CurrentInvoice.PDF" class="text-danger">Chưa có dữ liệu. Vui lòng chọn hóa đơn bên trái.</div>
+        <div class="view-invoice-html" style="font-size:14px;">
+            <iframe style="font-size:13px;" ng-if="CurrentInvoice.PDF" srcdoc="{{CurrentInvoice.PDF}}"></iframe>
+        </div>*@
+
+                <div id="templateViewInvoice" class="flex-grow-1 onscrollbar">
+                    <div id="viewPreviewTemplate">
+                        <iframe src="/TemplateFiles/none.html" id="iframe_templateViewInvoice" type="application/pdf" scrolling="yes">Vui lòng chọn mẫu hóa đơn</iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

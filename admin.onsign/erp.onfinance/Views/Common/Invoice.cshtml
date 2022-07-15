@@ -1,0 +1,82 @@
+﻿<div class="modal hide fade modal-add-invoice" tabindex="-1" role="dialog" ng-controller="ManagerController">
+    <div class="modal-dialog modal-dialog-scrollable modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Cập nhật hóa đơn chờ</h3>
+                <button type="button" class="close " data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <form class="modal-body">
+                <div class="d-flex bd-highlight">
+                    <div class="flex-grow-1 bd-highlight pr-3">
+                        <div class="box-body">
+                            <div class="col-6">
+                                <input type="radio" class="" style="" ng-model="Invoice.INVOICEWATING" ng-value="1">
+                                <label class=""
+                                       title="">
+                                    <strong>Chưa ký số tiếp theo</strong>
+                                </label>
+                            </div>
+                            <div class="col-6">
+                                <input type="radio" class="" ng-model="Invoice.INVOICEWATING" ng-value="2">
+                                <label class=""
+                                       title="">
+                                    <strong>Đã ký số tiếp theo</strong>
+                                </label>
+                            </div>
+                            <div class="row">
+                                <div class="col-2">
+                                    Mã số thuế: <strong class="text-danger">*</strong>
+                                </div>
+                                <div class="col-9">
+                                    <input type="text" class="form-control" ng-model="Invoice.COMTAXCODE" />
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-2">
+                                    Số ký hiệu:<strong class="text-danger">*</strong>
+                                </div>
+                                <div class="col-9">
+                                    <input type="text" class="form-control" ng-model="Invoice.NUMBER" />
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-2">
+                                    Mẫu số:<strong class="text-danger">*</strong>
+                                </div>
+                                <div class="col-9">
+                                    <input type="text" class="form-control" ng-model="Invoice.SYMBOLCODE" />
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-2">
+                                    kí hiệu:<strong class="text-danger">*</strong>
+                                </div>
+                                <div class="col-9">
+                                    <input type="text" class="form-control" ng-model="Invoice.FORMCODE" />
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-2">
+                                    Trạng thái:
+                                </div>
+                                <div class="col-4">
+                                    @*<input type="text" class="form-control" ng-model="Invoice.INVOICESTATUS" />*@
+                                    <select class="form-control form-control-sm" id="idCategory" ng-model="Invoice.INVOICESTATUS">
+                                        <option value="" disabled selected>--Chọn trạng thái--</option>
+                                        <option value="1">chưa ký</option>
+                                        <option value="1">đã ký</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>  
+                    </div>
+                </div>
+            </form>
+            <div class="modal-footer d-flex justify-content-between" style="padding-right: 1rem;">
+                <button type="button" class="btn btn-success" ng-click="SaveInvoice()">
+                    <span class="fa fa-floppy-o"></span> Lưu thông tin
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

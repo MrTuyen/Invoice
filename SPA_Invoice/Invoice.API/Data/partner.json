@@ -1,0 +1,20 @@
+﻿[
+  {
+    "id": 1,
+    "taxCode": "0107426591",
+    "comName": "CÔNG TY TNHH VNTRIP OTA",
+    "appId": "2c4d0fe777ece79065fd7526613eb594"
+  },
+  {
+    "id": 2,
+    "taxCode": "0100942741",
+    "comName": "CÔNG TY TNHH THANH PHONG",
+    "appId": "d705c8386b781097faf4d4e2d502349b"
+  },
+  {
+    "id": 5,
+    "taxCode": "0106579683",
+    "comName": "CÔNG TY CỔ PHẦN CÔNG NGHỆ THÔNG TIN ĐỊA LÝ EK",
+    "appId": "55e55b2c5886e96468c69b40e462e4ef"
+  }
+]

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inv:invoice xmlns:inv="http://laphoadon.gdt.gov.vn/2014/09/invoicexml/v1" xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+   <inv:invoiceData id="data">
+      <inv:invoiceType>01GTKT</inv:invoiceType>
+      <inv:templateCode>01GTKT0/001</inv:templateCode>
+      <inv:invoiceSeries>ST/19E</inv:invoiceSeries>
+      <inv:invoiceNumber>0002697</inv:invoiceNumber>
+      <inv:invoiceName>Hóa đơn giá trị gia tăng</inv:invoiceName>
+      <inv:invoiceIssuedDate>2019-07-22T00:00:00</inv:invoiceIssuedDate>
+      <inv:signedDate>2019-07-22T10:02:44</inv:signedDate>
+      <inv:currencyCode>VND</inv:currencyCode>
+      <inv:adjustmentType>1</inv:adjustmentType>
+      <inv:payments>
+         <inv:payment>
+            <inv:paymentMethodName>TM/CK</inv:paymentMethodName>
+         </inv:payment>
+      </inv:payments>
+      <inv:delivery />
+      <inv:sellerLegalName>CÔNG TY TNHH DỊCH VỤ TIN HỌC SIÊU TỐC</inv:sellerLegalName>
+      <inv:sellerTaxCode>0311427563</inv:sellerTaxCode>
+      <inv:sellerAddressLine>Số 91-93 Đường số 5, Phường An Phú, Quận 2, TP Hồ Chí Minh</inv:sellerAddressLine>
+      <inv:sellerPhoneNumber>0988180307</inv:sellerPhoneNumber>
+      <inv:sellerFaxNumber />
+      <inv:sellerEmail />
+      <inv:sellerBankAccount />
+      <inv:sellerBankName />
+      <inv:buyerLegalName>CÔNG TY TNHH CALLUS</inv:buyerLegalName>
+      <inv:buyerTaxCode>0315398088</inv:buyerTaxCode>
+      <inv:buyerAddressLine>Tầng 5 tòa nhà unique, 91B2 Phạm Văn Hai, Phường 3, Quận Tân Bình, Thành phố Hồ Chí Minh, Việt Nam</inv:buyerAddressLine>
+      <inv:deliveryOrderDate>1900-01-01T00:00:00</inv:deliveryOrderDate>
+      <inv:exchangeRate>1.00</inv:exchangeRate>
+      <inv:items>
+         <inv:item>
+            <inv:lineNumber>1</inv:lineNumber>
+            <inv:itemCode>TP35</inv:itemCode>
+            <inv:itemName>Ram PC Kingston HyperX Fury đen 8GB D4-2666 CL16-18-18 (HX426C16FB2/8)</inv:itemName>
+            <inv:unitName>CÁI</inv:unitName>
+            <inv:quantity>2.00</inv:quantity>
+            <inv:itemTotalAmountWithoutVat>1727273</inv:itemTotalAmountWithoutVat>
+            <inv:vatPercentage>10</inv:vatPercentage>
+            <inv:vatAmount>172727</inv:vatAmount>
+            <inv:unitPrice>863636.36</inv:unitPrice>
+            <inv:promotion>0</inv:promotion>
+         </inv:item>
+      </inv:items>
+      <inv:invoiceTaxBreakdowns>
+         <inv:invoiceTaxBreakdown>
+            <inv:vatPercentage>10</inv:vatPercentage>
+         </inv:invoiceTaxBreakdown>
+      </inv:invoiceTaxBreakdowns>
+      <inv:totalAmountWithoutVAT>1727273</inv:totalAmountWithoutVAT>
+      <inv:totalVATAmount>172727</inv:totalVATAmount>
+      <inv:totalAmountWithVAT>1900000</inv:totalAmountWithVAT>
+      <inv:totalAmountWithVATInWords>Một triệu chín trăm nghìn đồng chẵn.</inv:totalAmountWithVATInWords>
+      <inv:discountAmount>0</inv:discountAmount>
+      <inv:isDiscountAmtPos>0</inv:isDiscountAmtPos>
+      <inv:totalAmountWithVATFrn>1900000</inv:totalAmountWithVATFrn>
+      <inv:userDefines><![CDATA[<TransactionID>4ZFJUEKLAE</TransactionID><InvoiceRefID>d2a7ec5f-c008-47c7-a781-67b33cd27083</InvoiceRefID><InvoiceTemplateID>ca6b2dfa-adb6-4360-90b7-d44770120c92</InvoiceTemplateID><MainCurrency>VND</MainCurrency><UnitPriceDecimalDigits>2</UnitPriceDecimalDigits><UnitPriceOCDecimalDigits>2</UnitPriceOCDecimalDigits><QuantityDecimalDigits>2</QuantityDecimalDigits><AmountDecimalDigits>0</AmountDecimalDigits><AmountOCDecimalDigits>2</AmountOCDecimalDigits><ExchangRateDecimalDigits>2</ExchangRateDecimalDigits><CoefficientDecimalDigits>2</CoefficientDecimalDigits><AccountObjectCode>KH08178</AccountObjectCode><UserItems><UserItem><LineNumber>1</LineNumber><DiscountRate>0.00 </DiscountRate><DiscountAmountOC>0 </DiscountAmountOC><DiscountAmount>0 </DiscountAmount><PanelLengthQuantity>0.00 </PanelLengthQuantity><PanelWidthQuantity>0.00 </PanelWidthQuantity><PanelHeightQuantity>0.00 </PanelHeightQuantity><PanelRadiusQuantity>0.00 </PanelRadiusQuantity><PanelQuantity>0.00 </PanelQuantity><InventoryItemType>0</InventoryItemType><RowType>0</RowType><MainUnitName>CÁI</MainUnitName><MainConvertRate>1.00 </MainConvertRate><MainQuantity>2.00 </MainQuantity><MainUnitPrice>863636.36 </MainUnitPrice></UserItem></UserItems>]]></inv:userDefines>
+   </inv:invoiceData>
+   <inv:controlData>
+      <inv:systemCode>LHD_MISA</inv:systemCode>
+   </inv:controlData>  
+</inv:invoice>

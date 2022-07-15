@@ -1,0 +1,36 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "91a12d6b-514a-4d00-b064-92415291264d": {
+      "ProjectGuid": "91a12d6b-514a-4d00-b064-92415291264d",
+      "DisplayName": "SPA_Invoice",
+      "ColorIndex": 0
+    },
+    "e2ef73c2-ae18-45c5-9403-3f8e5b97374c": {
+      "ProjectGuid": "e2ef73c2-ae18-45c5-9403-3f8e5b97374c",
+      "DisplayName": "DS.BusinessObject",
+      "ColorIndex": 1
+    },
+    "29692fe2-7928-4f86-8048-debecad82a97": {
+      "ProjectGuid": "29692fe2-7928-4f86-8048-debecad82a97",
+      "DisplayName": "SearchInvoiceCustomer",
+      "ColorIndex": 2
+    },
+    "69ab788b-af07-47d2-8b41-6f9aa8cbd15b": {
+      "ProjectGuid": "69ab788b-af07-47d2-8b41-6f9aa8cbd15b",
+      "DisplayName": "DS.SearchInvoice",
+      "ColorIndex": 3
+    },
+    "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3": {
+      "ProjectGuid": "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3",
+      "DisplayName": "Miscellaneous Files",
+      "ColorIndex": -1
+    },
+    "d577785d-bfbe-43fe-9abf-27438f82d71f": {
+      "ProjectGuid": "d577785d-bfbe-43fe-9abf-27438f82d71f",
+      "DisplayName": "DS.BusinessLogic",
+      "ColorIndex": 4
+    }
+  },
+  "NextColorIndex": 5
+}

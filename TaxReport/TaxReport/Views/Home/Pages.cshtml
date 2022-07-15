@@ -1,0 +1,12 @@
+﻿
+@{
+    Layout = null;
+    int currentPage = (int)ViewBag.CurrentPage;
+}
+
+<div style="min-width: 130px;">Trang @currentPage/@ViewBag.TotalPages:</div>
+@for (int y = 1; y <= (int)ViewBag.TotalPages; y++)
+{
+    <div class="page @Html.Raw(y== currentPage?"current":"")" data-page="@y">@y</div>
+}
+

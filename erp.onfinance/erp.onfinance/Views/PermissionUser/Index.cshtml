@@ -1,0 +1,73 @@
+﻿@using SAB.Common
+@{
+    ViewBag.Title = "Danh sách nhân viên";
+
+    List<SelectListItem> storeitems = new List<SelectListItem>();
+    storeitems.Add(new SelectListItem
+    {
+        Text = "- Chọn siêu thị -",
+        Value = "0"
+    });
+    foreach (StoreModel p in (ViewBag.Stores) as IEnumerable<StoreModel>)
+    {
+        storeitems.Add(new SelectListItem
+        {
+            Text = p.STOREID + " - " + p.STORENAME,
+            Value = p.STOREID.ToString()
+        });
+    }
+}
+<div class="boxsearch">
+    @using (Html.BeginForm("Index", "PermissionUser", FormMethod.Post, new { @id = "frmSearch" }))
+    {
+        @Html.TextBox("strKeyword", null, new { @style = "width: 250px;", @class = "seachInput", @placeholder = "Tìm theo mã nv, họ tên, sđt", @id = "txtSearch" })
+        <span>&nbsp;</span>@Html.DropDownList("intStoreID", storeitems, new { @style = "width: 250px;", @id = "ddlStore" })
+        <input id="btnSearch" type="submit" value="Tìm" onclick="$('#hdPageIndex').val(1);" />
+        @Html.Hidden("intPage", 1, new { @id = "hdPageIndex" })
+    }
+</div>
+<div class="bodycontent">
+    <table class="table table-striped table-bordered table-condensed">
+        <thead>
+            <tr>
+                <th class="text-center" style="width: 100px">Hình</th>
+                <th class="text-center" style="width: 120px">Mã nhân viên</th>
+                <th>Họ tên</th>
+                <th>Số điện thoại</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null)
+            {
+                foreach (SYSTEM_USER p in Model)
+                {
+                    <tr class="gradeX">
+                        <td class="text-center">
+                            <img style="width: 80px;" src="~/Images/no-avatar-png-2.png" alt="@p.USERNAME" />
+                        </td>
+                        <td class="text-center">@Html.ActionLink(p.USERNAME, "Detail", "PermissionUser", new { id = p.USERNAME }, null)</td>
+                        <td>@p.FULLNAME</td>
+                        <td>@p.MOBI</td>
+                        <td>@p.EMAIL</td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+    <div class="text-right">
+        <div class="btn-group" id="divPagerContrl">
+            <!--[PAGER]-->
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    CreatePagerSubmit(@ViewBag.CurrentPage, @ViewBag.TotalPages, $("#divPagerContrl"));
+    $("select#ddlStore").multiselect({
+        noneSelectedText: '- Chọn siêu thị -',
+        multiple: false,
+        selectedText: 'Chọn # / # siêu thị'
+    }).multiselectfilter();
+</script>
+
+

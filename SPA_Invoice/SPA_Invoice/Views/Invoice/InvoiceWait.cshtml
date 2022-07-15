@@ -1,0 +1,246 @@
+﻿<div ng-controller="InvoiceWaitController" ng-init="GetInvoiceWaiting(1)" class="invoicewaiting">
+    <div ng-show="TabWaiting.TabWaitingNumber">
+        <div class="d-flex justify-content-between">
+            <h2><strong>Dải hóa đơn chờ</strong></h2>
+            <div class="btn-group btn-sm pr-0">
+                <button type="button" class="btn btn-success" has-permission="{{USER_ROLE.THEM_DAI_CHO}}" ng-click="ModalNumberWaiting(null, 1)" data-toggle="modal" data-target=".modal-number-waiting">
+                    <span class="fa fa-plus"></span> &nbsp; Thêm dải chờ
+                </button>
+            </div>
+        </div>
+        <div class="bg-white">
+            <div class="d-flex justify-content-between">
+                <div class="btn-filter table_overflow_absolute onscrollbar" style="margin-bottom: 50px;">
+                    <table class="table table-bordered  table-sm table-vertical-center table-head-green bg-white table-hover">
+                        <thead>
+                            <tr>
+                                <th class="text-center">STT</th>
+                                <th class="text-center">Ghi chú</th>
+                                <th class="text-center">Ngày khởi tạo</th>
+                                <th class="text-center">Mẫu hóa đơn-Ký hiệu</th>
+                                <th class="text-center">Từ số</th>
+                                <th class="text-center">Đến số</th>
+                                <th class="text-center">Số chưa sử dụng</th>
+                                <th class="text-center">Số đã sử dụng</th>
+                                <th class="text-center">Trạng thái</th>
+                                <th class="text-center">Hành động</th>
+                            </tr>
+                        </thead>
+                        <tbody class="product-table">
+                            <tr class="data" ng-hide="ListInvoiceWaiting.length > 0">
+                                <td colspan="12">Dữ liệu đang trống!</td>
+                            </tr>
+                            <tr ng-repeat="item in ListInvoiceWaiting">
+                                <td class="text-center">
+                                    <label>{{$index + 1}}</label>
+                                </td>
+                                <td class="text-left">
+                                    <label>{{item.NOTE}}</label>
+                                </td>
+                                <td class="text-center">
+                                    <label>{{item.INITTIME | dateFormat: 'dd/MM/yyyy'}}</label>
+                                </td>
+                                <td class="text-center">
+                                    <label>{{item.FORMCODE}}-{{item.SYMBOLCODE}}</label>
+                                </td>
+                                <td class="text-center">
+                                    <label>{{item.FROMNUMBER | numberFormat:0}}</label>
+                                </td>
+                                <td class="text-center">
+                                    <label>{{item.TONUMBER | numberFormat:0}}</label>
+                                </td>
+                                <td class="text-center text-success">
+                                    <label>{{item.AVAILABLENUMBER}}</label>
+                                </td>
+                                <td class="text-center text-danger">
+                                    <label>{{item.USEDNUMBER}}</label>
+                                </td>
+                                <td class="text-center">
+                                    <label ng-if="item.NUMBERSTATUS == ENUM_WAITINGNUMBERSTATUS.CON_SO" class="text-success">
+                                        <b>
+                                            {{item.NUMBERSTATUS}}
+                                        </b>
+                                    </label>
+                                    <label ng-if="!(item.NUMBERSTATUS == ENUM_WAITINGNUMBERSTATUS.CON_SO)" class="text-danger">
+                                        <b>
+                                            {{item.NUMBERSTATUS}}
+                                        </b>
+                                    </label>
+                                </td>
+                                <td class="text-center">
+                                    <button type="button" class="btn btn-light btn-sm" has-permission="{{USER_ROLE.KY_DAI_CHO}}" ng-disabled="!(item.NUMBERSTATUS == ENUM_WAITINGNUMBERSTATUS.CON_SO)" ng-click="TabClick(2, item)"><img src="~/Images/hand-writing-with-ballpen.svg" style="width: 16px" /> Ký </button>
+                                    @*| <button type="button" class="btn btn-light btn-sm" ng-disabled="!(item.NUMBERSTATUS == ENUM_WAITINGNUMBERSTATUS.CON_SO)" ng-click="ModalNumberWaiting(item, 2)" data-toggle="modal" data-target=".modal-number-waiting"> Sửa </button>*@
+                                </td>
+                            </tr>
+                        </tbody>
+
+
+                    </table>
+                </div>
+            </div>
+            <div class="paging-absolute">
+                <table class="table table-bordered table-sm table-vertical-center table-head-green">
+                    <tr>
+                        <td class="text-left border-0 " colspan="3" ng-model="currentpage">
+                            <div class="mt-2 ml-4 pagination-area">
+                                <label class="pagination-current">{{(currentpage - 1) * currentRow + 1}}  - {{currentpage * currentRow > TotalRow ? TotalRow : currentpage * currentRow}}  trong <strong>{{TotalRow}}</strong> bản ghi</label>
+                            </div>
+                        </td>
+                        <td class="text-right border-0" colspan="10" ng-model="currentpage">
+                            <div class="mt-2 ml-4 pagination-area">
+                                <button class="pagination-first" ng-disabled="currentpage == 1" ng-click="GetInvoiceWaiting(1)">< Đầu tiên</button>
+                                <button class="pagination-previous" ng-disabled="currentpage == 1" ng-click="GetInvoiceWaiting(currentpage - 1)">Trước</button>
+                                <label class="pagination-current"><strong>{{currentpage}}/{{TotalPages}}</strong></label>
+                                <button class="pagination-next" ng-disabled="currentpage == TotalPages" ng-click="GetInvoiceWaiting(currentpage + 1)">Sau</button>
+                                <button class="pagination-last" ng-disabled="currentpage == TotalPages" ng-click="GetInvoiceWaiting(TotalPages)">Cuối cùng ></button>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div ng-show="TabWaiting.TabInvoice">
+        <div class="d-flex">
+            <button type="button" class="btn btn-light btn-sm mr-3" ng-click="TabClick(1)">
+                <i class="fa fa-arrow-left"></i> Quay lại
+            </button>
+            <h2><strong>Chọn hóa đơn cần ký trong dãy chờ từ số <span class="text-danger">{{CurrentNumberObject.FROMNUMBER}}</span> - <span class="text-danger">{{CurrentNumberObject.TONUMBER}}</span></strong></h2>
+        </div>
+        <div class="bg-white mt-2">
+            <div class="header-filter px-3">
+                Số đã sử dụng:
+                <strong>
+                    <span class="text-danger" style="font-size: 18px;">
+                        {{LISTUSEDNUMBER.join(', ')}}
+                    </span>
+                </strong>
+                <br />
+                Số chưa sử dụng:
+                <strong>
+                    <span class="text-success" style="font-size: 18px;">
+                        {{LISTNUMBER.join(', ')}}
+                    </span>
+                </strong>
+            </div>
+            <div class="bg-white">
+                <div class="d-flex justify-content-between">
+                    <div class="btn-filter table_overflow_absolute onscrollbar bg-white" style="top: 127px!important">
+                        <table class="table table-bordered table-sm table-vertical-center table-head-green table-hover mt-3 table_invoice_list_manage">
+                            <thead>
+                                <tr>
+                                    @*<th style="width: 40px;" class="text-center">
+            <label for="cbx_title" class="label-cbx">
+                <input id="cbx_title" type="checkbox" class="invisible" ng-click="SelectAll(ListInvoice, IsSelectAll)" ng-model="IsSelectAll" ng-init="IsSelectAll = false">
+                <span class="checkbox">
+                    <svg width="20px" height="20px" viewBox="0 0 20 20">
+                        <path d="M3,1 L17,1 L17,1 C18.1045695,1 19,1.8954305 19,3 L19,17 L19,17 C19,18.1045695 18.1045695,19 17,19 L3,19 L3,19 C1.8954305,19 1,18.1045695 1,17 L1,3 L1,3 C1,1.8954305 1.8954305,1 3,1 Z"></path>
+                        <polyline points="4 11 8 15 16 6"></polyline>
+                    </svg>
+                </span>
+            </label>
+        </th>*@
+                                    <th class="text-center" style="width: 50px">STT</th>
+                                    @*<th style="width: 150px">Ngày tạo</th>*@
+                                    <th class="text-center" style="width: 150px">Ghi chú</th>
+                                    <th style="width: 150px">Loại hóa đơn</th>
+                                    <th>Khách hàng</th>
+                                    <th style="width: 150px">Tổng tiền (vnđ)</th>
+                                    <th class="text-center" style="width: 80px">Số hóa đơn</th>
+                                    <th class="text-center" style="width: 147px">Ngày phát hành</th>
+                                    <th class="text-center" style="width: 81px"></th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr ng-repeat="item in ListInvoice track by $index" ng-dblclick="ModalInvoice(item, 2)">
+                                    @*<td class="text-center">
+            <label for="cbx_{{$index}}" class="label-cbx">
+                <input id="cbx_{{$index}}" type="checkbox" class="invisible" ng-model="item.ISSELECTED" ng-click="SeleteRow(ListInvoice, item.ISSELECTED, IsSelectAll)">
+                <span class="checkbox">
+                    <svg width="20px" height="20px" viewBox="0 0 20 20">
+                        <path d="M3,1 L17,1 L17,1 C18.1045695,1 19,1.8954305 19,3 L19,17 L19,17 C19,18.1045695 18.1045695,19 17,19 L3,19 L3,19 C1.8954305,19 1,18.1045695 1,17 L1,3 L1,3 C1,1.8954305 1.8954305,1 3,1 Z"></path>
+                        <polyline points="4 11 8 15 16 6"></polyline>
+                    </svg>
+                </span>
+            </label>
+        </td>*@
+                                    <td class="text-center">{{$index + 1}}</td>
+                                    @*<td>{{item.INITTIME | dateTimeFormat}}</td>*@
+                                    <td>{{item.NOTE}}</td>
+                                    <td>
+                                        <span class=" text-primary" ng-show="item.INVOICETYPE == 1">
+                                            {{item.INVOICETYPENAME}}
+                                        </span>
+                                        <span class=" text-primary" ng-show="item.INVOICETYPE == 2">
+                                            {{item.INVOICETYPENAME}}
+                                        </span>
+                                        <span class=" text-black-50" ng-show="item.INVOICETYPE == 3">
+                                            {{item.INVOICETYPENAME}}
+                                        </span>
+                                        <span class=" text-warning" ng-show="item.INVOICETYPE == 4">
+                                            {{item.INVOICETYPENAME}}
+                                        </span>
+                                        <span class=" text-danger" ng-show="item.INVOICETYPE == 5">
+                                            {{item.INVOICETYPENAME}}
+                                        </span>
+                                        <span class=" text-info" ng-show="item.INVOICETYPE == 6">
+                                            {{item.INVOICETYPENAME}}
+                                        </span>
+                                    </td>
+                                    <td class="text-left">{{item.CUSNAME}}</td>
+                                    <td class="text-right">{{item.TOTALPAYMENT | numberFormat:0}}</td>
+                                    <td class="text-center">
+                                        <input type="number" class="form-control form-control-sm number-waitting" ng-model="WAITINGNUMBER" style="width: 80px; border: 1px solid #DEE2E6 !important" autocomplete="off" />
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="d-flex">
+                                            <img style="width: 24%; cursor: pointer" src="/Images/calendar-512.png" alt="calander" ng-click="CheckDateOfPreviousInvoice(WAITINGNUMBER, item)" />
+                                            <input type="text" class="form-control form-control-sm editor_invoice datepicker" disabled ng-model="_SIGNEDTIME" style="width: 103px; border: 1px solid #DEE2E6 !important" id="pk_{{item.ID}}" autocomplete="off" placeholder="Chọn ngày ký" />
+                                        </div>
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="d-flex">
+                                            <button type="button" class="btn btn-light btn-sm" ng-click="SignWaiting(item.ID, _SIGNEDTIME, WAITINGNUMBER)"><img src="~/Images/check-mark-icon-png-11.png" style="width: 16px" /> Chọn</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table class="table table-bordered table-sm table-vertical-center table-head-green table-hover">
+                            <tfoot>
+                                <tr>
+                                    <td class="border-0"></td>
+                                    <td class="text-right border-0 font-weight-bold text-danger">
+                                        <i>Chọn số cần ký trước sau đó chọn ngày ký (số nhỏ ngày nhỏ số lớn ngày lớn)</i>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+                <div class="paging-absolute">
+                    <table class="table table-bordered table-sm table-vertical-center table-head-green">
+                        <tr>
+                            <td class="text-left border-0 " colspan="3" ng-model="currentpage">
+                                <div class="mt-2 ml-4 pagination-area">
+                                    <label class="pagination-current">{{(currentpage - 1) * currentRow + 1}}  - {{currentpage * currentRow > TotalRow ? TotalRow : currentpage * currentRow}}  trong <strong>{{TotalRow}}</strong> bản ghi</label>
+                                </div>
+                            </td>
+                            <td class="text-right border-0" colspan="10" ng-model="currentpage">
+                                <div class="mt-2 ml-4 pagination-area">
+                                    <button class="pagination-first" ng-disabled="currentpage == 1" ng-click="GetInvoice(1)">< Đầu tiên</button>
+                                    <button class="pagination-previous" ng-disabled="currentpage == 1" ng-click="GetInvoice(currentpage - 1)">Trước</button>
+                                    <label class="pagination-current"><strong>{{currentpage}}/{{TotalPages}}</strong></label>
+                                    <button class="pagination-next" ng-disabled="currentpage == TotalPages" ng-click="GetInvoice(currentpage + 1)">Sau</button>
+                                    <button class="pagination-last" ng-disabled="currentpage == TotalPages" ng-click="GetInvoice(TotalPages)">Cuối cùng ></button>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,39 @@
+﻿@using SAB.Common
+@model List<SYSTEM_USER>
+@if (Model != null)
+{
+    <table class="table table-bordered table-striped" id="tblSearUser" style="width: 100%" data-totalpage="@ViewBag.TotalPages" data-currentpage="@ViewBag.CurrentPage">
+        <thead>
+            <tr>
+                <th class="text-center">
+                    <input onclick="CheckAll(this, 'chkSelectUser')" class="checkAll" type="checkbox" />
+                </th>
+                <th class="text-center" style="width: 90px">Mã NV</th>
+                <th>Họ tên</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (SYSTEM_USER objUser in Model)
+            {
+                <tr>
+                    <td class="text-center">
+                        <input data-fullname="@objUser.FULLNAME" type="checkbox" id="chkSelectUser" value="@objUser.USERNAME" />
+                    </td>
+                    <td class="text-center">
+                        @objUser.USERNAME
+                    </td>
+                    <td>
+                        @objUser.FULLNAME
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="text-right">
+        <div class="btn-group right" id="divUserpg">
+            <!--[PAGER]-->
+        </div>
+    </div>
+}
+
+

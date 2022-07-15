@@ -1,0 +1,573 @@
+﻿
+@{
+    ViewBag.Title = "Thông tin doanh nghiệp";
+}
+
+<style>
+    .success-result {
+        color: #2CA01C;
+    }
+
+    .error-result {
+        color: deeppink;
+    }
+
+        .success-result i, .error-result i {
+            font-size: 22px;
+        }
+</style>
+<div class="scrollable-content" ng-controller="ManagerController" ng-cloak ng-init="GetCompany(1)">
+
+    <div class="box box-default" ng-hide="Company.ISEDIT">
+        <div class="box-header with-border">
+            <h4 class="panel-title">
+                Danh sách doanh nghiệp
+            </h4>
+            <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" ng-click="" data-widget="collapse"><i class="fa fa-minus"></i></button>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <input type="text" class="form-control" placeholder="Tìm MST, tên doanh nghiệp, SĐT, địa chỉ..." ng-model="Keywords" />
+                </div>
+                <div class="col-md-9">
+                    <button type="button" class="btn btn-warning" ng-click="GetCompany(1)">
+                        <span class="fa fa-search"></span> Tìm kiếm
+                    </button>
+                    <button type="button" class="btn btn-success" ng-click="EditCompany('')">
+                        <span class="fa fa-plus"></span> &nbsp; Thêm doanh nghiệp
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="box-body" style="padding: 10px 40px;">
+            <div class="row text-right" style="margin: 0">
+                <div class="col">
+                    <divpage pagemodel="intPage" totalpage="{{TotalPages}}" currentpage="{{currentPage}}" ng-click="GetCompany(intPage)"></divpage>
+                </div>
+            </div>
+            <div class="row" style="margin-top:6px">
+                <table class="table table-bordered table-sm table-vertical-center table-head-green table-hover">
+                    <thead>
+                        <tr>
+                            <th class="text-center">STT</th>
+                            <th class="text-left">MST</th>
+                            <th class="text-left">Tên doanh nghiệp</th>
+                            <th class="text-left">Địa chỉ</th>
+                            <th class="text-left">Số điện thoại</th>
+                            <th class="text-left">Pháp nhân</th>
+                            <th class="text-center">Hoạt động</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr ng-repeat="item in ListCompany" style="cursor:pointer" ng-click="EditCompany(item)">
+                            <td class="text-center" style="cursor:pointer" ng-click="EditCompany(item)">{{$index + 1}}</td>
+                            <td class="text-left text-primary">{{item.COMTAXCODE}}</td>
+                            <td class="text-left" width="20%">{{item.COMNAME}}</td>
+                            <td class="text-left" width="25%">{{item.COMADDRESS}}</td>
+                            <td class="text-left">{{item.COMPHONENUMBER}}</td>
+                            <td class="text-left">{{item.COMLEGALNAME}}</td>
+
+                            <td ng-if="item.ISDELETED == false" class="text-center success-result">
+                                <i class="fa fa-check"></i>
+                            </td>
+                            <td ng-if="item.ISDELETED == true" class="text-center error-result">
+                                <i class="fa fa-times"></i>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="row text-right" style="margin: 0">
+                <div class="col">
+                    <divpage pagemodel="intPage" totalpage="{{TotalPages}}" currentpage="{{currentPage}}" ng-click="GetCompany(intPage)"></divpage>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div ng-show="Company.ISEDIT">
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <button type="button" class="btn btn-secondary" ng-click="BackToListCompany()">
+                    <span class="fa fa-arrow-left"></span> Quay lại
+                </button>
+                <h2 class="box-title" style="vertical-align: -webkit-baseline-middle; font-size: 30px; margin-left: 5px">Thông tin doanh nghiệp</h2>
+            </div>
+
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-2">
+                        Tên doanh nghiệp: <strong class="text-danger">*</strong>
+                    </div>
+                    <div class="col-9">
+                        <input type="text" class="form-control" ng-model="Company.COMNAME" />
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-2">
+                        Tên pháp nhân:
+                    </div>
+                    <div class="col-9">
+                        <input type="text" class="form-control" ng-model="Company.COMLEGALNAME" />
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-2">
+                        Email: <strong class="text-danger">*</strong> <br><i style="display: block; margin-top: -5px; color: #808080" ng-show="Company.ISNEW">(User đăng nhập)</i>
+                    </div>
+                    <div class="col-9">
+                        <input type="text" class="form-control" ng-model="Company.COMEMAIL" />
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-2">
+                        Mã số thuế: <strong class="text-danger">*</strong> <br><i style="display: block; margin-top: -5px; color: #808080" ng-show="Company.ISNEW">(Mật khẩu đăng nhập)</i>
+                    </div>
+                    <div class="col-9">
+                        <input type="text" class="form-control" ng-model="Company.COMTAXCODE" ng-disabled="!Company.ISNEW" />
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-2">
+                        Địa chỉ: <strong class="text-danger">*</strong>
+                    </div>
+                    <div class="col-9">
+                        <input type="text" class="form-control" ng-model="Company.COMADDRESS" />
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-2">
+                        Số điện thoại:
+                    </div>
+                    <div class="col-9">
+                        <input type="text" class="form-control" ng-model="Company.COMPHONENUMBER" />
+                    </div>
+                </div>
+
+                <div class="row mt-2">
+                    <div class="col-6">
+                        <div class="row">
+                            <div class="col-4">
+                                Số tài khoản ngân hàng:
+                            </div>
+                            <div class="col-7">
+                                <input type="text" class="form-control" ng-model="Company.COMACCOUNTNUMBER" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="row">
+                            <div class="col-2">
+                                Ngân hàng:
+                            </div>
+                            <div class="col-8">
+                                <input type="text" class="form-control" ng-model="Company.COMBANKNAME" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-2">
+                    <div class="col-2">
+                        Chọn loại hóa đơn phát hành:
+                    </div>
+                    <div class="col-9">
+                        <select class="form-control form-control-sm editor_invoice ddl-novaon" id="form-code" ng-model="Company.USINGINVOICETYPE">
+                            <option value="0" selected>Hóa đơn giá trị gia tăng</option>
+                            <option value="1">Hóa đơn trường học</option>
+                            <option value="2">Hóa đơn tiền điện</option>
+                            <option value="3">Hóa đơn bán hàng</option>
+                            <option value="4">Hóa đơn điện nước</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row mt-2">
+                    <div class="col-2">
+                        Ngừng hoạt động:
+                    </div>
+                    <div class="col-9">
+                        <label>
+                            <input type="checkbox" style="transform: scale(2)" ng-model="Company.ISDELETED" /><span>&nbsp; (Click vào để đánh dấu doanh nghiệp Ngừng hoạt động)</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="box-footer">
+                <button type="button" class="btn btn-success" ng-click="SaveCompany()">
+                    <span class="fa fa-floppy-o"></span> Lưu thông tin doanh nghiệp
+                </button>
+                <button ng-if="Company.COMTAXCODE!=null" type="button" class="btn btn-success" ng-click="EditInvoice('')">Hóa đơn chờ</button>
+            </div>
+        </div>
+
+        <div class="box box-default" ng-hide="Company.ISNEW">
+            <div class="box-header with-border">
+                <nav>
+                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                        <a class="nav-item nav-link active" id="user-tab" data-toggle="tab" href="#nav-user" role="tab" aria-controls="nav-home" aria-selected="true" ng-click="GetAllUserByComtaxCode(1)">Tài khoản</a>
+                        <a class="nav-item nav-link" id="release-notice-tab" data-toggle="tab" href="#nav-release-notice" role="tab" aria-controls="nav-profile" aria-selected="false"
+                           ng-click="GetAllReleaseNotice(1)">Thông báo phát hành</a>
+                    </div>
+                </nav>
+            </div>
+            <div class="box-body with-border">
+                <div class="tab-content" id="nav-tabContent">
+
+
+                    <div class="tab-pane fade show active" id="nav-user" role="tabpanel" aria-labelledby="user-tab">
+                        <table class="table table-bordered table-sm table-vertical-center table-head-green table-hover">
+                            <thead>
+                                <tr class="text-center">
+                                    <th class="text-center">STT</th>
+                                    <th>Thời gian tạo</th>
+                                    <th>Tên đăng nhập</th>
+                                    <th>Địa chỉ email</th>
+                                    <th>Số điện thoại</th>
+                                    <th>Trạng thái hoạt động</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody class="product-table">
+                                <tr ng-repeat="item in ListUser" class="text-center" style="cursor:pointer">
+                                    <td class="text-center" ng-click="EditUser(item)">
+                                        <label>{{$index + 1}}</label>
+                                    </td>
+                                    <td>
+                                        <label>{{item.INITTIME | dateFormat: 'dd/MM/yyyy'}}</label>
+                                    </td>
+                                    <td>
+                                        <label>{{item.USERNAME}}</label>
+                                    </td>
+                                    <td>
+                                        <label>{{item.EMAIL}}</label>
+                                    </td>
+                                    <td>
+                                        <label>{{item.PHONENUMBER}}</label>
+                                    </td>
+                                    <td ng-if="item.ISACTIVED" class="text-center success-result">
+                                        <i class="fa fa-check"></i>
+                                    </td>
+                                    <td ng-if="!item.ISACTIVED" class="text-center error-result">
+                                        <i class="fa fa-times"></i>
+                                    </td>
+                                    <td class="text-right">
+                                        <label data-toggle="tooltip" data-placement="bottom" title="Chỉnh sửa thông tin user">
+                                            <button type="button" class="btn btn-light btn-link" ng-click="EditUser(item)">
+                                                <span class="fa fa-pencil-square-o"></span>
+                                            </button>
+                                        </label>
+                                        <label data-toggle="tooltip" data-placement="bottom" title="Xóa user khỏi công ty">
+                                            <button type="button" class="btn btn-light" ng-click="DeleteUser(item)">
+                                                <span class="fa fa-times text-danger"></span>
+                                            </button>
+                                        </label>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        @*Form thêm mới người dùng*@
+                        <div id="modal_user" style="display: none" title="Thông tin tài khoản">
+                            <div class="row">
+                                <div class="col" style="display:none;">
+                                    <p class="mb-1 mt-3">Tên đăng nhập: </p>
+                                    <input class="form-control" type="text" ng-model="User.USERNAME" />
+                                </div>
+                                <div class="col">
+                                    <p class="mb-1 mt-3">Địa chỉ Email <strong class="text-danger">(*)</strong>: </p>
+                                    <input class="form-control" type="text" ng-model="User.EMAIL" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <p class="mb-1 mt-3">Số điện thoại: </p>
+                                    <input class="form-control" type="text" ng-model="User.PHONENUMBER" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <p class="mb-1 mt-3">Mật khẩu:</p>
+                                    <input class="form-control" type="text" ng-model="User.PASSWORD" />
+                                    <small class="text-danger"><i>(Nếu không đổi mật khẩu, vui lòng để trống)</i></small>
+                                </div>
+                            </div>
+                            <div class="modal-footer d-flex justify-content-between p-0 pt-2">
+                                <div class="d-flex justify-content-start">
+                                    <button class="btn btn-default mr-3" ng-click="CloseModalDialog()">
+                                        <span class="fa fa-times"></span> &nbsp; Đóng
+                                    </button>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <button class="btn btn-success mr-3" ng-click="SaveUser(User, false)">
+                                        <span class="fa fa-paper-plane"></span> &nbsp; Lưu
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+                        @*Form cập nhật người dùng*@
+                        <div id="modal_user_edit" style="display: none" title="Thông tin tài khoản">
+                            <div class="row">
+                                <div class="col" style="display:none;">
+                                    <p class="mb-1 mt-3">Tên đăng nhập: </p>
+                                    <input class="form-control" type="text" ng-model="User.USERNAME" />
+                                </div>
+                                <div class="col">
+                                    <p class="mb-1 mt-3">Địa chỉ Email <strong class="text-danger">(*)</strong>: </p>
+                                    <input class="form-control" type="text" ng-model="User.EMAIL" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <p class="mb-1 mt-3">Số điện thoại: </p>
+                                    <input class="form-control" type="text" ng-model="User.PHONENUMBER" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <p class="mb-1 mt-3">Mật khẩu:</p>
+                                    <input class="form-control" type="text" ng-model="User.PASSWORD" />
+                                    <small class="text-danger"><i>(Nếu không đổi mật khẩu, vui lòng để trống)</i></small>
+                                </div>
+                            </div>
+                            <div class="modal-footer d-flex justify-content-between p-0 pt-2">
+                                <div class="d-flex justify-content-start">
+                                    <button class="btn btn-default mr-3" ng-click="CloseModalDialog()">
+                                        <span class="fa fa-times"></span> &nbsp; Đóng
+                                    </button>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <button class="btn btn-success mr-3" ng-click="SaveUser(User, true)">
+                                        <span class="fa fa-paper-plane"></span> &nbsp; Cập nhật
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+                            <button type="button" class="btn btn-success" ng-click="EditUser('')">
+                                <span class="fa fa-plus"></span> &nbsp; Thêm user quản lý
+                            </button>
+                        </div>
+
+
+                    </div>
+
+                    @*Thông báo phát hành*@
+                    <div class="tab-pane fade" id="nav-release-notice" role="tabpanel" aria-labelledby="release-notice-tab">
+                        <table class="table table-bordered table-sm table-vertical-center table-head-green table-hover">
+                            <thead>
+                                <tr class="text-center">
+                                    <th class="text-center">STT</th>
+                                    <th>Thời gian tạo</th>
+                                    <th>Mã số thuế</th>
+                                    <th>Mẫu số</th>
+                                    <th>Ký hiệu</th>
+                                    <th>Từ số</th>
+                                    <th>Đến số</th>
+                                    <th>Số hiện tại</th>
+                                    <th>Trạng thái</th>
+                                    <th>Ngày bắt đầu sử dụng</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody class="product-table">
+                                <tr ng-repeat="item in ListNumber" class="text-center" style="cursor:pointer">
+                                    <td class="text-center">
+                                        <label style="display: inline; color: red; cursor:pointer">{{$index + 1}}</label>
+                                    </td>
+                                    <td>
+                                        <label>{{item.INITTIME | dateTimeFormat}}</label>
+                                    </td>
+                                    <td>
+                                        <label>{{item.COMTAXCODE}}</label>
+                                    </td>
+                                    <td>
+                                        <label>{{item.FORMCODE}}</label>
+                                    </td>
+                                    <td>
+                                        <label>{{item.SYMBOLCODE}}</label>
+                                    </td>
+                                    <td>
+                                        <label>{{item.FROMNUMBER}}</label>
+                                    </td>
+                                    <td>
+                                        <label>{{item.TONUMBER}}</label>
+                                    </td>
+                                    <td>
+                                        <label>{{item.CURRENTNUMBER}}</label>
+                                    <td>
+                                        <label>{{item.STATUSNAME}}</label>
+                                    </td>
+                                    <td>
+                                        <label>{{item.FROMTIME | dateFormat: 'dd/MM/yyyy'}}</label>
+                                    </td>
+
+                                    <td class="text-right">
+                                        <label data-toggle="tooltip" data-placement="bottom" title="Chỉnh sửa thông tin user">
+                                            <button type="button" class="btn btn-light btn-link" ng-click="EditReleaseNotice(item)">
+                                                <span class="fa fa-pencil-square-o"></span>
+                                            </button>
+                                        </label>
+                                        <label data-toggle="tooltip" data-placement="bottom" title="Xóa thông báo phát hành">
+                                            <button type="button" class="btn btn-light" ng-click="DeleteReleaseNotice(item)">
+                                                <span class="fa fa-times text-danger"></span>
+                                            </button>
+                                        </label>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+
+                        <div id="modal_release_notice" style="display: none" title="Thông báo phát hành">
+                            <div class="row">
+                                <div class="col-6">
+                                    <p class="mb-1 mt-3">Mẫu số: </p>
+                                    <input class="form-control" type="text" ng-model="ReleaseNotice.FORMCODE" />
+                                </div>
+                                <div class="col-6">
+                                    <p class="mb-1 mt-3">Ký hiệu: </p>
+                                    <input class="form-control" type="text" ng-model="ReleaseNotice.SYMBOLCODE" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <input class="form-control" type="hidden" ng-model="ReleaseNotice.OLDFROMNUMBER" ng-maxlength="7" />
+                                <input class="form-control" type="hidden" ng-model="ReleaseNotice.OLDTONUMBER" ng-maxlength="7" />
+                                <div class="col-6">
+                                    <p class="mb-1 mt-3">Từ số: </p>
+                                    <input class="form-control" type="number" ng-model="ReleaseNotice.FROMNUMBER" ng-maxlength="7" />
+                                </div>
+                                <div class="col-6">
+                                    <p class="mb-1 mt-3">Đến số: </p>
+                                    <input class="form-control" type="number" ng-model="ReleaseNotice.TONUMBER" ng-maxlength="7" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <p class="mb-1 mt-3">Ngày bắt đầu sử dụng: </p>
+                                    <input type="text" class="form-control datepicker" ng-model="ReleaseNotice.STRFROMTIME" />
+                                </div>
+                                <div class="col-6">
+                                    <p class="mb-1 mt-3">Trạng thái phát hành hóa đơn: </p>
+                                    <select class="form-control form-control-sm" ng-model="ReleaseNotice.STATUS" convert-to-number>
+                                        <option value="1">Còn số</option>
+                                        <option value="2">Hết số</option>
+                                        <option value="3">Hủy</option>
+                                        <option value="4">Chưa phát hành</option>
+                                        <option value="5">Đã bị hồ sơ</option>
+                                        <option value="6">Đã nộp lên Thuế</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="modal-footer d-flex justify-content-between p-0 pt-2 ">
+                                <div class="d-flex justify-content-start">
+                                    <button class="btn btn-default mr-3" ng-click="CloseModalDialog()">
+                                        <span class="fa fa-times"></span> &nbsp; Đóng
+                                    </button>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <button class="btn btn-success mr-3" ng-click="SaveReleaseNotice()" ng-if="ISRELEASENOTICEEDIT">
+                                        <span class="fa fa-paper-plane"></span> &nbsp; Lưu chỉnh sửa
+                                    </button>
+                                    <button class="btn btn-success mr-3" ng-click="AddReleaseNotice()" ng-if="!ISRELEASENOTICEEDIT">
+                                        <span class="fa fa-paper-plane"></span> &nbsp; Lưu thêm mới
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+                            <button type="button" class="btn btn-success" ng-click="EditReleaseNotice('')">
+                                <span class="fa fa-plus"></span> &nbsp; Thêm thông báo phát hành
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="modal_invoice_edit" style="display: none" title="Cập nhật hóa đơn chờ">
+        <div class="row">
+            <div class="col-6">
+                <input type="radio" class="" style="transform:scale(1.5);" ng-model="Invoice.INVOICEWATING" ng-value="1">
+                <label class=""
+                       title="">
+                    <strong>Chưa ký số tiếp theo</strong>
+                </label>
+            </div>
+            <div class="col-6">
+                <input type="radio" class="" style="transform:scale(1.5);" ng-model="Invoice.INVOICEWATING" ng-value="2">
+                <label class=""
+                       title="">
+                    <strong>Đã ký số tiếp theo</strong>
+                </label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-3">
+                Mã số thuế: <strong class="text-danger">*</strong>
+            </div>
+            <div class="col-9">
+                <input type="text" class="form-control " readonly ng-model="Invoice.COMTAXCODE" />
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-3">
+                Số ký lỗi:<strong class="text-danger">*</strong>
+            </div>
+            <div class="col-9">
+                <input type="text" class="form-control" ng-model="Invoice.NUMBER" />
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-3">
+                Mẫu số:<strong class="text-danger">*</strong>
+            </div>
+            <div class="col-9">
+                <input type="text" class="form-control" ng-model="Invoice.SYMBOLCODE" />
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-3">
+                Ký hiệu:<strong class="text-danger">*</strong>
+            </div>
+            <div class="col-9">
+                <input type="text" class="form-control" ng-model="Invoice.FORMCODE" />
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-3">
+                Trạng thái:
+            </div>
+            <div class="col-4">
+                @*<input type="text" class="form-control" ng-model="Invoice.INVOICESTATUS" />*@
+                <select class="form-control form-control-sm" id="idCategory" ng-model="Invoice.INVOICESTATUS">
+                    <option value="" disabled selected>--Chọn trạng thái--</option>
+                    <option value="1">Chưa ký</option>
+                    <option value="1">Đã ký</option>
+                </select>
+            </div>
+        </div>
+        <div class="modal-footer d-flex justify-content-between p-0 pt-2">
+            @*<div class="d-flex justify-content-start">
+                <button class="btn btn-default mr-3" ng-click="CloseModalDialog()">
+                    <span class="fa fa-times"></span> &nbsp; Đóng
+                </button>
+            </div>*@
+            <div class="d-flex justify-content-between">
+                <button type="button" class="btn btn-success" ng-click="SaveInvoice()">
+                    <span class="fa fa-floppy-o"></span> Cập nhật
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

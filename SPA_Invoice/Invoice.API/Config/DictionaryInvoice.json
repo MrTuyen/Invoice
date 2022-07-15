@@ -1,0 +1,21 @@
+{
+  "formcode": "FORMCODE",
+  "symbolcode": "SYMBOLCODE",
+  "customer_name": "CUSNAME",
+  "company": "COMNAME",
+  "taxcode": "CUSTAXCODE",
+  "phone_number": "CUSPHONENUMBER",
+  "address": "CUSADDRESS",
+  "email": "CUSEMAIL",
+  "payment_method": "CUSPAYMENTMETHOD",
+  "bank": "CUSBANKNAME",
+  "account_number": "CUSACCOUNTNUMBER",
+  "currency_unit": "CURRENCY",
+  "products": {
+    "productname": "PRODUCTNAME",
+    "unit": "QUANTITYUNIT",
+    "quantity": "QUANTITY",
+    "price": "RETAILPRICE",
+    "promotion": "ISPROMOTION"
+  }
+}

@@ -1,0 +1,26 @@
+﻿<div class="modal hide fade modal-payment " tabindex="-1" role="dialog" ng-controller="ModalPaymentMethodController">
+    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered" role="document">
+        <div class="modal-content container">
+            <div class="modal-header">
+                <h3 class="modal-title">Thông tin HTTT  </h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <form class="modal-body">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Tên HTTT<span class="text-danger">*</span></label>
+                    <input class="form-control" id="payment" type="text" ng-model="payment.PAYMENTMETHOD" placeholder="Nhập vào tên HTTT" /><br />
+                    <input class="form-check-input" id="check1" type="checkbox" ng-model="payment.ISACTIVED" style="transform:scale(1.5);margin-left:10px;" />
+                    <label class="form-check-label" style="margin-left:30px" for="check1">Hoạt động</label>
+                </div>
+            </form>
+            <div class="modal-footer">
+                <div class="d-flex justify-content-between">
+                    <button class="btn btn-success" ng-click="SaveAndClosePayment()">
+                        Lưu và đóng
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

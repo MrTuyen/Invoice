@@ -1,0 +1,147 @@
+﻿
+@{
+    ViewBag.Title = "Thông tin hóa đơn";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .success-result {
+        color: #2CA01C;
+    }
+
+    .error-result {
+        color: deeppink;
+    }
+
+        .success-result i, .error-result i {
+            font-size: 22px;
+        }
+</style>
+<div class="scrollable-content" ng-controller="ManagerController" ng-cloak ng-init="GetInvoice(1)">
+
+    <div class="box box-default" ng-hide="Invoice.ISEDIT">
+        <div class="box-header with-border">
+            <h4 class="panel-title">
+                Danh sách hóa đơn
+            </h4>
+            <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" ng-click="" data-widget="collapse"><i class="fa fa-minus"></i></button>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <input type="text" class="form-control" placeholder="Tìm MST,Mẫu số,Ký hiệu..." ng-model="Keywords" />
+                </div>
+                <div class="col-md-9">
+                    <button type="button" class="btn btn-warning" ng-click="GetInvoice(1)">
+                        <span class="fa fa-search"></span> Tìm kiếm
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="box-body" style="padding: 10px 40px;">
+            <div class="row text-right" style="margin: 0">
+                <div class="col">
+                    <divpage pagemodel="intPage" totalpage="{{TotalPages}}" currentpage="{{currentPage}}" ng-click="GetInvoice(intPage)"></divpage>
+                </div>
+            </div>
+            <div class="row" style="margin-top:6px">
+                <table class="table table-bordered table-sm table-vertical-center table-head-green table-hover">
+                    <thead>
+                        <tr>
+                            <th class="text-center">STT</th>
+                            <th class="text-left">MST</th>
+                            <th class="text-left">Tên doanh nghiệp</th>
+                            <th class="text-left">Địa chỉ</th>
+                            <th class="text-left">Mẫu số</th>
+                            <th class="text-left">Ký hiệu</th>
+                            <th class="text-center">Trạng thái</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr ng-repeat="item in ListInvoice" style="cursor:pointer" ng-click="EditInvoice(item)">
+                            <td class="text-center" style="cursor:pointer" ng-click="EditInvoice(item)">{{$index + 1}}</td>
+                            <td class="text-left text-primary">{{item.COMTAXCODE}}</td>
+                            <td class="text-left" width="20%">{{item.COMNAME}}</td>
+                            <td class="text-left" width="25%">{{item.CUSADDRESS}}</td>
+                            <td class="text-left">{{item.FORMCODE}}</td>
+                            <td class="text-left">{{item.SYMBOLCODE}}</td>
+                            <td ng-if="item.INVOICESTATUS == 2">
+                                <span>Đã ký</span>
+                            </td>
+                            <td ng-if="item.INVOICESTATUS == 1">
+                                <span>Chưa ký</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="row text-right" style="margin: 0">
+                <div class="col">
+                    <divpage pagemodel="intPage" totalpage="{{TotalPages}}" currentpage="{{currentPage}}" ng-click="GetInvoice(intPage)"></divpage>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div ng-show="Invoice.ISEDIT">
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <button type="button" class="btn btn-secondary" ng-click="BackToListInvoice()">
+                    <span class="fa fa-arrow-left"></span> Quay lại
+                </button>
+                <h2 class="box-title" style="vertical-align: -webkit-baseline-middle; font-size: 30px; margin-left: 5px">Thông tin hóa đơn</h2>
+            </div>
+
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-2">
+                        Mã số thuế: <strong class="text-danger">*</strong>
+                    </div>
+                    <div class="col-9">
+                        <input type="text" class="form-control" ng-model="Invoice.COMTAXCODE" />
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-2">
+                        Tên doanh nghiệp:
+                    </div>
+                    <div class="col-9">
+                        <input type="text" class="form-control" ng-model="Invoice.COMNAME" />
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-2">
+                        Mẫu số:
+                    </div>
+                    <div class="col-9">
+                        <input type="text" class="form-control" ng-model="Invoice.SYMBOLCODE" />
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-2">
+                        kí hiệu:
+                    </div>
+                    <div class="col-9">
+                        <input type="text" class="form-control" ng-model="Invoice.FORMCODE" />
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-2">
+                        Trạng thái:
+                    </div>
+                    <div class="col-9">
+                        <input type="text" class="form-control" ng-model="Invoice.INVOICESTATUS" />
+                    </div>
+                </div>
+            </div>
+            <div class="box-footer">
+                <button type="button" class="btn btn-success" ng-click="SaveInvoice()">
+                    <span class="fa fa-floppy-o"></span> Lưu thông tin
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

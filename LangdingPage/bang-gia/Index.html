@@ -1,0 +1,1674 @@
+﻿
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <style type="text/css">
+        .table-pricelist th p, .packedname p {
+            font-size: 26px;
+            color: #f8f9fa;
+            margin-bottom: 10px;
+            line-height: 28px;
+        }
+    </style>
+    <title>Onfinance Invoice | Phần mềm hóa đơn điện tử trong hệ sinh thái NOVAON</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="/images/mini-logo.png" type="image/x-icon">
+    <meta name="title" content="Onfinance Invoice | Phần mềm hóa đơn điện tử trong hệ sinh thái NOVAON">
+    <meta name="twitter:card" content="Onfinance Invoice | Phần mềm hóa đơn điện tử trong hệ sinh thái NOVAON">
+    <meta name="description" content="Phần mềm hóa đơn điện tử trong hệ sinh thái NOVAON">
+    <meta name="keywords" content="Onfinance Invoice">
+    <meta name="image" content="https://onfinance.asia/images/header-banner-1.png">
+    <link rel="canonical" href="https://onfinance.asia/bang-gia/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Onfinance Invoice | Phần mềm hóa đơn điện tử trong hệ sinh thái NOVAON">
+    <meta property="og:image" content="https://onfinance.asia/images/header-banner-1.png">
+    <meta property="og:url" content="https://onfinance.asia/bang-gia/">
+    <meta property="og:description" content="Phần mềm hóa đơn điện tử trong hệ sinh thái NOVAON">
+    <meta property="og:site_name" content="Onfinance Invoice | Phần mềm hóa đơn điện tử trong hệ sinh thái NOVAON">
+    <!-- CSS -->
+    <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:300,400,500,600,700&amp;display=swap&amp;subset=vietnamese" rel="stylesheet">
+
+    <link href="/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="/css/awesome.css" rel="stylesheet" type="text/css">
+    <link href="/css/owl.carousel.min.css" rel="stylesheet" type="text/css">
+    <link href="/css/owl.theme.default.min.css" rel="stylesheet" type="text/css">
+    <link href="/css/novaon.homepage.min.css?v=2" rel="stylesheet" type="text/css">
+    <link href="/css/homebundle.min.css" rel="stylesheet" type="text/css">
+    <link href="../css/header_static.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="../font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../css/header-layout-home.css" type="text/css">
+
+    <script src="/Scripts/jquery.3.3.1.min.js" type="text/javascript"></script>
+    <script src="/Scripts/lazyload.min.js" type="text/javascript"></script>
+    <script src="/Scripts/bootstrap.min.js" type="text/javascript"></script>
+    <script src="/Scripts/owl.carousel.min.js" type="text/javascript"></script>
+    <script src="/Scripts/novaon.homepage.min.js?v=1" type="text/javascript"></script>
+
+    <script>
+        $(window).scroll(function () {
+            if ($(window).scrollTop() > 0) {
+                $('#menu-fixed').addClass('floatingNav');
+
+
+            } else {
+                $('#menu-fixed').removeClass('floatingNav');
+
+            }
+        });
+
+
+        var _fixedScrollDesktop = 68;
+        var _fixedScrollMobile = 24;
+
+        var _currentScroll = $(window).scrollTop();
+        var _widthPage = $(window).width();
+        window.onresize = function () {
+            _widthPage = $(window).width();
+            _currentScroll = $(window).scrollTop();
+        }
+
+        if (_widthPage > 767) {
+            if (_currentScroll > _fixedScrollDesktop) {
+                $('.layout-home--header').addClass('fix-header');
+            }
+            else {
+                $('.layout-home--header').removeClass('fix-header');
+            }
+        }
+        else {
+            if (_currentScroll > _fixedScrollMobile) {
+                $('.layout-home--header').addClass('fix-header');
+            }
+            else {
+                $('.layout-home--header').removeClass('fix-header');
+            }
+        }
+
+        $(window).on('scroll', function () {
+            _currentScroll = $(window).scrollTop();
+
+            if (_widthPage > 767) {
+                if (_currentScroll > _fixedScrollDesktop) {
+                    $('.layout-home--header').addClass('fix-header');
+                }
+                else {
+                    $('.layout-home--header').removeClass('fix-header');
+                }
+            }
+            else {
+
+                if (_currentScroll > _fixedScrollMobile) {
+                    $('.layout-home--header').addClass('fix-header');
+                }
+                else {
+                    $('.layout-home--header').removeClass('fix-header');
+                }
+            }
+
+            //if (_widthPage < 500) {
+            //    hideHotlineMobile();
+            //}
+        });
+
+
+        function ChangeLeftMenu(param) {
+            // Xóa active cũ
+            $('.lf-menu .all-product-active').each(function (index, item) {
+                $(item).removeClass('all-product-active');
+                $(item).addClass('all-product');
+            });
+            // Flag node
+            var node = $(param).prop('class');
+            if (node == 'all-product') {
+                $(param).removeClass('all-product');
+                $(param).addClass('all-product-active');
+            }
+
+            // Thay đổi nội dung trên frame
+            var val = parseInt($(param).attr('data-menu'));
+            // Ân right menu
+            $('.menu-ri-item').each(function (index, item) {
+                $(item).hide();
+            });
+            // show right menu
+            $($('.menu-ri-item').eq(val)).show();
+        }
+
+    </script>
+
+    <script>
+        $(document).ready(function () {
+
+            function getTimeRemaining(endtime) {
+                var t = Date.parse(endtime) - Date.parse(new Date());
+                var seconds = Math.floor((t / 1000) % 60);
+                var minutes = Math.floor((t / 1000 / 60) % 60);
+                var hours = Math.floor((t / (1000 * 60 * 60)) % 24);
+                var days = Math.floor(t / (1000 * 60 * 60 * 24));
+                return {
+                    'total': t,
+                    'days': days,
+                    'hours': hours,
+                    'minutes': minutes,
+                    'seconds': seconds
+                };
+            }
+
+            //Countdown
+            function initializeClock(id, endtime) {
+                var clock = document.getElementById(id);
+                var daysSpan = clock.querySelector('.days');
+                var hoursSpan = clock.querySelector('.hours');
+                var minutesSpan = clock.querySelector('.minutes');
+                var secondsSpan = clock.querySelector('.seconds');
+
+                function updateClock() {
+                    var t = getTimeRemaining(endtime);
+
+                    daysSpan.innerHTML = ('0' + t.days).slice(-2);
+                    hoursSpan.innerHTML = ('0' + t.hours).slice(-2);
+                    minutesSpan.innerHTML = ('0' + t.minutes).slice(-2);
+                    secondsSpan.innerHTML = ('0' + t.seconds).slice(-2);
+
+                    if (t.total <= 0) {
+                        clearInterval(timeinterval);
+                    }
+                }
+
+                updateClock();
+                var timeinterval = setInterval(updateClock, 1000);
+            }
+
+            var endTime = new Date("10/31/2020");
+
+            initializeClock('clockdiv', endTime);
+
+            //Click chọn
+            $('.btn_option').click(function () {
+                $('.btn_option').removeClass('selected');
+                $(this).addClass('selected');
+            });
+
+            //Lưu
+            $('.btn_register_now').click(function () {
+                var today = new Date();
+                var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+                var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+                var dateTime = date + ' ' + time;
+
+                var _1 = $('#phone').val();
+                var _2 = $('#taxcode').val();
+                var _3 = $('#fullname').val();
+                var _4 = $('.btn_option.selected').html();
+
+
+                $.ajax({
+                    url: "https://docs.google.com/forms/d/1qdWaY3DMw9sG6FlBI2tbj9hOy5CGiDUGjzqUuEJTRUA/formResponse?",
+                    data: {
+                        "entry.1543000902": _1,
+                        "entry.1972960939": _2,
+                        "entry.1828403430": _3,
+                        "entry.1539716566": _4,
+                        "entry.782678525": dateTime
+                    },
+                    type: "POST",
+                    dataType: "jsonp",
+                    success: function (d) {
+                        alert("Đăng ký thành công!");
+                    },
+                    error: function (x, y, z) {
+                        alert("Đăng ký thành công!");
+                        document.location.reload();
+                    }
+                });
+            });
+        });
+
+
+    </script>
+
+    <!-- Google Tag Manager -->
+    <script>
+    (function (w, d, s, l, i) {
+        w[l] = w[l] || []; w[l].push({
+            'gtm.start':
+                new Date().getTime(), event: 'gtm.js'
+        }); var f = d.getElementsByTagName(s)[0],
+            j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-KLPQ5MC');</script>
+    <!-- End Google Tag Manager -->
+</head>
+<body class="home">
+
+    <div class="page-wrapper">
+        <div id="header-new">
+            <header class="clearfix layout-home--header fix-header" id="home">
+                <style>
+                    .hover-pointer:hover {
+                        cursor: pointer;
+                    }
+
+                    #home.fix-header #banner-header-top-pc {
+                        margin-top: -112px;
+                    }
+
+                    .fl {
+                        float: left;
+                    }
+
+                    .mar-l-t {
+                        margin: 7px 0 0 15px;
+                    }
+
+                    #hotline_layoutz {
+                        padding-bottom: 15px;
+                    }
+
+                    .all-product {
+                        width: 100%;
+                        height: 40px;
+                        border-radius: 8px;
+                        float: right;
+                        border-color: rgba(20, 14, 14, 0.00);
+                        text-align: left;
+                        font-size: 14px;
+                        line-height: 24px;
+                        align-items: center;
+                        color: #1D243E !important;
+                    }
+
+                        .all-product:hover {
+                            color: #B9256A !important;
+                            font-weight: 600;
+                        }
+
+                    .all-product-active {
+                        width: 100%;
+                        height: 40px;
+                        background: #26A629;
+                        float: right;
+                        border-color: rgba(20, 14, 14, 0.00);
+                        border-radius: 8px;
+                        text-align: left;
+                        font-size: 14px;
+                        line-height: 24px;
+                        align-items: center;
+                        font-weight: 600;
+                        color: #000000 !important;
+                    }
+
+                    .he-14 {
+                        height: 14px;
+                    }
+
+                    .pad-r-0 {
+                        padding-right: 0px;
+                    }
+
+                    .inner-product label {
+                        font-size: 16px;
+                    }
+
+                    .inner-product .div-line {
+                        border-bottom: 1px solid #D8DDE6;
+                    }
+
+                    .row.inner-product {
+                        margin-top: 23px;
+                    }
+
+                    .inner-product .fa.fa-play {
+                        color: #B9256A;
+                        font-size: 13px;
+                        border-radius: 1px;
+                    }
+
+                    .inner-product p {
+                        padding-left: 17px;
+                    }
+
+
+                    .item-product {
+                        margin-top: 26px;
+                        border-radius: 8px;
+                        padding-left: 17px;
+                    }
+
+                    a.product:hover {
+                        color: #b9256a;
+                        font-weight: 600;
+                    }
+
+                    a.product {
+                        color: #1D243E;
+                        font-size: 15px;
+                        display: block;
+                        margin-bottom: -5px;
+                    }
+
+                    .item-product p {
+                        font-size: 13px;
+                        color: #6C738D;
+                        padding-left: 0;
+                        padding-top: 10px;
+                        line-height: 18px;
+                    }
+
+                    .item-product span {
+                        font-size: 13px;
+                        color: #6C738D;
+                    }
+
+
+                    a.track-link {
+                        color: #000000;
+                    }
+
+                        a.track-link:hover {
+                            color: #b9256a !important;
+                        }
+
+                    .dropdown.drop-custom-header {
+                        top: 35px;
+                    }
+
+                    .bg-pad {
+                        background: #fff;
+                        padding-bottom: 40px
+                    }
+
+                    .item-product label {
+                        display: block;
+                        color: #1D243E;
+                        font-size: 15px;
+                        font-weight: normal;
+                        margin-bottom: -4px !important;
+                    }
+
+                    @media only screen and (min-width:1024px) {
+                        .tab-left {
+                            margin-left: -9px !important;
+                        }
+                    }
+
+                    .overlay {
+                        background-color: rgba(0,0,0,.5);
+                        cursor: pointer;
+                    }
+
+                    .font-14 {
+                        font-size: 14px !important;
+                    }
+
+
+                    .btn-hotline-all {
+                        display: inline-block;
+                        height: 24px;
+                        line-height: 24px;
+                        color: #1d243e;
+                        position: relative;
+                        padding-left: 21px !important;
+                    }
+
+                        #hotline_layoutz:hover .font-14.cl-596677.all-product-hover.maxlead-anticlick-custom, .btn-hotline-all.maxlead-anticlick-hover {
+                            font-weight: 600 !important;
+                            color: #000000 !important;
+                        }
+
+                    .font-w-m {
+                        font-weight: normal;
+                    }
+
+                    .cl-1D243E {
+                        color: #1D243E !important;
+                    }
+
+                    .cl-596677 {
+                        color: #596677;
+                    }
+
+                    .font-12 {
+                        font-size: 12px;
+                    }
+
+                    .font-16 {
+                        font-size: 16px;
+                    }
+
+                    .font-18 {
+                        font-size: 18px;
+                    }
+
+                    .apply-hover:hover {
+                        color: #b9256a !important;
+                    }
+
+                    .mr-r14 {
+                        margin-right: 14px;
+                    }
+
+                    .pad-l-7 {
+                        padding-left: 7px;
+                    }
+
+                    .all-product-hover:hover {
+                        color: #000 !important;
+                    }
+
+                    .cl-fff {
+                        color: #E5E3EF !important;
+                    }
+                </style>
+                <nav id="nav-mobile" class="navbar nav-transparent" style="
+    padding: 10px 0px;
+">
+                    <div class="container" style="
+    /* margin: 0px 100px; */
+">
+                        <!-- Hotline -->
+                        <!-- /Hotline -->
+                        <!-- Language -->
+
+
+                        <div class="hotline-layout fl" id="fl1" style="position: absolute">
+                            <a href="/" class="btn-hotline" style="padding-left:0px !important; font-weight:bold;"><span class="font-14 cl-596677 maxlead-anticlick-custom">ONFINANCE</span></a>
+                        </div>
+                        <div class="hotline-layout fl" style="
+    /* margin-left: 0px; */
+    position: absolute;
+    margin-left: 120px;
+">
+                            <a href="/" class="btn-hotline" target="_blank">
+                                <span class="font-14 cl-596677 maxlead-anticlick-custom">Invoice</span>
+                            </a>
+                        </div>
+                        <div class="hotline-layout fl" style="
+    position: absolute;
+    margin-left: 200px;
+">
+                            <a href="https://onsign.onfinance.asia/" class="btn-hotline" target="_blank">
+                                <span class="font-14 cl-596677 maxlead-anticlick-custom">OnSign</span>
+                            </a>
+                        </div>
+                        <div class="has-dropdown hotline-layout" id="hotline_layoutz" style="float:left;position: absolute;margin-left: 260px;/* vertical-align: middle; */margin-top: 15px;">
+                            <a href="javascript:void(0);" class="btn-hotline-all maxlead-anticlick-hover"><span class="font-14 cl-596677 all-product-hover maxlead-anticlick-custom" style="font-weight: bold">Tất cả sản phẩm</span></a>
+                            <div class="dropdown drop-custom-header" style="background: linear-gradient(to right, #F5F6FA,#fff);width: 1900px;">
+                                <div class="container" style="padding:0;/* position: absolute; *//* margin-left: 0px; */">
+                                    <div class="row bg-F5F6FA">
+                                        <div class="col-md-2 tab-left" style="padding-left:0;margin-left:-15px">
+                                            <!--Menu trái-->
+                                            <div class="lf-menu">
+                                                <div class="he-14"></div>
+
+                                                <a class="all-product-active" href="javascript:" data-menu="0" onclick="ChangeLeftMenu(this)">
+                                                    <p class="mar-l-t font-16">Chuyển đổi số</p>
+                                                </a>
+                                                <a class="all-product" href="javascript:" data-menu="1" onclick="ChangeLeftMenu(this)">
+                                                    <p class="mar-l-t font-16">Thương mại điện tử</p>
+                                                </a>
+                                                <a class="all-product" href="javascript:" data-menu="2" onclick="ChangeLeftMenu(this)">
+                                                    <p class="mar-l-t font-16">Digital Marketing</p>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-10 bg-pad">
+                                            <!--Menu phải-->
+                                            <div class="row inner-product">
+                                                <div class="menu-ri-item" style="display: block;">
+                                                    <div class="row">
+                                                        <div class="col-md-4">
+                                                            <div class="d-flex">
+                                                                <div>
+                                                                    <img src="images/Vector.png">
+                                                                </div>
+                                                                <div class="pad-l-7">
+                                                                    <a href="javascript:" class="track-link">
+                                                                        <span class="font-w-m font-18"></span>
+                                                                    </a><a class="product" href="https://onfinance.asia/" target="_blank">ONFINANCE </a>
+
+                                                                </div>
+                                                            </div>
+                                                            <p class="font-14 cl-596677">Nền tảng tài chính tin cậy nhất.</p>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="d-flex">
+                                                                <div>
+                                                                    <img src="images/Vector.png">
+                                                                </div>
+                                                                <div class="pad-l-7">
+                                                                    <a href="https://onsales.asia/?utm_source=autoads&amp;utm_medium=referral&amp;utm_campaign=autoads_product" class="product track-link">
+                                                                        <span class="font-w-m font-18">ONSALES</span>
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                            <p class="font-14 cl-596677">Nền tảng tăng trưởng doanh thu.</p>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="d-flex">
+                                                                <div>
+                                                                    <img src="images/Vector.png">
+                                                                </div>
+                                                                <div class="pad-l-7">
+                                                                    <a href="https://onpeople.asia/?utm_source=autoads&amp;utm_medium=referral&amp;utm_campaign=autoads_onpeople_product" class="product track-link" target="_blank">
+                                                                        <span class="font-w-m font-18">ONPEOPLE</span>
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                            <p class="font-14 cl-596677">Nền tảng nhân sự thân thiện nhất.</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-4">
+                                                            <div class="div-line"></div>
+                                                            <div class="item-product">
+                                                                <a href="https://onfinance.asia/?utm_source=autoads&amp;utm_medium=referral&amp;utm_campaign=autoads_invoice_product" class="product" target="_blank">
+                                                                    <span class="font-14 font-w-m apply-hover cl-1D243E">Invoice</span>
+                                                                </a>
+                                                                <p class="cl-596677 font-12">Phần mềm hóa đơn điện tử.</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="div-line"></div>
+                                                            <div class="item-product">
+                                                                <a href="https://onsales.asia/?utm_source=autoads&amp;utm_medium=referral&amp;utm_campaign=autoads_product" class="product" target="_blank">
+                                                                    <span class="font-14 font-w-m apply-hover cl-1D243E"></span>
+                                                                </a><a href="https://onsales.asia/?utm_source=autoads&amp;utm_medium=referral&amp;utm_campaign=autoads_product" class="product" target="_blank">
+                                                                    CRM
+                                                                </a>
+
+                                                                <p class="cl-596677 font-12">Phần mềm quản trị khách hàng, tăng trưởng doanh thu.</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="div-line"></div>
+                                                            <div class="item-product">
+                                                                <a href="https://onpeople.asia/?utm_source=autoads&amp;utm_medium=referral&amp;utm_campaign=autoads_onpeople_product" class="product" target="_blank">
+                                                                    <span class="font-14 font-w-m apply-hover cl-1D243E"></span>
+                                                                </a><a href="https://onpeople.asia/?utm_source=autoads&amp;utm_medium=referral&amp;utm_campaign=autoads_onpeople_product" class="product" target="_blank">
+                                                                    HRM
+                                                                </a>
+
+                                                                <p class="cl-596677 font-12">Phầm mềm quản trị nhân sự thân thiện nhất.</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-4">
+                                                            <div class="item-product">
+                                                                <a href="https://onfinance.asia/" class="product" target="_blank">
+                                                                    <span class="font-14 font-w-m apply-hover cl-1D243E">HSM</span>
+                                                                </a>
+                                                                <p class="cl-596677 font-12">Chữ ký số không cần USB token.</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="menu-ri-item" style="display: none;">
+
+
+
+                                                    <div class="row">
+                                                        <div class="col-md-4">
+                                                            <div class="d-flex">
+                                                                <div>
+                                                                    <img src="images/Vector.png">
+                                                                </div>
+                                                                <div class="pad-l-7">
+                                                                    <a href="javascript:" class="track-link">
+                                                                        <span class="font-w-m font-18"><span>ONSHOP</span></span>
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                            <p class="font-14 cl-596677">Nền tảng thương mại điện tử hợp nhất.</p>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="d-flex">
+                                                                <div>
+                                                                    <img src="images/Vector.png">
+                                                                </div>
+                                                                <div class="pad-l-7">
+                                                                    <a href="javascript:" class="track-link">
+                                                                        <span class="font-w-m font-18"><span>NOVAONX</span></span>
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                            <p class="font-14 cl-596677">Nền tảng Social Commerce hàng đầu.</p>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="d-flex">
+                                                                <div>
+                                                                    <img src="images/Vector.png">
+                                                                </div>
+                                                                <div class="pad-l-7">
+                                                                    <a href="javascript:" class="track-link">
+                                                                        <span class="font-w-m font-18"><span>ONFLUENCER</span></span>
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                            <p class="font-14 cl-596677">Nền tảng Influencer marketing theo CPA đầu tiên.</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-4">
+                                                            <div class="div-line"></div>
+                                                            <div class="item-product">
+                                                                <a href="https://onshop.asia/onshop-website/?utm_source=autoads&amp;utm_medium=referral&amp;utm_campaign=autoads_website_product" class="product" target="_blank">
+                                                                    <span class="font-14 font-w-m apply-hover cl-1D243E">Website</span>
+                                                                </a>
+                                                                <p class="cl-596677 font-12">Tự thiết kế website bán hàng online.</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="div-line"></div>
+                                                            <div class="item-product">
+                                                                <a href="https://chatbot3.novaonx.com/?utm_source=autoads&amp;utm_medium=referral&amp;utm_campaign=autoads_chatbot_product" class="product" target="_blank">
+                                                                    <span class="font-14 font-w-m apply-hover cl-1D243E">Chatbot</span>
+                                                                </a>
+                                                                <p class="cl-596677 font-12">Công cụ chatbot và bán hàng tự động.</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="div-line"></div>
+                                                            <div class="item-product">
+                                                                <a href="https://onfluencer.net/Review/?utm_source=autoads&amp;utm_medium=referral&amp;utm_campaign=autoads_review_product" class="product" target="_blank">
+                                                                    <span class="font-14 font-w-m apply-hover cl-1D243E">Review</span>
+                                                                </a>
+                                                                <p class="cl-596677 font-12">Giải pháp Influencer marketing review.</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-4">
+                                                            <div class="item-product">
+                                                                <a href="https://onshop.asia/onshop-pos/?utm_source=autoads&amp;utm_medium=referral&amp;utm_campaign=autoads_pos_product" class="product" target="_blank">
+                                                                    <span class="font-14 font-w-m apply-hover cl-1D243E">POS</span>
+                                                                </a>
+                                                                <p class="cl-596677 font-12">Phần mềm quản lý bán hàng.</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="item-product">
+                                                                <a href="https://social.novaonx.com/?utm_source=autoads&amp;utm_medium=referral&amp;utm_campaign=autoads_social_product" class="product" target="_blank">
+                                                                    <span class="font-14 font-w-m apply-hover cl-1D243E">Social</span>
+                                                                </a>
+                                                                <p class="cl-596677 font-12">Giải pháp quản lý và bán hàng trên mạng xã hội.</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="item-product">
+                                                                <a href="https://onfluencer.net/Kols/?utm_source=autoads&amp;utm_medium=referral&amp;utm_campaign=autoads_bookkols_product" class="product" target="_blank">
+                                                                    <span class="font-14 font-w-m apply-hover cl-1D243E">Book KOLs</span>
+                                                                </a>
+                                                                <p class="cl-596677 font-12">Giải pháp kết nối và quản lý truyền thông qua KOLs.</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-4">
+                                                            <div class="item-product">
+                                                                <a href="https://onshop.asia/onshop-omnichannel/?utm_source=autoads&amp;utm_medium=referral&amp;utm_campaign=autoads_omnichennel_product" class="product" target="_blank">
+                                                                    <span class="font-14 font-w-m apply-hover cl-1D243E">Omnichannel</span>
+                                                                </a>
+                                                                <p class="cl-596677 font-12">Phầm mềm quản lý và bán hàng đa kênh.</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="item-product">
+                                                                <a href="https://landingpage.novaonx.com/home/?utm_source=autoads&amp;utm_medium=referral&amp;utm_campaign=autoads_landingpage_product" class="product" target="_blank">
+                                                                    <span class="font-14 font-w-m apply-hover cl-1D243E">Landingpage</span>
+                                                                </a>
+                                                                <p class="cl-596677 font-12">Tạo Landing Page chuyển đổi cao trong 5 phút.</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="item-product">
+                                                                <a href="https://onfluencer.net/Seller/?utm_source=autoads&amp;utm_medium=referral&amp;utm_campaign=autoads_seller_product" class="product" target="_blank">
+                                                                    <span class="font-14 font-w-m apply-hover cl-1D243E">Seller</span>
+                                                                </a>
+                                                                <p class="cl-596677 font-12">Giải pháp bán hàng qua Influencer.</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="menu-ri-item" style="display: none;">
+
+
+                                                    <div class="row">
+                                                        <div class="col-md-4">
+                                                            <div class="d-flex">
+                                                                <div>
+                                                                    <img src="images/Vector.png">
+                                                                </div>
+                                                                <div class="pad-l-7">
+                                                                    <a href="https://novaonads.com/?utm_source=autoads&amp;utm_medium=referral&amp;utm_campaign=autoads_product" target="_blank" class="track-link">
+                                                                        <span class="font-w-m font-18">NOVAON ADS</span>
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                            <p class="font-14 cl-596677">Digital Agency có thị phần Google lớn nhất Đông Nam Á.</p>
+                                                        </div>
+                                                        <div class="col-md-4 ">
+                                                            <div class="d-flex">
+                                                                <div>
+                                                                    <img src="images/Vector.png">
+                                                                </div>
+                                                                <div class="pad-l-7">
+                                                                    <a href="javascript:" class="track-link">
+                                                                        <span class="font-w-m font-18"></span>
+                                                                    </a><a href="https://autoads.asia/" target="_blank" class="track-link">NOVAON AUTOADS</a>
+                                                                </div>
+                                                            </div>
+                                                            <p class="font-14 cl-596677">Nền tảng quản lý tăng trưởng doanh nghiệp đầu tiên.</p>
+                                                        </div>
+                                                        <div class="col-md-4 ">
+                                                            <div class="d-flex">
+                                                                <div>
+                                                                    <img src="images/Vector.png">
+                                                                </div>
+                                                                <div class="pad-l-7">
+                                                                    <a href="https://oncustomer.asia/?utm_source=autoads&amp;utm_medium=referral&amp;utm_campaign=autoads_oncustomer_product" target="_blank" class="track-link">
+                                                                        <span class="font-w-m font-18">ONCUSTOMER</span>
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                            <p class="font-14 cl-596677">Nền tảng Giao tiếp khách hàng đa kênh đầu tiên.</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-4 ">
+                                                            <div class="div-line"></div>
+                                                            <div class="item-product">
+                                                                <a href="https://novaonads.com/quang-cao-tim-kiem-tren-google.html/?utm_source=autoads&amp;utm_medium=referral&amp;utm_campaign=autoads_digitalmediasolution_product" class="product" target="_blank">
+                                                                    <span class="font-14 font-w-m apply-hover cl-1D243E">Digital Medial Solution</span>
+                                                                </a>
+                                                                <p class="cl-596677 font-12 ">Giải pháp truyền thông trên nền tảng số.</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4 ">
+                                                            <div class="div-line"></div>
+                                                            <div class="item-product">
+                                                                <a href="/vi/cong-cu/maxlead/" class="product" target="_blank">
+                                                                    <span class="font-14 font-w-m apply-hover cl-1D243E"></span>
+                                                                </a><a href="https://autoads.asia/vi/cong-cu/maxlead/" class="product" target="_blank">
+                                                                    MaxLead
+                                                                </a>
+
+                                                                <p class="cl-596677 font-12 ">Biến truy cập thành khách hàng.</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4 ">
+                                                            <div class="div-line"></div>
+                                                            <div class="item-product">
+                                                                <a href="https://oncustomer.asia/?utm_source=autoads&amp;utm_medium=referral&amp;utm_campaign=autoads_oncustomer_product" class="product" target="_blank">
+                                                                    <span class="font-14 font-w-m apply-hover cl-1D243E"></span>
+                                                                </a><a href="https://oncustomer.asia/?utm_source=autoads&amp;utm_medium=referral&amp;utm_campaign=autoads_oncustomer_product" class="product" target="_blank">
+                                                                    Livechat
+                                                                </a>
+
+                                                                <p class="cl-596677 font-12 ">Livechat chăm sóc khách hàng đa kênh.</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-4 ">
+                                                            <div class="item-product">
+                                                                <a href="https://novaonads.com/quang-cao-facebook.html/?utm_source=autoads&amp;utm_medium=referral&amp;utm_campaign=autoads_DigitalPerformanceSolution_product" class="product" target="_blank">
+                                                                    <span class="font-14 font-w-m apply-hover cl-1D243E">Digital Performance Solution</span>
+                                                                </a>
+                                                                <p class="cl-596677 font-12 ">Giải pháp truyền thông cam kết doanh số.</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4 ">
+                                                            <div class="item-product">
+                                                                <a href="https://maxpush.autoads.asia/?utm_source=website&amp;utm_medium=menu" class="product" target="_blank">
+                                                                    <span class="font-14 font-w-m apply-hover cl-1D243E"></span>
+                                                                </a><a href="https://maxpush.autoads.asia/?utm_source=website&amp;utm_medium=menu" class="product" target="_blank">
+                                                                    MaxPush
+                                                                </a>
+
+                                                                <p class="cl-596677 font-12 ">Thông báo chủ động, thu lead 0 đồng.</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-4 ">
+                                                            <div class="item-product">
+                                                                <a href="https://novaonads.com/531-quang-cao-youtube.html/?utm_source=autoads&amp;utm_medium=referral&amp;utm_campaign=autoads_SocialMediaMarketing_product" class="product" target="_blank">
+                                                                    <span class="font-14 font-w-m apply-hover cl-1D243E">Social Media Marketing</span>
+                                                                </a>
+                                                                <p class="cl-596677 font-12 ">Giải pháp truyền thông và thương hiệu trên mạng xã hội.</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4 ">
+                                                            <div class="item-product">
+                                                                <a href="/vi/cong-cu/chan-click-ao/" class="product" target="_blank">
+                                                                    <span class="font-14 font-w-m apply-hover cl-1D243E"></span>
+                                                                </a><a href="https://autoads.asia/vi/cong-cu/chan-click-ao/" class="product" target="_blank">
+                                                                    Chặn click ảo
+                                                                </a>
+
+                                                                <p class="cl-596677 font-12 ">Chặn click ảo bằng công nghệ AI.</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-4 ">
+                                                            <div class="item-product">
+                                                                <a href="https://novaonads.com/quang-cao-mobile.html/?utm_source=autoads&amp;utm_medium=referral&amp;utm_campaign=autoads_MartechSolution_product" class="product" target="_blank">
+                                                                    <span class="font-14 font-w-m apply-hover cl-1D243E">Adtech Solution</span>
+                                                                </a>
+                                                                <p class="cl-596677 font-12 ">Giải pháp ứng dụng công nghệ marketing.</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4 ">
+                                                            <div class="item-product">
+                                                                <a href="/vi/cong-cu/googleshopping/" class="product" target="_blank">
+                                                                    <span class="font-14 font-w-m apply-hover cl-1D243E"></span>
+                                                                </a><a href="https://autoads.asia/vi/cong-cu/googleshopping/" class="product" target="_blank">
+                                                                    Google Shoping
+                                                                </a>
+
+                                                                <p class="cl-596677 font-12 ">Quản lý và tối ưu Quảng cáo Google Shopping.</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-4 ">
+                                                            <div class="item-product">
+                                                                <a href="https://novaonads.com/mang-quang-cao-novanet.html/?utm_source=autoads&amp;utm_medium=referral&amp;utm_campaign=autoads_DigitalBranding_product" class="product" target="_blank">
+                                                                    <span class="font-14 font-w-m apply-hover cl-1D243E">Digital Branding</span>
+                                                                </a>
+                                                                <p class="cl-596677 font-12 ">Giải pháp thương hiệu trên nền tảng số.</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4 ">
+                                                            <div class="item-product">
+                                                                <a href="https://ongoogle1.autoads.asia/?utm_source=website&amp;utm_campaign=OnGoogle&amp;utm_term=Menu" class="product" target="_blank">
+                                                                    <span class="font-14 font-w-m apply-hover cl-1D243E"></span>
+                                                                </a><a href="https://ongoogle1.autoads.asia/?utm_source=website&amp;utm_campaign=OnGoogle&amp;utm_term=Menu" class="product" target="_blank">
+                                                                    Dịch vụ On-Google
+                                                                </a>
+
+                                                                <p class="cl-596677 font-12 ">Dịch vụ Google Ads trọn gói.</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="has-dropdown hotline-layout" id="hotline_layout" style="float:right;margin-right:24px;position: absolute;margin-left: 910px;">
+
+                            <a href="javascript:void(0);" class="btn-hotline"><i class="fa fa-phone"></i> Liên hệ</a>
+
+                            <ul class="dropdown" style="
+    width: 250px;
+    padding: 12px 18px;
+    margin-top: 30px;
+">
+                                <li>
+
+                                    <label>Việt Nam</label>
+                                    <span>(+84) 964 787 382</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- /Language -->
+                        <!--<ul class="main-nav nav navbar-nav navbar-lang" style="/* padding-right: 0px; */position: absolute;margin-left: 925px;">
+                            <li class="has-dropdown">
+                                <a href="javascript:void(0);">
+                                    <img id="langImg" attr-lang="0" src="/images/icon-lang-vi.svg" title="Việt Nam" alt="Novaon AutoAds Việt Nam">
+                                </a>
+                                <ul class="dropdown">
+                                    <li>
+                                        <a href="/VN" class="active"><img attr-lang="0" src="/images/icon-lang-vi.svg" title="Việt Nam" alt="Novaon AutoAds Việt Nam"> Tiếng Việt </a>
+                                    </li>
+                                    <li>
+                                        <a href="/EN"><img attr-lang="1" src="/images/icon-lang-en.svg" title="English" alt="Novaon AutoAds English"> English </a>
+                                    </li>
+
+
+                                </ul>
+                            </li>
+                        </ul>-->
+                    </div>
+                </nav>
+                <nav id="nav-static" class="navbar" style="">
+                    <div id="menu-fixed" style="width: 100%; padding: 8px 0px;height: 80px;" class="floatingNav">
+                        <div class="container" style="display: flex">
+                            <!-- Logo -->
+                            <div class="logo height-logo" style="
+    /* padding-left: 70px; */
+">
+                                <a href="https://onfinance.asia">
+                                    <img src="/images/logo.png" alt="">
+                                </a>
+                            </div>
+                            <!-- End Logo -->
+                            <!-- Main Menu -->
+                            <div class="main-menu main-menu-new">
+                                <nav class="navbar navbar-expand-lg navbar-new">
+                                    <button class="navbar-toggler" type="button" data-toggle="collapse" style="margin-left: auto" data-target="#navbarMainMenu" aria-controls="navbarMainMenu" aria-expanded="false" aria-label="Toggle navigation">
+                                        <i class="fas fa-bars"></i>
+                                    </button>
+
+                                    <div class="collapse navbar-collapse" id="navbarMainMenu" style="justify-content: space-between;">
+                                        <div class="logo height-logo logo-menu-mobile visible-is-mobile">
+                                            <a href="/">
+                                                <img src="/images/logo.png" alt="">
+                                            </a>
+                                        </div>
+                                        <i class="fas fa-times close d-lg-none btn-close-menu-mb"></i>
+                                        <hr class="visible-is-mobile" style="margin-bottom: 0">
+                                        <ul class="navbar-nav" style=" padding-top: 15px;">
+                                            <li class="nav-item dropdown nav-item-new">
+                                                <a class="nav-link dropdown-toggle header-home" href="#" id="product" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    Sản phẩm
+                                                </a>
+                                                <div class="dropdown-menu" aria-labelledby="product">
+                                                    <a class="dropdown-item" href="https://e.onfinance.asia/user-account/login">OnFinance Invoice</a>
+                                                </div>
+                                            </li>
+                                            <li class="nav-item nav-item-new">
+                                                <a class="nav-link header-home" href="/bang-gia">Bảng giá</a>
+                                            </li>
+                                            <li class="nav-item nav-item-new">
+                                                <a class="nav-link header-home" href="http://support.onfinance.asia" target="_blank">Trung tâm hỗ trợ</a>
+                                            </li>
+                                            <li class="nav-item nav-item-new">
+                                                <a class="nav-link header-home" href="https://onfinance.asia/tracuu">Tra cứu hóa đơn</a>
+                                            </li>
+                                        </ul>
+                                        <ul class="login-register list-inline login-register-new visible-not-mobile">
+                                            <li class="list-inline-item login mt-login button-login">
+                                                <a href="https://e.onfinance.asia/user-account/login" style="padding-top: 8px;">Đăng nhập</a>
+                                            </li>
+                                            <li class="list-inline-item register visible-not-mobile btn-trial-new">
+                                                <a href="https://e.onfinance.asia/user-account/register">Dùng thử miễn phí</a>
+                                            </li>
+                                        </ul>
+                                        <ul class="login-register list-inline login-register-2 visible-is-mobile">
+                                            <li class="list-inline-item register">
+                                                <a class="btn-trial-new btn-mobile-trial" href="https://e.onfinance.asia/user-account/register">Dùng thử miễn phí</a>
+                                            </li>
+                                        </ul>
+                                        <!--<ul class="navbar-nav ">
+                                            <li class="nav-item dropdown nav-item-new">
+                                                <a class="nav-link dropdown-toggle header-home" href="#" id="language"
+                                                   role="button"
+                                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <span class="hidden-language">Ngôn ngữ</span>
+                                                    <img src="images/vi.png">
+                                                </a>
+                                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="language">
+                                                    <a class="dropdown-item" href="https://onshop.asia/change-language/vi">
+                                                        <img src="images/flag-vn2.png">
+                                                        Tiếng Việt
+                                                    </a>
+                                                    <a class="dropdown-item" href="https://onshop.asia/change-language/en">
+                                                        <img src="images/flag-us.png">
+                                                        English
+                                                    </a>
+                                                </div>
+                                            </li>
+                                        </ul>-->
+                                        <ul class="login-register list-inline login-register-new visible-is-mobile">
+                                            <li class="list-inline-item login mt-login button-login">
+                                                <a href="https://e.onfinance.asia/user-account/login">Đăng nhập</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </nav>
+                            </div>
+                            <!-- End Main Menu -->
+                        </div>
+                    </div>
+                </nav>
+
+            </header>
+        </div>
+        <div class="pt-5 text-center" style="
+    /* height: 128px; */
+    padding-top: 48px;
+">
+            <h1 class="pt-3 pt-sm-5 title-mobile" style="
+    /* height: 48px; */
+    margin-bottom: 8px;
+    /* padding-top: 48px; */
+">
+                Báo giá phần mềm
+            </h1>
+            <p style="
+    margin-bottom: 16px;
+    margin-top: 16px;
+">Bắt đầu với gói dùng thử, nâng cấp khi có nhu cầu</p>
+        </div>
+        <div class="container news">
+            <table class="table table-bordered table-pricelist visible-not-mobile">
+                <tbody>
+                    <tr>
+                        <!-- <th class="text-center"><p>ONF- 100</p> Gói 100 hóa đơn</th> -->
+                        <th class="text-center"><p>ONF- 1000</p> Gói 1,000 hóa đơn</th>
+                        <th class="text-center"><p>ONF- 2000</p> Gói 2,000 hóa đơn</th>
+                        <th class="text-center bg-success text-white"><p>ONF- 5000</p> Gói 5,000 hóa đơn</th>
+                        <th class="text-center"><p>ONF- 10000</p> Gói 10,000 hóa đơn</th>
+                        <th class="text-center"><p>ONF- 20000</p> Gói 20,000 hóa đơn</th>
+                        <th class="text-center"><p>ONF- MAX</p> Không giới hạn</th>
+                    </tr>
+                    <tr>
+                        <!-- <td class="text-center pricepacked"><strong> Free </strong> <br> <small>Vĩnh viễn</small> </td> -->
+                        <td class="text-center pricepacked"><strong>699,000 đ <br></strong>/<small>Gói</small></td>
+                        <td class="text-center pricepacked"><strong>1,090,000 đ <br></strong>/<small>Gói</small></td>
+                        <td class="text-center pricepacked bg-success text-white"><strong>1.900,000 đ <br></strong>/<small>Gói</small></td>
+                        <td class="text-center pricepacked"><strong>3,600,000 đ <br></strong>/<small>Gói</small></td>
+                        <td class="text-center pricepacked"><strong>6,000,000 đ <br></strong>/<small>Gói</small></td>
+                        <td class="text-center pricepacked"><strong>Thỏa thuận </strong></td>
+                    </tr>
+                    <tr>
+                        <td colspan="7" class="text-center align-middle">Phí cài đặt khởi tạo 500.000 đ</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="visible-is-mobile">
+                <div class="row no-gutters">
+                    <!-- <div class="col-4 border border-secondary"> -->
+                    <!-- <div class="text-center packedname"><p>ONF-100</p> Gói 100 hóa đơn</div> -->
+                    <!-- <div class="text-center pricepacked border-top"><strong>Free </strong> <br> <small>Vĩnh viễn</small> </div> -->
+                    <!-- </div> -->
+                    <div class="col-4 border border-secondary">
+                        <div class="text-center packedname"><p>ONF-1000</p> Gói 1,000 hóa đơn</div>
+                        <div class="text-center pricepacked border-top"><strong>699,000 đ <br></strong>/<small>Gói</small></div>
+                    </div>
+                    <div class="col-4 border border-secondary">
+                        <div class="text-center packedname"><p>ONF-2000</p> Gói 2,000 hóa đơn</div>
+                        <div class="text-center pricepacked border-top"><strong>1,090,000 đ <br></strong>/<small>Gói</small></div>
+                    </div>
+
+                </div>
+                <div class="row no-gutters mt-3">
+
+                    <div class="col-12 border border-secondary">
+                        <div class="text-center packedname bg-success text-white"><p>ONF-5000</p> Gói 5,000 hóa đơn</div>
+                        <div class="text-center pricepacked border-top bg-success text-white"><strong>1.900,000 đ <br></strong>/<small>Gói</small></div>
+                    </div>
+                </div>
+                <div class="row no-gutters mt-3">
+                    <div class="col-6 border border-secondary">
+                        <div class="text-center packedname"><p>ONF-10000</p> Gói 10,000 hóa đơn</div>
+                        <div class="text-center pricepacked border-top"><strong>3,600,000 đ <br></strong>/<small>Gói</small></div>
+                    </div>
+
+                    <div class="col-6 border border-secondary">
+                        <div class="text-center packedname"><p>ONF-20000</p> Gói 20,000 hóa đơn</div>
+                        <div class="text-center pricepacked border-top"><strong>6,000,000 đ <br></strong>/<small>Gói</small></div>
+                    </div>
+                </div>
+
+                <div class="row no-gutters mt-3">
+                    <div class="col-12 border border-secondary">
+                        <div class="text-center packedname"><p>ONF-MAX</p> Không giới hạn</div>
+                        <div class="text-center pricepacked border-top"><strong>300 đ </strong>/<small>Gói</small></div>
+                    </div>
+                </div>
+
+                <div class="row no-gutters mt-3">
+                    <div class="col-12">
+                        <div class="text-center ">Phí khởi tạo các gói 500.000 đ</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="page-wrapper">
+        <div id="header-new"></div>
+        <div class="container text-center">
+            <h1 class="pt-3 pt-sm-5 title-mobile">Báo giá chữ ký số tập trung HSM</h1>
+            <p>Giải pháp chữ ký số tập trung thay thế USB token ký ngay trên thiết bị mọi lúc mọi nơi</p>
+            <p style="font-weight: bold;font-size: 18px;text-align: initial; ">
+                01x Slot lưu chứa 1 cặp khóa chứng thư số trên thiết bị HSM đạt chuẩn FIPS 140-2 Level 3
+                <br>01x Chứng thư số công cộng NewTel-CA cho tổ chức/ doanh nghiệp
+                <br>Ký số Hóa đơn điện tử Novaon
+            </p>
+        </div>
+        <div class="container news">
+            <div class="row" style="margin-bottom:50px;">
+                <div class="col-1 "></div>
+                <div class="col-2" style="margin-top:40px; background-color: rgb(201,228,193); text-align:center;font-size:16px;">
+                    <div style="background: rgb(201,228,193); width:120% ;margin-left:-15px; height:24px;">
+                        <b><br />THỜI GIAN</b>
+                    </div>
+                    <div style="background: rgb(146,206,127); width:120% ;margin-left:-15px;margin-top:54px; height:70px;">
+
+                        <strong><br />1 NĂM</strong>
+                    </div>
+                    <div style="background: rgb(201,228,193); width:120% ;margin-left:-15px;margin-top:0px; height:70px;">
+
+                        <strong><br />2 NĂM</strong>
+                    </div>
+                    <div style="background: rgb(146,206,127); width:120% ;margin-left:-15px;margin-top:0px; height:70px;">
+
+                        <strong><br />3 NĂM</strong>
+                    </div>
+                </div>
+                <div class="col-2" style="background: rgb(94,202,62); border-top-left-radius: 10px;color:white; font-size:16px;text-align:center;">
+                    <p class="text-center">CBH-NV5-XY</p>
+                    <div style="background-color: rgb(166,228,148); color:black; width:120%; margin-left:-15px;">Giới hạn tối đa <br><b style="color:red; font-size:20px;">5K</b> <br>phiên ký/tháng</div>
+                    <div style="background: rgb(149,212,130);width:120%;margin-left:-15px; height:70px; color:black;">
+
+                        <strong><br />2,600,000 đ<br></strong>
+                    </div>
+                    <div class="text-center" style="background: rgb(166,228,148);width:120%;margin-left:-15px; height:70px; color:black;">
+                        <p class="">
+                            <strong><br />4,320,000 đ<br></strong>
+                        </p>
+                    </div>
+                    <div class="text-center" style="background: rgb(149,212,130);width:120%;margin-left:-15px; height:70px; color:black;">
+                        <p class="">
+                            <strong><br />5,000,000 đ<br></strong>
+                        </p>
+                    </div>
+                </div>
+                <div class="col-2" style="background: rgb(82,196,47);color:white; font-size:16px;text-align:center;">
+                    <p class="text-center">CBH-NV10-XY</p>
+                    <div style="background-color: rgb(144,218,122);color:black; width:120%; margin-left:-15px;">Giới hạn tối đa <br><b style="color:red; font-size:20px;">10K</b> <br>phiên ký/tháng</div>
+                    <div style="background: rgb(118,195,94);width:120%;margin-left:-15px; height:70px; color:black;">
+
+                        <strong><br />4,500,000 đ<br></strong>
+                    </div>
+                    <div class="text-center" style="background: rgb(144,218,122);width:120%;margin-left:-15px; height:70px; color:black;">
+                        <p class="">
+                            <strong><br />6,300,000 đ<br></strong>
+                        </p>
+                    </div>
+                    <div class="text-center" style="background: rgb(118,195,94);width:120%;margin-left:-15px; height:70px; color:black;">
+                        <p class="">
+                            <strong><br />8,200,000 đ<br></strong>
+                        </p>
+                    </div>
+                </div>
+                <div class="col-2" style="background:rgb(90,179,64);box-shadow: 0px -15px 0px 0 rgb(90,179,64);color:white; font-size:16px; border-top-left-radius:4%;border-top-right-radius:4%;text-align:center">
+                    <p class="text-center">CBH-NV30-XY</p>
+                    <div style="background-color: rgb(101,175,59); width:120%;color:black; margin-left:-15px;">Giới hạn tối đa <br><b style="color:red; font-size:20px;">30K</b> <br>phiên ký/tháng</div>
+                    <div style="background: rgb(90,179,42);width:120%;margin-left:-15px; height:70px; color:black;">
+
+                        <strong><br />5,900,000 đ<br></strong>
+                    </div>
+                    <div class="text-center" style="background: rgb(101,175,59);width:120%;margin-left:-15px; height:70px; color:black;">
+                        <p class="">
+                            <strong><br />9,450,000 đ<br></strong>
+                        </p>
+                    </div>
+                    <div class="text-center" style="background: rgb(90,179,42);box-shadow: 0px 15px 0px 0 rgb(90,179,42);width:120%;margin-left:-15px; height:70px; color:black;border-bottom-right-radius:10px;border-bottom-left-radius:10px;">
+                        <p class="">
+                            <strong><br />12,300,000 đ<br></strong>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-2" style="background: rgb(65,176,31); color:white; font-size:16px; text-align:center;border-top-right-radius:10px;">
+                    <p class="text-center">CBH-NV50-XY</p>
+                    <div style="background-color: rgb(101,175,79); width:118%; margin-left:-15px; color:black;">Giới hạn tối đa <br><b style="color:red; font-size:20px;">50K</b> <br>phiên ký/tháng</div>
+                    <div style="background: rgb(90,179,64);width:120%;margin-left:-20px; height:70px; color:black;">
+
+                        <strong><br />7,620,000 đ<br></strong>
+                    </div>
+                    <div class="text-center" style="background: rgb(101,175,79);width:120%;margin-left:-20px; height:70px; color:black;">
+                        <p class="">
+                            <strong><br />12,300,000 đ<br></strong>
+                        </p>
+                    </div>
+                    <div class="text-center" style="background: rgb(90,179,64);width:120%;margin-left:-20px; height:70px; color:black;">
+                        <p class="">
+                            <strong><br />16,000,000 đ<br></strong>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="margin-bottom:50px;">
+                <div class="col-1 "></div>
+                <div class="col-2" style="margin-top:40px; background-color: rgb(201,228,193); text-align:center;font-size:16px;">
+                    <div style="color: #000; background: rgb(201,228,193); width:120% ;margin-left:-15px; height:24px;">
+                        <b><br />THỜI GIAN</b>
+                    </div>
+                    <div style="color: #000; background: rgb(146,206,127); width:120% ;margin-left:-15px;margin-top:54px; height:70px;">
+
+                        <strong><br />1 NĂM</strong>
+                    </div>
+                    <div style="color: #000; background: rgb(201,228,193); width:120% ;margin-left:-15px;margin-top:0px; height:70px;">
+
+                        <strong><br />2 NĂM</strong>
+                    </div>
+                    <div style="color: #000; background: rgb(146,206,127); width:120% ;margin-left:-15px;margin-top:0px; height:70px;">
+
+                        <strong><br />3 NĂM</strong>
+                    </div>
+                </div>
+                <div class="col-2" style="background: rgb(94,202,62); border-top-left-radius: 10px;color:white; font-size:16px;text-align:center;">
+                    <p class="text-center">CBH-NV300-XY</p>
+                    <div style="background-color: rgb(166,228,148); color:black; width:120%; margin-left:-15px;">Giới hạn tối đa <br><b style="color:red; font-size:20px;">300</b> <br>phiên ký/tháng</div>
+                    <div style="background: rgb(149,212,130);width:120%;margin-left:-15px; height:70px; color:black;">
+
+                        <strong><br />600,000 đ<br></strong>
+                    </div>
+                    <div class="text-center" style="background: rgb(166,228,148);width:120%;margin-left:-15px; height:70px; color:black;">
+                        <p class="">
+                            <strong><br />920,000 đ<br></strong>
+                        </p>
+                    </div>
+                    <div class="text-center" style="background: rgb(149,212,130);width:120%;margin-left:-15px; height:70px; color:black;">
+                        <p class="">
+                            <strong><br />1,100,000 đ<br></strong>
+                        </p>
+                    </div>
+                </div>
+                <div class="col-2" style="background: rgb(82,196,47);color:white; font-size:16px;text-align:center;">
+                    <p class="text-center">CBH-NV500-XY</p>
+                    <div style="background-color: rgb(144,218,122);color:black; width:120%; margin-left:-15px;">Giới hạn tối đa <br><b style="color:red; font-size:20px;">500</b> <br>phiên ký/tháng</div>
+                    <div style="background: rgb(118,195,94);width:120%;margin-left:-15px; height:70px; color:black;">
+
+                        <strong><br />900,000 đ<br></strong>
+                    </div>
+                    <div class="text-center" style="background: rgb(144,218,122);width:120%;margin-left:-15px; height:70px; color:black;">
+                        <p class="">
+                            <strong><br />1,550,000 đ<br></strong>
+                        </p>
+                    </div>
+                    <div class="text-center" style="background: rgb(118,195,94);width:120%;margin-left:-15px; height:70px; color:black;">
+                        <p class="">
+                            <strong><br />1,800,000 đ<br></strong>
+                        </p>
+                    </div>
+                </div>
+                <div class="col-2" style="background:rgb(90,179,64);box-shadow: 0px -15px 0px 0 rgb(90,179,64);color:white; font-size:16px; border-top-left-radius:4%;border-top-right-radius:4%;text-align:center">
+                    <p class="text-center">CBH-NV1-XY</p>
+                    <div style="background-color: rgb(101,175,59); width:120%;color:black; margin-left:-15px;">Giới hạn tối đa <br><b style="color:red; font-size:20px;">1K</b> <br>phiên ký/tháng</div>
+                    <div style="background: rgb(90,179,42);width:120%;margin-left:-15px; height:70px; color:black;">
+
+                        <strong><br />1,500,000 đ<br></strong>
+                    </div>
+                    <div class="text-center" style="background: rgb(101,175,59);width:120%;margin-left:-15px; height:70px; color:black;">
+                        <p class="">
+                            <strong><br />2,550,000 đ<br></strong>
+                        </p>
+                    </div>
+                    <div class="text-center" style="background: rgb(90,179,42);box-shadow: 0px 15px 0px 0 rgb(90,179,42);width:120%;margin-left:-15px; height:70px; color:black;border-bottom-right-radius:10px;border-bottom-left-radius:10px;">
+                        <p class="">
+                            <strong><br />3,000,000 đ<br></strong>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-2" style="background: rgb(65,176,31); color:white; font-size:16px; text-align:center;border-top-right-radius:10px;">
+                    <p class="text-center">CBH-NV3-XY</p>
+                    <div style="background-color: rgb(101,175,79); width:118%; margin-left:-15px; color:black;">Giới hạn tối đa <br><b style="color:red; font-size:20px;">3K</b> <br>phiên ký/tháng</div>
+                    <div style="background: rgb(90,179,64);width:120%;margin-left:-20px; height:70px; color:black;">
+
+                        <strong><br />2,000,000 đ<br></strong>
+                    </div>
+                    <div class="text-center" style="background: rgb(101,175,79);width:120%;margin-left:-20px; height:70px; color:black;">
+                        <p class="">
+                            <strong><br />3,350,000 đ<br></strong>
+                        </p>
+                    </div>
+                    <div class="text-center" style="background: rgb(90,179,64);width:120%;margin-left:-20px; height:70px; color:black;">
+                        <p class="">
+                            <strong><br />3,850,000 đ<br></strong>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <!--<table class="table visible-not-mobile" style="text-align: center; border: 1px solid green;">
+                <tbody>
+                    <tr style="background: rgb(65,176,31); color:white; font-size:20px;">
+                        <th width="20%" style="color: black;"></th>
+                        <th width="20%" style="background: rgb(94,202,62); border-top-left-radius: 10px;">
+                            <p class="text-center">CBH-NV1-XY</p>
+                        </th>
+                        <th width="20%" style="background: rgb(82,196,47);">
+                            <p class="text-center">CBH-NV3-XY</p>
+                        </th>
+                        <th width="20%" style="background:rgb(90,179,64);box-shadow: 0px -15px 0px 0 rgb(90,179,64)">
+                            <p class="text-center">CBH-NV5-XY</p>
+                        </th>
+                        <th width="20%">
+                            <p class="text-center">CBH-NV10-XY</p>
+                        </th>
+                    </tr>
+                    <tr style="background: rgb(201,228,193);">
+                        <td><b>THỜI GIAN</b></td>
+                        <td style="background: rgb(166,228,148);">Giới hạn tối đa <br><b style="color:red; font-size:20px;">1K</b> <br>phiên ký/tháng</td>
+                        <td style="background: rgb(144,218,122);">Giới hạn tối đa <br><b style="color:red; font-size:20px;">3K</b> <br>phiên ký/tháng</td>
+                        <td style="background: rgb(101,175,59);box-shadow: -1px -1px 12px 0 rgb(101,175,59)">Giới hạn tối đa <br><b style="color:red; font-size:20px;">5K</b> <br>phiên ký/tháng</td>
+                        <td style="background: rgb(101,175,79);">Giới hạn tối đa <br><b style="color:red; font-size:20px;">10K</b> <br>phiên ký/tháng</td>
+                    </tr>
+
+                    <tr style="background: rgb(146,206,127);">
+                        <td class="text-center">
+                            <p class="">
+                                <strong>1 NĂM<br></strong>
+                            </p>
+                        </td>
+                        <td class="text-center" style="background: rgb(149,212,130);">
+                            <p class="">
+                                <strong>1,500,000 đ<br></strong>
+                            </p>
+                        </td>
+                        <td class="text-center" style="background: rgb(118,195,94);">
+                            <p class="">
+                                <strong>1,950,000 đ<br></strong>
+                            </p>
+                        </td>
+                        <td class="text-center" style="background: rgb(90,179,42);box-shadow: -1px -1px 12px 0 rgb(90,179,42)">
+                            <p class="">
+                                <strong>2,535,000 đ<br></strong>
+                            </p>
+                        </td>
+                        <td class="text-center" style="background: rgb(90,179,64);">
+                            <p class="">
+                                <strong>4,500,000 đ<br></strong>
+                            </p>
+                        </td>
+                    </tr>
+                    <tr style="color: black;background: rgb(201,228,193);">
+                        <td class="text-center">
+                            <p class="">
+                                <strong>2 NĂM<br></strong>
+                            </p>
+                        </td>
+                        <td class="text-center" style="background: rgb(166,228,148);">
+                            <p class="">
+                                <strong>2,550,000 đ<br></strong>
+                            </p>
+                        </td>
+                        <td class="text-center" style="background: rgb(144,218,122);">
+                            <p class="">
+                                <strong>3,315,000 đ<br></strong>
+                            </p>
+                        </td>
+                        <td class="text-center" style="background: rgb(101,175,59);box-shadow: -1px -1px 12px 0 rgb(101,175,59)">
+                            <p class="">
+                                <strong>4,310,000 đ<br></strong>
+                            </p>
+                        </td>
+                        <td class="text-center" style="background: rgb(101,175,79);">
+                            <p class="">
+                                <strong>6,300,000 đ<br></strong>
+                            </p>
+                        </td>
+                    </tr>
+                    <tr style="color: black;background: rgb(146,206,127);">
+                        <td class="text-center">
+                            <p class="">
+                                <strong>3 NĂM<br></strong>
+                            </p>
+                        </td>
+                        <td class="text-center" style="background: rgb(149,212,130);">
+                            <p class="">
+                                <strong>2,950,000 đ<br></strong>
+                            </p>
+                        </td>
+                        <td class="text-center" style="background: rgb(118,195,94);">
+                            <p class="">
+                                <strong>3,835,000 đ<br></strong>
+                            </p>
+                        </td>
+                        <td class="text-center" style="background: rgb(90,179,42);box-shadow: 0px 15px 0px 0 rgb(90,179,42)">
+                            <p class="">
+                                <strong>4,986,000 đ<br></strong>
+                            </p>
+                        </td>
+                        <td class="text-center" style="background: rgb(90,179,64);">
+                            <p class="">
+                                <strong>8,190,000 đ<br></strong>
+                            </p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>-->
+        </div>
+        <div class="visible-is-mobile">
+            <div class="row no-gutters">
+                <div class="col-6 border border-secondary">
+                    <div class="packedname p-2">
+                        <p class="text-center hsm-font">CBH-NV1-XY</p>
+                        <span class="text-left">- 01x Slot lưu chứa 1 cặp khóa chứng thư số trên thiết bị HSM đạt chuẩn FIPS 140-2 Level 3</span>
+                        <br />
+                        <span class="text-left">- 01x Chứng thư số công cộng NewTel-CA cho tổ chức/ doanh nghiệp</span>
+                        <br />
+                        <span class="text-left">- Ký số Hóa đơn điện tử Novaon</span>
+                        <br />
+                        <span class="text-left">- Giới hạn tối đa <strong class="text-danger">1K</strong> phiên ký/tháng</span>
+                        <br />
+                        <span class="text-left">- Thời hạn: XY = 1Y (1 năm),  2Y (2 năm), 3Y (3 năm)</span>
+                    </div>
+                    <div class="text-center pricepacked border-top pricepacked-small">
+                        <strong>1,500,000 đ <br></strong>
+                        <strong class="text-warning">2,550,000 đ <br></strong>
+                        <strong class="text-danger">2,950,000 đ <br></strong>
+                    </div>
+                    <div class="text-center pricepacked border-top pricepacked-small">
+                        1, <strong class="text-warning">2</strong>, <strong class="text-danger">3</strong> năm / <small>Gói</small>
+                    </div>
+                </div>
+                <div class="col-6 border border-secondary">
+                    <div class="packedname p-2">
+                        <p class="text-center hsm-font">CBH-NV3-XY</p>
+                        <span class="text-left">- 01x Slot lưu chứa 1 cặp khóa chứng thư số trên thiết bị HSM đạt chuẩn FIPS 140-2 Level 3</span>
+                        <br />
+                        <span class="text-left">- 01x Chứng thư số công cộng NewTel-CA cho tổ chức/ doanh nghiệp</span>
+                        <br />
+                        <span class="text-left">- Ký số Hóa đơn điện tử Novaon</span>
+                        <br />
+                        <span class="text-left">- Giới hạn tối đa <strong class="text-danger">3K</strong> phiên ký/tháng</span>
+                        <br />
+                        <span class="text-left">- Thời hạn: XY = 1Y (1 năm),  2Y (2 năm), 3Y (3 năm)</span>
+                    </div>
+                    <div class="text-center pricepacked border-top pricepacked-small">
+                        <strong>1,950,000 đ <br></strong>
+                        <strong class="text-warning">3,315,000 đ <br></strong>
+                        <strong class="text-danger">3,835,000 đ <br></strong>
+                    </div>
+                    <div class="text-center pricepacked border-top pricepacked-small">
+                        1, <strong class="text-warning">2</strong>, <strong class="text-danger">3</strong> năm / <small>Gói</small>
+                    </div>
+                </div>
+            </div>
+            <div class="row no-gutters mt-3">
+                <div class="col-6 border border-secondary">
+                    <div class="packedname p-2">
+                        <p class="text-center hsm-font">CBH-NV5-XY</p>
+                        <span class="text-left">- 01x Slot lưu chứa 1 cặp khóa chứng thư số trên thiết bị HSM đạt chuẩn FIPS 140-2 Level 3</span>
+                        <br />
+                        <span class="text-left">- 01x Chứng thư số công cộng NewTel-CA cho tổ chức/ doanh nghiệp</span>
+                        <br />
+                        <span class="text-left">- Ký số Hóa đơn điện tử Novaon</span>
+                        <br />
+                        <span class="text-left">- Giới hạn tối đa <strong class="text-danger">5K</strong> phiên ký/tháng</span>
+                        <br />
+                        <span class="text-left">- Thời hạn: XY = 1Y (1 năm),  2Y (2 năm), 3Y (3 năm)</span>
+                    </div>
+                    <div class="text-center pricepacked border-top pricepacked-small">
+                        <strong>2,600,000 đ <br></strong>
+                        <strong class="text-warning">4,320,000 đ <br></strong>
+                        <strong class="text-danger">5,000,000 đ <br></strong>
+                    </div>
+                    <div class="text-center pricepacked border-top pricepacked-small">
+                        1, <strong class="text-warning">2</strong>, <strong class="text-danger">3</strong> năm / <small>Gói</small>
+                    </div>
+                </div>
+                <div class="col-6 border border-secondary">
+                    <div class="packedname p-2">
+                        <p class="text-center hsm-font">CBH-NV10-XY</p>
+                        <span class="text-left">- 01x Slot lưu chứa 1 cặp khóa chứng thư số trên thiết bị HSM đạt chuẩn FIPS 140-2 Level 3</span>
+                        <br />
+                        <span class="text-left">- 01x Chứng thư số công cộng NewTel-CA cho tổ chức/ doanh nghiệp</span>
+                        <br />
+                        <span class="text-left">- Ký số Hóa đơn điện tử Novaon</span>
+                        <br />
+                        <span class="text-left">- Giới hạn tối đa <strong class="text-danger">10K</strong> phiên ký/tháng</span>
+                        <br />
+                        <span class="text-left">- Thời hạn: XY = 1Y (1 năm),  2Y (2 năm), 3Y (3 năm)</span>
+                    </div>
+                    <div class="text-center pricepacked border-top pricepacked-small">
+                        <strong>4,500,000 đ <br></strong>
+                        <strong class="text-warning">6,300,000 đ <br></strong>
+                        <strong class="text-danger">8,200,000 đ <br></strong>
+                    </div>
+                    <div class="text-center pricepacked border-top pricepacked-small">
+                        1, <strong class="text-warning">2</strong>, <strong class="text-danger">3</strong> năm / <small>Gói</small>
+                    </div>
+                </div>
+            </div>
+            <div class="row no-gutters mt-3 mb-3">
+                <div class="col-12">
+                    <div class="text-center "> Thuế VAT trên từng Gói: 10%</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="countdown">
+        <div class="over_mark">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 col-lg-7">
+                        <div id="style-4">
+                            <h2>Chương trình <span>ưu đãi</span></h2>
+                            <p class="mb-1"><span style="color: #ffd800; line-height: 1.5;">1.</span> Miễn phí khởi tạo.</p>
+                            <p class="mb-1"><span style="color: #ffd800; line-height: 1.5;">2.</span> Miễn phí tạo mẫu hóa đơn theo mẫu có sẵn.</p>
+                            <div id="clockdiv">
+                                <div class="col-cs">
+                                    <div>
+                                        <span class="days"></span>
+                                        <div class="smalltext">Ngày</div>
+                                    </div>
+                                </div>
+                                <div class="col-cs">
+                                    <div>
+                                        <span class="hours"></span>
+                                        <div class="smalltext">Giờ</div>
+                                    </div>
+                                </div>
+                                <div class="col-cs">
+                                    <div>
+                                        <span class="minutes"></span>
+                                        <div class="smalltext">Phút</div>
+                                    </div>
+                                </div>
+                                <div class="col-cs">
+                                    <div>
+                                        <span class="seconds"></span>
+                                        <div class="smalltext">Giây</div>
+                                    </div>
+                                </div>
+                                <p class="clearfix mb-0"></p>
+                            </div>
+
+                            <a name="register" style="border: 0; height: 0;"></a>
+                            <div class="counttime">Đã có <span>368</span> đơn vị đăng ký trong tháng</div>
+                            <div class="counttime">Trong đó <span>351</span> đơn vị đã triển khai thành công</div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-5">
+                        <div id="form_register">
+                            <h3>Đăng ký ngay để nhận ưu đãi!</h3>
+                            <p class="text-left mt-3"><img class="jquery_lazyload" data-src="img/i1.png" /> <strong>Số điện thoại:</strong></p>
+                            <div class="row">
+                                <div class="col-12">
+                                    <input type="text" class="form-control" id="phone" />
+                                </div>
+                            </div>
+                            <p class="text-left mt-3"><img class="jquery_lazyload" data-src="img/i2.png" /> <strong>Mã số thuế doanh nghiệp:</strong></p>
+                            <div class="row">
+                                <div class="col-12">
+                                    <input type="text" class="form-control" id="taxcode" />
+                                </div>
+                            </div>
+                            <p class="text-left mt-3"><img class="jquery_lazyload" data-src="img/i2.png" /> <strong>Họ tên người liên hệ:</strong></p>
+                            <div class="row">
+                                <div class="col-12">
+                                    <input type="text" class="form-control" id="fullname" />
+                                </div>
+                            </div>
+
+                            <p class="text-left mt-3"><img class="jquery_lazyload" data-src="img/i5.png" /> <strong>Chọn gói hóa đơn:</strong></p>
+                            <div class="row">
+                                <div class="col-6">
+                                    <button type="button" class="btn_option" data-group="ONF-100">ONF-100</button>
+                                </div>
+                                <div class="col-6">
+                                    <button type="button" class="btn_option" data-group="ONF-2000">ONF-2000</button>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-6">
+                                    <button type="button" class="btn_option" data-group="ONF-5000">ONF-5000</button>
+                                </div>
+                                <div class="col-6">
+                                    <button type="button" class="btn_option" data-group="ONF-10000">ONF-10000</button>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-6">
+                                    <button type="button" class="btn_option" data-group="ONF-20000">ONF-20000</button>
+                                </div>
+                                <div class="col-6">
+                                    <button type="button" class="btn_option" data-group="ONF-MAX">ONF-MAX</button>
+                                </div>
+                            </div>
+
+                            <p class="text-right totalmoney pt-3">Miễn phí khởi tạo (Trị giá <strong>500.000</strong> đ)</p>
+
+                            <div class="text-center">
+                                <a href="javascript:;" class="btn-focus btn_register_now" id="btn_buynow">Đăng ký</a>
+                            </div>
+                            <p id="style-6" class="text-center">* Chúng tôi sẽ gọi ngay trong 5 phút.</p>
+                        </div>
+                    </div>
+                    <div class="w-100 clearfix"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h2 class="pt-5 text-center">Thành viên trong hệ sinh thái NOVAON với hơn <span style="color: #2CA01C">87.000</span> khách hàng</h2>
+    <div class="text-center">
+        <img class="visible-not-mobile lazyload" data-src="/images/partner-gr-new.png" alt="">
+        <img class="visible-is-mobile lazyload" data-src="/images/partner-mb-gr-new.png" alt="">
+    </div>
+
+    <div class="container-fluid p-0 bg-grey" id="boxreviewer">
+
+    </div>
+
+
+    <footer class="footer end footer-new"></footer>
+
+    <!-- End footer -->
+    <!--</div>-->
+    <!--freshchat - temp disabled. TODO: remove...-->
+    <!--maxlead by novaon autoads - temp disabled due to already in GTM by autoads. TODO: remove...-->
+
+    <div id="overlay"></div>
+
+    <!-- Google Tag Manager (noscript) -->
+    <noscript>
+        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KLPQ5MC"
+                height="0" width="0" style="display:none;visibility:hidden"></iframe>
+    </noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+</body>
+</html>

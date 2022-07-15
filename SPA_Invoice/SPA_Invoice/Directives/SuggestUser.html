@@ -1,0 +1,96 @@
+﻿<style>
+    #modal_update_partner .td_suggest {
+        color: #000;
+        padding-left: 20px !important;
+        line-height: 25px;
+        cursor: pointer;
+        border-bottom: 1px solid whitesmoke;
+    }
+
+        #modal_update_partner .td_suggest:hover, .td_suggest.hover {
+            background-color: #F2F2F2 !important;
+        }
+
+    #modal_update_partner .box_suggest {
+        width: 100%;
+        max-height: 270px;
+        overflow-y: auto;
+        position: absolute;
+        background-color: white;
+        z-index: 1;
+        border: 1px solid #D8DCE6;
+        -webkit-box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.1);
+        -moz-box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.1);
+        box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.1);
+    }
+
+    #modal_update_partner .suggest_cusname {
+        color: #1d7511;
+    }
+
+    #modal_update_partner>.suggest_address {
+        font-size: 12px;
+        color: #545454;
+    }
+
+    .button-crate-new {
+        border-radius: 0;
+        width: 100%;
+        background: #fff;
+        background-color: #fff;
+        background-clip: padding-box;
+        border-bottom: 1px solid #ced4da;
+        color: #007bff;
+        text-align: left;
+        border-top: none;
+        border-left: 1px solid #ced4da;
+        border-right: 1px solid #ced4da;
+    }
+
+        .button-crate-new:hover, button-crate-new:focus {
+            border-radius: 0;
+            width: 100%;
+            background: #fff;
+            background-color: #fff;
+            background-clip: padding-box;
+            border-bottom: 1px solid #ced4da;
+            color: #007bff;
+            text-align: left;
+            border-top: none;
+            border-left: 1px solid #ced4da;
+            border-right: 1px solid #ced4da;
+        }
+</style>
+
+<div style="position: relative; width:100%;">
+    <input type="text" placeholder="{{textboxplaceholder}}" class="form-control form-control-sm editor_invoice" maxlength="{{textboxmaxlength}}" ng-model="keyword"
+           ng-keydown="KeyDown($event)" ng-change="search()" ng-focus="isShowlist = true" ng-blur="LossFocus()" ng-disabled="disabled" focus-on="fucusme" onfocus="this.value = this.value;" />
+
+    <div ng-show="lstObject.length > 0 && isShowlist" class="box_suggest" ng-mouseover="MousOverFocus(true)" ng-mouseleave="MousOverFocus(false)">
+        <table class="table_full table-borderless" style="width:100%;">
+            <tbody>
+                <tr ng-repeat="obj in lstObject track by $index" ng-click="redirect(obj)">
+                    <td class="td_suggest" ng-class="{'hover' : obj.isSelected}">
+                        <span>
+                            {{obj.EMAIL}} -
+                            <span class="suggest_cusname">
+                                {{obj.FULLNAME}}
+                            </span>
+                            <br />
+                            <span class="suggest_address">
+                                SĐT: {{obj.PHONENUMBER}}
+                            </span>
+                        </span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <!--Hiển thị Thêm mới khi không thấy dữ liệu-->
+    <!--<div style="width: 100%; position: absolute; z-index: 9999999;" ng-show="lstObject != null || lstObject.length == 0"
+         ng-click="ModalProduct(keyword, 1)" data-toggle="modal" data-target=".modal-product">
+        <button type="button" class="btn btn-info btn-sm waves-effect waves-classic button-crate-new" ng-click="GetMeterByCustaxcode(Invoice.CUSTAXCODE)">
+            <span class="fa fa-plus"></span> Thêm nhanh khách hàng
+        </button>
+    </div>-->
+</div>

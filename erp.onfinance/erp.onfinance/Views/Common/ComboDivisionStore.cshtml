@@ -1,0 +1,22 @@
+﻿@using SAB.Common;
+
+
+<select id="ddlDivisionStore" name="intDivisionStoreId" ng-model="s_instoreid" ng-selected="s_instoreid" style="width: 180px; height: 30px;">
+    @if (Model != null)
+    {
+        <option>- Chọn kho chia -</option>
+        foreach (PM_STORE p in Model)
+        {
+            <option value="@p.STOREID">
+              @p.STOREID - @p.STORENAME
+            </option>
+        }
+    }
+</select>
+<script type="text/javascript">
+
+    $("select#ddlDivisionStore").multiselect({
+        noneSelectedText: '- Chọn kho chia -',
+        multiple: false,
+    }).multiselectfilter();
+</script>

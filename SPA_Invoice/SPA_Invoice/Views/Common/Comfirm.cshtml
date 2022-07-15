@@ -1,0 +1,68 @@
+﻿<div class="modal hide fade modal-confirm" tabindex="-1" role="dialog" @*ng-controller="InvoiceController"*@>
+    <div class=" modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title"><strong> Gửi hóa đơn cho khách hàng </strong></h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xl-11">
+                        <table class="table table-sm table-borderless table-vertical-center">
+                            <tr>
+                                <td>Mẫu số: </td>
+                                <td>
+                                    {{Invoice.FORMCODENAME}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Ký hiệu: </td>
+                                <td>
+                                    {{Invoice.SYMBOLCODENAME}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Số hóa đơn: </td>
+                                <td>
+                                    {{Invoice.NUMBER}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Ngày hóa đơn: </td>
+                                <td>
+                                    {{Invoice.INITTIME | dateTimeFormat}}
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <label class="col-xl-3" style="margin-right: 20px;">Tên người nhận<span class="text-danger">*</span></label>
+                        <div class="col-xl-8">
+                            <input type="text" class="form-control form-control-sm" placeholder="Nhập vào email" ng-model="Invoice.RECIEVERNAME" />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <label class="col-xl-3" style="margin-right: 20px;">Email người nhận<span class="text-danger">*</span></label>
+                        <div class="col-xl-8">
+                            <textarea type="text" class="form-control form-control-sm" placeholder="Nhập vào email" ng-model="Invoice.RECIEVEREMAIL"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer d-flex justify-content-between">
+                <div class="d-flex justify-content-start">
+                    <a class="btn btn-secondary mr-3" href="https://onfinance.asia/tracuu/?code={{Invoice.REFERENCECODE}}">Xem hóa đơn</a>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <button class="btn btn-success mr-3" ng-click="SendEmail()"> <span class="fa fa-save"></span> &nbsp; Gửi </button>
+                    <button class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

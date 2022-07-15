@@ -1,0 +1,45 @@
+﻿<div id="modal_send_multiple_zalo" style="display: none; padding-left: 0!important; padding-right: 0!important" title="Gửi hóa đơn phát hành cho khách hàng qua zalo">
+    <div class="modal-body mt-0 pt-0">
+        <div class="mb-2">
+            <div>Vui lòng kiểm tra lại thông tin người nhận trước khi thực hiện gửi hóa đơn cho khách hàng</div>
+            <div><b>Tổng số: <span class="text-danger">{{INVOICEQUANTITIES}}</span> hóa đơn</b></div>
+        </div>
+        <div>
+            <table class="table table-bordered table-sm table-vertical-center table-head-green table-hover table_invoice_list_manage mb-0">
+                <thead>
+                    <tr>
+                        <th width="25%">Số điện thoại người nhận <span class="text-danger">(*)</span></th>
+                        <th width="10%">Mẫu số <br /> Ký hiệu</th>
+                        <th width="10%">Số hóa đơn <br /> Ngày hóa đơn</th>
+                        <th width="25%">Khách hàng <br />Mã số thuế</th>
+                        <th width="10%" class="text-center">Tổng tiền</th>
+                        <th width="5%" class="text-center">Xem hóa đơn </th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        <div class="d-flex onscrollbar" style="height: 350px; overflow:overlay;">
+            <table class="table table-bordered table-sm table-vertical-center table-head-green table-hover table_invoice_list_manage">
+                <tbody>
+                    <tr ng-repeat="item in ListInvoiceChecked">
+                        <td width="25%"><input type="text" ng-model="item.CUSPHONENUMBER" class="form-control" /></td>
+                        <td width="10%">{{item.FORMCODE}} <br /> {{item.SYMBOLCODE}}</td>
+                        <td width="10%">{{item.NUMBER | numberFixedLen:7}} <br />{{item.SIGNEDTIME | dateFormat: 'dd/MM/yyyy'}}</td>
+                        <td width="25%">{{item.CUSNAME}} <br /> {{item.CUSTAXCODE}}</td>
+                        <td class="text-right" width="10%">{{item.TOTALPAYMENT | numberFormat:0}}</td>
+                        <td class="text-center" width="5%"><a href="javascript:(0)" ng-click="PreviewInvoice(item.ID, false)"><i class="fa fa-eye"></i></a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="modal-footer d-flex justify-content-between p-0 pt-2">
+        <div class="d-flex justify-content-start">
+            <span class="text-danger ml-3">Bạn cần điền đầy đủ số điện thoại người nhận. Hệ thống sẽ bỏ qua hóa đơn không đủ thông tin.</span>
+        </div>
+        <div class="d-flex justify-content-between">
+            <button class="btn btn-success mr-3" ng-click="SendMultipleZalo()"> <span class="fa fa-paper-plane"></span> &nbsp; Gửi </button>
+        </div>
+    </div>
+</div>
+

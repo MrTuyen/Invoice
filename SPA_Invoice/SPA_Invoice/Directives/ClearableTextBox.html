@@ -1,0 +1,5 @@
+﻿<div style="position:relative">
+    <input ng-model="textboxmodel" type="{{type}}" ng-change="Change()" placeholder="{{textboxplaceholder}}"
+           ng-keypress="KeyPress($event)" class="form-control form-control-sm" ng-keydown="KeyDown($event)" maxlength="{{maxLength}}" getfocus="focustextbox"
+           onfocus="this.setSelectionRange(0, this.value.length)" ng-blur="Blur()" ng-disabled="disable" style="{{textStyle}}" />
+</div>

@@ -1,0 +1,32 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_LayoutSimple.cshtml";
+    ViewBag.Title = "Forgot password - NOVAON EINVOICE";
+}
+
+<div id="popop-login">
+    <p class="logo text-center"><img src="~/Images/logo_full.jpg" /></p>
+    <div class="message-login-form text-center">
+        Gửi lại mật khẩu mới
+    </div>
+
+    <p class="text-center " >
+        Mật khẩu mới đã được gửi đến: <strong id="email-phone"></strong>
+    </p>
+    <p class="text-center">
+        Nếu bạn không nhận được mật khẩu?
+    </p>
+
+    <form class="validate-form">
+        <button class="btn btn-success btn-block mt-3 btn-register" id="btn-send-email" type="button" >           
+           <span id="count"></span>
+            Gửi lại mật khẩu 
+        </button>
+    </form>
+
+
+    <p class="link-active text-center">
+        Bạn đã có tài khoản? <a href="/user-account/login" class="text-primary">Đăng nhập</a>
+    </p>
+    <p class="clear"></p>
+</div>

@@ -1,0 +1,21 @@
+﻿@using SAB.Common;
+
+
+<select multiple="multiple" id="ddlSubGroup" name="intSubGroupID" ng-model="s_subgroupid" ng-selected="s_subgroupid" style="width: 180px; height: 30px;">
+    @if (Model != null)
+    {
+        foreach (PM_SUBGROUP p in Model)
+        {
+            <option value="@p.SUBGROUPID">
+              @p.SUBGROUPID - @p.SUBGROUPNAME
+            </option>
+        }
+    }
+</select>
+<script type="text/javascript">
+    $("select#ddlSubGroup").multiselect({
+        noneSelectedText: '- Chọn nhóm hàng -',
+        selectedList: 0,
+        selectedText: 'Đã chọn # / # nhóm'
+    }).multiselectfilter();
+</script>

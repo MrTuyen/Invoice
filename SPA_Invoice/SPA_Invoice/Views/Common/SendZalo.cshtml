@@ -1,0 +1,110 @@
+﻿<div id="modal_send_zalo" style="display: none; padding-left: 0!important; padding-right: 0!important" title="Gửi hóa đơn cho khách hàng qua Zalo">
+    <div class="d-flex">
+        <div class="w-100">
+            <div class="form-group mb-1">
+                <div class="d-flex">
+                    <label class="col-3">Mẫu số:</label>
+                    <div class="col-9">
+                        <strong>{{Invoice.FORMCODE}}</strong>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group mb-1">
+                <div class="d-flex">
+                    <label class="col-3">Ký hiệu:</label>
+                    <div class="col-9">
+                        <strong>{{Invoice.SYMBOLCODE}}</strong>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group mb-1">
+                <div class="d-flex">
+                    <label class="col-3">Số hóa đơn:</label>
+                    <div class="col-9">
+                        <strong>{{Invoice.NUMBER | numberFixedLen:7}}</strong>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group mb-1">
+                <div class="d-flex">
+                    <label class="col-3">Ngày hóa đơn:</label>
+                    <div class="col-9">
+                        <strong>{{Invoice.INITTIME | dateTimeFormat}}</strong>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group mb-1">
+                <div class="d-flex">
+                    <label class="col-3">Tên người nhận:</label>
+                    <div class="col-9">
+                        <strong>{{Invoice.CUSNAME}}</strong>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group mb-1">
+                <div class="d-flex">
+                    <label class="col-3">Số zalo người nhận<span class="text-danger">(*)</span>:</label>
+                    <div class="col-9">
+                        <input ng-model="Invoice.CUSPHONENUMBER" value="{{Invoice.CUSPHONENUMBER}}" type="tel" class="form-control form-control-sm" placeholder="Nhập số điện thoại" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">    
+        <div class="d-flex">
+            <label class="col-3">Thêm ghi chú</label>
+            <div class="col-9">
+                <input type="text" class="form-control form-control-sm" placeholder="Thêm ghi chú" ng-model="NOTE" />
+            </div>
+        </div>
+    </div>
+
+    <fieldset class="novaon-fieldset col-xs-4 fieldsetInvHeaderGeneral">
+        <legend class="text-left novaon-legend">Lịch sử gửi tin gần đây </legend>
+        <div class="form-group">
+            <div class="d-flex">
+                <div class="btn-filter" style="width: 100%;padding: 16px;">
+                    <div class="bg-white">
+                        <table class="table table-bordered table-sm table-vertical-center table-head-green table-mail table-hover" style="overflow:scroll;">
+                            <thead style="text-align: center;">
+                                <tr>
+                                    <th width="3%">STT</th>
+                                    <th>Ảnh</th>
+                                    <th>Tên zalo người nhận</th>
+                                    <th>Time gửi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="data" ng-hide="ListHistoryZaloUser.length >= 1">
+                                    <td colspan="12">Dữ liệu đang trống!</td>
+                                </tr>
+                                <tr ng-repeat="item in ListHistoryZaloUser track by $index">
+                                    <td class="text-center">{{$index + 1}}</td>
+                                    <td class="text-center"><img src="" style="border-radius: 50%; width: 40px;height: 40px;" alt="zalo user avatar"></td>
+                                    <td>
+                                        <label>
+                                            {{item.to_display_name}}
+                                        </label>
+                                    </td>
+                                    <td>
+                                        {{DateFormatZalo(item.time)}}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+    <div class="modal-footer d-flex justify-content-between p-0 pt-2">
+        <div class="d-flex justify-content-start">
+            <a class="btn btn-link" ng-click="PreviewInvoice(item.ID, false)" href="javascript:;" target="_blank">Xem hóa đơn</a>
+        </div>
+        <div class="d-flex justify-content-between">
+            <button class="btn btn-success mr-3" ng-click="SendZalo(Invoice)"> <span class="fa fa-paper-plane"></span> &nbsp; Gửi </button>
+        </div>
+    </div>
+</div>
+

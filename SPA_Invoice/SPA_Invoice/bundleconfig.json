@@ -1,0 +1,116 @@
+[
+  {
+    "outputFileName": "Minifier/novaon.css",
+    "inputFiles": [
+      "Content/jquery-ui.css",
+      "Content/jquery-ui-timepicker-addon.css",
+      "Content/Customs/Site.css",
+      "Content/AdminLTE.css",
+      "Content/Customs/angular-loading-bar.css"
+    ]
+  },
+  {
+    "outputFileName": "Minifier/novaon.account.css",
+    "inputFiles": [
+      "Content/Customs/login.css"
+    ]
+  },
+  {
+    "outputFileName": "Minifier/novaon.account.js",
+    "inputFiles": [
+      "Scripts/login.js"
+    ]
+  },
+  { 
+    "outputFileName": "Minifier/cssjson.js",
+    "inputFiles": [
+      "Scripts/cssjson.js"
+    ]
+  },
+  {
+    "outputFileName": "Minifier/angularjs.js",
+    "inputFiles": [
+      "Scripts/angular.js",
+      "Scripts/angular-route.js",
+      "Scripts/angular-sanitize.min.js"
+    ]
+  },
+  {
+    "outputFileName": "Minifier/novaon.js",
+    "inputFiles": [
+      "SPA/Angular/_app.js",
+      "SPA/Angular/_route.js",
+      "SPA/Angular/_commonFactory.js",
+      "SPA/Angular/_common.js",
+      "SPA/Directives/ClearableTextBox.js",
+      "SPA/Directives/FormatNumberInput.js",
+      "SPA/Directives/SuggestProduct.js",
+      "SPA/Directives/SuggestCustomer.js",
+      "SPA/Directives/SuggestEmployee.js",
+      "SPA/Directives/SuggestUser.js",
+      //"SPA/Directives/datepickerDirective.js",
+      "SPA/Angular/_filters.js",
+      "SPA/Angular/_angular-loading-bar.js"
+    ]
+  },
+  {
+    "outputFileName": "Minifier/controller.js",
+    "inputFiles": [
+      "SPA/Controller/RootController.js",
+      "SPA/Controller/HomeController.js",
+      "SPA/Controller/AccountController.js",
+      "SPA/Controller/LogoutController.js",
+      "SPA/Controller/InvoiceController.js",
+      "SPA/Controller/ProductController.js",
+      "SPA/Controller/CustomerController.js",
+      "SPA/Controller/SettingsController.js",
+      "SPA/Controller/CategoryController.js",
+      "SPA/Controller/StatisticController.js",
+      "SPA/Controller/UserController.js",
+      "SPA/Controller/ModalInvoiceController.js",
+      "SPA/Controller/ModalProductController.js",
+      "SPA/Controller/ModalCategoryController.js",
+      "SPA/Controller/ModalCustomerController.js",
+      "SPA/Controller/ModalImportInvoiceController.js",
+      "SPA/Controller/ModalImportProductController.js",
+      "SPA/Controller/ModalImportCustomerController.js",
+      "SPA/Controller/ModalPreviewInvoiceController.js",
+      "SPA/Controller/ModalCancelInvoiceController.js",
+      "SPA/Controller/ModalChangeInvoiceController.js",
+      "SPA/Controller/ModalNumberWaitingController.js",
+      "SPA/Controller/InvoiceWaitController.js",
+      "SPA/Controller/ModalReleaseNoticeController.js",
+      "SPA/Controller/ModalCancelReportController.js",
+      "SPA/Controller/ModalModifiedReportController.js",
+      "SPA/Controller/ModalReleaseDocumentController.js",
+      "SPA/Controller/TempInvoiceController.js",
+      "SPA/Controller/ReceiptController.js",
+      "SPA/Controller/ModalReceiptController.js",
+      "SPA/Controller/ModalMeterController.js",
+      "SPA/Controller/MeterController.js",
+      "SPA/Controller/ModalMeterController.js",
+      "SPA/Controller/ModalImportMeterController.js",
+      "SPA/Controller/SettingTemplateController.js",
+      "SPA/Controller/LogController.js",
+      "SPA/Controller/CurrencyUnitController.js",
+      "SPA/Controller/ModalCurrencyUnitController.js",
+      "SPA/Controller/PaymentMethodController.js",
+      "SPA/Controller/ModalPaymentMethodController.js",
+      "SPA/Controller/QuantityUnitController.js",
+      "SPA/Controller/ModalQuantityUnitController.js"
+    ]
+  },
+ 
+  {
+    "outputFileName": "Minifier/adminlte.js",
+    "inputFiles": [
+      "Scripts/adminlte.js"
+    ]
+  },
+  {
+    "outputFileName": "Minifier/jquery-ui.js",
+    "inputFiles": [
+      "Scripts/jquery-ui.js"
+    ]
+  }
+]

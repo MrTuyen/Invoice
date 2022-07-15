@@ -1,0 +1,578 @@
+﻿<script src="~/Scripts/jquery.parsecss.js"></script>
+<style>
+    .template-description {
+        background: black;
+        opacity: 0.5;
+        position: relative;
+        color: white;
+        height: 70px;
+        top: -70px;
+        padding: 10px 10px;
+    }
+</style>
+<div class="d-flex pageEdittemplate">
+    <div id="templateViewInvoice" class="flex-grow-1 onscrollbar">
+        <div id="viewPreviewTemplate">
+            <iframe src="/TemplateFiles/none.html" id="iframe_templateViewInvoice" scrolling="no">Vui lòng chọn mẫu hóa đơn</iframe>
+        </div>
+    </div>
+    <div id="rightPanelFunction" class="p-3">
+        <div id="panel0" ng-show="isChonseType">
+            <div class="headerEditorTemplete d-flex justify-content-start align-items-center text-success">
+                Loại hóa đơn -  Khổ giấy
+            </div>
+            <div class="pt-2">
+                <select class="cb-select-time show-tick" data-width="100%" ng-model="InvoiceType.value" ng-change="LoadInvoiceType()">
+                    <option ng-repeat="o in InvoiceType.Options" value="{{o.value}}">{{o.text}}</option>
+                </select>
+            </div>
+            <div class="pt-2">
+                <select class="cb-select-time show-tick" data-width="100%" ng-model="SizePaper.value" ng-change="LoadSizePaper()">
+                    <option ng-repeat="o in SizePaper.Options" value="{{o.value}}">{{o.text}}</option>
+                </select>
+            </div>
+            @*Khổ giấy A4*@
+            <div id="div-template-a4" class="list_sampleinvoice_temp onscrollbar">
+                <div ng-show="InvoiceType.value == '1'" ng-click="ApplyInvoiceType('MauM01')">
+                    <button type="button" class="btn btn-success">Chọn</button>
+                    <img src="~/Images/sample_invoice/mau_03.png" />
+                    <div class="template-description">
+                        Mẫu hóa đơn GTGT một thuế 001
+                    </div>
+                </div>
+                <div ng-show="InvoiceType.value == '1'" ng-click="ApplyInvoiceType('MauM02')">
+                    <button type="button" class="btn btn-success">Chọn</button>
+                    <img src="~/Images/sample_invoice/mau_04.png" />
+                    <div class="template-description">
+                        Mẫu hóa đơn GTGT một thuế 002
+                    </div>
+                </div>
+                <div ng-show="InvoiceType.value == '1'" ng-click="ApplyInvoiceType('MauM03')">
+                    <button type="button" class="btn btn-success">Chọn</button>
+                    <img src="~/Images/sample_invoice/mau03.png" />
+                    <div class="template-description">
+                        Mẫu hóa đơn GTGT một thuế 003
+                    </div>
+                </div>
+                <div ng-show="InvoiceType.value == '1'" ng-click="ApplyInvoiceType('MauM04')">
+                    <button type="button" class="btn btn-success">Chọn</button>
+                    <img src="~/Images/sample_invoice/mau_04.png" />
+                    <div class="template-description">
+                        Mẫu hóa đơn GTGT một thuế 004
+                    </div>
+                </div>
+                <div ng-show="InvoiceType.value == '1'" ng-click="ApplyInvoiceType('MauM05')">
+                    <button type="button" class="btn btn-success">Chọn</button>
+                    <img src="~/Images/sample_invoice/mau_04.png" />
+                    <div class="template-description">
+                        Mẫu hóa đơn GTGT một thuế 005
+                    </div>
+                </div>
+
+                <div ng-show="InvoiceType.value == '1'" ng-click="ApplyInvoiceType('MauM01_Chengneng')">
+                    <button type="button" class="btn btn-success">Chọn</button>
+                    <img src="~/Images/sample_invoice/mau_04.png" />
+                    <div class="template-description">
+                        Mẫu hóa đơn GTGT một thuế 006
+                    </div>
+                </div>
+
+                <div ng-show="InvoiceType.value == '2'" ng-click="ApplyInvoiceType('HDGoc')">
+                    <button type="button" class="btn btn-success">Chọn</button>
+                    <img src="~/Images/sample_invoice/mau_01.png" />
+                    <div class="template-description">
+                        Mẫu hóa đơn GTGT nhiều thuế 001
+                    </div>
+                </div>
+                <div ng-show="InvoiceType.value == '2'" ng-click="ApplyInvoiceType('MauN02')">
+                    <button type="button" class="btn btn-success">Chọn</button>
+                    <img src="~/Images/sample_invoice/mau_02.png" />
+                    <div class="template-description">
+                        Mẫu hóa đơn GTGT nhiều thuế 002
+                    </div>
+                </div>
+                <div ng-show="InvoiceType.value == '2'" ng-click="ApplyInvoiceType('MauN03')">
+                    <button type="button" class="btn btn-success">Chọn</button>
+                    <img src="~/Images/sample_invoice/mau03.png" />
+                    <div class="template-description">
+                        Mẫu hóa đơn GTGT nhiều thuế 003
+                    </div>
+                </div>
+                <div ng-show="InvoiceType.value == '2'" ng-click="ApplyInvoiceType('MauN04')">
+                    <button type="button" class="btn btn-success">Chọn</button>
+                    <img src="~/Images/sample_invoice/mau_N04.png" />
+                    <div class="template-description">
+                        Mẫu hóa đơn GTGT có thuế, phí khác
+                    </div>
+                </div>
+                <div ng-show="InvoiceType.value == '2'" ng-click="ApplyInvoiceType('MauN05')">
+                    <button type="button" class="btn btn-success">Chọn</button>
+                    <img src="~/Images/sample_invoice/mau_N04.png" />
+                    <div class="template-description">
+                        Mẫu hóa đơn GTGT có thuế, phí khác, và phí hoàn
+                    </div>
+                </div>
+                @*Hóa đơn bán hàng*@
+                <div ng-show="InvoiceType.value == '3'" ng-click="ApplyInvoiceType('HDBH_01')">
+                    <button type="button" class="btn btn-success">Chọn</button>
+                    <img src="~/Images/sample_invoice/HDBH.png" />
+                    <div class="template-description">
+                        Mẫu hóa đơn bán hàng
+                    </div>
+                </div>
+                @*Hóa đơn tiền điện*@
+                <div ng-show="InvoiceType.value == '4'" ng-click="ApplyInvoiceType('HOADONTIENDIEN0001')">
+                    <button type="button" class="btn btn-success">Chọn</button>
+                    <img src="~/Images/sample_invoice/mau_03.png" />
+                    <div class="template-description">
+                        Mẫu hóa đơn GTGT tiền điện sinh hoạt
+                    </div>
+                </div>
+                <div ng-show="InvoiceType.value == '4'" ng-click="ApplyInvoiceType('HOADONTIENDIEN0002')">
+                    <button type="button" class="btn btn-success">Chọn</button>
+                    <img src="~/Images/sample_invoice/mau_03.png" />
+                    <div class="template-description">
+                        Mẫu hóa đơn GTGT tiền điện ngoài sinh hoạt
+                    </div>
+                </div>
+                @*Phiếu xuất kho*@
+                <div ng-show="InvoiceType.value == '7'" ng-click="ApplyInvoiceType('PHIEUXUATKHO001')">
+                    <button type="button" class="btn btn-success">Chọn</button>
+                    <img src="~/Images/sample_invoice/HDBH.png" />
+                    <div class="template-description">
+                        Mẫu phiếu xuất kho kiêm vận chuyển nội bộ
+                    </div>
+                </div>
+            </div>
+
+            @*Khổ giấy A5*@
+            <div id="div-template-a5" class="list_sampleinvoice_temp onscrollbar" ng-show="InvoiceType.value == '6'">
+                <div ng-show="InvoiceType.value == '6'" ng-click="ApplyInvoiceType('HOADONTHUTIEN0001')">
+                    <button type="button" class="btn btn-success">Chọn</button>
+                    <img src="~/Images/sample_invoice/HOADONTHUHOCPHI_01.PNG" />
+                    <div class="template-description">
+                        Mẫu biên lai thu học phí 001
+                    </div>
+                </div>
+                <div ng-show="InvoiceType.value == '6'" ng-click="ApplyInvoiceType('HOADONTHUTIEN0002')">
+                    <button type="button" class="btn btn-success">Chọn</button>
+                    <img src="~/Images/sample_invoice/HOADONTHUHOCPHI_02.PNG" />
+                    <div class="template-description">
+                        Mẫu biên lai thu học phí 002
+                    </div>
+                </div>
+                <div ng-show="InvoiceType.value == '6'" ng-click="ApplyInvoiceType('HOADONTHUTIEN0003')">
+                    <button type="button" class="btn btn-success">Chọn</button>
+                    <img src="~/Images/sample_invoice/HOADONTHUHOCPHI_03.PNG" />
+                    <div class="template-description">
+                        Mẫu biên lai thu học phí 003
+                    </div>
+                </div>
+                @*Hóa đơn tiền nước*@
+                <div ng-show="InvoiceType.value == '5'" ng-click="ApplyInvoiceType('HOADONTIENNUOC0001')">
+                    <button type="button" class="btn btn-success">Chọn</button>
+                    <img src="~/Images/sample_invoice/mau_03.png" />
+                    <div class="template-description">
+                        Mẫu hóa đơn GTGT tiền nước 001
+                    </div>
+                </div>
+            </div>
+            @*Hóa đơn tiền nước*@
+            <div id="div-template-nuoc-a5" class="list_sampleinvoice_temp onscrollbar" ng-show="InvoiceType.value == '5'">
+                <div ng-show="InvoiceType.value == '5'" ng-click="ApplyInvoiceType('HOADONTIENNUOC0001')">
+                    <button type="button" class="btn btn-success">Chọn</button>
+                    <img src="~/Images/sample_invoice/mau_03.png" />
+                    <div class="template-description">
+                        Mẫu hóa đơn GTGT tiền nước 001
+                    </div>
+                </div>
+                <div ng-show="InvoiceType.value == '5'" ng-click="ApplyInvoiceType('HOADONTIENNUOC0002')">
+                    <button type="button" class="btn btn-success">Chọn</button>
+                    <img src="~/Images/sample_invoice/mau_03.png" />
+                    <div class="template-description">
+                        Mẫu hóa đơn GTGT tiền nước 002
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div ng-hide="isEditBackground || isEditBorder || isChonseType" id="panel1" class="onscrollbar">
+            <div class="headerEditorTemplete d-flex justify-content-start align-items-center text-success mb-2">
+                <button class="btn btn-secondary btn-sm" ng-click="isChonseType = true">
+                    <img src="~/Images/iconmonstr-arrow-left-thin.svg" />
+                    Quay lại chọn mẫu
+                </button>
+            </div>
+            <div class="form-group row">
+                <label for="field1" class="col-sm-4 col-form-label"><strong>Mẫu số</strong></label>
+                <div class="col-sm-8">
+                    @*<input type="text" class="form-control" id="field1" ng-model="template.FORMCODE" ng-change="ChangeForm()">*@
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text" style="padding-right: 1px; padding-top: .41rem; padding-bottom: .3rem;">{{template.FORM}}</div>
+                        </div>
+                        <input type="text" class="form-control" id="field1" autocomplete="off" maxlength="3" style="outline: none;padding-left: 1px;" ng-model="template.CODE" ng-change="ChangeForm()" ng-blur="ShowAgainCode()" only-number>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="field2" class="col-sm-4 col-form-label"><strong>Ký hiệu</strong> <span class="fa fa-info-circle text-success" data-toggle="tooltip" data-placement="bottom" title="<p style='font-size: 12px'>Ký hiệu Hóa đơn phải có định dạng  '<b style='color: yellow'>XX/YYE</b>' trong đó: <br>- <span style='color: yellow'>XX</span> là chuỗi 2 ký tự viết hoa trong bảng chữ cái tiếng Việt: A, B, C, D, E, G, H, K, L, M, N, P, Q, R, S, T, U, V, X, Y <br>- <span style='color: yellow'>YY</span> là chuỗi 2 ký tự cuối của năm tạo mẫu hóa đơn.</p>"></span></label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" id="field2" maxlength="6" ng-model="template.SYMBOLCODE" ng-change="ChangeSerialNo()">
+                </div>
+            </div>
+            <div class="form-group row" ng-if="Enterprise.ISFREETRIAL == true">
+                <label for="" class="col-sm-4 col-form-label"><strong>Từ số</strong></label>
+                <div class="col-sm-8">
+                    <div class="input-group">
+                        <input type="text" class="form-control text-center" disabled ng-model="template.FROMNUMBER" ng-init="template.FROMNUMBER = 1" />
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row" ng-if="Enterprise.ISFREETRIAL == true">
+                <label for="" class="col-sm-4 col-form-label"><strong>Đến số</strong></label>
+                <div class="col-sm-8">
+                    <div class="input-group">
+                        <input type="text" class="form-control text-center" disabled ng-model="template.TONUMBER" ng-init="template.TONUMBER = 300" />
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row" ng-if="Enterprise.ISFREETRIAL == true">
+                <label for="" class="col-sm-4 col-form-label"><strong>Trạng thái</strong></label>
+                <div class="col-sm-8">
+                    <div class="input-group">
+                        <select class="form-control" id="txtNumberStatus">
+                            <option value="4">Chưa phát hành</option>
+                            <option value="1">Đã phát hành</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label"><strong>Logo</strong></label>
+                <div class="col-sm-8">
+                    <div class="cls-image-product">
+                        <label class="d-flex align-items-center justify-content-center">
+                            <img ng-src="{{template.logo != null ? template.logo : '/Images/64px_image-add.png'}}" />
+                            <input type="file" accept=".jpg, .jpeg, .png" custom-on-change="uploadFile" class="display-none">
+                        </label>
+
+                        <div class="d-flex justify-content-center align-items-center">
+                            <label class="button-circle-hover" data-placement="bottom" title="Thay đổi ảnh">
+                                <span class="fa fa-pencil-square-o" aria-hidden="false"></span>
+                                <input type="file" accept=".jpg, .jpeg, .png" custom-on-change="uploadFile" class="display-none">
+                            </label>
+                            |
+                            <div class="button-circle-hover" data-placement="bottom" title="Xóa ảnh" ng-click="RemoveLogo()">
+                                <span class="fa fa-trash-o" aria-hidden="false"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row mb-0">
+                <label class="col-sm-4 col-form-label d-flex align-items-center"><strong>Hình nền</strong></label>
+                <label class="col-sm-8 col-form-label">
+                    <button type="button" class="btn btn-link text-success" ng-click="isEditBackground = true">Thay đổi hình nền</button>
+                </label>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label d-flex align-items-center"><strong>Viền hóa đơn</strong></label>
+                <label class="col-sm-8 col-form-label">
+                    <button type="button" class="btn btn-link text-success" ng-click="isEditBorder = true">Thay đổi viền hóa đơn</button>
+                </label>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label><strong>Font chữ</strong></label>
+                    <select class="form-control form-control-sm" ng-model="template.fontFamily" ng-change="ChangeFontFamily()">
+                        <option value="Times New Roman">Times New Roman</option>
+                        <option value="Arial">Arial</option>
+                        <option value="Tahoma">Tahoma</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-6">
+                    <label><strong>Font size</strong></label>
+                    <select class="form-control form-control-sm" ng-model="template.fontSize" ng-change="ChangeFontSize()">
+                        <option value="12px">12</option>
+                        <option value="13px">13</option>
+                        <option value="14px">14</option>
+                        <option value="15px">15</option>
+                        <option value="16px">16</option>
+                        <option value="17px">17</option>
+                        <option value="18px">18</option>
+                        <option value="19px">19</option>
+                        <option value="20px">20</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <label class="col-sm-12 col-form-label"><strong>Màu chữ</strong></label>
+            </div>
+            <div class="form-row">
+                <div class="col-sm-3">
+                    <div class="selected_color_view"></div>
+                </div>
+                <div class="col-sm-9 d-flex flex-wrap">
+                    <div class="symbol_color" style="background-color:#000000" ng-click="ChangeColor('#000000')"></div>
+                    <div class="symbol_color" style="background-color:#202e5a" ng-click="ChangeColor('#202e5a')"></div>
+                    <div class="symbol_color" style="background-color:#48565f" ng-click="ChangeColor('#48565f')"></div>
+                    <div class="symbol_color" style="background-color:#7889a1" ng-click="ChangeColor('#7889a1')"></div>
+                    <div class="symbol_color" style="background-color:#79bd58" ng-click="ChangeColor('#79bd58')"></div>
+                    <div class="symbol_color" style="background-color:#96bc2d" ng-click="ChangeColor('#96bc2d')"></div>
+                    <div class="symbol_color" style="background-color:#2a651d" ng-click="ChangeColor('#2a651d')"></div>
+                    <div class="symbol_color" style="background-color:#1492e6" ng-click="ChangeColor('#1492e6')"></div>
+
+                    <div class="symbol_color" style="background-color:#08007d" ng-click="ChangeColor('#08007d')"></div>
+                    <div class="symbol_color" style="background-color:#0B6F77" ng-click="ChangeColor('#0B6F77')"></div>
+                    <div class="symbol_color" style="background-color:#004254" ng-click="ChangeColor('#004254')"></div>
+                    <div class="symbol_color" style="background-color:#6b1438" ng-click="ChangeColor('#6b1438')"></div>
+                    <div class="symbol_color" style="background-color:#e61414" ng-click="ChangeColor('#e61414')"></div>
+                    <div class="symbol_color" style="background-color:#e600b8" ng-click="ChangeColor('#e600b8')"></div>
+                    <div class="symbol_color" style="background-color:#950069" ng-click="ChangeColor('#950069')"></div>
+                    <div class="symbol_color" style="background-color:#542852" ng-click="ChangeColor('#542852')"></div>
+                </div>
+            </div>
+        </div>
+
+        <div style="position: absolute; bottom: 10px; left: 20px; right: 20px; text-align: center;" ng-hide="isEditBackground || isEditBorder || isChonseType">
+            <button type="button" class="btn btn-warning btn-sm" ng-click="SaveExport()">
+                <span class="fa fa-file-pdf-o"></span> Lưu &amp; Tải PDF
+            </button>
+
+            <button type="button" class="btn btn-success btn-sm" ng-click="SaveTemplate()">
+                <span class="fa fa-floppy-o"></span> Lưu thay đổi
+            </button>
+        </div>
+
+
+        <div ng-show="isEditBorder">
+            <div class="headerEditorTemplete d-flex justify-content-start align-items-center text-success">
+                <button class="btn btn-secondary btn-sm" ng-click="isEditBorder = false">
+                    <img src="~/Images/iconmonstr-arrow-left-thin.svg" />
+                    Quay lại
+                </button>
+                Thay đổi viền hóa đơn
+            </div>
+            <div class="form-row">
+                <label class="col-sm-12 col-form-label"><strong>Màu đường viền</strong></label>
+            </div>
+            <div class="form-row">
+                <div class="col-sm-3">
+                </div>
+                <div class="col-sm-9 d-flex flex-wrap">
+                    <div class="symbol_color" style="background-color:#000000; margin-bottom: 10px;" ng-click="SetBorderColor('#000000')"></div>
+                    <div class="symbol_color" style="background-color:#202e5a; margin-bottom: 10px;" ng-click="SetBorderColor('#202e5a')"></div>
+                    <div class="symbol_color" style="background-color:#48565f; margin-bottom: 10px;" ng-click="SetBorderColor('#48565f')"></div>
+                    <div class="symbol_color" style="background-color:#7889a1; margin-bottom: 10px;" ng-click="SetBorderColor('#7889a1')"></div>
+                    <div class="symbol_color" style="background-color:#79bd58; margin-bottom: 10px;" ng-click="SetBorderColor('#79bd58')"></div>
+                    <div class="symbol_color" style="background-color:#96bc2d; margin-bottom: 10px;" ng-click="SetBorderColor('#96bc2d')"></div>
+                    <div class="symbol_color" style="background-color:#2a651d; margin-bottom: 10px;" ng-click="SetBorderColor('#2a651d')"></div>
+
+                    <div class="symbol_color" style="background-color:#1492e6; margin-bottom: 10px;" ng-click="SetBorderColor('#1492e6')"></div>
+                    <div class="symbol_color" style="background-color:#08007d; margin-bottom: 10px;" ng-click="SetBorderColor('#08007d')"></div>
+                    <div class="symbol_color" style="background-color:#0e909a; margin-bottom: 10px;" ng-click="SetBorderColor('#0e909a')"></div>
+                    <div class="symbol_color" style="background-color:#004254; margin-bottom: 10px;" ng-click="SetBorderColor('#004254')"></div>
+                    <div class="symbol_color" style="background-color:#6b1438; margin-bottom: 10px;" ng-click="SetBorderColor('#6b1438')"></div>
+                    <div class="symbol_color" style="background-color:#e61414; margin-bottom: 10px;" ng-click="SetBorderColor('#e61414')"></div>
+                    <div class="symbol_color" style="background-color:#e600b8; margin-bottom: 10px;" ng-click="SetBorderColor('#e600b8')"></div>
+                    <div class="symbol_color" style="background-color:#950069; margin-bottom: 10px;" ng-click="SetBorderColor('#950069')"></div>
+                    <div class="symbol_color" style="background-color:#542852; margin-bottom: 10px;" ng-click="SetBorderColor('#542852')"></div>
+                </div>
+            </div>
+
+            <div class="form-group row mt-5">
+                <label class="col-sm-4 col-form-label"><strong>Bo góc tròn</strong></label>
+                <div class="col-sm-8">
+                    <select class="form-control form-control-sm" ng-model="template.borderRadius" ng-change="SetBorderRadius()">
+                        <option value="0px">0</option>
+                        <option value="10px">10</option>
+                        <option value="20px">20</option>
+                        <option value="30px">30</option>
+                        <option value="40px">40</option>
+                        <option value="50px">50</option>
+                        <option value="60px">60</option>
+                        <option value="70px">70</option>
+                        <option value="80px">80</option>
+                        <option value="90px">90</option>
+                        <option value="100px">100</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label"><strong>Kích thước viền</strong></label>
+                <div class="col-sm-8">
+                    <select class="form-control form-control-sm" ng-model="template.borderWidth" ng-change="SetBorderWidth()">
+                        <option value="0px">0</option>
+                        <option value="1px">1</option>
+                        <option value="2px">2</option>
+                        <option value="3px">3</option>
+                        <option value="4px">4</option>
+                        <option value="5px">5</option>
+                        <option value="6px">6</option>
+                        <option value="7px">7</option>
+                        <option value="8px">8</option>
+                        <option value="9px">9</option>
+                        <option value="10px">10</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <label class="col-sm-12 col-form-label"><strong>Hoa văn đường viền</strong></label>
+            </div>
+            <div class="list_bginvoice_temp onscrollbar">
+                <div class="item_bg_invoice" style="height: 125px; text-align: center; font-size: 55px; line-height: 125px; color: #dcdcdc;" ng-click="SetBorderPattern('none')">
+                    X
+                </div>
+                <div class="item_bg_invoice" ng-click="SetBorderPattern('https://e.onfinance.asia/Images/bg_invoice/pattern1.png')">
+                    <img src="~/Images/bg_invoice/pattern1.png" />
+                </div>
+                <div class="item_bg_invoice" ng-click="SetBorderPattern('https://e.onfinance.asia/Images/bg_invoice/pattern2.png')">
+                    <img src="~/Images/bg_invoice/pattern2.png" />
+                </div>
+                <div class="item_bg_invoice" ng-click="SetBorderPattern('https://e.onfinance.asia/Images/bg_invoice/pattern3.png')">
+                    <img src="~/Images/bg_invoice/pattern3.png" />
+                </div>
+                <div class="item_bg_invoice" ng-click="SetBorderPattern('https://e.onfinance.asia/Images/bg_invoice/pattern4.png')">
+                    <img src="~/Images/bg_invoice/pattern4.png" />
+                </div>
+                <div class="item_bg_invoice" ng-click="SetBorderPattern('https://e.onfinance.asia/Images/bg_invoice/pattern5.png')">
+                    <img src="~/Images/bg_invoice/pattern5.png" />
+                </div>
+                <div class="item_bg_invoice" ng-click="SetBorderPattern('https://e.onfinance.asia/Images/bg_invoice/pattern6.png')">
+                    <img src="~/Images/bg_invoice/pattern6.png" />
+                </div>
+                <div class="item_bg_invoice" ng-click="SetBorderPattern('https://e.onfinance.asia/Images/bg_invoice/pattern7.png')">
+                    <img src="~/Images/bg_invoice/pattern7.png" />
+                </div>
+                <div class="item_bg_invoice" ng-click="SetBorderPattern('https://e.onfinance.asia/Images/bg_invoice/vien_xam.png')">
+                    <img src="~/Images/bg_invoice/vien_xam.png" />
+                </div>
+            </div>
+        </div>
+
+        <div ng-show="isEditBackground" style="position: relative; height: 100%;">
+            <div class="headerEditorTemplete d-flex justify-content-start align-items-center text-success">
+                <button class="btn btn-secondary btn-sm" ng-click="isEditBackground = false">
+                    <img src="~/Images/iconmonstr-arrow-left-thin.svg" />
+                    Quay lại
+                </button>
+                Thay đổi hình nền
+            </div>
+            <p class="title_grey_templateeditor">Tải lên từ máy tính</p>
+            <div class="cls-image-product m-auto">
+                <label class="d-flex align-items-center justify-content-center">
+                    <img ng-src="{{template.bg != null ? template.bg : '/Images/64px_image-add.png'}}" />
+                    <input type="file" accept=".jpg, .jpeg, .png" custom-on-change="uploadBackground" class="d-none">
+                </label>
+
+                <div class="d-flex justify-content-center align-items-center">
+                    <label class="button-circle-hover" data-placement="bottom" title="Thay đổi ảnh">
+                        <span class="fa fa-pencil-square-o" aria-hidden="false"></span>
+                        <input type="file" accept=".jpg, .jpeg, .png" custom-on-change="uploadBackground" class="d-none">
+                    </label>
+                    |
+                    <div class="button-circle-hover" data-placement="bottom" title="Xóa ảnh" ng-click="SetBackground('')">
+                        <span class="fa fa-trash-o" aria-hidden="false"></span>
+                    </div>
+                </div>
+            </div>
+
+            <p class="title_grey_templateeditor">Chọn từ mẫu có sẵn</p>
+            <div class="d-flex flex-wrap list_bginvoice_temp onscrollbar">
+
+                <div class="item_bg_invoice" ng-click="SetBackground('https://e.onfinance.asia/Images/bg_invoice/bg2.jpg')">
+                    <img src="~/Images/bg_invoice/bg2.jpg" />
+                </div>
+                <div class="item_bg_invoice" ng-click="SetBackground('https://e.onfinance.asia/Images/bg_invoice/bg1.jpg')">
+                    <img src="~/Images/bg_invoice/bg1.jpg" />
+                </div>
+                <div class="item_bg_invoice" ng-click="SetBackground('https://e.onfinance.asia/Images/bg_invoice/bg4.jpg')">
+                    <img src="~/Images/bg_invoice/bg4.jpg" />
+                </div>
+                <div class="item_bg_invoice" ng-click="SetBackground('https://e.onfinance.asia/Images/bg_invoice/bg3.jpg')">
+                    <img src="~/Images/bg_invoice/bg3.jpg" />
+                </div>
+
+                <div class="item_bg_invoice" ng-click="SetBackground('https://e.onfinance.asia/Images/bg_invoice/bg5.jpg')">
+                    <img src="~/Images/bg_invoice/bg5.jpg" />
+                </div>
+                <div class="item_bg_invoice" ng-click="SetBackground('https://e.onfinance.asia/Images/bg_invoice/bg6.jpg')">
+                    <img src="~/Images/bg_invoice/bg6.jpg" />
+                </div>
+                <div class="item_bg_invoice" ng-click="SetBackground('https://e.onfinance.asia/Images/bg_invoice/bg8.jpg')">
+                    <img src="~/Images/bg_invoice/bg8.jpg" />
+                </div>
+                <div class="item_bg_invoice" ng-click="SetBackground('https://e.onfinance.asia/Images/bg_invoice/bg7.jpg')">
+                    <img src="~/Images/bg_invoice/bg7.jpg" />
+                </div>
+                <div class="item_bg_invoice" ng-click="SetBackground('https://e.onfinance.asia/Images/bg_invoice/bg9.jpg')">
+                    <img src="~/Images/bg_invoice/bg9.jpg" />
+                </div>
+                <div class="item_bg_invoice" ng-click="SetBackground('https://e.onfinance.asia/Images/bg_invoice/bg10.jpg')">
+                    <img src="~/Images/bg_invoice/bg10.jpg" />
+                </div>
+                <div class="item_bg_invoice" ng-click="SetBackground('https://e.onfinance.asia/Images/bg_invoice/bg11.jpg')">
+                    <img src="~/Images/bg_invoice/bg11.jpg" />
+                </div>
+                <div class="item_bg_invoice" ng-click="SetBackground('https://e.onfinance.asia/Images/bg_invoice/bg12.jpg')">
+                    <img src="~/Images/bg_invoice/bg12.jpg" />
+                </div>
+                <div class="item_bg_invoice" ng-click="SetBackground('https://e.onfinance.asia/Images/bg_invoice/bg13.jpg')">
+                    <img src="~/Images/bg_invoice/bg13.jpg" />
+                </div>
+                <div class="item_bg_invoice" ng-click="SetBackground('https://e.onfinance.asia/Images/bg_invoice/bg14.jpg')">
+                    <img src="~/Images/bg_invoice/bg14.jpg" />
+                </div>
+                <div class="item_bg_invoice" ng-click="SetBackground('https://e.onfinance.asia/Images/bg_invoice/bg15.jpg')">
+                    <img src="~/Images/bg_invoice/bg15.jpg" />
+                </div>
+                <div class="item_bg_invoice" ng-click="SetBackground('https://e.onfinance.asia/Images/bg_invoice/bg16.jpg')">
+                    <img src="~/Images/bg_invoice/bg16.jpg" />
+                </div>
+                <div class="item_bg_invoice d-flex align-items-center" ng-click="SetBackground('https://e.onfinance.asia/Images/bg_invoice/bg18.jpg', '100%')">
+                    <img src="~/Images/bg_invoice/bg18.jpg" />
+                </div>
+                <div class="item_bg_invoice" ng-click="SetBackground('https://e.onfinance.asia/Images/bg_invoice/bg17.jpg')">
+                    <img src="~/Images/bg_invoice/bg17.jpg" />
+                </div>
+                <div class="item_bg_invoice d-flex align-items-center" ng-click="SetBackground('https://e.onfinance.asia/Images/bg_invoice/bg20.jpg', '100%')">
+                    <img src="~/Images/bg_invoice/bg20.jpg" />
+                </div>
+                <div class="item_bg_invoice" ng-click="SetBackground('https://e.onfinance.asia/Images/bg_invoice/bg19.jpg')">
+                    <img src="~/Images/bg_invoice/bg19.jpg" />
+                </div>
+                <div class="item_bg_invoice d-flex align-items-center" ng-click="SetBackground('https://e.onfinance.asia/Images/bg_invoice/bg22.jpg', '100%')">
+                    <img src="~/Images/bg_invoice/bg22.jpg" />
+                </div>
+                <div class="item_bg_invoice" ng-click="SetBackground('https://e.onfinance.asia/Images/bg_invoice/bg21.jpg')">
+                    <img src="~/Images/bg_invoice/bg21.jpg" />
+                </div>
+                <div class="item_bg_invoice d-flex align-items-center" ng-click="SetBackground('https://e.onfinance.asia/Images/bg_invoice/hoa-van-in-tem-1.jpg', '100%')">
+                    <img alt="Hoa văn in tem -1" src="/Images/bg_invoice/hoa-van-in-tem-1.jpg">
+                </div>
+                <div class="item_bg_invoice d-flex align-items-center" ng-click="SetBackground('https://e.onfinance.asia/Images/bg_invoice/hoa-van-in-tem-2.jpg', '100%')">
+                    <img alt="Hoa văn in tem -2" src="/Images/bg_invoice/hoa-van-in-tem-2.jpg">
+                </div>
+                <div class="item_bg_invoice d-flex align-items-center" ng-click="SetBackground('https://e.onfinance.asia/Images/bg_invoice/hoa-van-in-tem-3.jpg', '100%')">
+                    <img alt="Hoa văn in tem -3" src="/Images/bg_invoice/hoa-van-in-tem-3.jpg">
+                </div>
+                <div class="item_bg_invoice d-flex align-items-center" ng-click="SetBackground('https://e.onfinance.asia/Images/bg_invoice/hoa-van-in-tem-4.jpg', '100%')">
+                    <img alt="Hoa văn in tem -4" src="/Images/bg_invoice/hoa-van-in-tem-4.jpg">
+                </div>
+                <div class="item_bg_invoice d-flex align-items-center" ng-click="SetBackground('https://e.onfinance.asia/Images/bg_invoice/hoa-van-in-tem-6.jpg', '100%')">
+                    <img alt="Hoa văn in tem -6" src="/Images/bg_invoice/hoa-van-in-tem-6.jpg">
+                </div>
+                <div class="item_bg_invoice d-flex align-items-center" ng-click="SetBackground('https://e.onfinance.asia/Images/bg_invoice/hoa-van-in-tem-7.jpg', '100%')">
+                    <img alt="Hoa văn in tem -7" src="/Images/bg_invoice/hoa-van-in-tem-7.jpg">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,572 @@
+html {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1.7333;
+    -webkit-text-size-adjust: 100%;
+    background: #fff;
+    color: #425869
+}
+
+body {
+    position: absolute;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url(../Images/ke-toan-quan-tri.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+a {
+    -webkit-text-decoration-skip: objects
+}
+
+    a:active,
+    a:hover {
+        outline: 0
+    }
+
+input[type="radio"] {
+    transform: scale(1.5);
+    margin-left: 3px;
+}
+
+img.toggle-show {
+    width: 16px;
+    height: 16px;
+    margin-top: -3px;
+}
+
+.text-title {
+    font-size: 20px;
+    padding-right: 3rem;
+}
+
+.firma-ara {
+    padding-bottom: 100px;
+    padding-top: 100px;
+}
+
+.form-arka-plan {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    background-color: rgba(255,255,255,0.5);
+}
+
+.acik-renk-form {
+    width: 700px;
+    margin: auto;
+    background: rgba(255, 255, 255, 0.58);
+}
+
+.form-input {
+    position: relative;
+}
+
+.btn-search {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    bottom: 2px;
+    color: #2CA01C !important;
+}
+
+.frm-search-file {
+    display: none;
+    cursor: pointer;
+}
+
+input[type="text"], .form-control[readonly], .form-control:disabled {
+    height: 45px;
+    background: #2CA01C;
+    color: #fff;
+    text-transform: uppercase;
+}
+
+    input[type="text"]::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+        color: #fff;
+        font-style: italic;
+    }
+
+    input[type="text"]::-moz-placeholder { /* Firefox 19+ */
+        color: #fff;
+        font-style: italic;
+    }
+
+    input[type="text"]:-ms-input-placeholder { /* IE 10+ */
+        color: #fff;
+        font-style: italic;
+    }
+
+    input[type="text"]:-moz-placeholder { /* Firefox 18- */
+        color: #fff;
+        font-style: italic;
+    }
+
+.siyah-cerceve {
+    font-size: 60px;
+    font-weight: 300;
+    color: #2CA01C;
+}
+
+a {
+    text-decoration: none;
+}
+
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.nav-xbootstrap a.nav-text-link {
+    color: #2CA01C;
+    padding: 5px 20px;
+    text-align: center;
+}
+
+.nav-xbootstrap a img {
+    height: 45px;
+}
+
+.nav-xbootstrap span {
+    font-size: 18px;
+    color: #2CA01C;
+}
+
+.iconsize {
+    font-size: 12px;
+    top: 2px;
+    left: 3px;
+}
+
+.title-mobile {
+    display: none;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding-top: 15px;
+    background: #2CA01C;
+    color: #fff;
+    text-align: center;
+}
+
+    .footer h3 {
+        font-size: 26px;
+        font-weight: 300;
+        margin-bottom: 0;
+    }
+
+        .footer h3 a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+    .footer h5 {
+        color: #FFC107;
+        font-size: 16px;
+        font-weight: 400;
+    }
+
+    .footer .copyright {
+        border-top: 1px solid #278F18;
+    }
+
+.ico-title {
+    font-size: 2em;
+}
+
+.iconlist {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+    .iconlist li {
+        position: relative;
+        text-align: center;
+        margin-bottom: 15px;
+    }
+
+        .iconlist li .icon-holder {
+            position: relative;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+            .iconlist li .icon-holder .icon {
+                padding: 8px;
+                text-align: center;
+                border: 2px solid #fff;
+                border-radius: 100%;
+                width: 51px;
+                height: 51px;
+                margin: auto;
+            }
+
+                .iconlist li .icon-holder .icon i {
+                    font-size: 2em;
+                    color: #fff;
+                }
+
+            .iconlist li .icon-holder p {
+                font-size: 20px;
+                margin-bottom: .5rem;
+            }
+
+            .iconlist li .icon-holder span {
+                font-weight: 300;
+            }
+
+
+/*alert dialog*/
+#modalContainer {
+    background-color: rgba(0, 0, 0, 0.3);
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    left: 0px;
+    z-index: 10000;
+}
+
+#alertBox {
+    position: relative;
+    width: 400px;
+    min-height: 100px;
+    margin-top: 50px;
+    background-color: #fff;
+    -webkit-box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.75);
+    box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.75);
+}
+
+#modalContainer > #alertBox {
+    position: fixed;
+}
+
+#alertBox h1 {
+    margin: 0;
+    font: 16px verdana,arial;
+    background-color: #2CA01C;
+    color: #FFF;
+    text-shadow: none;
+    padding: 10px 5px;
+}
+
+#alertBox p {
+    font: 16px verdana,arial;
+    min-height: 50px;
+    padding: 5px;
+    padding-top: 15px;
+}
+
+#alertBox #closeBtnAlert {
+    margin: 0 auto;
+    display: block;
+    width: 60px;
+    margin-bottom: 15px;
+}
+
+#cancelBtnAlert {
+    margin-right: 15px;
+}
+
+/*end alert*/
+
+.ui-dialog[aria-describedby="popupViewInvoice"] {
+    width: 1100px !important;
+    height: 95% !important;
+    position: relative;
+}
+
+#popupViewInvoice {
+    display: none;
+    position: absolute;
+    top: 40px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+}
+
+iframe {
+    height: 100%;
+    width: 100%;
+    border: none;
+    margin: 0;
+    padding: 0;
+}
+
+.ui-dialog .ui-dialog-titlebar {
+    display: flex !important;
+    display: -ms-flexbox !important;
+    -ms-flex-pack: justify !important;
+    justify-content: space-between !important;
+    -ms-flex-align: center !important;
+    align-items: center !important;
+    padding: .1em 1em !important;
+}
+
+#downloadFileInvoice {
+    min-width: 90px;
+    margin-right: 30px;
+    color: #fff;
+}
+
+    #downloadFileInvoice img {
+        height: 20px;
+        fill: url(./#pattern);
+    }
+
+.ui-widget-overlay {
+    background: #000;
+    opacity: 0.7;
+    filter: Alpha(Opacity=70);
+}
+
+.ui-dialog .ui-dialog-titlebar-close {
+    background: #fff url('../Images/close.png') no-repeat center center;
+    border: 1px solid #ccc;
+}
+
+.box_search {
+    margin-top: 75px;
+}
+
+/*css form chuyển đổi hóa đơn điện tử sang hóa đơn giấy*/
+.convert-invoice-paper {
+    margin-right: 24px;
+    width: 26%;
+}
+
+#popupContentInvoicePaper {
+    width: 100%;
+    height: 100% !important;
+    top: 0;
+    display: none;
+}
+
+#showContentInvoicePaper {
+    background: #fff;
+    padding: 5px 0;
+    border-radius: 3px;
+}
+
+    #showContentInvoicePaper .main-content {
+        height: 100%;
+        width: 100%;
+    }
+
+    #showContentInvoicePaper .title-convert {
+        text-align: center;
+        text-transform: uppercase;
+        color: #333;
+        font-size: 16px;
+        font-family: Roboto-Medium,Helvetica,Arial, sans-serif;
+    }
+
+    #showContentInvoicePaper .label-convert {
+        color: #333;
+        margin: 20px 0 5px 0;
+        font-family: Roboto-Medium,Helvetica,Arial, sans-serif;
+    }
+
+    #showContentInvoicePaper .text-converter {
+        width: 100% !important;
+        height: 30px !important;
+        line-height: 30px !important;
+        border: 1px solid #ccc;
+        background-color: #fff !important;
+        border-radius: 3px !important;
+        padding: 0 10px !important;
+        color: #333;
+        font-family: Roboto-Medium,Helvetica,Arial, sans-serif;
+        font-size: 13px;
+        box-sizing: border-box;
+        text-transform:none;
+    }
+
+    #showContentInvoicePaper .text-required {
+        text-align: center;
+    }
+
+    #showContentInvoicePaper .text-converter.required {
+        border: 1px solid #2ca01c;
+    }
+
+.text-required {
+    color: red;
+    display: none;
+}
+
+#showContentInvoicePaper .button-group {
+    margin-top: 15px;
+    text-align: right;
+}
+
+/*#end form chuyển đổi hóa đơn điện tử sang hóa đơn giấy*/
+@media only screen and (min-width : 901px) and (max-width : 1366px) {
+    .box_search {
+        margin-top: 0;
+    }
+}
+
+@media only screen and (max-width:900px) {
+    .hidden-mobile {
+        display: none !important;
+    }
+
+    .nav-xbootstrap {
+        background: #fff;
+        width: 200px;
+        height: 100%;
+        padding-top: 70px;
+        display: block;
+        position: fixed;
+        left: -200px;
+        top: 0px;
+        z-index: 3;
+        -webkit-transition: left 0.25s ease;
+        -moz-transition: left 0.25s ease;
+        -ms-transition: left 0.25s ease;
+        -o-transition: left 0.25s ease;
+        transition: left 0.25s ease;
+        margin: 0;
+        border: 0;
+        border-radius: 0;
+        overflow-y: auto;
+        overflow-x: hidden;
+        height: 100%;
+    }
+
+    .title-mobile {
+        display: block;
+        text-align: center;
+    }
+
+        .title-mobile img {
+            height: 40px;
+            margin-left: -30px;
+        }
+
+    .nav-xbootstrap.visible {
+        left: 0px;
+        -webkit-transition: left 0.25s ease;
+        -moz-transition: left 0.25s ease;
+        -ms-transition: left 0.25s ease;
+        -o-transition: left 0.25s ease;
+        transition: left 0.25s ease;
+    }
+
+    .nav-bg-xbootstrap {
+        vertical-align: middle;
+        width: 100%;
+        height: 50px;
+        margin: 0;
+        padding-right: 5px;
+        position: fixed;
+        top: 0px;
+        left: 0px;
+        z-index: 4;
+        background: #fff;
+        /*padding: 10px 0 0 10px;*/
+        -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+        -moz-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+        -ms-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+        -o-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+        box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+    }
+
+    .navbar-xbootstrap {
+        /* display: inline-block; */
+        /* vertical-align: middle; */
+        height: 100%;
+        cursor: pointer;
+        margin: 0;
+        /* position: absolute; */
+        /* top: 0; */
+        /* left: 0; */
+        padding: 12px;
+    }
+
+        .navbar-xbootstrap span {
+            height: 2px;
+            background: #2CA01C;
+            margin: 5px;
+            display: block;
+            width: 20px;
+        }
+
+            .navbar-xbootstrap span:nth-child(2) {
+                width: 20px;
+            }
+
+            .navbar-xbootstrap span:nth-child(3) {
+                width: 20px;
+            }
+
+    .nav-xbootstrap a {
+        display: block;
+        color: #505050;
+        font-weight: 600;
+    }
+
+
+    .cover-bg {
+        background: rgba(0,0,0,0.5);
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 2;
+        display: none;
+    }
+
+    .footer {
+        position: unset;
+    }
+
+    .acik-renk-form {
+        width: 100%;
+    }
+
+    .text-title {
+        padding-right: 0;
+    }
+
+    .siyah-cerceve {
+        font-size: 30px;
+    }
+
+    .footer h3 {
+        font-size: 20px;
+        font-weight: 400;
+    }
+
+    input[name="file-xml"] {
+        font-size: 0.9rem;
+    }
+
+    .ui-dialog[aria-describedby="popupViewInvoice"] {
+        width: 100% !important;
+        height: 100% !important;
+    }
+}
+
+@media only screen and (max-width:1199px) {
+    .fixed-top {
+        position: fixed;
+        top: 0;
+        right: 0;
+        left: 0;
+    }
+}

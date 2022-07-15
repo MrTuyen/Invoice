@@ -1,0 +1,51 @@
+﻿@{
+    List<int> selectedList = ViewBag.selectedList;
+}
+
+@using SAB.Common
+@model List<PM_SUBGROUP>
+
+@if (Model != null)
+{
+    <table class="table table-bordered table-striped" style="width: 100%" data-totalpage="@ViewBag.TotalPages" data-currentpage="@ViewBag.CurrentPage">
+        <thead>
+            <tr>
+                <th class="text-center" style="width: 50px">
+                    <input type="checkbox" value="1" name="checkall" />
+                </th>
+                <th class="text-center" style="width: 120px">Mã nhóm</th>
+                <th>Tên nhóm</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (PM_SUBGROUP objUser in Model)
+            {
+                <tr>
+                    <td class="text-center">
+                        <input type="checkbox" value="@objUser.SUBGROUPID" @Html.Raw(selectedList.Exists(t=>t==objUser.SUBGROUPID)?"disabled=disabled checked=checked":"") />
+                    </td>
+                    <td class="text-center">
+                        @objUser.SUBGROUPID
+                    </td>
+                    <td>
+                        <span>@objUser.SUBGROUPNAME</span>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="text-right">
+        <div class="btn-group divpage">
+            <!--[PAGER]-->
+        </div>
+    </div>
+    
+    <script>
+        $('thead input[name="checkall"]').click(function () {
+            var _table = $(this).closest('table');
+            _table.find('tr:not(:hidden) input[type="checkbox"]').prop('checked', $(this).is(':checked'));
+        });
+    </script>
+}
+
+

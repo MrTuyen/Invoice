@@ -1,0 +1,108 @@
+﻿<style>
+    .release_document_report p {
+        font-size: 14px;
+        margin-bottom: 10px;
+    }
+
+    .release_document_report h6, .release_document_report h5 {
+        text-align: center;
+        line-height: 15px;
+    }
+
+    .release_document_report table {
+        width: 100%;
+    }
+</style>
+<div class="modal fade modal-release-document-report modal-report" tabindex="-1" ng-controller="ModalReleaseDocumentController">
+    <div class="modal-dialog modal-dialog-scrollable modal-full" role="document">
+        <div class="modal-content release_document_report">
+            <button type="button" class="close " data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <div class="modal-body">
+                <div class="pl-5 pr-5">
+                    <br />
+                    <h5><strong>CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</strong></h5>
+                    <h6 class=""><strong>Độc lập - Tự do - Hạnh phúc</strong></h6>
+                    <h6><strong>- - - - - - - - - -***- - - - - - - - - -</strong></h6>
+                    <h5 class="mb-4 mt-4"><strong>THÔNG BÁO PHÁT HÀNH HOÁ ĐƠN ĐIỆN TỬ</strong></h5>
+                    <p>
+                        <strong>1. Tên tổ chức khởi tạo hoá đơn: </strong><span ng-model="Report.COMNAME" ng-bind="Report.COMNAME = Enterprise.COMNAME">{{Enterprise.COMNAME}}</span>
+                    </p>
+                    <p>
+                        <strong>2. Mã số thuế: </strong> <span ng-model="Report.COMTAXCODE" ng-bind="Report.COMTAXCODE = Enterprise.COMTAXCODE">{{Enterprise.COMTAXCODE}}</span>
+                    </p>
+                    <p>
+                        <strong>3. Địa chỉ trụ sở chính: </strong><span ng-model="Report.COMADDRESS" ng-bind="Report.COMADDRESS = Enterprise.COMADDRESS">{{Enterprise.COMADDRESS}}</span>
+                    </p>
+                    <p>
+                        <strong>4. Điện thoại: </strong> <span ng-model="Report.COMPHONENUMBER" ng-bind="Report.COMPHONENUMBER = Enterprise.COMPHONENUMBER">{{Enterprise.COMPHONENUMBER}}</span>
+                    </p>
+                    <p>
+                        <strong>5. Các loại hoá đơn phát hành:</strong>
+                    </p>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th class="text-center" width="20px">STT</th>
+                                <th>Tên loại hóa đơn</th>
+                                <th width="100px">Mẫu số</th>
+                                <th width="100px">Kí hiệu</th>
+                                <th width="100px">Số lượng</th>
+                                <th width="100px">Từ số</th>
+                                <th width="100px">Đến số</th>
+                                <th width="200px">Ngày bắt đầu sử dụng</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="text-center">1</td>
+                                <td>Hóa đơn giá trị gia tăng</td>
+                                <td>01GTKT0/001</td>
+                                <td>NT/19E</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p>
+                        <strong>6. Tên cơ quan thuế tiếp nhận thông báo: </strong>
+                        <input type="text" class="form-control form-control-sm editor_invoice" placeholder="Ví dụ: Chi cục thuế quận Hà Đông " ng-model="Report.CUSADDRESS" ng-value="Invoice.CUSADDRESS == null ? Report.CUSADDRESS : Invoice.CUSADDRESS" />
+                    </p>
+                    <p>
+                        <strong>7.</strong> <i>Đăng ký sử dụng dấu phân cách là dấu chấm (.) sau chữ số hàng nghìn, triệu, tỷ, nghìn tỷ, triệu tỷ, tỷ tỷ và sử dụng dấu phẩy (,) sau chữ số hàng đơn vị để ghi chữ số sau chữ số hàng đơn vị</i>
+                    </p>
+                    <table>
+                        <tr>
+                            <td class="float-right">
+                                <p style="text-align: center;">
+                                    Ngày ... tháng ... năm .....
+                                </p>
+                                <p class="text-center">
+                                    <strong>NGƯỜI ĐẠI DIỆN THEO PHÁP LUẬT</strong>
+                                </p>
+                                <p class="text-center">
+                                    <i>(Ký, ghi rõ họ tên)</i>
+                                </p>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer d-flex justify-content-between">
+                <div class="d-flex justify-content-start">
+                    <button class="btn btn-secondary btn-sm mr-3 pl-3 pr-3" data-dismiss="modal">Hủy</button>
+                </div>
+                <div class="d-flex justify-content-between">
+                </div>
+                <div class="d-flex justify-content-between">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-success mr-2" ng-click="AddReport(1);" ng-if="!IsUpdateReleaseDocumentReport"><span class="fa fa-file-pdf-o"></span> &nbsp; Lưu và In</button>
+                        <button type="button" class="btn btn-success" ng-click="AddReport(1);" ng-if="!IsUpdateReleaseDocumentReport"><span class="fa fa-floppy-o"></span> &nbsp; Lưu biên bản phát hành</button>
+                        <button type="button" class="btn btn-success" ng-click="UpdateReport();" ng-if="IsUpdateReleaseDocumentReport"><span class="fa fa-floppy-o"></span> &nbsp; Cập nhật biên bản phát hành</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

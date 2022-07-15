@@ -1,0 +1,5 @@
+C:\NGUYENVANTUYEN\Invoice\SynctaskInvoicePMSmat\SynctaskInvoicePMSmat\bin\Debug\SynctaskInvoicePMSmat.exe.config
+C:\NGUYENVANTUYEN\Invoice\SynctaskInvoicePMSmat\SynctaskInvoicePMSmat\obj\Debug\SynctaskInvoicePMSmat.csprojResolveAssemblyReference.cache
+C:\NGUYENVANTUYEN\Invoice\SynctaskInvoicePMSmat\SynctaskInvoicePMSmat\obj\Debug\SynctaskInvoicePMSmat.ProjectInstaller.resources
+C:\NGUYENVANTUYEN\Invoice\SynctaskInvoicePMSmat\SynctaskInvoicePMSmat\obj\Debug\SynctaskInvoicePMSmat.NOVAON_Service.resources
+C:\NGUYENVANTUYEN\Invoice\SynctaskInvoicePMSmat\SynctaskInvoicePMSmat\obj\Debug\SynctaskInvoicePMSmat.csproj.GenerateResource.Cache

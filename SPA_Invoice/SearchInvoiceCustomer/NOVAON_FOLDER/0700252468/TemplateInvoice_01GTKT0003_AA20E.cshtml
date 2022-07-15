@@ -1,0 +1,672 @@
+﻿@using DS.BusinessLogic.Invoice;
+@{
+    /**/
+
+    var invoiceBLL = new InvoiceBLL();
+    DS.BusinessObject.Invoice.InvoiceBO obj = (DS.BusinessObject.Invoice.InvoiceBO)Model;
+    var orgInvoice = new DS.BusinessObject.Invoice.InvoiceBO();
+    if (obj.INVOICETYPE == (int)DS.Common.Enums.EnumHelper.INVOICE_TYPE.ALTERNATIVE || obj.INVOICETYPE == (int)DS.Common.Enums.EnumHelper.INVOICE_TYPE.MODIFIED)
+    {
+        orgInvoice = invoiceBLL.GetInvoiceById(obj.REFERENCE);
+    }
+    var waitingDateObj = ViewBag.Date;
+    string currencyWords = string.Empty;
+    decimal totalQuantity = 0;
+    decimal totalMoneyWithoutTax = 0;
+    decimal totalMoney = 0;
+    decimal totalDiscount = 0;
+    decimal totalVatAmount = 0;
+    decimal totalVatAmountwater = 0;
+    string onlyVATRate = "0"; // cho hóa đơn 1 thuế\
+    bool addRowTd = false;
+}
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Mẫu nhiều thuế suất 01</title>
+    <link rel="stylesheet" type="text/css" href="https://onfinance.asia/tracuu/Content/bootstrap.min.css">
+
+    <style>
+        body {
+            height: 720px;
+            background-image: url('https://e.onfinance.asia/Images/bg_invoice/bg18.jpg');
+            background-repeat: no-repeat;
+            background-size: 70%;
+            background-position: center;
+            line-height: 1.42857143;
+        }
+
+        body, table {
+            font-size: 13px;
+            font-family: 'Times New Roman';
+            color: #000000 !important;
+        }
+
+            table th, table td {
+                vertical-align: middle !important;
+            }
+
+            table th {
+                text-align: center !important;
+                padding: .3rem 0 !important;
+            }
+
+                table th i {
+                    font-weight: 400;
+                }
+
+            table tr.rowlist td {
+                border-right-color: #212529;
+                font-weight: bold;
+                font-size: 13px;
+            }
+
+        .logo {
+            display: block;
+            border: 0;
+            margin-top: 10px;
+            width: 100px;
+            height: 130px;
+            margin-right: 15px;
+            background-repeat: no-repeat;
+            background-size: contain;
+            background-position: center;
+            background-image: url('https://e.onfinance.asia//NOVAON_FOLDER/0700252468/Resources/01GTKT0001_DT20E_logo.png?v=637215228267176446');
+        }
+
+        .logo-left {
+            display: none;
+            border: 0;
+            width: 150px;
+        }
+
+        #layer1 {
+            position: relative;
+            height: 100%;
+            margin: 0;
+            padding: 0 20px;
+            box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            border-width: 0px;
+            border-style: solid;
+            border-color: #fff;
+            background-image: url('');
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+            background-position: center;
+        }
+
+        .x-image {
+            position: absolute;
+            width: 70%;
+            top: 12%;
+            left: 150px;
+        }
+
+        .col-content {
+            padding-left: 15px;
+        }
+
+        .VATTEMP * {
+            box-sizing: border-box;
+        }
+
+        * html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-size: 12px;
+            line-height: 1.42857143;
+        }
+
+        #main {
+            margin: 0 auto;
+        }
+
+        .VATTEMP {
+            background-color: #fff;
+            font-family: 'Time New Roman';
+            width: 808px;
+            font-size: 12px !important;
+        }
+
+            .VATTEMP #header, .VATTEMP #main-content {
+                width: 100%;
+                clear: left;
+                overflow: hidden;
+            }
+
+            .VATTEMP #logo {
+                float: left;
+                margin: 0;
+                width: 25%;
+                height: 70px;
+            }
+
+            .VATTEMP hr {
+                margin: 0 0 .1em !important;
+                padding: 0 !important;
+            }
+
+            .VATTEMP .cus b:after {
+                content: "";
+                position: absolute;
+                height: 6px;
+                margin-left: 0;
+                bottom: 0px;
+                border-bottom: 1px dashed #000;
+                width: 100%;
+            }
+
+            .VATTEMP .dotted {
+                border: none;
+                background: 0 0;
+                border-bottom: 2px dotted #000;
+                height: 14px;
+            }
+
+            .VATTEMP .content {
+                border: 2px solid;
+                border-radius: 5px;
+                width: 98%;
+                clear: left;
+                overflow: hidden;
+                margin: 0 auto;
+                padding: 0 10px;
+            }
+
+            .VATTEMP .header-title {
+                float: left;
+                width: 300px;
+                overflow: hidden;
+                text-align: center;
+            }
+
+                .VATTEMP .header-title p {
+                    color: red;
+                    margin: 0;
+                }
+
+                .VATTEMP .header-title h3 {
+                    margin: 0;
+                    text-transform: uppercase;
+                    color: #06066F;
+                }
+
+            .VATTEMP .header-right {
+                float: right;
+                overflow: hidden;
+            }
+
+                .VATTEMP .header-right p {
+                    margin: 0 10px 10px;
+                    width: 100%;
+                }
+
+            .VATTEMP #header .date {
+                clear: left;
+                margin: 5px auto 0;
+            }
+
+            .VATTEMP.text-upper {
+                text-transform: uppercase;
+            }
+
+            .VATTEMP .text-strong {
+                font-weight: 700;
+            }
+
+            .VATTEMP .invtable {
+                font-size: 12px;
+                width: 100%;
+                border-collapse: collapse;
+                border: 1px solid #000;
+                text-align: center;
+            }
+
+                .VATTEMP .invtable td {
+                    border-bottom: 0px dotted #000;
+                    border-right: 1px solid #000;
+                    height: 16px;
+                }
+
+            .VATTEMP .noborder td {
+                border-bottom: none;
+            }
+
+            .VATTEMP .invtable .prds {
+                border-top: 1px solid #000;
+            }
+
+            .VATTEMP .fl-l {
+                float: left;
+                width: 164px;
+                text-align: center;
+            }
+
+            .VATTEMP .fl-r {
+                float: right;
+                width: 300px;
+                text-align: center;
+            }
+
+            .VATTEMP .bgimg {
+                border: 1px solid red;
+                cursor: pointer;
+            }
+
+                .VATTEMP .bgimg p {
+                    color: #000;
+                    padding-left: 13px;
+                    text-align: left;
+                }
+
+            .VATTEMP .comp {
+                float: left;
+                width: 85% !important;
+            }
+
+                .VATTEMP .comp span, .VATTEMP .cus span {
+                    display: block;
+                    float: left;
+                }
+
+                .VATTEMP .border-label, .VATTEMP .comp label {
+                    display: block;
+                    float: left;
+                    border-bottom: 1px dashed #000;
+                    height: 14px;
+                }
+
+                .VATTEMP .comp p, .VATTEMP .cus p {
+                    position: relative;
+                    margin: 0 0 0px;
+                    display: block;
+                    overflow: hidden;
+                }
+
+                    .VATTEMP .comp p strong, .VATTEMP .cus p strong {
+                        float: left;
+                        display: block;
+                    }
+
+                .VATTEMP .comp b:after, .VATTEMP .nextpage b:after {
+                    content: "";
+                    position: absolute;
+                    height: 6px;
+                    margin-left: 0;
+                }
+
+            .VATTEMP .summary {
+                width: 96%;
+                text-align: right;
+            }
+
+            #author-inv, .VATTEMP .nextpage b:after {
+                border-bottom: 1px dashed #000;
+                width: 100%;
+            }
+
+            .VATTEMP .comp b:after {
+                bottom: 0;
+                width: 100%;
+            }
+
+            .VATTEMP .cus b {
+                padding-bottom: 1px;
+                word-wrap: break-word;
+            }
+
+            .VATTEMP .nextpage b:after {
+                bottom: 8px;
+            }
+
+            .VATTEMP .nextpage label {
+                margin: 0px;
+            }
+
+        #author-inv {
+            text-align: center;
+            margin-bottom: 0;
+        }
+
+        .VATTEMP .cus label {
+            margin-bottom: 0px;
+        }
+
+        .VATTEMP .text {
+            padding-right: 20px;
+            font-size: 12px;
+            font-style: italic;
+            text-align: right;
+            transform: rotate(-90deg);
+            transform-origin: right;
+        }
+
+        p {
+            position: relative;
+            margin: 0 0 2px 0;
+            display: block;
+            overflow: hidden;
+        }
+
+        label.border-label {
+            margin-bottom: 0;
+        }
+
+        label.text-strong {
+            margin-bottom: 0;
+        }
+        .main-content {
+            width: 100%;
+            clear: left;
+            overflow: hidden;
+        }
+        .invtable {
+            font-size: 12px;
+            width: 100%;
+            border-collapse: collapse;
+            border: 1px solid #000 !important;
+            text-align: center;
+        }
+        .invtable td {
+            border-bottom: 0px dotted #fff;
+            border-right: 1px solid #000;
+            height: 16px;
+        }
+    </style>
+</head>
+
+<body class="wrap-body-cls">
+    @if (obj.ID == 0)
+    {
+        <img class="temp" style="position: absolute; width: 200px; top: 45%; left: calc(50% - 100px); transform: rotate(-30deg)" src="https://e.onfinance.asia/Images/temp_hoa_don_mau.png" />
+    }
+    @if (obj.INVOICETYPE == (int)DS.Common.Enums.EnumHelper.INVOICE_TYPE.CANCEL)
+    {
+        <img class="x-image" src="https://e.onfinance.asia/Images/backgorundX.png" />
+    }
+    <div class="bg">
+        <div id="layer1" class="layer-warp">
+            <table class="table table-sm table-borderless" style="margin-top: 0;margin-bottom: 0;">
+                <tbody>
+                    <tr>
+                        <td class="logo">
+                            @*<div class="logo"></div>*@
+                        </td>
+                        <td align="center" valign="top">
+                            <p style="font-size: 20px; color: #FF0000; font-weight: bold;margin-bottom: 0px;">
+                                HÓA ĐƠN GIÁ TRỊ GIA TĂNG <br>(TIỀN NƯỚC)
+                            </p>
+                            <p style="padding: 0;margin: 0;font-size: 18px;">
+                                <i>(Bản thể hiện của hóa đơn điện tử)</i>
+                                <br />
+                                @if (waitingDateObj == null)
+                                {
+                                    if (obj.INVOICESTATUS == 2)
+                                    {
+                                    <p style="padding: 0; margin: 0;">Ngày <i>(date)</i> @(obj.ID == 0 ? "" : obj.SIGNEDTIME.Day.ToString("D2")) tháng <i>(month)</i> @(obj.ID == 0 ? "" : obj.SIGNEDTIME.Month.ToString("D2")) năm <i>(year)</i> @(obj.ID == 0 ? "" : obj.SIGNEDTIME.Year.ToString()) </p>
+                                }
+                                else
+                                {
+                                    <p style="padding: 0; margin: 0;">Ngày <i>(date)</i> @(obj.ID == 0 ? "" : DateTime.Now.Day.ToString("D2")) tháng <i>(month)</i> @(obj.ID == 0 ? "" : DateTime.Now.Month.ToString("D2")) năm <i>(year)</i> @(obj.ID == 0 ? "" : DateTime.Now.Year.ToString()) </p>
+                                }
+                            }
+                            else
+                            {
+                                <p style="padding: 0; margin: 0;">Ngày <i>(date)</i> @waitingDateObj[0] tháng <i>(month)</i> @waitingDateObj[1] năm <i>(year)</i> @waitingDateObj[2] </p>
+                            }
+                            </td>
+                            <td style="width: 250px; line-height: 24px;">
+                                Mẫu số <i>(Form)</i>: <span id="form_invoice_template">01GTKT0/001</span><br>
+                                Ký hiệu <i>(Serial No)</i>: <span id="symbol_invoice_template">DT/20E</span><br>
+                                Số <i>(Invoice No)</i>: <strong style="color: #FF0000; font-size: 20px;">@obj.NUMBER.ToString("D7")</strong>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="main-content">
+                    <div style="float:left;width:84%;" class="comp">
+                        <p id="compName">
+                            <b style="text-transform: uppercase;width:100% ;padding-bottom: 1px;word-wrap:break-word;">CÔNG TY TNHH NƯỚC SẠCH & MÔI TRƯỜNG DUY TIÊN</b>
+                        </p>
+                        <p>
+                            <span style="width:90px;float: left;">Địa chỉ: </span>
+                            <b style="padding-bottom: 1px;word-wrap:break-word;">Thôn Lãnh Trì, Xã Mộc Nam, Thị Xã Duy Tiên, Tỉnh Hà Nam</b>
+                        </p>
+                        <p>
+                            <span style="width:90px;float: left;">Mã số thuế:</span>
+                            <b style="padding-bottom: 1px;word-wrap:break-word;">0700252468</b>
+                        </p>
+                        <p>
+                            <span style="width:90px;float: left;">Điện thoại: </span><b style="padding-bottom: 1px;word-wrap:break-word;">02263560056</b>
+                        </p>
+                        <p>
+                            <span style="width:90px;float: left;">Số tài khoản: </span><label class="text-strong" style="border:none;font-weight:bold;">
+                                @obj.COMACCOUNTNUMBER &nbsp;&nbsp;&nbsp;
+                            </label><b class=" text-strong" style="width: 100%;border:none">
+                                @if (!string.IsNullOrEmpty(obj.COMBANKNAME))
+                                {
+                                    <b> tại @obj.COMBANKNAME</b>
+                                }
+                            </b>
+                        </p>
+                    </div>
+                    <div style="clear: both; width:100%" class="cus">
+                        <p>
+                            <span style="width:90px;float: left;">
+                                Tên khách hàng:
+                            </span><b style="word-wrap:break-word;font-weight: bold;">@(string.IsNullOrWhiteSpace(obj.CUSBUYER) ? obj.CUSNAME : obj.CUSBUYER)</b>
+                        </p>
+                        <p>
+                            <span style="width:90px;float: left;">
+                                Địa chỉ:
+                            </span><b style="word-wrap:break-word;font-weight: 700;">@obj.CUSADDRESS</b>
+                        </p>
+                        <p>
+                            <span style="width:90px;float: left;">
+                                Mã khách hàng:
+                            </span>
+                            <label class="border-label" style="width: 190px;"><strong>@obj.CUSTOMERCODE</strong></label>
+                            <span style="width:160px;">
+                                Mã số thuế:
+                            </span>
+                            <label class="border-label" style="width: 170px;"><strong>@(obj.CUSTAXCODE == obj.CUSTOMERCODE ? "" : obj.CUSTAXCODE)</strong></label>
+                            <span style="width:80px;">
+                                Mã ĐH:
+                            </span><label class="border-label" style="width: 170px;">
+                                &nbsp;
+                            </label><span style="width:50px;">
+                                Số hộ:
+                            </span><label class="border-label" style="font-weight:bold;">
+                                @obj.APARTMENTNO
+                            </label>
+                        </p>
+                        <p>
+                            <span style="width:110px;float: left;">
+                                Điện thoại:
+                            </span><label class="border-label" style="width:170px;">&nbsp;</label>
+                            <span style="width:110px;">
+                                Hình thức thanh toán:
+                            </span><label class="border-label" style="width:170px;font-weight: bold;">@obj.CUSPAYMENTMETHOD</label>
+                        </p>
+                        <p>
+                            <span style="width:90px;float: left;">
+                                Từ ngày:
+                            </span><label class="border-label" style="width:190px;font-weight: bold;">@obj.FROMDATE.ToString("dd/MM/yyyy")</label>
+                            <span style="width:110px;">
+                                Đến ngày:
+                            </span><label class="border-label" style="width:170px;font-weight: bold;">@obj.TODATE.ToString("dd/MM/yyyy")</label>
+                        </p>
+                    </div>
+                    <div style="text-align:left;clear:both">
+                        <strong>
+                            @if (obj.INVOICETYPE == (int)DS.Common.Enums.EnumHelper.INVOICE_TYPE.ALTERNATIVE)
+                            {
+                                <text>
+                                    Thay thế cho hóa đơn: @orgInvoice.NUMBER.ToString("D7"), mẫu số @orgInvoice.FORMCODE, ký hiệu @orgInvoice.SYMBOLCODE, ký ngày @orgInvoice.SIGNEDTIME.ToString("dd/MM/yyyy")
+                                </text>
+                            }
+
+                            @if (obj.INVOICETYPE == (int)DS.Common.Enums.EnumHelper.INVOICE_TYPE.MODIFIED)
+                            {
+                                <text>
+                                    Điều chỉnh cho hóa đơn: @orgInvoice.NUMBER.ToString("D7"), mẫu số @orgInvoice.FORMCODE, ký hiệu @orgInvoice.SYMBOLCODE, ký ngày @orgInvoice.SIGNEDTIME.ToString("dd/MM/yyyy"). Lý do: @obj.CHANGEREASON
+                                </text>
+                            }
+                        </strong>
+                    </div>
+                </div>
+                <table class="table table-bordered table-sm invtable">
+                    <tbody>
+                        <tr>
+                            <th class="border-dark" align="center" style="width: 150px;">Chỉ số cũ</th>
+                            <th class="border-dark" align="center" style="width:150px;">Chỉ số mới</th>
+                            <th class="border-dark" align="center" style="width: 200px;">Khối lượng (m3)</th>
+                            <th class="border-dark" align="center" style="width: 200px;">Đơn giá (đồng)</th>
+                            <th class="border-dark" align="center" style="width: 200px;">Thành tiền (đồng)</th>
+                        </tr>
+                        @foreach (var inv in obj.LISTPRODUCT)
+                        {
+                            var unit = inv.QUANTITYUNIT == "-1" ? "Khác" : inv.QUANTITYUNIT;
+                            var retailPrice = inv.RETAILPRICE;
+                            var amountWihtoutVAT = (inv.RETAILPRICE * inv.QUANTITY);
+                            var tempAmoutWithoutVAT = amountWihtoutVAT;
+                            decimal discountAmount = 0;
+                            if (inv.DISCOUNTRATE != 0)
+                            {
+                                discountAmount = amountWihtoutVAT * (((decimal)inv.DISCOUNTRATE) / 100);
+                                amountWihtoutVAT = amountWihtoutVAT - discountAmount;
+                            }
+
+                            var taxRate = (inv.TAXRATE.ToString() == "-1") ? "\\" : inv.TAXRATE.ToString();
+                            onlyVATRate = taxRate;// cho hóa đơn 1 thuế
+                            var VATAmount = amountWihtoutVAT * (inv.TAXRATE == -1 ? 0 : ((decimal)inv.TAXRATE) / 100);
+                            var amountWithVAT = (amountWihtoutVAT + VATAmount);
+
+                            var retailPriceToString = string.IsNullOrEmpty(retailPrice.ToString("##,###").Replace(",", ".")) ? "0" : retailPrice.ToString("##,###").Replace(",", ".");
+                            var amountWihtoutVATToString = string.IsNullOrEmpty(amountWihtoutVAT.ToString("##,###").Replace(',', '.')) ? "0" : amountWihtoutVAT.ToString("##,###").Replace(',', '.');
+                            <tr class="rowlist">
+                                @if (!addRowTd)
+                                {
+                                    addRowTd = true;
+                                    <td align="center" style="border-left: 1px solid #000 !important;">@inv.OLDNO</td>
+                                    <td align="center">@inv.NEWNO</td>
+                                }
+                                else
+                                {
+                                    <td align="center" style="border-left: 1px solid #000 !important;">&nbsp;</td>
+                                    <td align="center">&nbsp;</td>
+                                }
+                                <td align="right">@inv.QUANTITY</td>
+                                <td align="right">@inv.RETAILPRICE</td>
+                                @if (obj.DISCOUNTTYPE == "CHIET_KHAU_THEO_HANG_HOA")
+                                {
+                                    <td align="right">@(obj.ID == 0 ? "" : inv.DISCOUNTRATE.ToString())</td>
+                                }
+                                <td align="right">@amountWihtoutVATToString</td>
+                            </tr>
+                            totalQuantity += inv.QUANTITY;
+                            totalMoneyWithoutTax += (inv.RETAILPRICE * inv.QUANTITY) - discountAmount;
+                            totalDiscount += discountAmount;
+                            totalVatAmount += (amountWihtoutVAT * ((decimal)(inv.TAXRATE == -1 ? 0 : inv.TAXRATE) / 100));
+                            //Tính tiền phí bapr vệ môi trường
+                            totalVatAmountwater += (amountWihtoutVAT * ((decimal)inv.TAXRATEWATER / 100));
+                        }
+                        @{
+                            var lstKCT = obj.LISTPRODUCT.Where(x => x.TAXRATE == -1).Count();
+                            var lstProducts = obj.LISTPRODUCT.Count();
+                            totalMoney = (totalMoneyWithoutTax + totalVatAmount + totalVatAmountwater - -totalDiscount);
+                            var a = string.IsNullOrEmpty(totalMoneyWithoutTax.ToString("##,###").Replace(',', '.')) ? "0" : totalMoneyWithoutTax.ToString("##,###").Replace(',', '.');
+                            var b = string.IsNullOrEmpty(totalVatAmount.ToString("##,###").Replace(',', '.')) ? "0" : totalVatAmount.ToString("##,###").Replace(',', '.');
+                            var c = string.IsNullOrEmpty(totalMoney.ToString("##,###").Replace(',', '.')) ? "0" : totalMoney.ToString("##,###").Replace(',', '.');
+                            var d = string.IsNullOrEmpty(totalVatAmountwater.ToString("##,###").Replace(',', '.')) ? "0" : totalVatAmountwater.ToString("##,###").Replace(',', '.');
+                            var e = string.IsNullOrEmpty(totalMoneyWithoutTax.ToString("##,###").Replace(',', '.')) ? "0" : totalMoneyWithoutTax.ToString("##,###").Replace(',', '.');
+                            currencyWords = DS.Common.Helpers.ReadNumberToCurrencyWords.ConvertToWordsWithPostfix((decimal)(totalMoney), obj.CURRENCY);
+                        }
+                        <tr></tr>
+                        <tr>
+                            <td align="left" colspan="2" class="border-dark">Tổng cộng:</td>
+                            <td align="right" class="border-dark" style="font-weight:bold;">@totalQuantity</td>
+                            <td align="right" class="border-dark"></td>
+                            <td align="right" class="border-dark" style="font-weight:bold;">@(obj.ID == 0 ? "" : e)</td>
+                        </tr>
+                        <tr>
+                            <td align="left" colspan="4" class="border-dark">
+                                Thuế suất GTGT (%) <i>(VAT rate)</i>: <span> @(obj.ID == 0 ? "" : (onlyVATRate == "\\" ? "\\" : onlyVATRate + "")) %</span>
+                                <span style="float:right;">Tiền thuế GTGT <i>(VAT Amount)</i>:</span>
+                            </td>
+                            <td align="right" colspan="3" class="border-dark"><b>@(obj.ID == 0 ? "" : (lstKCT == lstProducts ? "\\" : b))</b></td>
+                        </tr>
+                        <tr>
+                            <td align="left" colspan="4" class="border-dark"> Phí bảo vệ môi trường đối với nước thải sinh hoạt: @obj.LISTPRODUCT[0].TAXRATEWATER</td>
+                            <td align="right" colspan="3" class="border-dark"><b>@(obj.ID == 0 ? "" : d)</b></td>
+                        </tr>
+                        <tr>
+                            <td align="left" colspan="4" class="border-dark"> Tổng tiền thành toán <i>(Total amount)</i>:</td>
+                            <td align="right" colspan="3" class="border-dark"><b> @(obj.ID == 0 ? "" : c) </b></td>
+                        </tr>
+                        <tr>
+                            <td colspan="9" class="border-dark" align="left">
+                                <strong>Số tiền bằng chữ</strong> <i>(Amount in words): @(obj.ID == 0 ? "" : currencyWords)</i>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table class="table table-borderless" style="margin-top:-66px;margin-bottom:0;">
+                    <tbody>
+                        <tr>
+                            <td colspan="6" class="text-right border-0" style="vertical-align: middle;"></td>
+                        </tr>
+                        <tr>
+                            @* Nếu là hóa đơn chuyển đổi *@
+                            @if (obj.INVOICETYPE == 4 && obj.ID != 0)
+                            {
+                                <td valign="top" class="text-center" style="width: 33.3333%; padding: 16px; vertical-align: top !important">
+                                    <br>
+                                    <strong>Người chuyển đổi</strong> <i>(Converter)</i><br>
+                                    <i>(Ký, ghi rõ họ, tên)</i><br>
+
+                                    <div style="text-align: center; margin-top: 10px;">
+                                        <b>@obj.CONVERTUSERNAME</b> <br />
+                                        <div>Ngày chuyển đổi <i>(Conversion date): @obj.CONVERTTIME.ToString("dd/MM/yyyy")</i></div>
+                                    </div>
+                                </td>
+                            }
+                            <td valign="top" class="text-center" style="width: 33.3333%;"></td>
+
+                            <td class="text-center" style="width: 33.3333%;  padding: 16px;vertical-align: top !important">
+                                <br>
+                                <strong>Người bán hàng</strong><br>
+                                <i>(Ký, ghi rõ họ, tên)</i><br>
+
+                                @if (obj.INVOICESTATUS == 2 || obj.INVOICESTATUS == -1)
+                                {
+                                    <div style="font-weight: bold;border: 3px solid red;color: red;text-align: left;padding: 12px;width: 80%;margin: auto;margin-top: 0; background: url('https://e.onfinance.asia/Images/check-mark-icon-png-11.png') no-repeat center center; background-size: 29%">
+                                        Signature Valid<br>
+                                        Ký bởi: Công ty TNHH nước sạch & môi trường Duy Tiên<br>
+                                        Ký ngày: @(obj.ID == 0 ? "" : obj.SIGNEDTIME.ToString("dd/MM/yyyy"))
+                                    </div>
+                                }
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div style="position: absolute; left: 0; right: 0; top: 660px; padding: 0 20px; text-align:left;">
+                    Mã tra cứu:
+                    @if (obj.INVOICESTATUS == 2)
+                    {
+                        @obj.REFERENCECODE
+                    }
+                    <span style="padding-left: 20px">Trang tra cứu: https://onfinance.asia/tracuu </span>
+                </div>
+                <div style="position: absolute;width: 80%;top: 250px;left: 590px;transform: rotate(-90deg); -webkit-transform: rotate(-90deg);">
+                    <p>
+                        <span style="padding-left: 20px">(Khởi tạo từ phần mềm OnFinance.asia - Công ty cổ phần tập đoàn truyền thông và công nghệ NOVA MST: 0101990346)</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

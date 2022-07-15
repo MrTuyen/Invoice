@@ -1,0 +1,134 @@
+﻿
+@{
+    ViewBag.Title = "Khách hàng";
+}
+
+<style>
+    .success-result {
+        color: #2CA01C;
+    }
+
+    .error-result {
+        color: deeppink;
+    }
+
+        .success-result i, .error-result i {
+            font-size: 22px;
+        }
+</style>
+<div class="scrollable-content" ng-controller="ManagerController" ng-cloak ng-init="GetAllUser(1)">
+
+    <div class="box box-default" ng-hide="User.">
+        <div class="box-header with-border">
+            <h4 class="panel-title">
+                Danh sách khách hàng
+            </h4>
+            <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" ng-click="" data-widget="collapse"><i class="fa fa-minus"></i></button>
+            </div>
+        </div>
+        <div class="box-body" style="padding: 10px 40px;">
+            <div class="row" style="margin-top:6px">
+                <table class="table table-bordered table-sm table-vertical-center table-head-green table-hover">
+                    <thead>
+                        <tr>
+                            <th class="text-right">STT</th>
+                            <th class="text-right">Tên đăng nhập</th>
+                            <th class="text-right">Địa chỉ Email</th>
+                            <th class="text-right">Số điện thoại</th>
+                            <th class="text-right">MST</th>
+                            <th class="text-left">Tên doanh nghiệp</th>
+                            <th class="text-left">Địa chỉ</th>
+                            <th class="text-right">Số điện thoại</th>
+                            <th class="text-left">Hoạt động</th>
+                            <th class="text-right">Hành động</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr ng-repeat="item in ListUser" ng-dblclick="EditUser(item)">
+                            <td class="text-right">{{$index + 1}}</td>
+                            <td class="text-right">{{item.USERNAME}}</td>
+                            <td class="text-right">{{item.EMAIL}}</td>
+                            <td class="text-right">{{item.PHONENUMBER}}</td>
+                            <td class="text-right">{{item.COMTAXCODE}}</td>
+                            <td class="text-left" width="20%">{{item.COMNAME}}</td>
+                            <td class="text-left" width="25%">{{item.COMADDRESS}}</td>
+                            <td class="text-right">{{item.COMPHONENUMBER}}</td>
+                            <td ng-if="item.ISDELETED == false" class="text-center success-result">
+                                <i class="fa fa-check"></i>
+                            </td>
+                            <td ng-if="item.ISDELETED == true" class="text-center error-result">
+                                <i class="fa fa-times"></i>
+                            </td>
+                            <td class="text-right">
+                                <button type="button" class="btn btn-success" ng-click="EditUser(item)">
+                                    <span class="fa fa-edit"></span> &nbsp; Chỉnh sửa
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="row">
+                    <button type="button" class="btn btn-success" ng-click="EditUser('')">
+                        <span class="fa fa-plus"></span> &nbsp; Thêm công ty
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    <div ng-if="User.ISEDIT">
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <button type="button" class="btn btn-secondary" ng-click="BackToListUser()">
+                    <span class="fa fa-arrow-left"></span> Quay lại
+                </button>
+                <h2 class="box-title" style="vertical-align: -webkit-baseline-middle; font-size: 30px; margin-left: 5px">Thông tin khách hàng</h2>
+            </div>
+            <div class="box-body">
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <label class="control-label">Doanh nghiệp: <b>{{User.COMNAME}}</b></label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <label class="control-label">Địa chỉ: <b>{{User.COMADDRESS}}</b></label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <label class="control-label">Mã số thuế: <b>{{User.COMTAXCODE}}</b></label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <label class="control-label">Số điện thoại: <b>{{User.COMPHONENUMBER}}</b></label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <label class=" control-label">Họ tên</label>
+                            <input type="text" class="form-control" placeholder="Họ tên" ng-model="User.FULLNAME">
+                    </div>
+                    <div class="col-md-3">
+                        <label class=" control-label">SĐT</label>
+                            <input type="text" class="form-control" placeholder="Số điện thoại" ng-model="User.PHONENUMBER">
+                    </div>
+                    <div class="col-md-3">
+                        <label class=" control-label">Địa chỉ Email</label>
+                            <input type="text" class="form-control" placeholder="Địa chỉ" ng-model="User.EMAIL">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

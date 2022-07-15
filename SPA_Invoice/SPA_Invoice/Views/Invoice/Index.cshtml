@@ -1,0 +1,266 @@
+﻿<div class="mt-2 customer-detail" ng-controller="InvoiceController" ng-init="GetInvoice(1);">
+    <div ng-hide="IsGridViewDisplay == '1'">
+        <div class="content_invoice onscrollbar d-none d-sm-block">
+            <div class="d-none d-sm-block">
+                <a href="javascript:;" class="btn-switch" ng-model="Tab.All" ng-click="InvoiceTabClick(1)" ng-class="{true: 'active'}[Tab.All]">Tất cả</a>
+                <span>|</span>
+                <a href="javascript:;" class="btn-switch" ng-model="Tab.Wating" ng-click="InvoiceTabClick(8)" ng-class="{true: 'active'}[Tab.Wating]">HĐ chờ duyệt</a>
+                <span>|</span>
+                <a href="javascript:;" class="btn-switch" ng-model="Tab.Cancel" ng-click="InvoiceTabClick(2)" ng-class="{true: 'active'}[Tab.Cancel]">HĐ hủy bỏ</a>
+                <span>|</span>
+                <a href="javascript:;" class="btn-switch" ng-model="Tab.Change" ng-click="InvoiceTabClick(4)" ng-class="{true: 'active'}[Tab.Change]" ng-if="Enterprise.USINGINVOICETYPE !== 5">HĐ điều chỉnh</a>
+                <span ng-if="Enterprise.USINGINVOICETYPE !== 5">|</span>
+                <a href="javascript:;" class="btn-switch" ng-model="Tab.Delete" ng-click="InvoiceTabClick(7)" ng-class="{true: 'active'}[Tab.Delete]">HĐ xóa bỏ</a>
+                <span>|</span>
+                <a href="javascript:;" class="btn-switch" ng-model="Tab.Replace" ng-click="InvoiceTabClick(5)" ng-class="{true: 'active'}[Tab.Replace]" ng-if="Enterprise.USINGINVOICETYPE !== 5">HĐ thay thế</a>
+                @*<span>|</span>
+                    <a href="javascript:;" class="btn-switch" ng-model="Tab.ReleaseError" ng-click="InvoiceTabClick(6)" ng-class="{true: 'active'}[Tab.ReleaseError]">HĐ phát hành lỗi</a>*@
+                <hr />
+            </div>
+
+            @*Tất cả HĐ*@
+            @Html.Partial("~/Views/Invoice/TabAll.cshtml")
+
+            @*Hóa đơn chờ*@
+            @Html.Partial("~/Views/Invoice/TabWaiting.cshtml")
+
+            @*Hóa đơn hủy bỏ*@
+            @Html.Partial("~/Views/Invoice/TabCancel.cshtml")
+
+            @*Hóa đơn điều chỉnh*@
+            @Html.Partial("~/Views/Invoice/TabModified.cshtml")
+
+            @*Hóa đơn thay thế*@
+            @Html.Partial("~/Views/Invoice/TabReplace.cshtml")
+
+            @*Hóa đơn xóa bỏ*@
+            @Html.Partial("~/Views/Invoice/TabDelete.cshtml")
+
+            @*Phát hành HĐ lỗi*@
+            @Html.Partial("~/Views/Invoice/TabError.cshtml")
+
+        </div>
+        @*Mobile*@
+        @Html.Partial("~/Views/Invoice/Mobile.cshtml")
+
+        @*Phân trang*@
+        <div class="d-none d-sm-block">
+            <div class="paging-absolute" ng-hide="ListInvoice.length < 1">
+                <table class="table table-bordered table-striped table-sm table-vertical-center table-head-green">
+                    @*Phân trang cho tất cả hóa đơn*@
+                    <tr ng-if="Tab.All == true">
+                        <td class="text-left border-0 " colspan="4">
+                            <div class="mt-2 ml-4 pagination-area">
+                                <label class="pagination-current">{{(currentpage - 1) * cookie.RowNum + 1}}-{{currentpage * cookie.RowNum > TotalRow ? TotalRow : currentpage * cookie.RowNum}}  trong <strong>{{TotalRow}}</strong> bản ghi</label>
+                            </div>
+                        </td>
+                        <td class="text-right border-0" colspan="10">
+                            <div class="mt-2 ml-4 pagination-area">
+                                <button class="pagination-first" ng-disabled="currentpage == 1" ng-click="currentpage = 1;GetInvoice(currentpage);">< Đầu tiên</button>
+                                <button class="pagination-previous" ng-disabled="currentpage == 1" ng-click="currentpage = currentpage - 1;GetInvoice(currentpage)">Trước</button>
+                                <label class="pagination-current"><strong><input class="form-control form-control-sm paging-textbox" type="number" ng-model="currentpage" my-enter="GetInvoice(currentpage)" min="1" max="{{TotalPages}}" /> / {{TotalPages}}</strong></label>
+                                <button class="pagination-next" ng-disabled="currentpage == TotalPages" ng-click="currentpage = currentpage + 1;GetInvoice(currentpage)">Sau</button>
+                                <button class="pagination-last" ng-disabled="currentpage == TotalPages" ng-click="currentpage = TotalPages;GetInvoice(currentpage);">Cuối cùng ></button>
+                            </div>
+                        </td>
+                    </tr>
+                    @*Phân trang cho hóa đơn hủy*@
+                    @*<tr ng-if="Tab.Cancel == true">
+                            <td class="text-left border-0 " colspan="4">
+                                <div class="mt-2 ml-4 pagination-area">
+                                    <label class="pagination-current">{{(currentpage - 1) * cookie.RowNum + 1}}  - {{currentpage * cookie.RowNum > TotalRow ? TotalRow : currentpage * cookie.RowNum}}  trong <strong>{{TotalRow}}</strong> bản ghi</label>
+                                </div>
+                            </td>
+                            <td class="text-right border-0" colspan="10">
+                                <div class="mt-2 ml-4 pagination-area">
+                                    <button class="pagination-first" ng-disabled="currentpage == 1" ng-click="GetInvoiceByStatus(3, 1, 1)">< Đầu tiên</button>
+                                    <button class="pagination-previous" ng-disabled="currentpage == 1" ng-click="GetInvoiceByStatus(3, currentpage - 1, 1)">Trước</button>
+                                    <label class="pagination-current"><strong><input class="form-control form-control-sm paging-textbox" type="number" ng-model="currentpage" min="1" max="{{TotalPages}}" my-enter="GetInvoiceByStatus(3,currentpage,1)" /> / {{TotalPages}}</strong></label>
+                                    <button class="pagination-next" ng-disabled="currentpage == TotalPages" ng-click="GetInvoiceByStatus(3,currentpage + 1,1)">Sau</button>
+                                    <button class="pagination-last" ng-disabled="currentpage == TotalPages" ng-click="GetInvoiceByStatus(3,TotalPages,1)">Cuối cùng ></button>
+                                </div>
+                            </td>
+                        </tr>*@
+                    <tr ng-if="Tab.Cancel == true">
+                        <td class="text-left border-0 " colspan="4">
+                            <div class="mt-2 ml-4 pagination-area">
+                                <label class="pagination-current">{{(currentpage - 1) * cookie.RowNum + 1}}  - {{currentpage * cookie.RowNum > TotalRow ? TotalRow : currentpage * cookie.RowNum}}  trong <strong>{{TotalRow}}</strong> bản ghi</label>
+                            </div>
+                        </td>
+                        <td class="text-right border-0" colspan="10">
+                            <div class="mt-2 ml-4 pagination-area">
+                                <button class="pagination-first" ng-disabled="currentpage == 1" ng-click="currentpage = 1; GetInvoiceByStatus(3, 1, 1)">< Đầu tiên</button>
+                                <button class="pagination-previous" ng-disabled="currentpage == 1" ng-click="currentpage = currentpage - 1; GetInvoiceByStatus(3, currentpage - 1, 1)">Trước</button>
+                                <label class="pagination-current"><strong><input class="form-control form-control-sm paging-textbox" type="number" ng-model="currentpage" min="1" max="{{TotalPages}}" my-enter="GetInvoiceByStatus(3,currentpage,1)" /> / {{TotalPages}}</strong></label>
+                                <button class="pagination-next" ng-disabled="currentpage == TotalPages" ng-click="currentpage = currentpage + 1; GetInvoiceByStatus(3,currentpage + 1,1)">Sau</button>
+                                <button class="pagination-last" ng-disabled="currentpage == TotalPages" ng-click="currentpage = TotalPages; GetInvoiceByStatus(3,TotalPages,1)">Cuối cùng ></button>
+                            </div>
+                        </td>
+                    </tr>
+
+                    @*Phân trang cho hóa đơn điều chỉnh*@
+                    <tr ng-if="Tab.Change == true">
+                        <td class="text-left border-0 " colspan="4">
+                            <div class="mt-2 ml-4 pagination-area">
+                                <label class="pagination-current">{{(currentpage - 1) * cookie.RowNum + 1}}  - {{currentpage * cookie.RowNum > TotalRow ? TotalRow : currentpage * cookie.RowNum}}  trong <strong>{{TotalRow}}</strong> bản ghi</label>
+                            </div>
+                        </td>
+                        <td class="text-right border-0" colspan="10">
+                            <div class="mt-2 ml-4 pagination-area">
+                                <button class="pagination-first" ng-disabled="currentpage == 1" ng-click="currentpage = 1; GetInvoiceByStatus(5, 1, 2)">< Đầu tiên</button>
+                                <button class="pagination-previous" ng-disabled="currentpage == 1" ng-click="currentpage = currentpage - 1; GetInvoiceByStatus(5, currentpage - 1, 2)">Trước</button>
+                                <label class="pagination-current"><strong><input class="form-control form-control-sm paging-textbox" type="number" ng-model="currentpage" min="1" max="{{TotalPages}}" my-enter="GetInvoiceByStatus(5, currentpage, 2)" /> / {{TotalPages}}</strong></label>
+                                <button class="pagination-next" ng-disabled="currentpage == TotalPages" ng-click="currentpage = currentpage + 1; GetInvoiceByStatus(5, currentpage + 1, 2)">Sau</button>
+                                <button class="pagination-last" ng-disabled="currentpage == TotalPages" ng-click="currentpage = TotalPages; GetInvoiceByStatus(5, TotalPages, 2)">Cuối cùng ></button>
+                            </div>
+                        </td>
+                    </tr>
+                    @*Phân trang cho hóa đơn thay thế*@
+                    <tr ng-if="Tab.Replace == true">
+                        <td class="text-left border-0 " colspan="4">
+                            <div class="mt-2 ml-4 pagination-area">
+                                <label class="pagination-current">{{(currentpage - 1) * cookie.RowNum + 1}}  - {{currentpage * cookie.RowNum > TotalRow ? TotalRow : currentpage * cookie.RowNum}}  trong <strong>{{TotalRow}}</strong> bản ghi</label>
+                            </div>
+                        </td>
+                        <td class="text-right border-0" colspan="10">
+                            <div class="mt-2 ml-4 pagination-area">
+                                <button class="pagination-first" ng-disabled="currentpage == 1" ng-click="currentpage = 1; GetInvoiceByStatus(6, 1, 1)">< Đầu tiên</button>
+                                <button class="pagination-previous" ng-disabled="currentpage == 1" ng-click="currentpage = currentpage - 1; GetInvoiceByStatus(6, currentpage - 1, 1)">Trước</button>
+                                <label class="pagination-current"><strong><input class="form-control form-control-sm paging-textbox" type="number" ng-model="currentpage" min="1" max="{{TotalPages}}" my-enter="GetInvoiceByStatus(6, currentpage, 1)" /> / {{TotalPages}}</strong></label>
+                                <button class="pagination-next" ng-disabled="currentpage == TotalPages" ng-click="currentpage = currentpage + 1; GetInvoiceByStatus(6, currentpage + 1, 1)">Sau</button>
+                                <button class="pagination-last" ng-disabled="currentpage == TotalPages" ng-click="currentpage = TotalPages; GetInvoiceByStatus(6, TotalPages, 1)">Cuối cùng ></button>
+                            </div>
+                        </td>
+                    </tr>
+                    @*Phân trang cho hóa đơn xóa*@
+                    <tr ng-if="Tab.Delete == true">
+                        <td class="text-left border-0 " colspan="4">
+                            <div class="mt-2 ml-4 pagination-area">
+                                <label class="pagination-current">{{(currentpage - 1) * cookie.RowNum + 1}}  - {{currentpage * cookie.RowNum > TotalRow ? TotalRow : currentpage * cookie.RowNum}}  trong <strong>{{TotalRow}}</strong> bản ghi</label>
+                            </div>
+                        </td>
+                        <td class="text-right border-0" colspan="10">
+                            <div class="mt-2 ml-4 pagination-area">
+                                <button class="pagination-first" ng-disabled="currentpage == 1" ng-click="currentpage = 1;GetInvoiceDelete(currentpage);">< Đầu tiên</button>
+                                <button class="pagination-previous" ng-disabled="currentpage == 1" ng-click="currentpage = currentpage - 1;GetInvoiceDelete(currentpage)">Trước</button>
+                                <label class="pagination-current"><strong><input class="form-control form-control-sm paging-textbox" type="number" ng-model="currentpage" min="1" max="{{TotalPages}}" my-enter="GetInvoiceDelete(currentpage)" /> / {{TotalPages}}</strong></label>
+                                <button class="pagination-next" ng-disabled="currentpage == TotalPages" ng-click="currentpage = currentpage + 1;GetInvoiceDelete(currentpage)">Sau</button>
+                                <button class="pagination-last" ng-disabled="currentpage == TotalPages" ng-click="currentpage = TotalPages; GetInvoiceDelete(TotalPages)">Cuối cùng ></button>
+                            </div>
+                        </td>
+                    </tr>
+                    @*Phân trang cho hóa đơn chờ*@
+                    <tr ng-if="Tab.Wating == true">
+                        <td class="text-left border-0 " colspan="4">
+                            <div class="mt-2 ml-4 pagination-area">
+                                <label class="pagination-current">{{(currentpage - 1) * cookie.RowNum + 1}}  - {{currentpage * cookie.RowNum > TotalRow ? TotalRow : currentpage * cookie.RowNum}}  trong <strong>{{TotalRow}}</strong> bản ghi</label>
+                            </div>
+                        </td>
+                        <td class="text-right border-0" colspan="10">
+                            <div class="mt-2 ml-4 pagination-area">
+                                <button class="pagination-first" ng-disabled="currentpage == 1" ng-click="currentpage = 1;GetInvoiceWait(currentpage);">< Đầu tiên</button>
+                                <button class="pagination-previous" ng-disabled="currentpage == 1" ng-click="currentpage = currentpage - 1;GetInvoiceWait(currentpage)">Trước</button>
+                                <label class="pagination-current"><strong><input class="form-control form-control-sm paging-textbox" type="number" ng-model="currentpage" min="1" max="{{TotalPages}}" my-enter="GetInvoiceWait(currentpage)" /> / {{TotalPages}}</strong></label>
+                                <button class="pagination-next" ng-disabled="currentpage == TotalPages" ng-click="currentpage = currentpage + 1; GetInvoiceWait(currentpage)">Sau</button>
+                                <button class="pagination-last" ng-disabled="currentpage == TotalPages" ng-click="currentpage = TotalPages; GetInvoiceWait(TotalPages)">Cuối cùng ></button>
+                            </div>
+                        </td>
+                    </tr>
+                    @*Phân trang cho hóa đơn phát hành lỗi*@
+                    <tr ng-if="Tab.ReleaseError == true">
+                        <td class="text-left border-0 " colspan="4">
+                            <div class="mt-2 ml-4 pagination-area">
+                                <label class="pagination-current">{{(currentpage - 1) * cookie.RowNum + 1}}  - {{currentpage * cookie.RowNum > TotalRow ? TotalRow : currentpage * cookie.RowNum}}  trong <strong>{{TotalRow}}</strong> bản ghi</label>
+                            </div>
+                        </td>
+                        <td class="text-right border-0" colspan="10">
+                            <div class="mt-2 ml-4 pagination-area">
+                                <button class="pagination-first" ng-disabled="currentpage == 1" ng-click="GetInvoiceByStatus(6, 1, 1)">< Đầu tiên</button>
+                                <button class="pagination-previous" ng-disabled="currentpage == 1" ng-click="GetInvoiceByStatus(6, currentpage - 1, 1)">Trước</button>
+                                <label class="pagination-current"><strong><input class="form-control form-control-sm paging-textbox" type="number" ng-model="currentpage" min="1" max="{{TotalPages}}" my-enter="GetInvoiceByStatus(6, currentpage, 1)" /> / {{TotalPages}}</strong></label>
+                                <button class="pagination-next" ng-disabled="currentpage == TotalPages" ng-click="GetInvoiceByStatus(6, currentpage + 1, 1)">Sau</button>
+                                <button class="pagination-last" ng-disabled="currentpage == TotalPages" ng-click="GetInvoiceByStatus(6, TotalPages, 1)">Cuối cùng ></button>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    @*Hóa đơn xem nhanh*@
+    @Html.Partial("~/Views/Invoice/Quickview.cshtml")
+
+    @*Modal gửi email*@
+    @Html.Partial("~/Views/Common/SendEmail.cshtml")
+    @Html.Partial("~/Views/Common/ModalSendMultipleEmail.cshtml")
+
+    @*Modal chuyển đổi hóa đơn giấy*@
+    <div id="modal_convert_invoice" style="display: none; padding-left: 0!important; padding-right: 0!important" title="Chuyển đổi hóa đơn giấy">
+        <div class="form-group">
+            <div class="d-flex">
+                <div class="col-12">
+                    <label> Họ và tên người chuyển đổi </label>
+                    <input type="text" class="form-control form-control-sm" placeholder="Tên người chuyển đổi" ng-model="Invoice.NAMECONVERT" />
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer d-flex justify-content-between p-0 pt-2">
+            <div class="d-flex justify-content-start">
+            </div>
+            <div class="d-flex justify-content-between">
+                <button class="btn btn-success mr-3" ng-click="ConvertInvoices()">  &nbsp; Tiếp tục </button>
+            </div>
+        </div>
+    </div>
+
+    @*Modal chọn trạng thái thanh toán*@
+    <div id="modal_choose_paymentstatus" style="display: none; padding-left: 0!important; padding-right: 0!important" class="p-0" title="Chọn trạng thái thanh toán">
+        <div class="form-group">
+            <div class="d-flex mt-2">
+                <div class="custom-control custom-radio w-50 text-center">
+                    <input type="radio" class="custom-control-input" id="payment_status_1" name="paymentStatus" selected ng-model="PAYMENTSTATUS" ng-value="1">
+                    <label class="custom-control-label" for="payment_status_1" data-toggle="tooltip" data-placement="bottom">
+                        <span class="text-danger"><b>Chưa thanh toán</b></span>
+                    </label>
+                </div>
+                <div class="custom-control custom-radio w-50 text-center">
+                    <input type="radio" class="custom-control-input" id="payment_status_2" name="paymentStatus" ng-model="PAYMENTSTATUS" ng-value="2">
+                    <label class="custom-control-label" for="payment_status_2" data-toggle="tooltip" data-placement="bottom">
+                        <span class="text-success"><b>Đã thanh toán</b></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer d-flex justify-content-between p-0 pt-2">
+            <div class="d-flex justify-content-start">
+            </div>
+            <div class="d-flex justify-content-between">
+                <button class="btn btn-success mr-3" ng-click="UpdatePaymentStatus()">  &nbsp; Tiếp tục </button>
+            </div>
+        </div>
+    </div>
+
+    @*Modal cập nhật phân quyền hóa đơn cho cộng tác viên theo email*@
+    <div id="modal_update_partner" style="display: none; padding-left: 0!important; padding-right: 0!important" class="p-0" title="Thông tin cộng tác viên">
+        <div class="form-group">
+            <div class="d-flex mt-2 ml-2">
+                <label class="col-sm-3 col-form-label"><b>Emai/Tên/SĐT </b>:</label>
+                <div class="col-sm-9">
+                    <suggestuser pagesize="10" delayresearch="500" url="'/User/SuggestUserByObject'"
+                                 selectsearchresult="SuggestUser()"
+                                 keyword="User.EMAIL">
+                    </suggestuser>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer d-flex justify-content-between p-0 pt-2">
+            <div class="d-flex justify-content-start">
+            </div>
+            <div class="d-flex justify-content-between">
+                <button class="btn btn-success mr-3" ng-click="UpdatePartner()">  &nbsp; Tiếp tục </button>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,138 @@
+﻿<style>
+</style>
+<div ng-controller="StatisticController">
+    <div class="d-flex justify-content-between">
+        <h2><strong>Báo cáo lịch sử hoạt động</strong></h2>
+    </div>
+    <div id="action_history">
+        <div class="header-filter px-3 py-2 bg-white">
+            <div class="d-flex justify-content-between mt-2">
+                <div class="d-flex justify-content-center align-items-center">
+                    <div class="btn-group btn-filter">
+                        <button type="button" class="btn btn-light btn-sm dropdown-toggle" data-toggle="dropdown">
+                            Bộ lọc
+                        </button>
+                        <div class="dropdown-menu p-3 modal-form">
+                            <form>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <p class="mb-1">Loại email</p>
+                                        <select class="form-control form-control-sm">
+                                            <option value="" disabled selected>Thông báo phát hành</option>
+                                            <option value="1">Tuần này</option>
+                                            <option value="2">Tuần trước</option>
+                                        </select>
+
+                                        <p class="mb-1 mt-3">Thời gian</p>
+                                        <select class="form-control form-control-sm" ng-model="Filter.TIME">
+                                            <option value="" disabled selected>Chọn thời gian</option>
+                                            <option value="1">Toàn thời gian</option>
+                                            <option value="2">Tuần trước</option>
+                                            <option value="3">Tháng này</option>
+                                            <option value="4">Tháng trước</option>
+                                            <option value="-1">Khoảng thời gian</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-6">
+                                        <p class="mb-1">Trạng thái thanh toán</p>
+                                        <select class="form-control form-control-sm">
+                                            <option value="" disabled selected>Chọn ký hiệu</option>
+                                            <option ng-repeat="item in ListPaymentStatus" value="{{item.ID}}">{{item.PAYMENTSTATUS}}</option>
+                                        </select>
+
+                                        <div class="row" ng-show="Filter.TIME == -1">
+                                            <div class="col-6 pr-2">
+                                                <p class="mb-1 mt-3">Từ ngày</p>
+                                                <input class="form-control form-control-sm" />
+                                            </div>
+                                            <div class="col-6 pl-2">
+                                                <p class="mb-1 mt-3">Đến ngày</p>
+                                                <input class="form-control form-control-sm" />
+                                            </div>
+                                        </div>
+
+                                        <p class="mb-1 mt-3">Mail người nhận</p>
+                                        <select class="form-control form-control-sm">
+                                            <option value="-1">Danh sách người nhận</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center mt-4">
+                                    <button class="btn btn-success btn-sm pl-5 pr-5">Lọc</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="table_overflow_absolute">
+            <div class="bg-white pb-3">
+                <table class="table table-bordered table-sm table-vertical-center table-head-green table-hover">
+                    <thead>
+                        <tr>
+                            <th>Thời gian</th>
+                            <th>Hành động</th>
+                            <th>Trạng thái</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <label>08:54 16//12/2019</label>
+                            </td>
+                            <td>
+                                <label>Tạo mới hóa đơn #534HC423</label>
+                            </td>
+                            <td>
+                                <label>Đang đợi</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>08:54 16//12/2019</label>
+                            </td>
+                            <td>
+                                <label>Tạo mới hóa đơn #534HC423</label>
+                            </td>
+                            <td>
+                                <label>Đang đợi</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>08:54 16//12/2019</label>
+                            </td>
+                            <td>
+                                <label>Tạo mới hóa đơn #534HC423</label>
+                            </td>
+                            <td>
+                                <label>Đang đợi</label>
+                            </td>
+                        </tr>
+                    </tbody>
+
+
+                </table>
+            </div>
+        </div>
+        <div class="paging-absolute">
+            <table class="table table-bordered table-sm table-vertical-center table-head-green table-mail">
+                <tr>
+                    <td class="text-right border-0 p-0" colspan="10">
+                        <div class="mt-4 pagination-area">
+                            <button class="pagination-first">< Đầu tiên</button>
+                            <button class="pagination-previous">Trước</button>
+                            <label class="pagination-current"><strong>1-2 của 2</strong></label>
+                            <button class="pagination-next">Sau</button>
+                            <button class="pagination-last">Cuối cùng ></button>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+</div>

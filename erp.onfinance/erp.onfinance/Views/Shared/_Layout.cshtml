@@ -1,0 +1,97 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>
+        @if (!string.IsNullOrWhiteSpace(ViewBag.Title))
+        {
+            @ViewBag.Title@: -
+        }
+        ERP Onfinance
+    </title>
+    <meta name=theme-color content=#286393>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link href="~/Content/css/skins/skin-blue.min.css" rel="stylesheet" />
+    <link href="~/Content/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="/Minifier/novaon.styles.css?v=1.06" rel="stylesheet" />
+
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-select.css" rel="stylesheet" />
+
+    @*<link href="~/Content/toastr.css" rel="stylesheet" />
+    <script src="~/Scripts/toastr.js"></script>*@
+    <script src="~/Scripts/jquery-3.1.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.bundle.min.js"></script>
+    <script src="~/Scripts/bootstrap-select.min.js"></script>
+
+    <script src="~/Content/js/jquery-ui.min.js?v=1.01"></script>
+    <script src="~/Content/js/jquery-ui-timepicker-addon.min.js?v=1.01"></script>
+    <script src="~/Content/js/jquery.number.min.js?v=1.01"></script>
+    <script src="~/Content/js/jquery.multiselect.min.js"></script>
+    <script src="~/Content/js/jquery.multiselect.filter.min.js"></script>
+    <script src="~/Content/js/angular.min.js?v=1.01"></script>
+
+    <script src="/Minifier/novaon.scripts.js?v=1.05"></script>
+    <script src="/Minifier/factory.js?v=1.02"></script>
+    <script src="/Minifier/controller.js?v=1.03"></script>
+
+    <style>
+        #mainLoadingSVG {
+            position: absolute;
+            top: calc(50% - 20px);
+            left: calc(50% - 20px);
+            width: 40px;
+            height: 40px;
+            z-index: 1000000;
+            background: #fff;
+            padding: 3px;
+            border-radius: 50%;
+            display: none;
+        }
+
+        .full-overlay {
+            /*display: none;*/
+            position: absolute;
+            background: rgba(0,0,0,1);
+            opacity: 0;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: -1;
+            -webkit-transition: opacity .3s ease;
+            -moz-transition: opacity .3s ease;
+            -o-transition: opacity .3s ease;
+            transition: opacity .3s ease;
+        }
+    </style>
+</head>
+<body ng-app="onfinance" class="hold-transition skin-blue sidebar-mini">
+    <div class="full-overlay"></div>
+    <img id="mainLoadingSVG" src="~/Images/oval.svg" />
+    <div class="wrapper">
+        @Html.Partial("_Header")
+        @Html.Partial("_Sidebar")
+        <div class="content-wrapper">
+            <section class="content-header">
+                @RenderBody()
+            </section>
+        </div>
+        @Html.Partial("_ControlSidebar")
+    </div>
+    @RenderSection("ViewSpecificJavascript", required: false)
+    <script>
+        function LoadingShow() {
+            $('.full-overlay').css({ 'z-index': 1000000, 'opacity': .5 });
+            $('#mainLoadingSVG').show();
+        }
+
+        function LoadingHide() {
+            $('.full-overlay').css({ 'z-index': -1, 'opacity': 0 });
+            $('#mainLoadingSVG').hide();
+        }
+    </script>
+</body>
+</html>

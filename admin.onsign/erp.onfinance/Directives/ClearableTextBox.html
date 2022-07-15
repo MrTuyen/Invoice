@@ -1,0 +1,8 @@
+﻿<div style="position:relative">
+    <input ng-model="textboxmodel" type="{{type}}" ng-change="Change()" placeholder="{{textboxplaceholder}}"
+           ng-keypress="KeyPress($event)" class="form-control" ng-keydown="KeyDown($event)" maxlength="{{maxLength}}" focus-on="focustextbox"
+           onfocus="this.setSelectionRange(this.value.length, this.value.length)" ng-blur="Blur()" ng-disabled="disable" ng-click="ClickClear()" style="{{textStyle}}" />
+
+    <span ng-show="textboxmodel && (textboxmodel + '').length > 0 && !disable" ng-click="Clear()"
+          class="glyphicon glyphicon-remove-circle text-center" style="{{iconStyle}}"></span>
+</div>

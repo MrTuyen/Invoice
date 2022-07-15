@@ -1,0 +1,278 @@
+﻿<form id="frmPopupSearchProduct" name="frmPopupSearchProduct" method="post">
+    <input name="keysearch" type="text" placeholder="Tìm mã hoặc tên SP" class="form-control" style="width: 150px; display: inline-block">
+
+    <select multiple="multiple" id="ddlpMainGroup" name="intpMainGroupID" style="width: 200px">
+        @if (ViewData["MainGroupData"] != null)
+        {
+            foreach (SAB.Common.PM_MAINGROUP p in ViewData["MainGroupData"] as List<SAB.Common.PM_MAINGROUP>)
+            {
+                <option value="@p.MAINGROUPID">
+                    @p.MAINGROUPID - @p.MAINGROUPNAME
+                </option>
+            }
+        }
+    </select>
+
+    <label id="dynCombopSubGroup">
+        <select multiple="multiple" id="ddlpSubGroup" name="intpSubGroupID" style="width: 180px; height: 30px;"></select>
+    </label>
+    <input type="hidden" name="storeid" id="storeid" value="@ViewBag.storeid" />
+    <input type="hidden" name="intPage" id="hdPageIndex" value="1" />
+    <!-- <input type="checkbox" name="isAllProduct" id="isAllProduct" value="0"/> <label for="ckisAllProduct">Ngưng hoạt động</label>-->
+    <button class="btn btn-default" style="width: 100px;" id="pSearchProduct">Tìm kiếm</button>
+    <button class="btn btn-primary" style="width: 100px;" id="pSelectOK" type="button">Đồng ý</button>
+    <div class="clear"></div>
+
+    <div id="pSearchProductResult" class="areaListviewProduct" style="overflow: auto; max-height: 500px;"></div>
+    <div id="pSelectedProductResult" class="areaListviewProduct" style="margin-left: 20px;overflow: auto; max-height: 500px;">
+        <table id="pTableSelectedProduct" class="table table-striped table-bordered table-condensed">
+            <thead>
+                <tr>
+                    <th class="text-center" style="width: 50px">
+                        <input type="checkbox" value="1" name="checkall" />
+                    </th>
+                    <th class="text-center" style="width: 120px">Mã sản phẩm</th>
+                    <th>Tên sản phẩm</th>
+                    <th class="text-center" style="width: 60px">Tồn</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+            <tfoot style="display: none">
+                <tr class="gradeX RowChosen">
+                    <td class="text-center">
+                        <input type="checkbox" name="ProductId" id="" value="" checked="checked">
+                        <input type="hidden" name="pProductName" value="">
+                        <input type="hidden" name="pIsAllowDecimal" value="">
+                        <input type="hidden" name="pQuantityUnitID" value="">
+                        <input type="hidden" name="pQuantityUnit" value="">
+                        <input type="hidden" name="pVAT" value="">
+                        <input type="hidden" name="pITEMID" value="">
+                        <input type="hidden" name="pITEMQUANTITYUNITID" value="">
+                        <input type="hidden" name="pSUBGROUPID" value="">
+                    </td>
+                    <td class="text-center">
+                        <label for=""></label>
+                    </td>
+                    <td>
+                        <label for="" style="font-weight: 400"><span></span></label>
+                    </td>
+                    <td class="text-center">
+                        <label for="" style="font-weight: 400"></label>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+        <div id="pPagingSelectedProduct" class="paginghtml" style="margin: auto;"></div>
+    </div>
+
+    <div class="clear"></div>
+
+    <div class="divpagemodal">
+        <div id="pPageLeft"></div>
+        <div id="pPageRight"></div>
+
+    </div>
+</form>
+<script src="/Scripts/jquery.fileupload.js"></script>
+<script>
+    $('#pImportFromFile').click(function () {
+        $('#pfileUpload').trigger('click');
+    });
+    $('#pExportToFile').click(function () {
+        window.location.href = "/TemplateFiles/ListSimpleProduct.xlsx";
+    });
+    $('#pSelectAll').click(function () {
+        var btn = $(this);
+        var orgText = btn.text();
+        if ($('#ddlSubGroup').val() != null) {
+            btn.html('<img src="/Images/ui-anim_basic_16x16.gif" />');
+            $.post("/Common/SearchAllProduct/", $("#frmPopupSearchProduct").serializeArray())
+                .done(function (result) {
+                    if (result) {
+                        var list = JSON.parse(result);
+                        if (list.length == 0) {
+                            alert("Không có sản phẩm trong nhóm hàng đã chọn.");
+                        } else {
+                            callbackExec(list);
+                            $(".popupselectproduct").dialog("close");
+                        }
+                    } else {
+                        alert("Lỗi không thể  lấy tất cả sản phẩm.");
+                    }
+                    btn.html(orgText);
+                });
+        } else {
+            alert('Vui lòng chọn ít nhất 1 nhóm hàng để có thể chọn tất cả.');
+            btn.html(orgText);
+        }
+    });
+
+    $('#pSelectOK').click(function (e) {
+        var list = [];
+        $("#pSelectedProductResult tbody input[type='checkbox']:checked").each(function () {
+            var obj = {};
+            var _this = $(this);
+            var _tr = _this.closest('tr');
+            obj.PRODUCTID = _this.val();
+            obj.PRODUCTNAME = _tr.find('input[name="pProductName"]').val();
+            obj.QUANTITYUNIT = _tr.find('input[name="pQuantityUnit"]').val();
+            obj.QUANTITYUNITID = _tr.find('input[name="pQuantityUnitID"]').val();
+            obj.VAT = _tr.find('input[name="pVAT"]').val();
+            obj.ISALLOWDECIMAL = _tr.find('input[name="pIsAllowDecimal"]').val();
+            obj.ITEMID = _tr.find('input[name="pITEMID"]').val();
+            obj.ITEMQUANTITYUNITID = _tr.find('input[name="pITEMQUANTITYUNITID"]').val();
+            obj.SUBGROUPID = _tr.find('input[name="pSUBGROUPID"]').val();
+            obj.COLORVI = _tr.find('input[name="pCOLORVI"]').val();
+            obj.SIZE = _tr.find('input[name="pSIZE"]').val();
+            obj.WEIGHT = _tr.find('input[name="pWEIGHT"]').val();
+            list.push(obj);
+        });
+
+
+        if (list.length > 0) {
+            $('#tableProduct').show();
+        } else {
+            $('#tableProduct').hide();
+        }
+        callbackExec(list);
+        $(".popupselectproduct").dialog("close");
+    });
+
+    $('#pSearchProduct').click(function (e) {
+        $("#hdPageIndex").val(1);
+        //$("#frmSearchProduct").submit();
+    });
+
+    $("#frmPopupSearchProduct").submit(function () {
+        var btn = $('#pSearchProduct');
+        var orgText = "Tìm kiếm";
+        btn.html('<img src="/Images/ui-anim_basic_16x16.gif" />');
+
+        //$("#pSelectedProductResult input[type='checkbox']:not(:checked)").attr('checked', true);
+        var randomUnique = "var" + Math.round(new Date().getTime() + (Math.random() * 100));
+        $.post("/Common/GetProduct/" + randomUnique, $("#frmPopupSearchProduct").serializeArray())
+            .done(function (result) {
+                $("#pSearchProductResult").html(result);
+                $curentPage = $("#pSearchProductResult table").data("currentpage");
+                $totalPage = $("#pSearchProductResult table").data("totalpage");
+                CreatePagerSubmit($curentPage, $totalPage, $("#pSearchProductResult .divpage"), "frmPopupSearchProduct");
+
+                btn.html(orgText);
+            });
+        return false;
+    });
+
+    $('#frmPopupSearchProduct').fileupload({
+        autoUpload: false,
+        add: function (e, data) {
+            if (data.files[0].type.match('image.*')) {
+                return;
+            }
+
+            $POSloading.show();
+
+            var randomUnique = "var" + Math.round(new Date().getTime() + (Math.random() * 100));
+            var action = "/Common/SelectProductFromImportExcel/" + randomUnique;
+            var fileData = new FormData();
+            fileData.append("file0", data.files[0]);
+
+            $.ajax({
+                type: "POST",
+                url: action,
+                contentType: false,
+                processData: false,
+                data: fileData,
+                success: function (result) {
+                    if (result.success) {
+                        var list = result.objok;
+                        list.forEach(function (obj) {
+                            if ($('#p_' + obj.PRODUCTID).length == 0) {
+                                var html = $('#pTableSelectedProduct tfoot').html();
+                                var newTR = $(html).clone();
+
+                                var chk = newTR.find("input[type='checkbox']").change(function () {
+                                    var __tr = $(this).closest('tr');
+                                    __tr.remove();
+                                    //callPaginator();
+                                }).attr("id", "p_" + obj.PRODUCTID).val(obj.PRODUCTID);
+
+                                newTR.find('input[name="pProductName"]').val(obj.PRODUCTNAME);
+                                newTR.find('input[name="pIsAllowDecimal"]').val(obj.ISALLOWDECIMAL);
+                                newTR.find('input[name="pQuantityUnitID"]').val(obj.QUANTITYUNITID);
+                                newTR.find('input[name="pQuantityUnit"]').val(obj.QUANTITYUNIT);
+                                newTR.find('input[name="pVAT"]').val(obj.VAT);
+                                newTR.find('input[name="pITEMID"]').val(obj.ITEMID);
+                                newTR.find('input[name="pITEMQUANTITYUNITID"]').val(obj.ITEMQUANTITYUNITID);
+                                newTR.find('input[name="pSUBGROUPID"]').val(obj.SUBGROUPID);
+                                newTR.find('input[name="pCOLORVI"]').val(obj.COLORVI);
+                                newTR.find('input[name="pSIZE"]').val(obj.SIZE);
+                                newTR.find('input[name="pWEIGHT"]').val(obj.WEIGHT);
+
+                                newTR.find('td:eq(1)').find('label').attr("for", "p_" + obj.PRODUCTID).text(obj.PRODUCTID);
+                                newTR.find('td:eq(2)').find('label').attr("for", "p_" + obj.PRODUCTID).find('span').text(obj.PRODUCTNAME);
+                                newTR.find('td:eq(3)').find('label').attr("for", "p_" + obj.PRODUCTID).text(obj.QUANTITY);
+
+                                $("#pSelectedProductResult tbody").prepend(newTR);
+                            }
+                        });
+
+                    } else {
+                        alert(result.responseText);
+                    }
+
+                    $POSloading.hide();
+                },
+                error: function (xhr, status, p3, p4) {
+                    debugger;
+                    $POSloading.hide();
+                    alert("Lỗi không thể đọc file excel.");
+                }
+            });
+        }
+    });
+
+    $("select#ddlpMainGroup").multiselect({
+        noneSelectedText: '- Chọn ngành hàng -',
+        selectedList: 0,
+        selectedText: 'Đã chọn # / # ngành hàng',
+        close: function (event, ui) {
+            var chkList = $(this).multiselect("getChecked");
+            var idList = "";
+            $.each(chkList, function (index, obj) {
+                idList += idList == "" ? $(obj).val() : "," + $(obj).val();
+            });
+
+            loadpSubGroup(idList);
+        }
+    }).multiselectfilter();
+
+    $("select#ddlpSubGroup").multiselect({
+        noneSelectedText: '- Chọn nhóm hàng -',
+        selectedList: 0,
+        selectedText: 'Đã chọn # / # nhóm'
+    }).multiselectfilter();
+
+    function loadpSubGroup(idList) {
+        var randomUnique = "var" + Math.round(new Date().getTime() + (Math.random() * 100));
+        $.post("/Common/getSubGroupByMainGroup/" + randomUnique, { idList: idList })
+            .done(function (result) {
+                var parser = new DOMParser()
+                    , doc = parser.parseFromString(result, "text/xml");
+                var optionList = $(doc).find('select#ddlSubGroup option');
+
+                $("#ddlpSubGroup").html('');
+                for (var i = 0; i < optionList.length; i++) {
+                    var opt = $('<option/>').val($(optionList[i]).attr('value')).html($(optionList[i]).html());
+                    $("#ddlpSubGroup").append(opt);
+                }
+
+                $("select#ddlpSubGroup").multiselect('refresh');
+            })
+            .fail(function (result) {
+                $("select#ddlpSubGroup").multiselect("disable");
+                alert("Lỗi không thể tải nhóm hàng.");
+                return;
+            });
+    }
+
+</script>

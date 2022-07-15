@@ -1,0 +1,129 @@
+﻿@{
+    ViewBag.Title = "Cấp quyền nhân viên";
+    var lstPermissionModel = ViewBag.GroupList as List<SYSTEM_PERMISSIONGROUP_SYSTEM_USER_PERMISSIONGROUP_Result>;
+    int intRowCount = lstPermissionModel.Count() / 3;
+    if (lstPermissionModel.Count() % 3 != 0)
+    {
+        intRowCount++;
+    }
+    int intIndex = 0;
+}
+@using SAB.Common
+@model SYSTEM_USER
+@if (Model != null)
+{
+    <table>
+        <tr>
+            <td rowspan="3" style="width: 100px">
+                <img style="width: 80px;" src="~/Images/no-avatar-png-2.png" alt="@Model.USERNAME" />
+            </td>
+        </tr>
+        <tr>
+            <td class="detaillabel">
+                Mã nhân viên:
+            </td>
+            <td class="detailvalue" style="width: 250px">
+                <span style="font-weight: bold"> @Model.USERNAME</span>
+            </td>
+            <td class="detaillabel">
+                Họ tên:
+            </td>
+            <td class="detailvalue">
+                @Model.FULLNAME
+            </td>
+        </tr>
+        <tr>
+            <td class="detaillabel">
+                Số điện thoại:
+            </td>
+            <td class="detailvalue">
+                @Model.MOBI
+            </td>
+            <td class="detaillabel">
+                Email:
+            </td>
+            <td class="detailvalue">
+                @Model.EMAIL
+            </td>
+        </tr>
+    </table>
+    <span style="color: blue;">DANH SÁCH NHÓM QUYỀN:</span>
+    <div style="background-color: white; margin-top: 10px">
+        <table class="table table-striped table-bordered">
+            @for (int row = 0; row < intRowCount; row++)
+            {
+                <tr>
+                    @for (int col = 0; col < 3; col++)
+                    {
+
+                        <td>
+                            @if (intIndex < lstPermissionModel.Count())
+                            {
+                                <label style="font-weight: 400">
+                                    @if (lstPermissionModel.ElementAt(intIndex).USERNAME != null)
+                                    {
+                                        <input type="checkbox" checked="checked" class="chkGroup" value="@lstPermissionModel.ElementAt(intIndex).PERMISSIONGROUPID" />
+                                    }
+                                    else
+                                    {
+                                        <input type="checkbox" class="chkGroup" value="@lstPermissionModel.ElementAt(intIndex).PERMISSIONGROUPID" />
+                                    }
+                                    @lstPermissionModel.ElementAt(intIndex).PERMISSIONGROUPNAME (@lstPermissionModel.ElementAt(intIndex).PERMISSIONGROUPID)
+                                </label>
+                            }
+                        </td>
+                        intIndex++;
+                    }
+                </tr>
+            }
+        </table>
+    </div>
+    <div class="text-right">
+        <button class="btn btn-success" onclick="UpdateData()">Cập nhật</button>
+    </div>
+
+    <script type="text/javascript">
+
+    function UpdateData() {
+        var arrGroupID = {};
+        var i = 0;
+        $(".chkGroup").each(function (index, obj) {
+            if ($(obj).is(':checked')) {
+                arrGroupID[i] = $(obj).val();
+                i++;
+            }
+        });
+
+        if (i == 0)
+        {
+            alert('Vui lòng chọn nhóm quyền');
+            return;
+        }
+
+        $.ajax({
+            async: true,
+            type: "POST",
+            url: "/PermissionUser/UpdateData",
+            cache: false,
+            beginSend: null,
+            data: {
+                strUsername: '@Model.USERNAME',
+                    lstGroupID: arrGroupID,
+                },
+                success: function (data) {
+                    debugger;
+                    if (data != null) {
+                        alert(data.Message);
+                        if (data.Message == 'Cập nhật thành công')
+                            window.location = '@Url.Action("Index", "PermissionUser", new {})';
+                    }
+                },
+                error: function (e) {
+                    debugger;
+                    alert('Lỗi khi cập nhật cấp quyền (js): ' + e.Message);
+                }
+            });
+        }
+
+    </script>
+}

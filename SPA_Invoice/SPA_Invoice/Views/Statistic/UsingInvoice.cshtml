@@ -1,0 +1,286 @@
+﻿@**@
+<style>
+    .using-invoice-area .dropdown-menu {
+        width: 200px !important;
+    }
+
+    .using-invoice-area .treeview-menu ul li {
+        list-style: none;
+        position: relative;
+        width: 100%;
+        height: 30px;
+        font-size: 14px;
+        cursor: pointer;
+        padding: 10px 10px 30px 20px;
+    }
+
+    .using-invoice-area .treeview-menu ul li:hover {
+        background: #d0f7cc 0% 0% no-repeat padding-box;
+    }
+
+    .using-invoice-area .treeview-menu ul li a {
+        color: black;
+        text-decoration: none;
+    }
+
+    .table-bordered thead th {
+        vertical-align: middle;
+    }
+
+    .invoice-template-header .header-left {
+        font-size: 13px;
+        padding-top: 7%;
+    }
+</style>
+<div class="using-invoice-area" ng-init="GetUsingInvoiceStatus()">
+    <div class="d-flex justify-content-between">
+        <h2><strong>Báo cáo tình hình sử dụng hóa đơn</strong></h2>
+    </div>
+
+    <div class="bg-white border mt-4">
+        <div class="header-filter px-3 py-2">
+            <div class="d-flex justify-content-between mt-2">
+                <div class="d-flex justify-content-center align-items-center">
+                    <div class="btn-group btn-filter">
+                        <button type="button" class="btn btn-light btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                            Bộ lọc
+                        </button>
+                        <div class="dropdown-menu p-3" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 31px, 0px); top: 0px; left: 0px; will-change: transform;">
+                            <form class="ng-pristine ng-valid">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p class="mb-1">Kỳ báo cáo</p>
+                                        <select class="form-control form-control-sm" ng-model="ReportInvoice.MONTHQUARTER">
+                                            <option value="M1" selected="selected">Tháng 1</option>
+                                            <option value="M2">Tháng 2</option>
+                                            <option value="M3">Tháng 3</option>
+                                            <option value="M4">Tháng 4</option>
+                                            <option value="M5">Tháng 5</option>
+                                            <option value="M6">Tháng 6</option>
+                                            <option value="M7">Tháng 7</option>
+                                            <option value="M8">Tháng 8</option>
+                                            <option value="M9">Tháng 9</option>
+                                            <option value="M10">Tháng 10</option>
+                                            <option value="M11">Tháng 11</option>
+                                            <option value="M12">Tháng 12</option>
+
+                                            <option value="Q1">Quý I</option>
+                                            <option value="Q2">Quý II</option>
+                                            <option value="Q3">Quý III</option>
+                                            <option value="Q4">Quý IV</option>
+                                        </select>
+
+                                        <p class="mb-1 mt-3">Năm</p>
+                                        <select class="form-control form-control-sm" ng-model="ReportInvoice.YEAR" convert-to-number>
+                                            <option value="2019">2019</option>
+                                            <option value="2020">2020</option>
+                                            <option value="2021">2021</option>
+                                            <option value="2022">2022</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center mt-4 float-right">
+                                    <button class="btn btn-success btn-sm pl-5 pr-5" ng-click="GetUsingInvoiceStatus()">Lọc</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-center align-items-center">
+                    <div class="button-circle-hover" data-toggle="dropdown">
+                        <span class="fa fa-download"></span>
+                    </div>
+                    <div class="dropdown-menu dropdown-menu-settings p-0">
+                        <form class="frm_custom_view_column" enctype="multipart/form-data" method="post" action="">
+                            <div class="treeview-menu">
+                                <ul class="p-0 m-0">
+                                    <li class="header">
+                                        <a href='/Statistic/DownloadUsingInvoiceReportXML'>Tải xuống file XML</a>
+                                    </li>
+                                    @*<li>
+                                        <a href='/Statistic/DownloadInvoiceStatisticExcel'>Tải xuống file EXCEL</a>
+                                    </li>*@
+                                </ul>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="btn-filter mt-2">
+            <div class="invoice-template">
+                <div class="invoice-template-header">
+
+                    <div class="d-flex">
+                        <div class="col-4 header-left">
+                            <p class="mb-0">
+                                <b>
+                                    1: Tên tổ chức: {{Enterprise.COMNAME}}
+                                </b>
+                            </p>
+                            <p class="mb-0">
+                                <b>
+                                    2: Mã số thuế: {{Enterprise.COMTAXCODE}}
+                                </b>
+                            </p>
+                            <p class="mb-0">
+                                <b>
+                                    3: Địa chỉ: {{Enterprise.COMADDRESS}}
+                                </b>
+                            </p>
+                            <p class="mb-0" ng-if="UsingInvoice.QUARTER == 4">
+                                Kỳ báo cáo cuối cùng
+                            </p>
+                            <p class="mb-0">
+                                Ngày đầu kỳ báo cáo: {{ReportTime.FIRSTTIME}}, Ngày cuối kì báo cáo {{ReportTime.LASTTIME}}
+                            </p>
+                        </div>
+                        <div class="col-4 text-center">
+                            <p class="mb-0"><b>CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</b></p>
+                            <p class="mb-0"><b>Độc lập - Tự do - Hạnh phúc</b></p>
+                            <p class="mb-0">- - - - - - - - - - - - - - -</p>
+                            <p class="mb-0"><b>BÁO CÁO TÌNH HÌNH SỬ DỤNG HÓA ĐƠN (BC26/AC)</b></p>
+                            <p class="mb-0">Kỳ tính thuế: {{ReportTime.TERM}}</p>
+                        </div>
+                        <div class="col-4 text-center">
+                            <div>
+                                <p class="mb-0"><b>Mẫu số: 01-1/GTGT</b></p>
+                                <p class="mb-0">(Ban hành kèm theo Thông tư số 26/2015/TT-BTC</p>
+                                <p class="mb-0">ngày 27/02/2015 của bộ Tài chính)</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="mt-4 invoice-template-body">
+                    <table class="table table-responsive table-bordered">
+                        <thead>
+                            <tr class="text-center">
+                                <th rowspan="4">STT</th>
+                                <th rowspan="4">Tên loại hóa đơn</th>
+                                <th rowspan="4">Ký hiệu mẫu hóa đơn</th>
+                                <th rowspan="4">Ký hiệu hóa đơn</th>
+                                <th colspan="5">Số tồn đầu kỳ, mua/phát hành trong kỳ</th>
+                                <th colspan="10">Số sử dụng, xoá bỏ, mất, hủy trong kỳ</th>
+                                <th colspan="3" rowspan="3">Tồn cuối kỳ</th>
+                            </tr>
+                            <tr class="text-center">
+                                <th rowspan="3">Tống số</th>
+                                <th rowspan="2" colspan="2">Số tồn đầu kỳ</th>
+                                <th rowspan="2" colspan="2">Số mua/phát hành trong kỳ</th>
+                                <th rowspan="2" colspan="3">Tổng số sử dụng, xóa, hủy trong kỳ</th>
+                                <th colspan="5">Trong đó</th>
+                            </tr>
+                            <tr class="text-center">
+                                <th rowspan="2">Số lượng đã sử dụng</th>
+                                <th colspan="2">Xóa bỏ</th>
+                                <th colspan="2">Mất</th>
+                                <th colspan="2">Hủy</th>
+                            </tr>
+                            <tr class="text-center">
+                                <th>Từ số</th>
+                                <th>Đến số</th>
+                                <th>Từ số</th>
+                                <th>Đến số</th>
+                                <th>Từ số</th>
+                                <th>Đến số</th>
+                                <th>Cộng</th>
+                                <th>Số lượng</th>
+                                <th>Số</th>
+                                <th>Số lượng</th>
+                                <th>Số</th>
+                                <th>Số lượng</th>
+                                <th>Số</th>
+                                <th>Từ số</th>
+                                <th>Đến số</th>
+                                <th>Số lượng</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-center">
+                            <tr>
+                                <td>(1)</td>
+                                <td>(2)</td>
+                                <td>(3)</td>
+                                <td>(4)</td>
+                                <td>(5)</td>
+                                <td>(6)</td>
+                                <td>(7)</td>
+                                <td>(8)</td>
+                                <td>(9)</td>
+                                <td>(10)</td>
+                                <td>(11)</td>
+                                <td>(12)</td>
+                                <td>(13)</td>
+                                <td>(14)</td>
+                                <td>(15)</td>
+                                <td>(16)</td>
+                                <td>(17)</td>
+                                <td>(18)</td>
+                                <td>(19)</td>
+                                <td>(20)</td>
+                                <td>(21)</td>
+                                <td>(22)</td>
+                            </tr>
+                            <tr ng-repeat="item in UsingInvoiceList">
+                                <td>{{$index + 1}}</td>
+                                <td>
+                                    <p ng-if="item.FORMCODE.includes('01GTKT')">Hóa đơn giá trị gia tăng</p>
+                                    <p ng-if="item.FORMCODE.includes('02GTTT')">Hóa đơn bán hàng</p>
+                                    <p ng-if="item.FORMCODE.includes('03XKNB')">Phiếu xuất kho kiêm vận chuyển nội bộ</p>
+                                </td>
+                                <td>{{item.FORMCODE}}</td>
+                                <td>{{item.SYMBOLCODE}}</td>
+                                <td>{{item.SUM_PRE_TERM}}</td>
+                                <td>{{item.PRE_TERM_RETAIN_FROMNUMBER == 0 ? "" : item.PRE_TERM_RETAIN_FROMNUMBER | numberFixedLen:7}}</td>
+                                <td>{{item.PRE_TERM_RETAIN_TONUMBER == 0 ? "" : item.PRE_TERM_RETAIN_TONUMBER | numberFixedLen:7}}</td>
+                                <td>{{item.BUY_INTERM_FROMNUMBER == 0 ? "" : item.BUY_INTERM_FROMNUMBER | numberFixedLen:7}}</td>
+                                <td>{{item.BUY_INTERM_TONUMBER == 0 ? "" : item.BUY_INTERM_TONUMBER | numberFixedLen:7}}</td>
+                                <td>{{item.ALL_USED_FROMNUMBER == 0 ? "" : item.ALL_USED_FROMNUMBER | numberFixedLen:7}}</td>
+                                <td>{{item.ALL_USED_TONUMBER == 0 ? "" : item.ALL_USED_TONUMBER | numberFixedLen:7}}</td>
+                                <td>{{item.ALL_USED_SUM}}</td>
+                                <td>{{item.REAL_USED_SUM}}</td>
+                                <td>{{item.DELETED_USED_SUM}}</td>
+                                <td style="word-break: break-word;">{{item.DELETED_USED_DETAIL_LIST}}</td>
+                                <td></td>
+                                <td></td>
+                                <td>{{item.CANCELED_USED_SUM}}</td>
+                                <td>{{item.CANCELED_USED_DETAIL_LIST}}</td>
+                                <td>{{item.LAST_RETAIN_FROMNUMBER}}</td>
+                                <td>{{item.LAST_RETAIN_TONUMBER}}</td>
+                                <td>{{item.LAST_RETAIN_SUM}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+
+                </div>
+                <div class="mt-5 invoice-template-footer">
+                    <div class="d-flex">
+                        <div class="col-6 text-center">
+                            <p class="mb-0">
+                                <b>Cam kết báo cáo tình hình sử dụng hóa đơn trên đây là đúng sự thật, nếu sai đơn vị chịu hoàn toàn trách nhiệm trước pháp luật</b>
+                            </p>
+                            <p class="mb-0">
+                                <b>Người lập biểu</b>
+                            </p>
+                            <p class="mb-0">
+                                (Ký, ghi rõ họ, tên )
+                            </p>
+                        </div>
+                        <div class="col-6 text-center">
+                            <p class="mb-0">Ngày &nbsp; &nbsp;tháng &nbsp; &nbsp;năm  </p>
+                            <p class="mb-0"><b>ĐẠI DIỆN THEO PHÁP LUẬT</b></p>
+                            <p class="mb-0">
+                                (Ký, ghi rõ họ, tên )
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr />
+            <span class="text-success p-5"><i>Ký điện tử bởi: CÔNG TY CỔ PHẦN TẬP ĐOÀN TRUYỀN THÔNG VÀ CÔNG NGHỆ NOVAON</i></span>
+        </div>
+    </div>
+
+</div>

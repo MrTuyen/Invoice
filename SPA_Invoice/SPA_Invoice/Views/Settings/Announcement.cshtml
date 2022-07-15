@@ -1,0 +1,157 @@
+﻿<style>
+    #popupViewInvoice {
+        display: none;
+        position: absolute;
+        top: 40px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        overflow: hidden;
+        height: 800px!important;
+    }
+
+    iframe {
+        height: 100%;
+        width: 100%;
+        border: none;
+        margin: 0;
+        padding: 0;
+    }
+    .ui-dialog[aria-describedby="popupViewInvoice"] {
+        width: 1100px !important;
+        height: 850px !important;
+        position: relative;
+    }
+    .ui-dialog .ui-dialog-titlebar {
+        display: flex !important;
+        display: -ms-flexbox !important;
+        -ms-flex-pack: justify !important;
+        justify-content: space-between !important;
+        -ms-flex-align: center !important;
+        align-items: center !important;
+    }
+    .ui-dialog .ui-dialog-title{
+        width: 10px;
+    }
+</style>﻿
+<div class="announcementa-area" ng-controller="InvoiceController" ng-init="GetNumber(1)">
+
+    <div class="d-flex justify-content-between">
+        <h2><strong>Danh sách mẫu hóa đơn phát hành</strong></h2>
+        <div class="btn-group btn-sm">
+            <a class="btn btn-success" href="/#/mau-hoa-don">
+                <span class="fa fa-plus"></span> &nbsp; Thêm mẫu mới
+            </a>
+        </div>
+    </div>
+
+    <div class="bg-white border mt-4">
+        <div class="btn-filter">
+            <table class="table table-bordered table-sm table-vertical-center table-head-green table-hover">
+                <thead>
+                    <tr class="text-center">
+                        <th class="text-center">ID</th>
+                        <th>Mã số thuế</th>
+                        <th>Mẫu số</th>
+                        <th>Ký hiệu</th>
+                        <th>Từ số</th>
+                        <th>Đến số</th>
+                        <th>Số hiện tại</th>
+                        <th>Trạng thái</th>
+                        <th>Ngày bắt đầu sử dụng</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody class="product-table">
+                    <tr class="data" ng-hide="ListNumber.length >= 1">
+                        <td colspan="12">Dữ liệu đang trống!</td>
+                    </tr>
+                    <tr ng-repeat="item in ListNumber" class="text-center">
+
+                        <td class="text-center">
+                            <label>{{$index + 1}}</label>
+                        </td>
+                        <td>
+                            <label>{{item.COMTAXCODE}}</label>
+                        </td>
+                        <td>
+                            <label>{{item.FORMCODE}}</label>
+                        </td>
+                        <td>
+                            <label>{{item.SYMBOLCODE}}</label>
+                        </td>
+                        <td>
+                            <label>{{item.FROMNUMBER | numberFixedLen:7}}</label>
+                        </td>
+                        <td>
+                            <label>{{item.TONUMBER | numberFixedLen:7}}</label>
+                        </td>
+                        <td>
+                            <label>{{item.CURRENTNUMBER | numberFixedLen:7}}</label>
+                        </td>
+                        <td class="text-center">
+                            <label ng-if="item.STATUS == 1" class="text-success">
+                                <b>
+                                    Đang phát hành
+                                </b>
+                            </label>
+                            <label ng-if="item.STATUS == 4" class="text-danger">
+                                <b>
+                                    Chưa phát hành
+                                </b>
+                            </label>
+                            <label ng-if="item.STATUS == 2" class="text-danger">
+                                <b>
+                                    Hết số
+                                </b>
+                            </label>
+                        </td>
+                        <td>
+                            <label>{{item.FROMTIME | dateFormat:'dd/MM/yyyy'}}</label>
+                        </td>
+                        <td class="text-right">
+                            <label data-toggle="tooltip" data-placement="bottom" title="Xóa file dữ liệu" ng-if="item.TEMPLATELINK">
+                                <button type="button" class="btn btn-light btn-link" ng-click="RemoveFileReport(item)">
+                                    <span class="fa fa-times"></span>
+                                </button>
+                            </label>
+                            <button class="btn btn-sm circle_dropdown_toggle" href="javascript:;" ng-click="PreviewInvoiceTemplate(item)"><span class="fa fa-eye color_btn" title="Xem file mẫu HĐ"></span></button>
+                            <button type="button" class="btn btn-sm circle_dropdown_toggle" data-toggle="tooltip" data-placement="bottom" title="Sửa mẫu" ng-if="item.STATUS == 4" ng-click="EditTemplate(item)">
+                                <span class="fa fa-edit text-secondary"></span>
+                            </button>
+                            <div class="btn-group btn-sm pl-0">
+                                <button type="button" class="btn btn-secondary btn-sm dropdown-toggle dropdown-toggle-split circle_dropdown_toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span class="fa fa-download text-secondary"></span> &nbsp;
+                                    <span class="sr-only">Toggle Dropdown</span>
+                                </button>
+                                <div class="dropdown-menu" x-placement="bottom-start">
+                                    <div>
+                                        <a class="dropdown-item" href="javascript:;" ng-click="DownloadIssuedDocument(item)"><span class="fa fa-file-word-o"></span>&nbsp;&nbsp; Tải quyết định phát hành</a>
+                                    </div>
+                                    <div>
+                                        <a class="dropdown-item" href="javascript:;" ng-click="DownloadReleaseDocument(item)"><span class="fa fa-file-word-o"></span>&nbsp;&nbsp; Tải biên bản phát hành</a>
+                                    </div>
+                                    <div>
+                                        <a class="dropdown-item" href="javascript:;" ng-click="DownloadReleaseDocumentXML(item)"> <span class="fa fa-file-excel-o"></span>&nbsp;&nbsp; Tải biên bản phát hành xml</a>
+                                    </div>
+                                    <div>
+                                        <a class="dropdown-item" href="javascript:;" ng-click="DownloadReleaseInvoiceTemplate(item)"><span class="fa fa-file-pdf-o"></span>&nbsp;&nbsp; Tải mẫu hóa đơn</a>
+                                    </div>
+                                    <div>
+                                        <a class="dropdown-item" href="javascript:;" ng-click="DownloadConvertibleInvoiceTemplate(item)"><span class="fa fa-file-pdf-o"></span>&nbsp;&nbsp; Tải mẫu chuyển đổi</a>
+                                    </div>
+                                    <div>
+                                        <a class="dropdown-item" href="javascript:;" ng-click="DownloadDiscountInvoiceTemplate(item)"><span class="fa fa-file-pdf-o"></span>&nbsp;&nbsp; Tải mẫu chiết khấu</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div id="popupViewInvoice" title="Basic dialog" width="100%" height="100%">
+        <iframe src="" id="frViewFileInvoice"></iframe>
+    </div>
+</div>

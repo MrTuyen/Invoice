@@ -1,0 +1,1 @@
+C:\NGUYENVANTUYEN\Invoice\DS.Service\DS.BusinessLogic\obj\Debug\DS.BusinessLogic.csprojResolveAssemblyReference.cache

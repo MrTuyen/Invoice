@@ -1,0 +1,41 @@
+[
+  {
+    "outputFileName": "Minifier/novaon.styles.css",
+    "inputFiles": [
+      "Content/css/jquery-ui.css",
+      "Content/css/jquery-ui-timepicker-addon.css",
+      "Content/css/jquery.multiselect.css",
+      "Content/css/jquery.multiselect.filter.css",
+      "Content/css/AdminLTE.css",
+      "Content/css/Site.css"
+    ]
+  },
+  {
+    "outputFileName": "Minifier/novaon.scripts.js",
+    "inputFiles": [
+      "Scripts/jquery.fileupload.js",
+      "Scripts/adminlte.js",
+      "Scripts/app.js",
+      "Scripts/filters.js",
+      "Scripts/Product.js",
+      "Scripts/Directives/ClearableTextBox.js",
+      "Scripts/Directives/DivPage.js",
+      "Scripts/Directives/MoDateInput.js"
+    ]
+  },
+  {
+    "outputFileName": "Minifier/factory.js",
+    "inputFiles": [
+      "Scripts/Factorys/CommonFactory.js",
+      "Scripts/Common.js"
+    ]
+  },
+  {
+    "outputFileName": "Minifier/controller.js",
+    "inputFiles": [
+      "Scripts/Controllers/AccountController.js",
+      "Scripts/Controllers/ManagerController.js",
+      "Scripts/Controllers/InfoComController.js"
+    ]
+  }
+]

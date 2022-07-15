@@ -1,0 +1,149 @@
+﻿
+@{
+    ViewBag.Title = "Tra cứu hóa đơn điện tử - Onfinance.asia";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!------ Include the above in your HEAD tag ---------->
+<section class="search-banner py-3 form-arka-plan" id="search-banner">
+    <div class="container">
+        <nav>
+            <div class="nav-xbootstrap d-sm-flex justify-content-between">
+                <div class="d-sm-flex align-items-center">
+                    <a href="https://onfinance.asia/" class="hidden-mobile"><img src="~/Images/logo.png" /></a>
+                    <a href="https://onfinance.asia/" class="nav-text-link">Giới thiệu</a>
+                    <a href="http://support.onfinance.asia/" class="nav-text-link">Hướng dẫn</a>
+                </div>
+                <div class="d-flex align-items-center justify-content-center mt- mt-sm-0 mt-3">
+                    <span class="hidden-mobile pr-2">Bạn muốn dùng Hóa đơn điện tử?</span>
+                    <a href="https://e.onfinance.asia/user-account/register" class="hidden-mobile mr-3"><button class="btn btn-warning">Dùng thử miễn phí</button></a>
+                    <a href="https://e.onfinance.asia/user-account/login"><button class="btn btn-success"><i class="icofont-ssl-security"></i> Đăng nhập</button></a>
+                </div>
+            </div>
+            <div class="nav-bg-xbootstrap d-flex justify-content-between align-items-center">
+                <div class="navbar-xbootstrap"> <span></span> <span></span> <span></span> </div>
+                <a href="https://onfinance.asia/" class="title-mobile"><img src="~/Images/logo.png" /></a>
+                <a href="https://e.onfinance.asia/user-account/register" class="title-mobile"><button class="btn btn-warning">Dùng thử miễn phí</button></a>
+            </div>
+        </nav>
+    </div>
+
+    <div class="container py-5 box_search">
+        <div class="row text-center pb-4">
+            <div class="col-md-12">
+                <h2 class="siyah-cerceve">Tra cứu hóa đơn điện tử</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card acik-renk-form">
+                    <div class="card-body px-4">
+                        <label class="font-weight-light text-dark text-title">
+                            <input type="radio" id="lb_search_by_symbol" name="lb_search_invoice" checked="checked" />
+                            Xem theo mã tra cứu hóa đơn
+                        </label>
+                        <label class="font-weight-light text-dark text-title">
+                            <input type="radio" id="lb_search_by_xml" name="lb_search_invoice" />
+                            Xem hóa đơn gốc từ file XML
+                        </label>
+                        <div class="form-input">
+                            <!-- Search text -->
+                            <input type="text" name="keyword" class="form-control form-control-lg frm-search-text" placeholder="Nhập mã tra cứu">
+                            <button type="button" class="btn btn-warning btn-search frm-search-text" id="cmd_search">
+                                <i class="icofont-search-1 toggle-show"></i>
+                                <img src="~/Images/oval.svg" class="toggle-show d-none" />
+                                Tra cứu
+                            </button>
+
+                            <!-- Search file-->
+                            <input type="text" name="file-xml" class="form-control form-control-lg frm-search-file" placeholder="Chọn hóa đơn gốc file .xml" readonly="readonly">
+                            <button type="button" class="btn btn-warning btn-search frm-search-file">
+                                <i class="icofont-file-text toggle-show"></i>
+                                <img src="~/Images/oval.svg" class="toggle-show d-none" />
+                                Chọn file
+                            </button>
+                            <input type="file" id="input_select_file" accept=".xml" class="d-none" />
+                        </div>
+
+                        <!-- Lưu mã hóa đơn tìm được -->
+                        <input type="hidden" id="invoice_id" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <h3><a href="https://e.onfinance.asia/user-account/login">SỬ DỤNG HÓA ĐƠN ĐIỆN TỬ NHANH &amp; DỄ DÀNG VỚI ONFINANCE</a></h3>
+        <h5>Thành viên trong hệ sinh thái NOVAON với hơn 65.000 khách hàng</h5>
+        <div class="container">
+            <ul class="iconlist row">
+                <li class="col-md-3">
+                    <div class="icon-holder">
+                        <div class="icon">
+                            <i class="icofont-touch"></i>
+                        </div>
+                        <p> Dễ sử dụng </p>
+                        <span>Khởi tạo, phát hành và tìm kiếm hoá đơn trên mọi thiết bị và ở mọi lúc mọi nơi</span>
+                    </div>
+                </li>
+                <li class="col-md-3">
+                    <div class="icon-holder">
+                        <div class="icon">
+                            <i class="icofont-rocket-alt-2"></i>
+                        </div>
+                        <p> Nhanh chóng </p>
+                        <span>Kế toán chỉ mất 3s để đưa hóa đơn tới khách hàng, rút ngắn thời gian thu hồi công nợ</span>
+                    </div>
+                </li>
+                <li class="col-md-3">
+                    <div class="icon-holder">
+                        <div class="icon">
+                            <i class="icofont-ui-fire-wall"></i>
+                        </div>
+                        <p> An toàn </p>
+                        <span>Lưu trữ vĩnh viễn an toàn tuyệt đối, không lo sợ cháy hỏng hoặc mất mát hóa đơn.</span>
+                    </div>
+                </li>
+                <li class="col-md-3">
+                    <div class="icon-holder">
+                        <div class="icon">
+                            <i class="icofont-money-bag"></i>
+                        </div>
+                        <p> Tiết kiệm </p>
+                        <span>Không tốn chi phí in ấn, vận chuyển, lưu trữ hóa đơn</span>
+                    </div>
+                </li>
+
+            </ul>
+        </div>
+        <div class="copyright py-2 text-white d-sm-flex align-items-center justify-content-center">
+            <div class="pr-3">Bạn muốn sử dụng Hóa đơn điện tử dễ dàng hơn?</div>
+            <a href="https://e.onfinance.asia/user-account/register"><button class="btn btn-warning">Dùng thử miễn phí</button></a>
+        </div>
+    </div>
+</section>
+
+<div id="popupViewInvoice" title="Basic dialog">
+    <iframe src="" id="frViewFileInvoice"></iframe>
+</div>
+
+<!-- Template popup thực hiện chuyển đổi hóa đơn điện tử sang hóa đơn giấy -->
+<div id="popupContentInvoicePaper" title="Basic dialog">
+    <div id="showContentInvoicePaper">
+        <div class="main-content">
+            <div class="label-convert">
+                Họ và tên người chuyển đổi
+                <span style="color: red">(*)</span>
+            </div>
+            <input type="text" id="txtConverter" class="text-converter" placeholder="Nhập họ và tên người chuyển đổi" tabindex="1">
+            <div class="text-required">
+            </div>
+            <div class="button-group">
+                <div class="toggle-show toggle-show d-none"><img src="~/Images/oval.svg" style="margin-right: 10px;">Đang thực hiện chuyển đổi hóa đơn...</div>
+                <button id="btnContine" class="btn btn-primary" tabindex="2">Tiếp tục</button>
+                <input type="button" id="btnCancel" class="btn btn-secondary" value="Hủy bỏ" tabindex="3">
+            </div>
+        </div>
+    </div>
+</div>

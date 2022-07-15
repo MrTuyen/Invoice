@@ -1,0 +1,400 @@
+﻿@*Hóa đơn chờ*@
+<div ng-show="Tab.Wating">
+    <div class="bg-white border mt-2 ">
+        @*Bô lọc*@
+        <div class="d-none d-sm-block">
+            <div class="header-filter px-2 pt-2">
+                <div class="btn-group btn-filter ml-1">
+                    <div class="d-flex align-items-end"><img src="~/Images/64px_corner-down-round.png" /></div>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-light btn-sm dropdown-toggle" data-toggle="dropdown">
+                            Xử lý hàng loạt
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-sm" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="javascript:;" ng-click="MergingPdfFile()" ng-if="Enterprise.USINGINVOICETYPE == 4"><i class="fa fa-print"></i>&nbsp; In hóa đơn</a>
+                            <a class="dropdown-item" href="javascript:;" has-permission="{{USER_ROLE.NGHIEP_VU_HOA_DON}}" ng-click="RemoveInvoice()"><i class="fa fa-trash-o"></i>&nbsp; Xóa</a>
+                            <a class="dropdown-item" href="javascript:;" has-permission="{{USER_ROLE.CAP_NHAT_HOA_DON}}" ng-click="OpenModalUpdatePaymentStatus()"><i class="fa fa-wrench"></i>&nbsp; Cập nhật TTTT</a>
+                            <a class="dropdown-item" href="javascript:;" has-permission="{{USER_ROLE.PHAN_QUYEN_NGUOI_DUNG}}" ng-click="OpenModalUpdatePartner()"><i class="fa fa-users"></i>&nbsp; Phân quyền CTV</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="btn-group btn-filter">
+                    <button type="button" class="btn btn-light btn-sm dropdown-toggle" data-toggle="dropdown">
+                        <span class="fa fa-filter"></span> Bộ lọc
+                    </button>
+                    <div class="dropdown-menu p-3">
+                        <form id="frmInvoiceFilterWating">
+                            <div class="row">
+                                <div class="col-6">
+                                    <p class="mb-1">Mẫu số</p>
+                                    <select class="form-control form-control-sm ddl-novaon" ng-model="Filter.FORMCODE">
+                                        <option value="" selected>Tất cả</option>
+                                        <option ng-repeat="item in ListFormCode" value="{{item.FORMCODE}}">{{item.FORMCODE}}</option>
+                                    </select>
+
+
+                                    <p class="mb-1 mt-3">Khách hàng</p>
+                                    <input class="form-control form-control-sm" ng-model="Filter.CUSTOMER" placeholder="Tên doanh nghiệp..." />
+                                    <p class="mb-1 mt-3">Sắp xếp</p>
+                                    <select class="form-control form-control-sm ddl-novaon" ng-model="Filter.STATUS">
+                                        <option value="" selected>Mặc định</option>
+                                        @*<option value="0">Ngày tạo HĐ tăng dần </option>
+                                <option value="1">Ngày tạo HĐ giảm dần</option>*@
+                                        <option value="2">Mã KH giảm dần</option>
+                                        <option value="3">Mã KH tăng dần</option>
+                                        <option value="4">Thứ tự ký</option>
+                                    </select>
+                                    <p class="mb-1 mt-3">Thời gian</p>
+                                    <select class="form-control form-control-sm ddl-novaon" ng-model="Filter.TIME">
+                                        <option value="{{null}}" selected>Tất cả</option>
+                                        <option ng-repeat="t in Timepickers.Options" value="{{t.value}}">{{t.text}}</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-6">
+                                    <p class="mb-1">Ký hiệu</p>
+                                    <select class="form-control form-control-sm ddl-novaon" ng-model="Filter.SYMBOLCODE">
+                                        <option value="" selected>Tất cả</option>
+                                        <option ng-repeat="item in ListSymbolCode" value="{{item.SYMBOLCODE}}">{{item.SYMBOLCODE}}</option>
+                                    </select>
+                                    <p class="mb-1 mt-3">Trạng thái thanh toán</p>
+                                    <select class="form-control form-control-sm ddl-novaon" name="PAYMENTSTATUS" ng-model="Filter.PAYMENTSTATUS">
+                                        <option value="{{null}}" selected>Tất cả</option>
+                                        <option value="1">Chưa thanh toán</option>
+                                        <option value="2">Đã thanh toán</option>
+                                    </select>
+                                    <p class="mb-1 mt-3">Mã khách hàng</p>
+                                    <input class="form-control form-control-sm" ng-model="Filter.CUSTOMERCODE" placeholder="CH00001" />
+
+                                </div>
+                            </div>
+                            <div class="row" ng-show="(Filter.TIME == 5)">
+                                <div class="col-6">
+                                    <p class="mb-1 mt-3">Từ ngày</p>
+                                    <input type="date" ng-model="FROMTIME" data-date-format="DD MMMM YYYY" id="pk_fromtimeWating" class="w-100 form-control form-control-sm">
+                                </div>
+                                <div class="col-6">
+                                    <p class="mb-1 mt-3">Đến ngày</p>
+                                    <input type="date" ng-model="TOTIME" data-date-format="DD MMMM YYYY" id="pk_totimeWating" class="w-100 form-control form-control-sm">
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center mt-4">
+                                <div class="keyword-filter">
+
+                                </div>
+                                <button class="btn btn-success btn-sm pl-5 pr-5" ng-click=" GetInvoiceWait(1)">Lọc</button>
+                            </div>
+                        </form>
+                    </div>
+                    <button type="button" class="btn btn-light btn-sm ml-1" has-permission="{{USER_ROLE.XEM_HOA_DON}}" ng-click="CloseSideBar()">
+                        <span class="fa fa-bars"></span> Xem nhanh HĐ
+                    </button>
+                </div>
+
+                <div class="btn-group">
+                    <button type="button" style="cursor:pointer;" class="btn btn-warning btn-sm" has-permission="{{USER_ROLE.KY}}" ng-if="IsHSM !== 'OK'" ng-click="SignMultipleInvoice(false, true)">
+                        <img src="~/Images/hand-writing-with-ballpen.svg" style="width: 16px;"> Phát hành <i id="invoice-seleced-sign-waiting" style="font-weight: bold;"></i>
+                    </button>
+                    <button type="button" style="cursor:pointer;" class="btn btn-warning btn-sm" has-permission="{{USER_ROLE.KY}}" ng-if="IsHSM === 'OK'" ng-click="SignMultipleInvoice(false, false)">
+                        <img src="~/Images/hand-writing-with-ballpen.svg" style="width: 16px;"> Phát hành HSM<i id="invoice-seleced-sign-waiting" style="font-weight: bold;"></i>
+                    </button>
+                </div>
+
+                <span class="has-tag" ng-repeat="f in FilterApply" ng-click="RemoveFilter(f)">{{f.value}} <img src="~/Images/close.png"></span>
+
+                <div class="d-flex justify-content-between mt-2 custom-action">
+                    <div class="d-flex justify-content-center align-items-center">
+                        <div class="button-circle-hover"><span title="Làm mới dữ liệu" class="fa fa-refresh" ng-click="GetInvoiceWait(1)"></span></div>
+                        <div class="button-circle-hover" data-toggle="dropdown">
+                            <span title="Thiết lập cột hiển thị" class="fa fa-cog"></span>
+                        </div>
+                        <div class="dropdown-menu p-3" ng-init="LoadCookie_Invoice()">
+                            <form class="frm_custom_view_column">
+                                <p class="mb-0">Cột hiển thị</p>
+                                <label for="cbx_id" class="label-cbx">
+                                    <input id="cbx_id1" type="checkbox" class="invisible" ng-model="cookie.FieldID" ng-click="CheckInvoice(cookie.FieldID,'FieldID')">
+                                    <span class="checkbox">
+                                        <svg width="20px" height="20px" viewBox="0 0 20 20">
+                                            <path d="M3,1 L17,1 L17,1 C18.1045695,1 19,1.8954305 19,3 L19,17 L19,17 C19,18.1045695 18.1045695,19 17,19 L3,19 L3,19 C1.8954305,19 1,18.1045695 1,17 L1,3 L1,3 C1,1.8954305 1.8954305,1 3,1 Z"></path>
+                                            <polyline points="4 11 8 15 16 6"></polyline>
+                                        </svg>
+                                    </span>
+                                    <span class="cbx-text">ID</span>
+                                </label>
+
+                                <label for="cbx_invoice_date_wating" class="label-cbx">
+                                    <input id="cbx_invoice_date_wating" type="checkbox" class="invisible" ng-model="cookie.FieldBillDate" ng-click="Check(cookie.FieldBillDate,'FieldBillDate')">
+                                    <span class="checkbox">
+                                        <svg width="20px" height="20px" viewBox="0 0 20 20">
+                                            <path d="M3,1 L17,1 L17,1 C18.1045695,1 19,1.8954305 19,3 L19,17 L19,17 C19,18.1045695 18.1045695,19 17,19 L3,19 L3,19 C1.8954305,19 1,18.1045695 1,17 L1,3 L1,3 C1,1.8954305 1.8954305,1 3,1 Z"></path>
+                                            <polyline points="4 11 8 15 16 6"></polyline>
+                                        </svg>
+                                    </span>
+                                    <span class="cbx-text">Ngày tạo</span>
+                                </label>
+
+                                <div class="report_col_show_more onscrollbar">
+                                    <label for="cbx_invoice_formcode_wating" class="label-cbx">
+                                        <input id="cbx_invoice_formcode_wating" type="checkbox" class="invisible" ng-model="cookie.FieldFormCode" ng-click="Check(cookie.FieldFormCode,'FieldFormCode')">
+                                        <span class="checkbox">
+                                            <svg width="20px" height="20px" viewBox="0 0 20 20">
+                                                <path d="M3,1 L17,1 L17,1 C18.1045695,1 19,1.8954305 19,3 L19,17 L19,17 C19,18.1045695 18.1045695,19 17,19 L3,19 L3,19 C1.8954305,19 1,18.1045695 1,17 L1,3 L1,3 C1,1.8954305 1.8954305,1 3,1 Z"></path>
+                                                <polyline points="4 11 8 15 16 6"></polyline>
+                                            </svg>
+                                        </span>
+                                        <span class="cbx-text">Mẫu số/Ký hiệu</span>
+                                    </label>
+
+                                    <label for="cbx_invoice_number_wating" class="label-cbx">
+                                        <input id="cbx_invoice_number_wating" type="checkbox" class="invisible" ng-model="cookie.FieldNumber" ng-click="Check(cookie.FieldNumber,'FieldNumber')">
+                                        <span class="checkbox">
+                                            <svg width="20px" height="20px" viewBox="0 0 20 20">
+                                                <path d="M3,1 L17,1 L17,1 C18.1045695,1 19,1.8954305 19,3 L19,17 L19,17 C19,18.1045695 18.1045695,19 17,19 L3,19 L3,19 C1.8954305,19 1,18.1045695 1,17 L1,3 L1,3 C1,1.8954305 1.8954305,1 3,1 Z"></path>
+                                                <polyline points="4 11 8 15 16 6"></polyline>
+                                            </svg>
+                                        </span>
+                                        <span class="cbx-text">Số</span>
+                                    </label>
+
+                                    <label for="cbx_invoice_customer_wating" class="label-cbx">
+                                        <input id="cbx_invoice_customer_wating" type="checkbox" class="invisible" ng-model="cookie.FieldCustomer" ng-click="Check(cookie.FieldCustomer,'FieldCustomer')">
+                                        <span class="checkbox">
+                                            <svg width="20px" height="20px" viewBox="0 0 20 20">
+                                                <path d="M3,1 L17,1 L17,1 C18.1045695,1 19,1.8954305 19,3 L19,17 L19,17 C19,18.1045695 18.1045695,19 17,19 L3,19 L3,19 C1.8954305,19 1,18.1045695 1,17 L1,3 L1,3 C1,1.8954305 1.8954305,1 3,1 Z"></path>
+                                                <polyline points="4 11 8 15 16 6"></polyline>
+                                            </svg>
+                                        </span>
+                                        <span class="cbx-text">Khách hàng</span>
+                                    </label>
+
+                                    <label for="cbx_invoice_invoicestatus_wating" class="label-cbx">
+                                        <input id="cbx_invoice_invoicestatus_wating" type="checkbox" class="invisible" ng-model="cookie.FieldInvoiceStatus" ng-click="Check(cookie.FieldInvoiceStatus,'FieldInvoiceStatus')">
+                                        <span class="checkbox">
+                                            <svg width="20px" height="20px" viewBox="0 0 20 20">
+                                                <path d="M3,1 L17,1 L17,1 C18.1045695,1 19,1.8954305 19,3 L19,17 L19,17 C19,18.1045695 18.1045695,19 17,19 L3,19 L3,19 C1.8954305,19 1,18.1045695 1,17 L1,3 L1,3 C1,1.8954305 1.8954305,1 3,1 Z"></path>
+                                                <polyline points="4 11 8 15 16 6"></polyline>
+                                            </svg>
+                                        </span>
+                                        <span class="cbx-text">Trạng thái hóa đơn</span>
+                                    </label>
+                                    <label for="cbx_invoice_referencecode_wating" class="label-cbx">
+                                        <input id="cbx_invoice_referencecode_wating" type="checkbox" class="invisible" ng-model="cookie.FieldReferenceCode" ng-click="Check(cookie.FieldReferenceCode,'FieldReferenceCode')">
+                                        <span class="checkbox">
+                                            <svg width="20px" height="20px" viewBox="0 0 20 20">
+                                                <path d="M3,1 L17,1 L17,1 C18.1045695,1 19,1.8954305 19,3 L19,17 L19,17 C19,18.1045695 18.1045695,19 17,19 L3,19 L3,19 C1.8954305,19 1,18.1045695 1,17 L1,3 L1,3 C1,1.8954305 1.8954305,1 3,1 Z"></path>
+                                                <polyline points="4 11 8 15 16 6"></polyline>
+                                            </svg>
+                                        </span>
+                                        <span class="cbx-text">Mã tra cứu</span>
+                                    </label>
+
+                                    <label for="cbx_invoice_paymentstatus_wating" class="label-cbx">
+                                        <input id="cbx_invoice_paymentstatus_wating" type="checkbox" class="invisible" ng-model="cookie.FieldPaymentStatus" ng-click="Check(cookie.FieldPaymentStatus,'FieldPaymentStatus')">
+                                        <span class="checkbox">
+                                            <svg width="20px" height="20px" viewBox="0 0 20 20">
+                                                <path d="M3,1 L17,1 L17,1 C18.1045695,1 19,1.8954305 19,3 L19,17 L19,17 C19,18.1045695 18.1045695,19 17,19 L3,19 L3,19 C1.8954305,19 1,18.1045695 1,17 L1,3 L1,3 C1,1.8954305 1.8954305,1 3,1 Z"></path>
+                                                <polyline points="4 11 8 15 16 6"></polyline>
+                                            </svg>
+                                        </span>
+                                        <span class="cbx-text">Trạng thái thanh toán</span>
+                                    </label>
+
+                                    <label for="cbx_invoice_totalpayment_wating" class="label-cbx">
+                                        <input id="cbx_invoice_totalpayment_wating" type="checkbox" class="invisible" ng-model="cookie.FieldTotalPayment" ng-click="Check(cookie.FieldTotalPayment,'FieldTotalPayment')">
+                                        <span class="checkbox">
+                                            <svg width="20px" height="20px" viewBox="0 0 20 20">
+                                                <path d="M3,1 L17,1 L17,1 C18.1045695,1 19,1.8954305 19,3 L19,17 L19,17 C19,18.1045695 18.1045695,19 17,19 L3,19 L3,19 C1.8954305,19 1,18.1045695 1,17 L1,3 L1,3 C1,1.8954305 1.8954305,1 3,1 Z"></path>
+                                                <polyline points="4 11 8 15 16 6"></polyline>
+                                            </svg>
+                                        </span>
+                                        <span class="cbx-text">Tổng tiền</span>
+                                    </label>
+                                    <label for="cbx_invoice_fieldcustomerid_wating" class="label-cbx">
+                                        <input id="cbx_invoice_fieldcustomerid_wating" type="checkbox" class="invisible" ng-model="cookie.FieldCustomerID" ng-click="Check(cookie.FieldCustomerID,'FieldCustomerID')">
+                                        <span class="checkbox">
+                                            <svg width="20px" height="20px" viewBox="0 0 20 20">
+                                                <path d="M3,1 L17,1 L17,1 C18.1045695,1 19,1.8954305 19,3 L19,17 L19,17 C19,18.1045695 18.1045695,19 17,19 L3,19 L3,19 C1.8954305,19 1,18.1045695 1,17 L1,3 L1,3 C1,1.8954305 1.8954305,1 3,1 Z"></path>
+                                                <polyline points="4 11 8 15 16 6"></polyline>
+                                            </svg>
+                                        </span>
+                                        <span class="cbx-text">Mã khách hàng</span>
+                                    </label>
+                                    <label for="cbx_invoice_note_waiting" class="label-cbx">
+                                        <input id="cbx_invoice_note_waiting" type="checkbox" class="invisible" ng-model="cookie.FieldInvoiceNote" ng-click="Check(cookie.FieldInvoiceNote,'FieldInvoiceNote')">
+                                        <span class="checkbox">
+                                            <svg width="20px" height="20px" viewBox="0 0 20 20">
+                                                <path d="M3,1 L17,1 L17,1 C18.1045695,1 19,1.8954305 19,3 L19,17 L19,17 C19,18.1045695 18.1045695,19 17,19 L3,19 L3,19 C1.8954305,19 1,18.1045695 1,17 L1,3 L1,3 C1,1.8954305 1.8954305,1 3,1 Z"></path>
+                                                <polyline points="4 11 8 15 16 6"></polyline>
+                                            </svg>
+                                        </span>
+                                        <span class="cbx-text">Ghi chú</span>
+                                    </label>
+                                    <label for="cbx_partner_email_waitting" class="label-cbx">
+                                        <input id="cbx_partner_email_cbx_partner_email_waitting" type="checkbox" class="invisible" ng-model="cookie.FieldPartnerEmail" ng-click="Check(cookie.FieldPartnerEmail,'FieldPartnerEmail')">
+                                        <span class="checkbox">
+                                            <svg width="20px" height="20px" viewBox="0 0 20 20">
+                                                <path d="M3,1 L17,1 L17,1 C18.1045695,1 19,1.8954305 19,3 L19,17 L19,17 C19,18.1045695 18.1045695,19 17,19 L3,19 L3,19 C1.8954305,19 1,18.1045695 1,17 L1,3 L1,3 C1,1.8954305 1.8954305,1 3,1 Z"></path>
+                                                <polyline points="4 11 8 15 16 6"></polyline>
+                                            </svg>
+                                        </span>
+                                        <span class="cbx-text">Email CTV</span>
+                                    </label>
+                                </div>
+
+                                <div class="text-right" id="id3" onclick="See_more_invoice_wating();"><a href="javascript:;" ng-click="ToggleShowMore('.report_col_show_more')" data-toggle="report_col_show_more">Xem thêm <span class="dropdown-toggle"></span></a></div>
+                                <div class="text-right" id="id4" onclick="Collapse_invoice_wating();" style="display:none;"><a href="javascript:;" ng-click="ToggleShowMore('.report_col_show_more')" data-toggle="report_col_show_more">Thu gọn <span class="dropdown-toggle"></span></a></div>
+                                @*<div class="text-right btn2" style="display:none;"><a href="javascript:;" ng-click="ToggleShowMore('.report_col_show_more')" data-toggle="report_col_show_more">Thu gọn <span class="dropdown-toggle"></span></a></div>*@
+                                <p class="mb-1 mt-3">Số dòng trên một trang</p>
+                                <div class="d-flex align-items-center">
+                                    <div class="pr-2">
+                                        <select class="form-control form-control-sm" ng-model="cookie.RowNum" convert-to-number ng-change="Check(cookie.RowNum,'RowNum')">
+                                            <option value="5">5</option>
+                                            <option value="10">10</option>
+                                            <option value="20">20</option>
+                                            <option value="30">30</option>
+                                            <option value="50">50</option>
+                                            <option value="100">100</option>
+                                            <option value="500">500</option>
+                                            <option value="1000">1000</option>
+                                        </select>
+                                    </div>
+                                    <span>dòng</span>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @*Table*@
+        <div class="d-none d-sm-block">
+            <table id="dataTable" class="table table-bordered table-sm table-vertical-center table-head-green table-hover table_invoice_list_manage">
+                <thead>
+                    <tr>
+                        <th style="width: 40px;" class="">
+                            <label for="cbx_title" class="label-cbx">
+                                <input id="cbx_title" type="checkbox" class="invisible" ng-click="SelectAllInvoice(ListInvoice, IsSelectAll)" ng-model="IsSelectAll" ng-init="IsSelectAll = false">
+                                <span class="checkbox">
+                                    <svg width="20px" height="20px" viewBox="0 0 20 20">
+                                        <path d="M3,1 L17,1 L17,1 C18.1045695,1 19,1.8954305 19,3 L19,17 L19,17 C19,18.1045695 18.1045695,19 17,19 L3,19 L3,19 C1.8954305,19 1,18.1045695 1,17 L1,3 L1,3 C1,1.8954305 1.8954305,1 3,1 Z"></path>
+                                        <polyline points="4 11 8 15 16 6"></polyline>
+                                    </svg>
+                                </span>
+                            </label>
+                        </th>
+                        <th class="text-center" ng-show="cookie.FieldID">STT</th>
+                        <th ng-show="cookie.FieldPartnerEmail">Email CTV</th>
+                        <th ng-show="cookie.FieldInvoiceNote">Ghi chú</th>
+                        <th ng-click='sortColumn("CUSTOMERCODE")' ng-class='sortClass("CUSTOMERCODE")' ng-show="cookie.FieldCustomerID">Mã khách hàng</th>
+                        <th ng-click='sortColumn("INITTIME")' ng-class='sortClass("INITTIME")' ng-show="cookie.FieldBillDate">Ngày tạo</th>
+                        <th ng-click='sortColumn("INVOICETYPE")' ng-class='sortClass("INVOICETYPE")' ng-show="cookie.FieldBillType">Loại hóa đơn</th>
+                        <th ng-show="cookie.FieldFormCode">Mẫu số <br /> Ký hiệu</th>
+                        <th class="text-right" ng-show="cookie.FieldNumber">Số hóa đơn<br /> Ngày hóa đơn</th>
+                        <th ng-click='sortColumn("CUSNAME")' ng-class='sortClass("CUSNAME")' ng-show="cookie.FieldCustomer">Khách hàng</th>
+                        <th ng-click='sortColumn("INVOICESTATUS")' ng-class='sortClass("INVOICESTATUS")' ng-show="cookie.FieldInvoiceStatus">Trạng thái hóa đơn</th>
+                        <th ng-click='sortColumn("REFERENCECODE")' ng-class='sortClass("REFERENCECODE")' ng-show="cookie.FieldReferenceCode">Mã tra cứu</th>
+                        <th ng-show="cookie.FieldPaymentStatus">Trạng thái thanh toán</th>
+                        <th class="text-right" ng-show="cookie.FieldTotalPayment">Tổng tiền (VNĐ)</th>
+                        <th class="text-right">Hành động</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr class="data" ng-hide="ListInvoice.length >= 1">
+                        <td colspan="12">Dữ liệu đang trống!</td>
+                    </tr>
+                    <tr ng-repeat="item in ListInvoice" @*ng-dblclick="ModalInvoice(item, 2)"*@ style="cursor:pointer">
+                        <td>
+                            <label for="cbx_{{$index}}" class="label-cbx">
+                                <input id="cbx_{{$index}}" type="checkbox" class="invisible" ng-model="item.ISSELECTED" ng-click="SeleteRow(ListInvoice, item.ISSELECTED, IsSelectAll, item.ID)">
+                                <span class="checkbox" ng-model="item.ISSELECTED">
+                                    <svg width="20px" height="20px" viewBox="0 0 20 20">
+                                        <path d="M3,1 L17,1 L17,1 C18.1045695,1 19,1.8954305 19,3 L19,17 L19,17 C19,18.1045695 18.1045695,19 17,19 L3,19 L3,19 C1.8954305,19 1,18.1045695 1,17 L1,3 L1,3 C1,1.8954305 1.8954305,1 3,1 Z"></path>
+                                        <polyline points="4 11 8 15 16 6"></polyline>
+                                    </svg>
+                                </span>
+                            </label>
+                        </td>
+                        <td class="text-center" ng-show="cookie.FieldID">{{$index + 1}}</td>
+                        <td ng-show="cookie.FieldPartnerEmail">{{item.PARTNEREMAIL}}</td>
+                        <td ng-show="cookie.FieldInvoiceNote">{{item.NOTE}}</td>
+                        <td ng-show="cookie.FieldCustomerID" ng-if="item.CUSTOMERCODE == null"><b>[Chưa có mã]</b></td>
+                        <td ng-show="cookie.FieldCustomerID" ng-if="item.CUSTOMERCODE !== null">{{item.CUSTOMERCODE}}</td>
+                        <td ng-show="cookie.FieldBillDate">{{item.INITTIME | dateTimeFormat}}</td>
+                        <td ng-show="cookie.FieldBillType" class="">
+                            <span class=" text-primary" ng-show="item.INVOICETYPE == 1">
+                                {{item.INVOICETYPENAME}}
+                            </span>
+                            <span class=" text-primary" ng-show="item.INVOICETYPE == 2">
+                                {{item.INVOICETYPENAME}}
+                            </span>
+                            <span class=" text-black-50" ng-show="item.INVOICETYPE == 3">
+                                {{item.INVOICETYPENAME}}
+                            </span>
+                            <span class=" text-warning" ng-show="item.INVOICETYPE == 4">
+                                {{item.INVOICETYPENAME}}
+                            </span>
+                            <span class=" text-danger" ng-show="item.INVOICETYPE == 5">
+                                {{item.INVOICETYPENAME}}
+                            </span>
+                            <span class=" text-info" ng-show="item.INVOICETYPE == 6">
+                                {{item.INVOICETYPENAME}}
+                            </span>
+                        </td>
+                        <td ng-show="cookie.FieldFormCode">{{item.FORMCODE}} <br /> {{item.SYMBOLCODE}}</td>
+                        @*<td ng-show="cookie.FieldSymbolCode">{{item.SYMBOLCODE}}</td>*@
+                        <td class="text-right" ng-show="cookie.FieldNumber" ng-if="item.NUMBER == 0"><b>[Chưa cấp số]</b></td>
+                        <td class="text-right" ng-show="cookie.FieldNumber" ng-if="item.NUMBER > 0"><span class="text-danger"><b>{{item.NUMBER | numberFixedLen:7}}</b></span> <br /><i> {{item.SIGNEDTIME | dateFormat:'dd/MM/yyyy'}}</i></td>
+                        <td class="text-left" ng-show="cookie.FieldCustomer" width="20%">{{item.CUSNAME}}</td>
+                        <td ng-show="cookie.FieldInvoiceStatus" class="">
+                            <span class=" text-primary" ng-show="item.INVOICESTATUS == 1">
+                                {{item.INVOICESTATUSNAME}}
+                            </span>
+                            <span class=" text-success" ng-show="item.INVOICESTATUS == 2">
+                                {{item.INVOICESTATUSNAME}}
+                            </span>
+                        </td>
+                        <td ng-show="cookie.FieldReferenceCode">{{item.REFERENCECODE}}</td>
+                        <td ng-show="cookie.FieldPaymentStatus" ng-class="{true: 'text-danger', false: 'text-success'}[item.PAYMENTSTATUS == 1]"><b>{{item.PAYMENTSTATUSNAME}}</b></td>
+                        <td ng-show="cookie.FieldTotalPayment" class="text-right">{{item.TOTALPAYMENT | numberFormat: item.MONEYPLACE}}</td>
+                        <td class="text-right">
+                            <div class="btn-group btn-sm">
+                                <button type="button" class="btn btn-link btn-sm" has-permission="{{USER_ROLE.KY}}" ng-if="item.INVOICESTATUS == 1" ng-click="Sign(item.ID)" style="color:#2CA01C;"><img src="~/Images/hand-writing-with-ballpen.svg" style="width: 16px;" /> Ký</button>
+                                <button type="button" class="btn-more" has-permission="{{USER_ROLE.GUI_EMAIL}}" ng-if="item.INVOICESTATUS == 2" ng-click="ModalSendEmail(item)" title="Gửi email khách hàng">
+                                    <i class="fa fa-envelope" style="font-size: 18px;color: #2CA01C;" aria-hidden="true"></i>
+                                </button>
+                                <button type="button" class="btn-more" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa fa-ellipsis-v" style="font-size: 22px;color: #2CA01C;" aria-hidden="true"></i>
+                                </button>
+                                <div class="dropdown-menu" x-placement="bottom-start">
+                                    @*<div ng-if="item.INVOICESTATUS == 2">
+                                        <a class="dropdown-item" href="javascript:;" has-permission="{{USER_ROLE.GUI_EMAIL}}" ng-click="ModalSendEmail(item)">Gửi email</a>
+                                    </div>*@
+
+                                    @*Xem và chỉnh sửa hóa đơn chưa ký*@
+                                    <a href="javascript:;" class="dropdown-item" has-permission="{{USER_ROLE.CAP_NHAT_HOA_DON}}" ng-click="ModalInvoice(item, 2)" ng-if="item.INVOICESTATUS == 1" data-toggle="modal" data-target=".modal-invoice">Xem và chỉnh sửa</a>
+
+                                    @*Xem file hóa đơn PDF*@
+                                    <a href="javascript:;" class="dropdown-item" has-permission="{{USER_ROLE.XEM_HOA_DON}}" ng-click="PreviewInvoice(item.ID, false)">Xem hóa đơn</a>
+                                    <a class="dropdown-item" href="javascript:;" has-permission="{{USER_ROLE.THEM_MOI_HOA_DON}}" ng-click="ModalInvoice(item, 1, null, null, true)" data-toggle="modal" data-target=".modal-invoice">Nhân bản</a>
+                                    <a class="dropdown-item" href="javascript:;" has-permission="{{USER_ROLE.NGHIEP_VU_HOA_DON}}" ng-click="RemoveInvoice(item.ID)" ng-if="item.INVOICESTATUS !== 2">Xóa</a>
+                                </div>
+                            </div>
+
+
+
+                            @*<button type="button" class="btn btn-light btn-link btn-sm dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="sr-only">Toggle Dropdown</span>
+            </button>*@
+
+                            @*<div class="dropdown-menu dropdown-menu-sm">
+
+            </div>*@
+                        </td>
+                    </tr>
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+</div>

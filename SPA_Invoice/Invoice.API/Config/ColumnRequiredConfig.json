@@ -1,0 +1,10 @@
+{
+  "ColumnInvoiceRequired": {
+    "secret": "secret",
+    "partner_id": "partner_id",
+    "formcode": "formcode",
+    "symbolcode": "symbolcode",
+    "payment_method": "payment_method",
+    "products": "products"
+  }
+}

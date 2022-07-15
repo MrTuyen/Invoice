@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{D577785D-BFBE-43FE-9ABF-27438F82D71F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DS.BusinessLogic</RootNamespace>
+    <AssemblyName>DS.BusinessLogic</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Elasticsearch.Net">
+      <HintPath>..\..\DLLs\Elasticsearch.Net.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp, Version=5.5.13.1, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\..\SPA_Invoice\packages\iTextSharp.5.5.13.1\lib\itextsharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Office.Interop.Word, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <HintPath>..\..\SPA_Invoice\packages\Microsoft.Office.Interop.Word.15.0.4797.1003\lib\net20\Microsoft.Office.Interop.Word.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Nest">
+      <HintPath>..\..\DLLs\Nest.dll</HintPath>
+    </Reference>
+    <Reference Include="QRCoder, Version=1.3.6.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\SPA_Invoice\packages\QRCoder.1.3.6\lib\net40\QRCoder.dll</HintPath>
+    </Reference>
+    <Reference Include="SAB.Library.Core">
+      <HintPath>..\..\DLLs\SAB.Library.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="SAB.Library.Data">
+      <HintPath>..\..\DLLs\SAB.Library.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Select.HtmlToPdf, Version=19.2.0.0, Culture=neutral, PublicKeyToken=e0ae9f6e27a97018, processorArchitecture=MSIL">
+      <HintPath>..\..\SPA_Invoice\packages\Select.HtmlToPdf.19.2.0\lib\net40\Select.HtmlToPdf.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="UIAutomationClient" />
+    <Reference Include="UIAutomationTypes" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Account\AccountBLL.cs" />
+    <Compile Include="API\PartnerOAuthBLL.cs" />
+    <Compile Include="Category\CategoryBLL.cs" />
+    <Compile Include="Company\CompanyBLL.cs" />
+    <Compile Include="CurrencyUnit\CurrencyUnitBLL.cs" />
+    <Compile Include="Customer\CustomerBLL.cs" />
+    <Compile Include="ElasticIndexer.cs" />
+    <Compile Include="EmailSender\EmailBLL.cs" />
+    <Compile Include="EmailSender\EmailSender.cs" />
+    <Compile Include="GlobalBLL.cs" />
+    <Compile Include="BaseBLL.cs" />
+    <Compile Include="hosodoanhnghiep\hosodoanhnghiepBLL.cs" />
+    <Compile Include="Invoice\InvoiceBLL.cs" />
+    <Compile Include="Logs\LogBLL.cs" />
+    <Compile Include="Meter\MeterBLL.cs" />
+    <Compile Include="Number\NumberBLL.cs" />
+    <Compile Include="obj\Debug\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />
+    <Compile Include="obj\Debug\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" />
+    <Compile Include="obj\Debug\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" />
+    <Compile Include="PaymentMethod\PaymentMethodBLL.cs" />
+    <Compile Include="Product\ProductBLL.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QuantityUnit\QuantityUnitBLL.cs" />
+    <Compile Include="Receipt\ReceiptBLL.cs" />
+    <Compile Include="Report\ReportBLL.cs" />
+    <Compile Include="User\UserBLL.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DS.BusinessObject\DS.BusinessObject.csproj">
+      <Project>{e2ef73c2-ae18-45c5-9403-3f8e5b97374c}</Project>
+      <Name>DS.BusinessObject</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DS.Common\DS.Common.csproj">
+      <Project>{fb18d3f8-f9e0-4bb4-bb55-0e121f7d65f4}</Project>
+      <Name>DS.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DS.DataObject\DS.DataObject.csproj">
+      <Project>{da2eb806-db68-4f48-a963-c90de64135a7}</Project>
+      <Name>DS.DataObject</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="bin\Debug\DS.BusinessLogic.dll" />
+    <Content Include="bin\Debug\DS.BusinessLogic.pdb" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

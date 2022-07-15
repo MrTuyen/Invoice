@@ -1,0 +1,119 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        body {
+            text-align: justify;
+            padding: 70px;
+        }
+
+        p, td {
+            font-size: 18px;
+        }
+
+        p {
+            margin-bottom: 5px;
+        }
+
+        h3, h4 {
+            text-align: center;
+            line-height: 5px;
+        }
+
+        table {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <h3>CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</h3>
+    <h4>Độc lập - Tự do - Hạnh phúc</h4>
+    <h4>----------***----------</h4>
+    <br />
+    <h3>BIÊN BẢN ĐIỀU CHỈNH HÓA ĐƠN</h3>
+    <br />
+    <p>
+        ­- Căn cứ Nghị định 51/2010/NĐCP ngày 14/05/2010 của Chính phủ về việc in, phát hành, sử dụng, quản lý hóa đơn.
+    </p>
+    <p>
+        - Căn cứ Thông tư 32/2011/TT­BTC ngày 14/03/2011 của Bộ Tài chính Hướng dẫn về khởi tạo, phát hành và sử dụng hóa đơn điện tử bán hàng hóa, cung ứng dịch vụ.
+    </p>
+    <p>
+        - Căn cứ Nghị định 119/2018/NĐ­CP ngày 12/09/2018 của Chính phủ quy định về hóa đơn điện tử khi bán hàng hóa, cung cấp dịch vụ.
+    </p>
+    <p>
+        - Căn cứ vào thỏa thuận giữa các bên.
+    </p>
+    <p>
+        Hôm nay, ngày {Date} tháng {Month} năm {Year} chúng tôi gồm có:
+    </p>
+    <p>
+        BÊN A (Bên bán): {COMNAME}
+    </p>
+    <p>
+        Địa chỉ: {COMADDRESS}
+    </p>
+    <table>
+        <tr>
+            <td width="50%"> Mã số thuế: {COMTAXCODE}</td>
+            <td width="50%"> Số điện thoại: {COMPHONE}</td>
+        </tr>
+        <tr>
+            <td width="50%"> Đại diện: {COMDELEGATE}</td>
+            <td width="50%"> Chức vụ: {COMROLE}</td>
+        </tr>
+    </table>
+    <p>
+        BÊN B (Bên mua): {CUSNAME}
+    </p>
+    <p>
+        Địa chỉ: {CUSADDRESS}
+    </p>
+    <table>
+        <tr>
+            <td width="50%"> Mã số thuế: {CUSTAXCODE}</td>
+            <td width="50%"> Số điện thoại: {CUSPHONE}</td>
+        </tr>
+        <tr>
+            <td width="50%"> Đại diện: {CUSDELEGATE}</td>
+            <td width="50%"> Chức vụ: {CUSROLE}</td>
+        </tr>
+    </table>
+    <p>
+        Hai bên thống nhất lập biên bản này để điều chỉnh hóa đơn có Mẫu số {INVOICEFORMCODE} ký hiệu {INVOICESYMBOLCODE} số {INVOICENUMBER} ngày {CURRENTDATE} theo quy định.
+    </p>
+    <p>
+        Lý do điều chỉnh: {REASON}
+    </p>
+    <p>
+        Chúng tôi cam kết và hoàn toàn chịu trách nhiệm về việc điều chỉnh hóa đơn này
+    </p>
+    <table>
+        <tr>
+            <td>
+                <p style="text-align: center;">
+                    ĐẠI DIỆN BÊN A
+                </p>
+                <p style="text-align: center;">
+                    (Chữ ký số, chữ ký điện tử)
+                </p>
+                <p>
+                    {SIGNATURE}
+                </p>
+            </td>
+            <td>
+                <p style="text-align: center;">
+                    ĐẠI DIỆN BÊN B
+                </p>
+                <p style="text-align: center;">
+                    (Chữ ký số, chữ ký điện tử)
+                </p>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

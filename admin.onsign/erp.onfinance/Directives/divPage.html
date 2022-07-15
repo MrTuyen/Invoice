@@ -1,0 +1,6 @@
+﻿<div class="btn-group" ng-show="totalpage > 1" style="color: #aaa">
+    Đang xem trang {{currentpage}} trong {{totalpage}} trang
+</div>
+<div class="btn-group" ng-show="totalpage > 1">
+    <span ng-repeat="p in listPage" ng-class="(p.page == currentpage) ? 'btn pagerbtn active' : 'btn pagerbtn'" ng-click="pageOnClick(p.page)">{{p.text}}</span>
+</div>

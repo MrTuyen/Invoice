@@ -1,0 +1,47 @@
+﻿@using SAB.Common;
+
+<select multiple="multiple" id="ddlMainGroup" name="intMainGroupID" style="width: 200px">
+    @if (Model != null)
+    {
+        foreach (PM_MAINGROUP p in Model)
+        {
+            <option value="@p.MAINGROUPID">
+                @p.MAINGROUPID - @p.MAINGROUPNAME
+            </option>
+        }
+    }
+</select>
+
+
+    <script type="text/javascript">
+        function loadSubGroup(idList) {
+            var randomUnique = "var" + Math.round(new Date().getTime() + (Math.random() * 100));
+            $.post("/Common/getSubGroupByMainGroup/" + randomUnique, { idList: idList })
+                .done(function (result) {
+                    $("#dynComboSubGroup").html(result);
+                    $("#dynComboSubGroup_main").html(result);
+                })
+                .fail(function (result) {
+                    $("select#ddlSubGroup").multiselect("disable");
+                    alert("Lỗi không thể tải nhóm hàng.");
+                    return;
+                });
+        }
+
+        $("select#ddlMainGroup").multiselect({
+            noneSelectedText: '- Chọn ngành hàng -',
+            selectedList: 0,
+            selectedText: 'Đã chọn # / # ngành hàng',
+            close: function (event, ui) {
+                var chkList = $(this).multiselect("getChecked");
+                var idList = "";
+                $.each(chkList, function (index, obj) {
+                    idList += idList == "" ? $(obj).val() : "," + $(obj).val();
+                });
+
+                loadSubGroup(idList);
+            }
+        }).multiselectfilter();
+
+        loadSubGroup(null);
+    </script>

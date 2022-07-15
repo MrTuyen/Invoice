@@ -1,0 +1,46 @@
+﻿@{
+    ViewBag.Title = "Hệ thống tra cứu sử dụng hóa đơn điện tử trên kênh OnFinance.asia";
+}
+
+<div class="d-flex justify-content-center align-items-center bg-white p-2">
+    <img src="~/Images/logo_full.jpg" class="mr-5 logo" />
+    <h2 class="m-0">TRA CỨU SỬ DỤNG HÓA ĐƠN ĐIỆN TỬ TRÊN ONFINANCE.ASIA</h2>
+</div>
+
+    <div class="form-row align-items-center px-3 py-2 m-0">
+        <div class="col-3">
+            @*<label class="sr-only" for="inlineFormInputGroup">MST</label>*@
+            <div class="input-group input-group-sm mb-2">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">MST</div>
+                </div>
+                <input type="text" class="form-control" id="inlineFormInputGroup" name="taxnumber" placeholder="Nhập MST">
+            </div>
+        </div>
+        <div class="col-9 col-xl-5">
+            @*<label class="sr-only">Tên đơn vị</label>*@
+            <div class="input-group input-group-sm mb-2">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">Tên đơn vị</div>
+                </div>
+                <input type="text" class="form-control" name="companyname" placeholder="Nhập tên đơn vị" readonly="readonly">
+            </div>
+        </div>
+        <div class="col-auto">
+            @*<label class="sr-only">Thời gian</label>*@
+            <div class="input-group input-group-sm mb-2">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">Thời gian</div>
+                </div>
+                <input type="text" class="form-control" name="daterange" placeholder="Khoảng thời gian">
+            </div>
+        </div>
+        <div class="col-auto">
+            <button type="button" id="btnSubmit" class="btn btn-primary btn-sm mb-2">Tìm kiếm</button>
+            <button type="button" id="btnExport" class="btn btn-warning btn-sm mb-2">Xuất excel</button>
+            <img src="~/Images/oval.svg" class="d-none imgLoading" style="height: 30px" />
+        </div>
+    </div>
+
+<div id="resultBox"></div>
+<div class="boxpages d-flex align-items-center" id="resultPages"></div>

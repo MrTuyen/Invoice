@@ -1,0 +1,223 @@
+﻿@{
+    ViewBag.Title = "Câp nhật nhóm quyền";
+}
+@using SAB.Common
+
+@model SYSTEM_PERMISSIONGROUP
+@if (Model != null)
+{
+    List<SYSTEM_PERMISSIONGROUP_SYSTEM_PERMISSION_PERMISSIONGROUP_Result> lstPermissionModel = new List<SYSTEM_PERMISSIONGROUP_SYSTEM_PERMISSION_PERMISSIONGROUP_Result>();
+    if (ViewBag.PermissionList != null)
+    {
+        lstPermissionModel = (ViewBag.PermissionList as List<SYSTEM_PERMISSIONGROUP_SYSTEM_PERMISSION_PERMISSIONGROUP_Result>).ToList();
+    }
+    int intRowCount = lstPermissionModel.Count() / 3;
+    if (lstPermissionModel.Count() % 3 != 0)
+    {
+        intRowCount++;
+    }
+    int intIndex = 0;
+    var lstUser = new List<SYSTEM_USER>();
+    if (ViewBag.UserList != null)
+    {
+        lstUser = (ViewBag.UserList as List<SYSTEM_USER>).ToList();
+    }
+
+    <table class="table table-bordered">
+        @if (Model.PERMISSIONGROUPID > 0)
+        {
+            <tr>
+                <td style="width: 120px">
+                    Mã nhóm:
+                </td>
+                <td>
+                    <span style="font-weight: bold"> @Model.PERMISSIONGROUPID</span>
+                </td>
+            </tr>
+        }
+        <tr>
+            <td>
+                Tên nhóm:
+            </td>
+            <td>
+                <input type="text" id="txtName" value="@Model.PERMISSIONGROUPNAME" style="width: 300px" />
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Mô tả:
+            </td>
+            <td>
+                <textarea style="width: 90%" id="txtDesc">@Model.DESCRIPTION</textarea>
+            </td>
+        </tr>
+    </table>
+    <span style="color: blue;">DANH SÁCH QUYỀN:</span>
+    <div style="background-color: white; margin-top: 10px">
+        <table class="table table-striped table-bordered">
+            @for (int row = 0; row < intRowCount; row++)
+            {
+                <tr>
+                    @for (int col = 0; col < 3; col++)
+                    {
+
+                        <td>
+                            @if (intIndex < lstPermissionModel.Count())
+                            {
+                                <label style="font-weight: 400">
+                                    @if (lstPermissionModel.ElementAt(intIndex).GROUPID > 0)
+                                    {
+                                        <input type="checkbox" checked="checked" class="chkPermission" value="@lstPermissionModel.ElementAt(intIndex).PERMISSIONID" />
+                                    }
+                                    else
+                                    {
+                                        <input type="checkbox" class="chkPermission" value="@lstPermissionModel.ElementAt(intIndex).PERMISSIONID" />
+                                    }
+                                    @lstPermissionModel.ElementAt(intIndex).PERMISSIONNAME (@lstPermissionModel.ElementAt(intIndex).PERMISSIONID)
+                                </label>
+                            }
+                        </td>
+                        intIndex++;
+                    }
+                </tr>
+            }
+        </table>
+    </div>
+
+    <span style="color: blue; float: left">NHÂN VIÊN CÓ QUYỀN:</span>
+    <button class="btn btn-success" onclick="OpenSearchUser()" style="float: right;">Thêm nhân viên</button>
+    <div style="height: 5px; clear: both"></div>
+    <div id="divUserList" style="overflow: auto; height: 200px; background-color: white; padding: 5px;">
+        @foreach (SYSTEM_USER p in lstUser)
+        {
+            <div id="@p.USERNAME" data-username='@p.USERNAME' class="userright">
+                @p.USERNAME - @p.FULLNAME - @p.POSITIONNAME - @p.DEPARTMENTNAME
+                <span style='color: blue; text-decoration: underline; cursor: pointer' onclick="RemoveDiv('@p.USERNAME')">Xóa</span>
+            </div>
+        }
+    </div>
+    <div class="text-right">
+        <button class="btn btn-success" onclick="UpdateData()">Cập nhật</button>
+    </div>
+
+    <div class="modal" id="divSearchUserPopup" tabindex="-1" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Chọn nhân viên</h4>
+                </div>
+                <div class="modal-body">
+                    <input @*onkeydown="return PerformClick(event, 'btnSearch');"*@ id="txtSearch" type="text" placeholder="Mã NV, tên NV, tên phòng ban" style="width: 400px;">
+                    <button id="btnSearch" onclick="dyn_functions['SearchUser'](1)" class="btn btn-default">Tìm kiếm</button>
+                    <button type="button" onclick="SelectedUser()" class="btn btn-primary">Đồng ý</button>
+                    <div id="divSearchUser" style="padding-top: 5px;">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+
+
+        function OpenSearchUser() {
+            $('#divSearchUserPopup').modal('show');
+            dyn_functions["SearchUser"](1);
+        }
+        function UpdateData() {
+            var arrPermissionID = {};
+            var arrUser = {};
+            var i = 0;
+            $(".chkPermission").each(function (index, obj) {
+                if ($(obj).is(':checked')) {
+                    arrPermissionID[i] = $(obj).val();
+                    i++;
+                }
+            });
+            i = 0;
+            $(".userright").each(function (index, obj) {
+                arrUser[i] = $(obj).data('username');
+                i++;
+            });
+
+            $.ajax({
+                async: true,
+                type: "POST",
+                url: "/PermissionGroup/UpdateData",
+                cache: false,
+                beginSend: null,
+                data: {
+                    intGroupID: '@Model.PERMISSIONGROUPID',
+                    strName: $("#txtName").val(),
+                    strDesc: $("#txtDesc").val(),
+                    lstPermissionID: arrPermissionID,
+                    lstUser: arrUser
+                },
+                success: function (data) {
+                    debugger;
+                    if (data != null) {
+                        alert(data.Message);
+                        if (data.Message == 'Cập nhật thành công')
+                            window.location = '@Url.Action("Index", "PermissionGroup", new {})';
+                    }
+
+                },
+                error: function (e) {
+                    debugger;
+                    alert('Lỗi khi cập nhật cấp quyền (js): ' + e.Message);
+                }
+            });
+        }
+
+        function SelectedUser() {
+            var strHtml = '';
+            $('input:checkbox[id=chkSelectUser]:checked').each(function () {
+                strHtml += "<div id='" + $(this).val() + "' data-username='" + $(this).val() + "' class='userright'>" + $(this).val() + " - " + $(this).data('fullname')
+                    + " -- <span style='color: blue; text-decoration: underline; cursor: pointer' onclick=RemoveDiv('" + $(this).val() + "')>Xóa</span></div>";
+            });
+
+            if (strHtml == '') {
+                alert('Bạn chưa chọn nhân viên nào');
+                return;
+            }
+            $("#divUserList").html($("#divUserList").html() + strHtml);
+            $('#divSearchUserPopup').modal('hide');
+        }
+        function RemoveDiv(id)
+        {
+            if (!confirm("Bạn chắc chắn muốn xóa user khỏi nhóm quyền?"))
+                return false;
+            else
+                $("#" + id).remove();
+        }
+
+
+        dyn_functions["SearchUser"] = function (Page) {
+            $.ajax({
+                async: true,
+                type: "POST",
+                url: "/Common/SearchUser",
+                cache: false,
+                beginSend: null,
+                data: {
+                    strKeyword: $('#txtSearch').val(),
+                    intStoreID: 0,
+                    intPage: Page
+                },
+                success: function (data) {
+                    $('#divSearchUser').html(data);
+                    var totalPage = parseInt($('#divSearchUser #tblSearUser').data('totalpage'));
+                    var currentPage = parseInt($('#divSearchUser #tblSearUser').data('currentpage'));
+                    CreatePagerAjax(currentPage, totalPage, $('#divSearchUser #divUserpg'), "SearchUser");
+                },
+                error: function (e) {
+                    alert('Lỗi khi tìm kiếm nhân viên (js): ' + e.Message);
+                }
+            });
+        };
+
+    </script>
+}

@@ -1,0 +1,221 @@
+﻿<style>
+    .disable-span {
+        color: #E6E6E6;
+        cursor: not-allowed;
+    }
+
+    .ui-resizable {
+        z-index: 111111;
+    }
+
+    #idOnlyTaxRate option[value="? string:undefined ?"], #idOnlyTaxRate option[value="? string:[object Object] ?"] {
+        display: none;
+    }
+
+    #currencyList option[value="? string:undefined ?"], #currencyList option[value="? string:[object Object] ?"], #currencyList option[value="? undefined:undefined ?"] {
+        display: none;
+    }
+</style>
+<div class="modal fade modal-receipt modal-report" tabindex="-1" ng-controller="ModalReceiptController">
+    <div class="modal-dialog modal-dialog-scrollable modal-full" role="document">
+        <div class="modal-content">
+            <button type="button" class="close " data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <div class="modal-body">
+                <div>
+                    <h4 class="modal-title-receipt">
+                        <strong> HÓA ĐƠN THU HỌC PHÍ </strong><br>
+                        <span style="font-size: 14px;">Ngày {{CurrentDay}} tháng {{CurrentMonth}} năm {{CurrentYear}} </span>
+                    </h4>
+                    <!--Thông tin doanh nghiệp-->
+                    <div class="row">
+                        <div class="col-md-8">
+                            <table class="table table-borderless table-sm">
+                                <tbody>
+                                    <tr>
+                                        <td style="width: 206px;">
+                                            Đơn vị thu phí:
+                                        </td>
+                                        <td>{{Enterprise.COMNAME}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Mã số thuế:</td>
+                                        <td class="taxcode-account" ng-bind-html="ViewTaxcode(Enterprise.COMTAXCODE)"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Địa chỉ:</td>
+                                        <td style="max-width: 500px">{{Enterprise.COMADDRESS}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-1"></div>
+                        <div class="col-md-3">
+                            <table class="table table-borderless table-sm table-vertical-center">
+                                <tbody>
+                                    <tr>
+                                        <td>Mẫu số: </td>
+                                        <td>
+                                            <select class="form-control form-control-sm editor_invoice_dashed ddl-novaon-invoice" id="form-code" ng-model="Invoice.FORMCODE" ng-disabled="Invoice.INVOICESTATUS == 2 || Invoice.ISINVOICEWAITING">
+                                                <option value="" disabled selected>--Chọn mẫu số--</option>
+                                                <option ng-repeat="item in ListFormCode" value="{{item.FORMCODE}}">{{item.FORMCODE}}</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Ký hiệu: </td>
+                                        <td>
+                                            <select class="form-control form-control-sm editor_invoice_dashed ddl-novaon-invoice" id="symbol-code" ng-model="Invoice.SYMBOLCODE" ng-disabled="Invoice.INVOICESTATUS == 2 || Invoice.ISINVOICEWAITING"
+                                                    ng-change="SymbolCodeChange(Invoice.SYMBOLCODE)">
+                                                <option value="" disabled>--Chọn ký hiệu--</option>
+                                                <option ng-repeat="item in ListSymbolCode" value="{{item.SYMBOLCODE}}">{{item.SYMBOLCODE}}</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Số HĐ: </td>
+                                        <td ng-if="Invoice.NUMBER != 0">
+                                            <label style="width:100%;border-bottom: 1px solid #DEE2E6;">
+                                                <b> {{Invoice.NUMBER | numberFixedLen:7}}</b>
+                                            </label>
+                                        </td>
+                                        <td ng-if="Invoice.NUMBER === 0">
+                                            <label style="width:100%;border-bottom: 1px solid #DEE2E6;">
+                                                <b>[Chưa cấp số]</b>
+                                            </label>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!--Tên cá nhân tổ chức doanh nghiệp-->
+                    <form class="row">
+                        <div class="col-12 col-xl-12">
+                            <table class="table table-borderless table-sm  table-vertical-center">
+                                <tr>
+                                    <td style="width: 180px;">
+                                        Tên đơn vị/Người nộp tiền <span id="comtaxt-code-required" class="text-danger">(*)</span>:
+                                    </td>
+                                    <td colspan="3">
+                                        <suggestcustomer pagesize="10" delayresearch="300" url="'/Customer/SuggestCusByObject'"
+                                                         selectsearchresult="SuggestCustomer()"
+                                                         keyword="Invoice.CUSNAME"
+                                                         disabled="Invoice.INVOICESTATUS == 2">
+                                        </suggestcustomer>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Mã học sinh <span id="comtaxt-code-required" class="text-danger">(*)</span>: </td>
+                                    <td colspan="3">
+                                        <suggestcustomer pagesize="10" delayresearch="300" url="'/Customer/SuggestCusByObject'"
+                                                         selectsearchresult="SuggestCustomer()"
+                                                         keyword="Invoice.CUSID"
+                                                         disabled="Invoice.INVOICESTATUS == 2">
+                                        </suggestcustomer>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Địa chỉ:</td>
+                                    <td colspan="3">
+                                        <input class="form-control form-control-sm editor_invoice" type="text" ng-model="Invoice.CUSADDRESS" ng-disabled="Invoice.INVOICESTATUS == 2" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Lý do nộp <span id="comtaxt-code-required" class="text-danger">(*)</span>:</td>
+                                    <td colspan="3">
+                                        <input class="form-control form-control-sm editor_invoice" type="text" ng-model="Invoice.NOTE" ng-disabled="Invoice.INVOICESTATUS == 2" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Số tiền:</td>
+                                    <td colspan="3">
+                                        <input class="form-control form-control-sm editor_invoice" type="text" onkeypress="return InputLimiter(event,'1234567890.,')" name="txtMoney" id="txtMoney" ng-model="Invoice.TOTALMONEY" ng-disabled="Invoice.INVOICESTATUS == 2" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width:200px;">Người nhận hóa đơn:</td>
+                                    <td>
+                                        <input class="form-control form-control-sm w-250 editor_invoice" type="text" ng-model="Invoice.CUSBUYER" ng-disabled="Invoice.INVOICESTATUS == 2" />
+                                    </td>
+                                    <td style="width: 200px;">Email: </td>
+                                    <td colspan="3">
+                                        <input class="form-control form-control-sm editor_invoice" type="text" ng-model="Invoice.CUSEMAIL" ng-disabled="Invoice.INVOICESTATUS == 2" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Số điện thoại: </td>
+                                    <td>
+                                        <input class="form-control form-control-sm w-250 editor_invoice" type="text" ng-model="Invoice.CUSPHONENUMBER" ng-disabled="Invoice.INVOICESTATUS == 2" />
+                                    </td>
+                                    <td>Hình thức thanh toán</td>
+                                    <td>
+                                        <select class="form-control form-control-sm w-250 editor_invoice ddl-novaon-invoice" ng-model="Invoice.CUSPAYMENTMETHOD" ng-disabled="Invoice.INVOICESTATUS == 2">
+                                            <option ng-repeat="item in ListPaymentMethod" value="{{item.PAYMENTMETHOD}}">{{item.PAYMENTMETHOD}}</option>
+                                            <option value="-1">Khác</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                @*<tr>
+                                        <td>Tài khoản ngân hàng</td>
+                                        <td>
+                                            <input class="form-control form-control-sm w-250 editor_invoice_dashed" type="text" ng-model="Invoice.CUSACCOUNTNUMBER" ng-disabled="Invoice.INVOICESTATUS == 2" />
+                                        </td>
+                                        <td>Tên ngân hàng</td>
+                                        <td>
+                                            <input class="form-control form-control-sm editor_invoice_dashed" type="text" placeholder="Ví dụ: TP BANK - Chi nhánh Hà Nội" ng-model="Invoice.CUSBANKNAME" ng-disabled="Invoice.INVOICESTATUS == 2" />
+                                        </td>
+                                    </tr>*@
+                                <tr>
+                                    <td colspan="6" class="text-left border-0">
+                                        Số tiền bằng chữ: <strong id="AmountInWords" style="padding-left: 88px;">{{NumberToCurrencyWords}}</strong>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </form>
+                    <div class="row" ng-if="Invoice.INVOICETYPE == 5">
+                        <label class="col-xl-12">
+                            Điều chỉnh cho biên lai: <b class="text-success">{{Invoice.NUMBERTEMP | numberFixedLen:7}}</b>, mẫu số <b>{{Invoice.FORMCODE}}</b>, ký hiệu <b>{{Invoice.SYMBOLCODE}}</b>, ngày <b>{{Invoice.SIGNEDTIME | dateFormat:'dd/MM/yyyy'}}</b>.
+                            Lý do điều chỉnh:
+                            <input class="form-control form-control-sm editor_invoice_dashed" type="text" ng-model="Invoice.CHANGEREASON" ng-disabled="Invoice.INVOICESTATUS == 2" />
+                        </label>
+                    </div>
+
+                    <div class="row" ng-if="Invoice.INVOICETYPE == 6">
+                        <label class="col-xl-12">Thay thế cho biên lai: <b class="text-success">{{Invoice.NUMBERTEMP | numberFixedLen:7}}</b>, mẫu số <b>{{Invoice.FORMCODE}}</b>, ký hiệu <b>{{Invoice.SYMBOLCODE}}</b>, ngày <b>{{Invoice.SIGNEDTIME | dateFormat:'dd/MM/yyyy'}}</b>.</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer d-flex justify-content-between">
+                <div class="d-flex justify-content-start">
+                    <button class="btn btn-secondary btn-sm mr-3 pl-3 pr-3" data-dismiss="modal">Hủy</button>
+                </div>
+                <div class="d-flex justify-content-between" ng-show="TYPECHANGE == 1 ">
+                    <img src="~/Images/oval-white-loading.svg" class="mr-3" ng-show="IsLoading" />
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-success" ng-disabled="(Invoice.INVOICESTATUS == 2 && IsCopy == false) || IsLoading" ng-click="AddReceipt(3)"><span class="fa fa-send-o"></span> &nbsp; Lưu thêm mới</button>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-between" ng-show="TYPECHANGE == 2">
+                    <img src="~/Images/oval-white-loading.svg" class="mr-3" ng-show="IsLoading" />
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-success" ng-disabled="Invoice.INVOICESTATUS == 2" ng-click="UpdateReceipt(3)"><span class="fa fa-send-o"></span> &nbsp; Lưu chỉnh sửa</button>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-between" ng-show="TYPECHANGE == 5">
+                    <img src="~/Images/oval-white-loading.svg" class="mr-3" ng-show="IsLoading" />
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-success" ng-disabled="Invoice.INVOICESTATUS == 2" ng-click="AddReceipt(3)"><span class="fa fa-send-o"></span> &nbsp; Lưu hóa đơn điều chỉnh</button>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-between" ng-show="TYPECHANGE == 6">
+                    <img src="~/Images/oval-white-loading.svg" class="mr-3" ng-show="IsLoading" />
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-success" ng-disabled="Invoice.INVOICESTATUS == 2" ng-click="AddReceipt(3)"><span class="fa fa-send-o"></span> &nbsp; Lưu hóa đơn thay thế</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,123 @@
+﻿
+@{
+    ViewBag.Title = "Thống kê khách hàng";
+}
+
+<div class="scrollable-content" ng-controller="ManagerController" ng-init="Getforstatistics(1)">
+
+    <div class="box box-default">
+        <div class="box-header with-border">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="row">
+                                <div class="col-md-12">Trạng thái phát hành</div>
+                                <div class="col-md-12">
+                                    <select class="form-control form-control-sm" ng-model="Statuscus" title="Lọc trạng thái" ng-change="" Getforstatistics(1)">
+                                        <option value="" selected="selected">Tất cả</option>
+                                        <option value="1"> Còn số</option>
+                                        <option value="2"> Hết số</option>
+                                        <option value="3"> Hủy</option>
+                                        <option value="4"> Chưa phát hành</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div>Tìm kiếm</div>
+                            <div class="input-group input-group-sm">
+                                <input type="text" class="form-control form-control-sm" placeholder="Tìm theo MST, tên..." ng-model="Keywords" />
+                                <div class="input-group-append input-group-sm">
+                                    <button type="button" class="btn btn-sm btn-success" ng-click="Getforstatistics(1)">
+                                        <span class="fa fa-search"></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-xl-2 dashboard-review-box ui-sortable-handle">
+                                    <div class="title-review-box d-flex align-items-center justify-content-center">Tổng KH</div>
+                                    <div class="content-review-box d-flex align-items-center justify-content-center ng-binding" style="background: #2CA01C;color: white;height: 63%;border-radius:30px;">{{TotalCusAll}}</div>
+                                </div>
+                                <div class="col-xl-2 dashboard-review-box ui-sortable-handle">
+                                    <div class="title-review-box d-flex align-items-center justify-content-center">Trả phí</div>
+                                    <div class="content-review-box d-flex align-items-center justify-content-center ng-binding" style="background: #24BAB5;color: white;height: 63%;border-radius:30px;">{{TotalCusFee}}</div>
+                                </div>
+                                <div class="col-xl-2 dashboard-review-box ui-sortable-handle">
+                                    <div class="title-review-box d-flex align-items-center justify-content-center">Đang SD</div>
+                                    <div class="content-review-box d-flex align-items-center justify-content-center ng-binding" style="background: #2e74f6;color: white;height: 63%;border-radius:30px;">{{TotalCusActive}}</div>
+                                </div>
+                                <div class="col-xl-2 dashboard-review-box ui-sortable-handle">
+                                    <div class="title-review-box d-flex align-items-center justify-content-center">Chưa SD</div>
+                                    <div class="content-review-box d-flex align-items-center justify-content-center ng-binding" style="background: #3797D3;color: white;height: 63%;border-radius:30px;">{{TotalNotYetActive}}</div>
+                                </div>
+                                <div class="col-xl-2 dashboard-review-box ui-sortable-handle">
+                                    <div class="title-review-box d-flex align-items-center justify-content-center">Chờ PH</div>
+                                    <div class="content-review-box d-flex align-items-center justify-content-center ng-binding" style="background: #EEAD1F;color: white;height: 63%;border-radius:30px;">{{TotalWaitingPublic}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="box-body" style="padding: 10px 25px;">
+            <div class="row text-right" style="margin: 0 ;color:black;">
+                <div class="col">
+                    <divpage pagemodel="intPage" totalpage="{{TotalPages}}" currentpage="{{currentPage}}" ng-click="Getforstatistics(intPage)"></divpage>
+                </div>
+            </div>
+            <div class="row">
+                <table class="table table-sm table-vertical-center table-head-green" style="font-size: 12px">
+                    <thead class="bg-green">
+                        <tr>
+                            <th class="text-center border-warning" style="width:10px">STT</th>
+                            <th class="border-warning"> Doanh nghiệp </th>
+                            <th class="text-center border-warning"> Mẫu số</th>
+                            <th style="width: 60px" class="text-center border-warning">Ký hiệu</th>
+                            <th style="width: 60px" class="text-right border-warning">Từ số</th>
+                            <th style="width: 100px" class="text-right border-warning">Đến số</th>
+                            <th style="width: 100px" class="text-right border-warning">Tổng số</th>
+                            <th style="width: 100px" class="text-right border-warning">Đã SD</th>
+                            <th style="width: 100px" class="text-center border-warning">Trạng thái</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in ListInvoice" style="cursor:pointer">
+                            <td class="border-warning text-center" style="cursor:pointer">{{(10 * (currentPage - 1) + $index + 1)}}</td>
+                            <td class="border-warning">
+                                <strong>{{item.COMNAME}}</strong>
+                                <div class="d-flex justify-content-between">
+                                    <span class="text-secondary">MST: {{item.COMTAXCODE}}</span>
+                                    <span ng-if="!item.ISFREETRIAL" class="text-success">Trả phí</span>
+                                    <span ng-if="item.ISFREETRIAL" class="text-secondary">Dùng thử</span>
+                                </div>
+                            </td>
+                            
+                            <td colspan="7" class="border-warning">
+                                <table class="table table-sm table-hover">
+                                    <tbody>
+                                        <tr ng-repeat="a in item.ListSummaryDetail track by $index">
+                                            <td class="text-center">{{a.FORMCODE}}</td>
+                                            <td style="width: 60px" class="text-center">{{a.SYMBOLCODE}}</td>
+                                            <td style="width: 60px" class="text-right">{{a.FROMNUMBER}}</td>
+                                            <td style="width: 100px" class="text-right">{{a.TONUMBER}}</td>
+                                            <td style="width: 100px" class="text-right">{{a.TOTALNUMBER}}</td>
+                                            <td style="width: 100px" class="text-right">{{a.USEDNUMBER}}</td>
+                                            <td style="width: 100px" class="text-center" ng-class="{'text-blue': a.NUMBERSTATUSID == 1, 'text-red': a.NUMBERSTATUSID == 2, 'text-green': a.NUMBERSTATUSID == 3}">{{a.NUMBERSTATUSNAME}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+

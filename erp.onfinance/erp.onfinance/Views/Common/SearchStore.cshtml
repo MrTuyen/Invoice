@@ -1,0 +1,80 @@
+﻿@{
+    List<int> selectedList = ViewBag.selectedList;
+}
+
+@using SAB.Common
+@model List<PM_STORE>
+
+@if (Model != null)
+{
+    <table class="table table-bordered table-striped" id="modelTableSearchStore" style="width: 100%" data-totalpage="@ViewBag.TotalPages" data-currentpage="@ViewBag.CurrentPage">
+        <thead>
+            <tr>
+                <th class="text-center" style="width: 50px">
+                    <input type="checkbox" name="checkall" />
+                </th>
+                <th class="text-center" style="width: 90px">Mã kho</th>
+                <th>Tên kho</th>
+                <th>Địa chỉ</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (PM_STORE objUser in Model)
+            {
+                <tr>
+                    <td class="text-center">
+                        <input type="checkbox" value="@objUser.STOREID" name="chkStore" @Html.Raw(selectedList.Exists(t => t == objUser.STOREID) ? "disabled=disabled checked=checked" : "") />
+                    </td>
+                    <td class="text-center">
+                        @objUser.STOREID
+                    </td>
+                    <td>
+                        <span class="__name">@objUser.STORENAME</span>
+                    </td>
+                    <td>
+                        <span class="__address">@objUser.STOREADDRESS</span>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="text-right">
+        <div class="btn-group divpage">
+            <!--[PAGER]-->
+        </div>
+    </div>
+
+    <script type="text/ecmascript">
+    var chosen = true;
+    $('#modelTableSearchStore tbody input[type="checkbox"]').click(function (event) {
+        chosen = false;
+        if ($(this).attr("checked") != "checked")
+            $('#modelTableSearchStore input[name="checkall"]').prop('checked', false);
+    });
+
+    $("#modelTableSearchStore tbody tr").click(function () {
+        if (chosen) {
+            var _tr = $(this);
+            var check = _tr.find('input[type="checkbox"]');
+              if (check.is(':disabled'))
+              {
+                  return;
+              }
+            check.prop('checked', !(check.is(':checked')));
+            check.trigger("change");
+            if (check.attr("checked") != "checked")
+                $('#modelTableSearchStore input[name="checkall"]').prop('checked', false);
+        }
+        chosen = true;
+
+    });
+
+    $('#modelTableSearchStore thead input[name="checkall"]').click(function () {
+        var _table = $(this).parent().parent().parent().parent();
+        _table.find('tr:not(:hidden) input[type="checkbox"]').prop('checked', $(this).is(':checked'));
+    });
+    </script>
+
+}
+
+

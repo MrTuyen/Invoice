@@ -1,0 +1,38 @@
+﻿@using DS.BusinessObject.Invoice
+
+
+@{ 
+    Layout = null;
+    List<InvoiceBO> lstInvoice = (List<InvoiceBO>)ViewBag.ListInvoice;
+}
+
+<table class="table table-bordered table-striped table-sm" data-totalpage="@ViewBag.TotalPages" data-currentpage="@ViewBag.CurrentPage">
+    <tr>
+        <th>STT</th>
+        <th>Số hóa đơn</th>
+        <th>Ngày, tháng, năm lập hóa đơn</th>
+        <th>Tên đơn vị mua</th>
+        <th>Mã số thuế đơn vị mua</th>
+        <th>Diễn giải nội dung kinh tế</th>
+        <th>Doanh thu chưa có thuế GTGT</th>
+        <th>Thuế GTGT</th>
+        <th>Ghi chú</th>
+    </tr>
+    @{int  i = 1 ;}
+    @foreach (InvoiceBO obj in lstInvoice)
+    {
+        <tr>
+            <td class="text-center">@i</td>
+            <td  class="text-center">@obj.NUMBER.ToString("D7")</td>
+            <td>@obj.SIGNEDTIME.ToString("dd/MM/yyyy")</td>
+            <td>@obj.CUSNAME</td>
+            <td>@obj.CUSTAXCODE</td>
+            <td>@obj.STRLISTPRODUCT</td>
+            <td class="text-right">@obj.TOTALMONEY.ToString("#,##0")</td>
+            <td class="text-right">@obj.TAXMONEY.ToString("#,##0")</td>
+            <td></td>
+        </tr>
+        i++;
+    }
+</table>
+

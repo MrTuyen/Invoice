@@ -1,0 +1,118 @@
+﻿@*<script src="~/Scripts/WDApp.js"></script>
+<script type="text/javascript">
+    if ('WebSocket' in window || 'MozWebSocket' in window) {
+        var wdApp;
+        wdApp = new WDApp();
+        wdApp.init();
+    } else {
+        $("section").remove();
+        $("header").html("Your browser doesn't support WebSockets. ");
+    }
+</script>*@
+
+
+
+
+MST: <input type="text" id="txtComtaxcode" />
+Token: <input type="text" id="txtToken" />
+Id: <input type="text" id="txtId" />
+<button id="btnGetToken">Get Token</button>
+<button id="btnGetInvoiceList">Get Invoice List</button>
+<button id="btnSignInvoice">Sign Invoice</button>
+<button id="btnSignMultipleInvoice">Sign Multiple Invoice</button>
+
+<div>
+    <table>
+        <thead>
+            <tr>
+                <td>ID</td>
+            </tr>
+        </thead>
+        <tbody id="body"></tbody>
+    </table>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+    $("#btnGetToken").on("click", () => {
+        var comtaxcode = $("#txtComtaxcode").val();
+        $.ajax({
+            url: "/api/onfinance/home/v21/gettoken?mst=" + comtaxcode,
+            method: "GET"
+        })
+            .done((response) => {
+                $("#txtToken").val(response.token);
+            })
+    })
+
+    $("#btnGetInvoiceList").on("click", () => {
+        var data =
+        {
+            "comtaxcode": "0106579683-999",
+            "currentpage": 1,
+            "itemperpage": 10
+        };
+        var data1 = JSON.stringify(data);
+        var token = $("#txtToken").val();
+        $.ajax({
+            url: "/api/onfinance/home/v21/getsigninvoicelist",
+            method: "POST",
+            dataType: "json",
+            contentType: "application/json;charset=utf-8",
+            data: data1,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("Authorization", "Bearer " + token);
+            },
+        })
+            .done((response) => {
+                $("#body").html("");
+                var append = "";
+                response.result.forEach((item) => {
+                    append += item.ID + "<br />";
+                })
+                $("#body").append(append);
+                alert(response.rs);
+            })
+    })
+
+    $("#btnSignInvoice").on("click", () => {
+        var token = $("#txtToken").val();
+        $.ajax({
+            url: "/api/onfinance/home/v21/postsigninvoice",
+            method: "POST",
+            dataType: "json",
+            contentType: "application/json;charset=utf-8",
+            data: JSON.stringify({ "id": $("#txtId").val() }),
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("Authorization", "Bearer " + token);
+            },
+        })
+            .done(function (response) {
+                alert(response.msg);
+            })
+            .fail(function (response) {
+                alert(response.msg);
+            })
+    })
+
+    $("#btnSignMultipleInvoice").on("click", () => {
+        var token = $("#txtToken").val();
+        $.ajax({
+            url: "/api/onfinance/home/v21/postsignmultipleinvoice",
+            method: "POST",
+            dataType: "json",
+            contentType: "application/json;charset=utf-8",
+            data: JSON.stringify({ "ids": $("#txtId").val() }),
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("Authorization", "Bearer " + token);
+            },
+        })
+        .done(function (response) {
+            alert(response.msg);
+        })
+        .fail(function (response) {
+            alert(response.msg);
+        })
+    })
+</script>
+

@@ -1,0 +1,51 @@
+﻿@{
+    AccountBO user = (AccountBO)Session[ConfigHelper.User];
+}
+@using DS.Common.Helpers;
+@using DS.BusinessObject.Account;
+@using DS.Common;
+
+<header class="main-header fixed">
+    <a href="@Url.Action("Index", "Home")" class="logo">
+        <span class="logo-mini">
+            <b>C</b>R
+        </span>
+        <span class="logo-lg">
+            <b>ON</b>FINANCE
+        </span>
+    </a>
+    <nav class="navbar navbar-static-top" role="navigation">
+        <a id="sidebar" href="#" class="sidebar-toggle" data-toggle="push-menu" role="button"></a>
+        <div class="navbar-brand">
+            <span>@ViewBag.Title</span>
+        </div>
+        <div class="navbar-custom-menu">
+            <ul class="nav navbar-nav">
+                <li class="dropdown user user-menu">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <img src="~/Content/img/logo.png" class="user-image" alt="User Image">
+                        <span class="hidden-xs">@user.USERNAME - @user.FULLNAME</span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li class="user-header">
+                            <img src="~/Content/img/logo.png" class="img-circle" alt="User Image">
+
+                            <p>
+                                @user.USERNAME - @user.FULLNAME
+                                <small>@user.ADDRESS</small>
+                            </p>
+                        </li>
+                        <li class="user-footer">
+                            <div class="pull-left">
+                                <a href="/Account/ChangePass" class="btn btn-default btn-flat">Đổi mật khẩu</a>
+                            </div>
+                            <div class="pull-right">
+                                <a href="/Account/Logout" class="btn btn-default btn-flat">Đăng xuất</a>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>

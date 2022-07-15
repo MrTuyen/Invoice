@@ -1,0 +1,945 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{91A12D6B-514A-4D00-B064-92415291264D}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SPA_Invoice</RootNamespace>
+    <AssemblyName>SPA_Invoice</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <Use64BitIISExpress />
+    <IISExpressSSLPort>
+    </IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <TypeScriptToolsVersion>3.4</TypeScriptToolsVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ClosedXML, Version=0.94.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ClosedXML.0.94.2\lib\net40\ClosedXML.dll</HintPath>
+    </Reference>
+    <Reference Include="DocumentFormat.OpenXml, Version=2.7.2.0, Culture=neutral, PublicKeyToken=8fb06cb64d019a17, processorArchitecture=MSIL">
+      <HintPath>..\packages\DocumentFormat.OpenXml.2.7.2\lib\net40\DocumentFormat.OpenXml.dll</HintPath>
+    </Reference>
+    <Reference Include="EPPlus, Version=4.5.3.2, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPPlus.4.5.3.2\lib\net40\EPPlus.dll</HintPath>
+    </Reference>
+    <Reference Include="ExcelNumberFormat, Version=1.0.3.0, Culture=neutral, PublicKeyToken=23c6f5d73be07eca, processorArchitecture=MSIL">
+      <HintPath>..\packages\ExcelNumberFormat.1.0.3\lib\net20\ExcelNumberFormat.dll</HintPath>
+    </Reference>
+    <Reference Include="FastMember, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\FastMember.1.3.0\lib\net45\FastMember.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp, Version=5.5.13.1, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\iTextSharp.5.5.13.1\lib\itextsharp.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp.xmlworker, Version=5.5.13.1, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\itextsharp.xmlworker.5.5.13.1\lib\itextsharp.xmlworker.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.Core">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.Core.2.4.1\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.SystemWeb">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.SystemWeb.2.4.1\lib\net45\Microsoft.AspNet.SignalR.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Extensions.Configuration.Abstractions, Version=1.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.Abstractions.1.0.0\lib\netstandard1.0\Microsoft.Extensions.Configuration.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Primitives, Version=1.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Primitives.1.0.0\lib\netstandard1.0\Microsoft.Extensions.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Office.Interop.Word, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Office.Interop.Word.15.0.4797.1003\lib\net20\Microsoft.Office.Interop.Word.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Microsoft.Owin, Version=4.1.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.4.1.1\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb, Version=4.1.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.4.1.1\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security">
+      <HintPath>..\packages\Microsoft.Owin.Security.2.1.0\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Npgsql, Version=3.2.5.0, Culture=neutral, PublicKeyToken=5d8b90d52f46fda7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Npgsql.3.2.5\lib\net451\Npgsql.dll</HintPath>
+    </Reference>
+    <Reference Include="NReco.PdfGenerator, Version=1.1.15.0, Culture=neutral, PublicKeyToken=231663d50a41b451, processorArchitecture=MSIL">
+      <HintPath>..\packages\NReco.PdfGenerator.1.1.15\lib\net20\NReco.PdfGenerator.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="PdfSharp, Version=1.50.5147.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\PDFsharp.1.50.5147\lib\net20\PdfSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="PdfSharp.Charting, Version=1.50.5147.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\PDFsharp.1.50.5147\lib\net20\PdfSharp.Charting.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="QRCoder, Version=1.3.6.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\QRCoder.1.3.6\lib\net40\QRCoder.dll</HintPath>
+    </Reference>
+    <Reference Include="SAB.Library.Core">
+      <HintPath>..\..\DLLs\SAB.Library.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="SAB.Library.Data">
+      <HintPath>..\..\DLLs\SAB.Library.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Select.HtmlToPdf, Version=19.2.0.0, Culture=neutral, PublicKeyToken=e0ae9f6e27a97018, processorArchitecture=MSIL">
+      <HintPath>..\packages\Select.HtmlToPdf.19.2.0\lib\net40\Select.HtmlToPdf.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.Compression.Portable, Version=17.3120.0.21, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <HintPath>..\packages\Syncfusion.Compression.Net.Core.17.3.0.21\lib\netstandard1.2\Syncfusion.Compression.Portable.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.Licensing, Version=17.3451.0.21, Culture=neutral, PublicKeyToken=632609b4d040f6b4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Syncfusion.Licensing.17.3.0.21\lib\net451\Syncfusion.Licensing.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.Pdf.Portable, Version=17.3120.0.21, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <HintPath>..\packages\Syncfusion.Pdf.Net.Core.17.3.0.21\lib\netstandard1.2\Syncfusion.Pdf.Portable.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.4\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.0.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.3.0\lib\portable-net45+win8+wp8+wpa81\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Http, Version=5.2.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.4\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.4\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.4\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.4\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.4\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.4\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.4\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.4\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease">
+      <Private>True</Private>
+      <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <Private>True</Private>
+      <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="ZaloDotNetSDK, Version=1.1.6.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\vng.zalo.ZaloDotNetSDK.1.1.6\lib\net452\ZaloDotNetSDK.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Common\AuthorizeUserAttribute.cs" />
+    <Compile Include="Common\GlobalFunction.cs" />
+    <Compile Include="Common\SignlRConf.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AjaxMethodController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\CategoryController.cs" />
+    <Compile Include="Controllers\CurrencyUnitController.cs" />
+    <Compile Include="Controllers\CustomerController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\InvoiceController.cs" />
+    <Compile Include="Controllers\InvoiceConvertController.cs" />
+    <Compile Include="Controllers\LogController.cs" />
+    <Compile Include="Controllers\MeterController.cs" />
+    <Compile Include="Controllers\PaymentMethodController.cs" />
+    <Compile Include="Controllers\ProductController.cs" />
+    <Compile Include="Controllers\QuantityUnitController.cs" />
+    <Compile Include="Controllers\ReceiptController.cs" />
+    <Compile Include="Controllers\RootController.cs" />
+    <Compile Include="Controllers\SettingsController.cs" />
+    <Compile Include="Controllers\SettingTemplateController.cs" />
+    <Compile Include="Controllers\StatisticController.cs" />
+    <Compile Include="Controllers\TempInvoiceController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Infrastructure\Abstractions\IEmailSender.cs" />
+    <Compile Include="Infrastructure\Abstractions\IEmailSenderConfiguration.cs" />
+    <Compile Include="Infrastructure\Abstractions\IEmailSetting.cs" />
+    <Compile Include="Infrastructure\Abstractions\ISmtpEmailSender.cs" />
+    <Compile Include="Infrastructure\Abstractions\ISmtpEmailSenderConfiguration.cs" />
+    <Compile Include="Infrastructure\Base\EmailSenderBase.cs" />
+    <Compile Include="Infrastructure\Base\EmailSenderConfiguration.cs" />
+    <Compile Include="Infrastructure\Base\EmailSettingNames.cs" />
+    <Compile Include="Infrastructure\Emails\EmailConfig.cs" />
+    <Compile Include="Infrastructure\Emails\SabEmailSetting.cs" />
+    <Compile Include="Infrastructure\Exception\NullEmailSender.cs" />
+    <Compile Include="Infrastructure\Exception\NullEmailSenderConfiguration.cs" />
+    <Compile Include="Infrastructure\Exception\NullEmailSetting.cs" />
+    <Compile Include="Infrastructure\Exception\SabEmailSendingException.cs" />
+    <Compile Include="Infrastructure\Smtp\SmtpEmailSender.cs" />
+    <Compile Include="Infrastructure\Smtp\SmtpEmailSenderConfiguration.cs" />
+    <Compile Include="Models\Data.cs" />
+    <Compile Include="Models\ProgressViewModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Startup.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\AdminLTE.css" />
+    <Content Include="Content\bootstrap-datetimepicker.css" />
+    <Content Include="Content\bootstrap-grid.css" />
+    <Content Include="Content\bootstrap-grid.min.css" />
+    <Content Include="Content\bootstrap-reboot.css" />
+    <Content Include="Content\bootstrap-reboot.min.css" />
+    <Content Include="Content\bootstrap-select.css" />
+    <Content Include="Content\bootstrap-select.min.css" />
+    <Content Include="Content\Customs\angular-loading-bar.css" />
+    <Content Include="Content\Customs\components.css" />
+    <Content Include="Content\Customs\login.css" />
+    <Content Include="Content\Customs\styleTemplate.css" />
+    <Content Include="Content\easy-autocomplete.css" />
+    <Content Include="Content\font-awesome.min.css" />
+    <Content Include="Content\icofont.min.css" />
+    <Content Include="Content\images\ui-icons_444444_256x240.png" />
+    <Content Include="Content\images\ui-icons_555555_256x240.png" />
+    <Content Include="Content\images\ui-icons_777620_256x240.png" />
+    <Content Include="Content\images\ui-icons_777777_256x240.png" />
+    <Content Include="Content\images\ui-icons_cc0000_256x240.png" />
+    <Content Include="Content\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Content\jquery-ui-timepicker-addon.css" />
+    <Content Include="Content\jquery-ui.css" />
+    <Content Include="Content\jquery-ui.structure.css" />
+    <Content Include="Content\jquery-ui.theme.css" />
+    <Content Include="Content\toastr.min.css" />
+    <Content Include="Directives\ClearableTextBox.html" />
+    <Content Include="Directives\SuggestEmployee.html" />
+    <Content Include="Directives\SuggestCustomer.html" />
+    <Content Include="Directives\SuggestProduct.html" />
+    <Content Include="Directives\SuggestUser.html" />
+    <Content Include="fonts\fontawesome-webfont.svg" />
+    <Content Include="fonts\icofont-v.svg" />
+    <Content Include="fonts\icofont.svg" />
+    <Content Include="fonts\Material-Design-Iconic-Font.svg" />
+    <Content Include="Images\32px_c-add.svg" />
+    <Content Include="Images\48px_down-arrow.svg" />
+    <Content Include="Images\48px_menu-4.svg" />
+    <Content Include="Images\64px_corner-down-round.png" />
+    <Content Include="Images\64px_image-add.png" />
+    <Content Include="Images\arrow.png" />
+    <Content Include="Images\avata-3.jpg" />
+    <Content Include="Images\backgorundX.png" />
+    <Content Include="Images\backgroundinvocie.png" />
+    <Content Include="Images\bg_invoice\bg1.jpg" />
+    <Content Include="Images\bg_invoice\bg10.jpg" />
+    <Content Include="Images\bg_invoice\bg11.jpg" />
+    <Content Include="Images\bg_invoice\bg12.jpg" />
+    <Content Include="Images\bg_invoice\bg13.jpg" />
+    <Content Include="Images\bg_invoice\bg14.jpg" />
+    <Content Include="Images\bg_invoice\bg15.jpg" />
+    <Content Include="Images\bg_invoice\bg16.jpg" />
+    <Content Include="Images\bg_invoice\bg17.jpg" />
+    <Content Include="Images\bg_invoice\bg18.jpg" />
+    <Content Include="Images\bg_invoice\bg19.jpg" />
+    <Content Include="Images\bg_invoice\bg2.jpg" />
+    <Content Include="Images\bg_invoice\bg20.jpg" />
+    <Content Include="Images\bg_invoice\bg21.jpg" />
+    <Content Include="Images\bg_invoice\bg22.jpg" />
+    <Content Include="Images\bg_invoice\bg3.jpg" />
+    <Content Include="Images\bg_invoice\bg4.jpg" />
+    <Content Include="Images\bg_invoice\bg5.jpg" />
+    <Content Include="Images\bg_invoice\bg6.jpg" />
+    <Content Include="Images\bg_invoice\bg7.jpg" />
+    <Content Include="Images\bg_invoice\bg8.jpg" />
+    <Content Include="Images\bg_invoice\bg9.jpg" />
+    <Content Include="Images\bg_invoice\hoa-van-in-tem-1.jpg" />
+    <Content Include="Images\bg_invoice\hoa-van-in-tem-2.jpg" />
+    <Content Include="Images\bg_invoice\hoa-van-in-tem-3.jpg" />
+    <Content Include="Images\bg_invoice\hoa-van-in-tem-4.jpg" />
+    <Content Include="Images\bg_invoice\hoa-van-in-tem-6.jpg" />
+    <Content Include="Images\bg_invoice\hoa-van-in-tem-7.jpg" />
+    <Content Include="Images\bg_invoice\pattern1.png" />
+    <Content Include="Images\bg_invoice\pattern2.png" />
+    <Content Include="Images\bg_invoice\pattern3.png" />
+    <Content Include="Images\bg_invoice\pattern4.png" />
+    <Content Include="Images\bg_invoice\pattern5.png" />
+    <Content Include="Images\bg_login.png" />
+    <Content Include="Images\bill.png" />
+    <Content Include="Images\calendar-512.png" />
+    <Content Include="Images\check-mark-icon-png-11.png" />
+    <Content Include="Images\close.png" />
+    <Content Include="Images\danhsachhoadon-hv.svg" />
+    <Content Include="Images\defautlImage.jpg" />
+    <Content Include="Images\download.svg" />
+    <Content Include="Images\dropdown-list.png" />
+    <Content Include="Images\g-icon.png" />
+    <Content Include="Images\g-icon1.png" />
+    <Content Include="Images\group.png" />
+    <Content Include="Images\hand-writing-with-ballpen.svg" />
+    <Content Include="Images\header-banner-1.png" />
+    <Content Include="Images\help-icon.svg" />
+    <Content Include="Images\iconmonstr-arrow-left-thin.svg" />
+    <Content Include="Images\iconmonstr-plus-thin.svg" />
+    <Content Include="Images\ic_search_48px.png" />
+    <Content Include="Images\ic_search_48px.svg" />
+    <Content Include="Images\ke-toan-quan-tri.jpg" />
+    <Content Include="Images\left-sidebar-bg.jpg" />
+    <Content Include="Images\lock.svg" />
+    <Content Include="Images\logo-hori.png" />
+    <Content Include="Images\logo.png" />
+    <Content Include="Images\logo_full.jpg" />
+    <Content Include="Images\mau-tao-hoa-don.png" />
+    <Content Include="Images\mini-logo.png" />
+    <Content Include="Images\notify-icon.svg" />
+    <Content Include="Images\oval-white-loading.svg" />
+    <Content Include="Images\oval.svg" />
+    <Content Include="Images\product.png" />
+    <Content Include="Images\qrcode.png" />
+    <Content Include="Images\sample_invoice\HDBH.PNG" />
+    <Content Include="Images\sample_invoice\HOADONTHUHOCPHI_02.PNG" />
+    <Content Include="Images\sample_invoice\HOADONTHUHOCPHI_03.PNG" />
+    <Content Include="Images\sample_invoice\mau03.PNG" />
+    <Content Include="Images\sample_invoice\mau_01.png" />
+    <Content Include="Images\sample_invoice\mau_02.png" />
+    <Content Include="Images\sample_invoice\mau_03.png" />
+    <Content Include="Images\sample_invoice\mau_04.png" />
+    <Content Include="Images\temp_hoa_don_mau.png" />
+    <Content Include="Images\thong-bao-phat-hanh.PNG" />
+    <Content Include="Images\tick.png" />
+    <Content Include="Minifier\adminlte.css" />
+    <Content Include="Minifier\adminlte.js" />
+    <Content Include="Minifier\adminlte.min.css">
+      <DependentUpon>adminlte.css</DependentUpon>
+    </Content>
+    <Content Include="Minifier\adminlte.min.js">
+      <DependentUpon>adminlte.js</DependentUpon>
+    </Content>
+    <Content Include="Minifier\controller.js" />
+    <Content Include="Minifier\controller.min.js">
+      <DependentUpon>controller.js</DependentUpon>
+    </Content>
+    <Content Include="Minifier\cssjson.js" />
+    <Content Include="Minifier\cssjson.min.js">
+      <DependentUpon>cssjson.js</DependentUpon>
+    </Content>
+    <Content Include="Minifier\cssparser.js" />
+    <Content Include="Minifier\cssparser.min.js">
+      <DependentUpon>cssparser.js</DependentUpon>
+    </Content>
+    <Content Include="Minifier\jquery-ui.js" />
+    <Content Include="Minifier\jquery-ui.min.js">
+      <DependentUpon>jquery-ui.js</DependentUpon>
+    </Content>
+    <Content Include="Minifier\novaon.account.css" />
+    <Content Include="Minifier\novaon.account.js" />
+    <Content Include="Minifier\novaon.account.min.css">
+      <DependentUpon>novaon.account.css</DependentUpon>
+    </Content>
+    <Content Include="Minifier\novaon.account.min.js">
+      <DependentUpon>novaon.account.js</DependentUpon>
+    </Content>
+    <Content Include="Minifier\novaon.js" />
+    <Content Include="Minifier\novaon.min.js">
+      <DependentUpon>novaon.js</DependentUpon>
+    </Content>
+    <Content Include="Minifier\novaon.review.css" />
+    <Content Include="Minifier\novaon.review.js" />
+    <Content Include="Minifier\novaon.review.min.css" />
+    <Content Include="Minifier\novaon.review.min.js" />
+    <Content Include="myfile.xml" />
+    <Content Include="Scripts\adminlte.js" />
+    <Content Include="Scripts\apexcharts\apexcharts.min.js" />
+    <Content Include="Scripts\bootstrap-datetimepicker.min.js" />
+    <Content Include="Scripts\bootstrap-select.min.js" />
+    <Content Include="Scripts\bootstrap.bundle.js" />
+    <Content Include="Scripts\bootstrap.bundle.min.js" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\bootstrap\datatables.bootstrap4.min.js" />
+    <Content Include="Scripts\bootstrap\jquery.datatables.min.js" />
+    <Content Include="Scripts\ca-tools\Base64.js" />
+    <Content Include="Scripts\ca-tools\Home.js" />
+    <Content Include="Scripts\ca-tools\Plugin.js" />
+    <Content Include="Scripts\ckeditor\ckeditor.js" />
+    <Content Include="Scripts\ckeditor\config.js" />
+    <Content Include="Scripts\ckeditor\lang\vi.js" />
+    <Content Include="Scripts\ckeditor\plugins\copyformatting\cursors\cursor-disabled.svg" />
+    <Content Include="Scripts\ckeditor\plugins\copyformatting\cursors\cursor.svg" />
+    <Content Include="Scripts\ckeditor\plugins\copyformatting\styles\copyformatting.css" />
+    <Content Include="Scripts\ckeditor\plugins\tableselection\styles\tableselection.css" />
+    <Content Include="Scripts\ckeditor\skins\moono-lisa\dialog.css" />
+    <Content Include="Scripts\ckeditor\skins\moono-lisa\dialog_ie.css" />
+    <Content Include="Scripts\ckeditor\skins\moono-lisa\dialog_ie8.css" />
+    <Content Include="Scripts\ckeditor\skins\moono-lisa\dialog_iequirks.css" />
+    <Content Include="Scripts\ckeditor\skins\moono-lisa\editor.css" />
+    <Content Include="Scripts\ckeditor\skins\moono-lisa\editor_gecko.css" />
+    <Content Include="Scripts\ckeditor\skins\moono-lisa\editor_ie.css" />
+    <Content Include="Scripts\ckeditor\skins\moono-lisa\editor_ie8.css" />
+    <Content Include="Scripts\ckeditor\skins\moono-lisa\editor_iequirks.css" />
+    <Content Include="Scripts\ckeditor\skins\moono-lisa\icons.png" />
+    <Content Include="Scripts\ckeditor\skins\moono-lisa\icons_hidpi.png" />
+    <Content Include="Scripts\ckeditor\skins\moono-lisa\images\arrow.png" />
+    <Content Include="Scripts\ckeditor\skins\moono-lisa\images\close.png" />
+    <Content Include="Scripts\ckeditor\skins\moono-lisa\images\hidpi\close.png" />
+    <Content Include="Scripts\ckeditor\skins\moono-lisa\images\hidpi\lock-open.png" />
+    <Content Include="Scripts\ckeditor\skins\moono-lisa\images\hidpi\lock.png" />
+    <Content Include="Scripts\ckeditor\skins\moono-lisa\images\hidpi\refresh.png" />
+    <Content Include="Scripts\ckeditor\skins\moono-lisa\images\lock-open.png" />
+    <Content Include="Scripts\ckeditor\skins\moono-lisa\images\lock.png" />
+    <Content Include="Scripts\ckeditor\skins\moono-lisa\images\refresh.png" />
+    <Content Include="Scripts\ckeditor\skins\moono-lisa\images\spinner.gif" />
+    <Content Include="Scripts\ckeditor\styles.js" />
+    <Content Include="Scripts\ckeditor\vendor\promise.js" />
+    <Content Include="Scripts\cssjson.js" />
+    <Content Include="Scripts\datepicker\bootstrap-datepicker.js" />
+    <Content Include="Scripts\datepicker\bootstrap-datepicker.min.js" />
+    <Content Include="Scripts\datepicker\inputmask.min.js" />
+    <Content Include="Scripts\datepicker\jquery-ui-timepicker-addon.min.js" />
+    <Content Include="Scripts\Enum\EnumType.js" />
+    <Content Include="Scripts\esm\popper-utils.js" />
+    <Content Include="Scripts\esm\popper-utils.min.js" />
+    <Content Include="Scripts\esm\popper.js" />
+    <Content Include="Scripts\esm\popper.min.js" />
+    <Content Include="Scripts\Extentions\NumberFormatExtentions.js" />
+    <Content Include="Scripts\jquery-ui-timepicker-addon.js" />
+    <Content Include="Scripts\jquery-ui.js" />
+    <Content Include="Scripts\jquery.easy-autocomplete.js" />
+    <Content Include="Scripts\jquery.fileupload.js" />
+    <Content Include="Scripts\jquery.parsecss.js" />
+    <Content Include="Scripts\jquery.signalR-2.4.1.js" />
+    <Content Include="Scripts\jquery.signalR-2.4.1.min.js" />
+    <Content Include="Scripts\login.js" />
+    <Content Include="Scripts\moment-with-locales.min.js" />
+    <Content Include="Scripts\popper-utils.js" />
+    <Content Include="Scripts\popper-utils.min.js" />
+    <Content Include="Scripts\popper.js" />
+    <Content Include="Scripts\popper.min.js" />
+    <Content Include="Scripts\respond.js" />
+    <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\toastr.min.js" />
+    <Content Include="Scripts\umd\popper-utils.js" />
+    <Content Include="Scripts\umd\popper-utils.min.js" />
+    <Content Include="Scripts\umd\popper.js" />
+    <Content Include="Scripts\umd\popper.min.js" />
+    <Content Include="SPA\Angular\_angular-loading-bar.js" />
+    <Content Include="SPA\Angular\_common.js" />
+    <Content Include="SPA\Angular\_filters.js" />
+    <Content Include="SPA\Angular\_login.js" />
+    <Content Include="SPA\Angular\_app.js" />
+    <Content Include="SPA\Angular\_commonFactory.js" />
+    <Content Include="SPA\Angular\_route.js" />
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="favicon.ico" />
+    <Content Include="Global.asax" />
+    <Content Include="Content\Customs\Site.css" />
+    <Content Include="Minifier\angularjs.js" />
+    <Content Include="Minifier\angularjs.min.js">
+      <DependentUpon>angularjs.js</DependentUpon>
+    </Content>
+    <Content Include="Minifier\novaon.css" />
+    <Content Include="Minifier\novaon.min.css">
+      <DependentUpon>novaon.css</DependentUpon>
+    </Content>
+    <Content Include="Scripts\angular-animate.js" />
+    <Content Include="Scripts\angular-animate.min.js" />
+    <Content Include="Scripts\angular-aria.js" />
+    <Content Include="Scripts\angular-aria.min.js" />
+    <Content Include="Scripts\angular-cookies.js" />
+    <Content Include="Scripts\angular-cookies.min.js" />
+    <Content Include="Scripts\angular-csp.css" />
+    <Content Include="Scripts\angular-loader.js" />
+    <Content Include="Scripts\angular-loader.min.js" />
+    <Content Include="Scripts\angular-message-format.js" />
+    <Content Include="Scripts\angular-message-format.min.js" />
+    <Content Include="Scripts\angular-messages.js" />
+    <Content Include="Scripts\angular-messages.min.js" />
+    <Content Include="Scripts\angular-mocks.js" />
+    <Content Include="Scripts\angular-parse-ext.js" />
+    <Content Include="Scripts\angular-parse-ext.min.js" />
+    <Content Include="Scripts\angular-resource.js" />
+    <Content Include="Scripts\angular-resource.min.js" />
+    <Content Include="Scripts\angular-route.js" />
+    <Content Include="Scripts\angular-route.min.js" />
+    <Content Include="Scripts\angular-sanitize.js" />
+    <Content Include="Scripts\angular-sanitize.min.js" />
+    <Content Include="Scripts\angular-touch.js" />
+    <Content Include="Scripts\angular-touch.min.js" />
+    <Content Include="Scripts\angular.js" />
+    <Content Include="Scripts\angular.min.js" />
+    <Content Include="Scripts\errors.json" />
+    <Content Include="Scripts\angular.min.js.map" />
+    <Content Include="Scripts\angular-touch.min.js.map" />
+    <Content Include="Scripts\angular-sanitize.min.js.map" />
+    <Content Include="Scripts\angular-route.min.js.map" />
+    <Content Include="Scripts\angular-resource.min.js.map" />
+    <Content Include="Scripts\angular-parse-ext.min.js.map" />
+    <Content Include="Scripts\angular-messages.min.js.map" />
+    <Content Include="Scripts\angular-message-format.min.js.map" />
+    <Content Include="Scripts\angular-loader.min.js.map" />
+    <Content Include="Scripts\angular-cookies.min.js.map" />
+    <Content Include="Scripts\angular-aria.min.js.map" />
+    <Content Include="Scripts\angular-animate.min.js.map" />
+    <Content Include="bundleconfig.json" />
+    <Content Include="fonts\Material-Design-Iconic-Font.eot" />
+    <Content Include="fonts\Material-Design-Iconic-Font.ttf" />
+    <Content Include="fonts\Material-Design-Iconic-Font.woff" />
+    <Content Include="fonts\Material-Design-Iconic-Font.woff2" />
+    <Content Include="Scripts\esm\popper.min.js.map" />
+    <Content Include="Scripts\esm\popper.js.map" />
+    <Content Include="Scripts\esm\popper-utils.min.js.map" />
+    <Content Include="Scripts\esm\popper-utils.js.map" />
+    <Content Include="Scripts\bootstrap.min.js.map" />
+    <Content Include="Scripts\bootstrap.js.map" />
+    <Content Include="Scripts\bootstrap.bundle.min.js.map" />
+    <Content Include="Scripts\bootstrap.bundle.js.map" />
+    <Content Include="Content\bootstrap.min.css.map" />
+    <Content Include="Content\bootstrap-reboot.min.css.map" />
+    <Content Include="Content\bootstrap-reboot.css.map" />
+    <Content Include="Content\bootstrap-grid.min.css.map" />
+    <Content Include="Content\bootstrap-grid.css.map" />
+    <Content Include="fonts\fontawesome-webfont.eot" />
+    <Content Include="fonts\fontawesome-webfont.ttf" />
+    <Content Include="fonts\fontawesome-webfont.woff" />
+    <Content Include="fonts\fontawesome-webfont.woff2" />
+    <Content Include="fonts\FontAwesome.otf" />
+    <Content Include="fonts\times.ttf" />
+    <Content Include="fonts\FontUnicode.ttf" />
+    <Content Include="fonts\icofont.eot" />
+    <Content Include="fonts\icofont.ttf" />
+    <Content Include="fonts\icofont.woff" />
+    <Content Include="fonts\icofont.woff2" />
+    <Content Include="SPA\Controller\CategoryController.js" />
+    <Content Include="SPA\Controller\CurrencyUnitController.js" />
+    <Content Include="SPA\Controller\LogController.js" />
+    <Content Include="SPA\Controller\MeterController.js" />
+    <Content Include="SPA\Controller\ModalCurrencyUnitController.js" />
+    <Content Include="SPA\Controller\ModalImportMeterController.js" />
+    <Content Include="SPA\Controller\ModalMeterController.js" />
+    <Content Include="SPA\Controller\ModalPaymentMethodController.js" />
+    <Content Include="SPA\Controller\ModalQuantityUnitController.js" />
+    <Content Include="SPA\Controller\ModalReceiptController.js" />
+    <Content Include="SPA\Controller\PaymentMethodController.js" />
+    <Content Include="SPA\Controller\QuantityUnitController.js" />
+    <Content Include="SPA\Controller\ReceiptController.js" />
+    <Content Include="SPA\Controller\InvoiceWaitController.js" />
+    <Content Include="SPA\Controller\ModalCancelReportController.js" />
+    <Content Include="SPA\Controller\ModalModifiedReportController.js" />
+    <Content Include="SPA\Controller\ModalReleaseDocumentController.js" />
+    <Content Include="SPA\Controller\SettingTemplateController.js" />
+    <Content Include="SPA\Controller\TempInvoiceController.js" />
+    <Content Include="SPA\Controller\UserController.js" />
+    <Content Include="SPA\Directives\FormatNumberInput.js" />
+    <Content Include="SPA\Directives\SuggestEmployee.js" />
+    <Content Include="SPA\Directives\SuggestUser.js" />
+    <Content Include="TemplateFiles\CanceledReport.html" />
+    <Content Include="TemplateFiles\EmailCancelTemplate.html" />
+    <Content Include="TemplateFiles\EmailTemplate.html" />
+    <Content Include="TemplateFiles\ModifiedReport.html" />
+    <Content Include="TemplateFiles\quyet_dinh_su_dung_hoa_don.html" />
+    <Content Include="TemplateFiles\ReleaseDocumentReport.html" />
+    <Content Include="TemplateFiles\XMLFile1.xml" />
+    <Content Include="Views\TempInvoice\HDChdoi.html" />
+    <Content Include="token.cer" />
+    <Content Include="NOVAON_FOLDER\0336692463\ChungChiChuKySo_0336692463.cer" />
+    <Content Include="NOVAON_FOLDER\0336692463\TemplateInvoice_01GTKT0001_AA20E.cshtml" />
+    <Content Include="NOVAON_FOLDER\0336692463\TemplateInvoice_01GTKT0001_DP20E.cshtml" />
+    <Content Include="NOVAON_FOLDER\0336692463\TemplateInvoice_01GTKT0001_NS20E.cshtml" />
+    <Content Include="NOVAON_FOLDER\0336692463\TemplateInvoice_01GTKT0001_NT20E.cshtml" />
+    <Content Include="NOVAON_FOLDER\0336692463\TemplateInvoice_01GTKT0001_SH20E.cshtml" />
+    <Content Include="NOVAON_FOLDER\0336692463\TemplateInvoice_02GTTT0001_TH20E.cshtml" />
+    <Content Include="NOVAON_FOLDER\0336692463\TemplateInvoice_02GTTT0001_TH21E.cshtml" />
+    <Content Include="NOVAON_FOLDER\0336692463\TemplateInvoice_02GTTT1001_BH20E.cshtml" />
+    <Content Include="NOVAON_FOLDER\0336692463\TemplateInvoice_03XKNB0001_AB20E.cshtml" />
+    <Content Include="NOVAON_FOLDER\Web.config" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
+    <Content Include="Scripts\ckeditor\skins\moono-lisa\readme.md" />
+    <None Include="Scripts\jquery-3.3.1.intellisense.js" />
+    <Content Include="Scripts\jquery-3.3.1.js" />
+    <Content Include="Scripts\jquery-3.3.1.min.js" />
+    <Content Include="Scripts\jquery-3.3.1.slim.js" />
+    <Content Include="Scripts\jquery-3.3.1.slim.min.js" />
+    <Content Include="Scripts\jquery.fileDownload.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\sitemap.xml" />
+    <Content Include="Scripts\test-bundles\angular-aria.js" />
+    <Content Include="Scripts\test-bundles\angular-cookies.js" />
+    <Content Include="Scripts\test-bundles\angular-message-format.js" />
+    <Content Include="Scripts\test-bundles\angular-messages.js" />
+    <Content Include="Scripts\test-bundles\angular-resource.js" />
+    <Content Include="Scripts\test-bundles\angular-route.js" />
+    <Content Include="Scripts\test-bundles\angular-sanitize.js" />
+    <Content Include="Scripts\test-bundles\angular-touch.js" />
+    <Content Include="SPA\Controller\AccountController.js" />
+    <Content Include="SPA\Controller\CustomerController.js" />
+    <Content Include="SPA\Controller\HomeController.js" />
+    <Content Include="SPA\Controller\InvoiceController.js" />
+    <Content Include="SPA\Controller\LogoutController.js" />
+    <Content Include="SPA\Controller\ModalCancelInvoiceController.js" />
+    <Content Include="SPA\Controller\ModalCategoryController.js" />
+    <Content Include="SPA\Controller\ModalChangeInvoiceController.js" />
+    <Content Include="SPA\Controller\ModalCustomerController.js" />
+    <Content Include="SPA\Controller\ModalImportCustomerController.js" />
+    <Content Include="SPA\Controller\ModalImportInvoiceController.js" />
+    <Content Include="SPA\Controller\ModalImportProductController.js" />
+    <Content Include="SPA\Controller\ModalInvoiceController.js" />
+    <Content Include="SPA\Controller\ModalReleaseNoticeController.js" />
+    <Content Include="SPA\Controller\ModalNumberWaitingController.js" />
+    <Content Include="SPA\Controller\ModalPreviewInvoiceController.js" />
+    <Content Include="SPA\Controller\ModalProductController.js" />
+    <Content Include="SPA\Controller\ProductController.js" />
+    <Content Include="SPA\Controller\RootController.js" />
+    <Content Include="SPA\Controller\SettingsController.js" />
+    <Content Include="SPA\Controller\StatisticController.js" />
+    <Content Include="SPA\Directives\ClearableTextBox.js" />
+    <Content Include="SPA\Directives\SuggestCustomer.js" />
+    <Content Include="SPA\Directives\SuggestProduct.js" />
+    <Content Include="TemplateFiles\none.html" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Scripts\version.json" />
+    <Content Include="Views\Home\Home.cshtml" />
+    <Content Include="Views\Shared\_Head.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Account\Register.cshtml" />
+    <Content Include="Views\Account\ForgotPassword.cshtml" />
+    <Content Include="Views\Account\Index.cshtml" />
+    <Content Include="Views\Account\ReSendEmail.cshtml" />
+    <Content Include="Views\Invoice\Index.cshtml" />
+    <Content Include="Views\Common\Invoice.cshtml" />
+    <Content Include="Views\Common\Customer.cshtml" />
+    <Content Include="Views\Shared\_LayoutSimple.cshtml" />
+    <Content Include="Views\Shared\_SliderMenu.cshtml" />
+    <Content Include="Views\Common\Product.cshtml" />
+    <Content Include="Views\Common\Category.cshtml" />
+    <Content Include="Views\Customer\Index.cshtml" />
+    <Content Include="Views\Product\Index.cshtml" />
+    <Content Include="Views\Settings\Index.cshtml" />
+    <Content Include="Views\Common\ImportInvoice.cshtml" />
+    <Content Include="TemplateFiles\InvoiceTemplate.xlsx" />
+    <Content Include="Views\Customer\Detail.cshtml" />
+    <Content Include="Views\Settings\AccountSetting.cshtml" />
+    <Content Include="Views\Category\Index.cshtml" />
+    <Content Include="Views\Statistic\Index.cshtml" />
+    <Content Include="Views\Statistic\MailHistory.cshtml" />
+    <Content Include="Views\Statistic\ActionHistory.cshtml" />
+    <Content Include="Views\Settings\Announcement.cshtml" />
+    <Content Include="Views\Settings\AttachementFile.cshtml" />
+    <Content Include="Views\Settings\Tool.cshtml" />
+    <Content Include="Views\Statistic\UsingInvoice.cshtml" />
+    <Content Include="Views\Statistic\OutputInvoice.cshtml" />
+    <Content Include="Views\Common\ImportProduct.cshtml" />
+    <Content Include="TemplateFiles\ProductTemplate.xlsx" />
+    <Content Include="Views\Common\ImportCustomer.cshtml" />
+    <Content Include="TemplateFiles\CustomerTemplate.xlsx" />
+    <Content Include="Views\Common\PreviewInvoice.cshtml" />
+    <Content Include="Views\Common\CancelInvoice.cshtml" />
+    <Content Include="Views\Settings\UserSettings.cshtml" />
+    <Content Include="Views\Invoice\InvoiceWait.cshtml" />
+    <Content Include="Views\Common\NumberWaiting.cshtml" />
+    <Content Include="Views\Common\ReleaseNotice.cshtml" />
+    <Content Include="Views\Common\ModifiedReport.cshtml" />
+    <Content Include="TemplateFiles\file_mau_khach_hang.xlsx" />
+    <Content Include="Views\Common\SendEmail.cshtml" />
+    <Content Include="Views\Common\Comfirm.cshtml" />
+    <Content Include="Views\Common\CancelReport.cshtml" />
+    <Content Include="Views\TempInvoice\Index.cshtml" />
+    <Content Include="Views\TempInvoice\ViewTemplate.cshtml" />
+    <Content Include="Views\TempInvoice\HDGoc.cshtml" />
+    <Content Include="Views\TempInvoice\MauN02.cshtml" />
+    <Content Include="Views\TempInvoice\MauM01.cshtml" />
+    <Content Include="Views\TempInvoice\MauM02.cshtml" />
+    <Content Include="Scripts\popper-utils.js.map" />
+    <Content Include="Scripts\popper-utils.min.js.map" />
+    <Content Include="Scripts\popper.js.map" />
+    <Content Include="Scripts\popper.min.js.map" />
+    <Content Include="Views\Common\ReleaseDocumentReport.cshtml" />
+    <Content Include="Views\Account\PhoneNumber.cshtml" />
+    <Content Include="Views\Common\InvoiceNote.cshtml" />
+    <Content Include="TemplateFiles\quyet_dinh_su_dung_hoa_don.docx" />
+    <Content Include="Views\TempInvoice\MauN03.cshtml" />
+    <Content Include="Views\TempInvoice\MauM03.cshtml" />
+    <Content Include="Views\TempInvoice\MauM04.cshtml" />
+    <Content Include="Views\TempInvoice\HDBH_01.cshtml" />
+    <Content Include="Views\TempInvoice\MauM05.cshtml" />
+    <Content Include="Views\Receipt\Index.cshtml" />
+    <Content Include="Views\Common\PopupReceipt.cshtml" />
+    <Content Include="Views\TempInvoice\HOADONTHUTIEN0001.cshtml" />
+    <Content Include="Views\TempInvoice\HOADONTHUTIEN0002.cshtml" />
+    <Content Include="Views\TempInvoice\HOADONTHUTIEN0003.cshtml" />
+    <Content Include="TemplateFiles\danh sach hoc sinh_import.xlsx" />
+    <Content Include="TemplateFiles\import_danh sach hoa don_HS.xlsx" />
+    <Content Include="Views\TempInvoice\HOADONTIENDIEN0001.cshtml" />
+    <Content Include="Views\Common\PopupInsertMeter.cshtml" />
+    <Content Include="TemplateFiles\file_mau_bieu_dien.xlsx" />
+    <Content Include="TemplateFiles\file_mau_khach_hang_hoa_don_tien_dien.xlsx" />
+    <Content Include="Views\Common\ImportMeter.cshtml" />
+    <Content Include="Views\Meter\Index.cshtml" />
+    <Content Include="TemplateFiles\file_import_hoa_don__tien_dien_sinh_hoat.xlsx" />
+    <Content Include="TemplateFiles\file_import_hoa_don__tien_dien_ngoai_sinh_hoat.xlsx" />
+    <Content Include="TemplateFiles\file_mau_danh_muc_cong_to_dien.xlsx" />
+    <Content Include="Views\TempInvoice\HOADONTIENNUOC0001.cshtml" />
+    <Content Include="TemplateFiles\file_import_hoa_don_nuoc.xlsx" />
+    <Content Include="TemplateFiles\File_import_Danh_muc_khach_hang.xlsx" />
+    <Content Include="TemplateFiles\File_import_danh_muc_gia_nuoc.xlsx" />
+    <Content Include="TemplateFiles\File_import_danh_muc_cong_to_nuoc.xlsx" />
+    <Content Include="Views\User\Index.cshtml" />
+    <Content Include="Views\TempInvoice\HOADONTIENNUOC0001 - Copy.cshtml" />
+    <Content Include="Views\TempInvoice\MauM01_Chengneng.cshtml" />
+    <Content Include="Views\Common\Onboarding.cshtml" />
+    <Content Include="Views\Log\Index.cshtml" />
+    <Content Include="Views\Common\CurrencyUnit.cshtml" />
+    <Content Include="Views\Common\PaymentMethod.cshtml" />
+    <Content Include="Views\QuantityUnit\Index.cshtml" />
+    <Content Include="Views\Common\QuantityUnit.cshtml" />
+    <Content Include="Views\CurrencyUnit\Index.cshtml" />
+    <Content Include="Views\Common\ModalSendMultipleEmail.cshtml" />
+    <Content Include="Views\PaymentMethod\Index.cshtml" />
+    <Content Include="TemplateFiles\file_mau_hang_hoa.xlsx" />
+    <Content Include="Views\TempInvoice\HOADONTIENDIEN0002.cshtml" />
+    <Content Include="Views\Settings\EmailConfiguration.cshtml" />
+    <Content Include="Views\Settings\Parameters.cshtml" />
+    <Content Include="Views\TempInvoice\PHIEUXUATKHO001.cshtml" />
+    <Content Include="Views\Common\ModalSendZalo.cshtml" />
+    <Content Include="Views\Common\SendZalo.cshtml" />
+    <Content Include="Views\Settings\ZaloConfiguration.cshtml" />
+    <Content Include="Views\Invoice\TabAll.cshtml" />
+    <Content Include="Views\Invoice\TabWaiting.cshtml" />
+    <Content Include="Views\Invoice\TabCancel.cshtml" />
+    <Content Include="Views\Invoice\TabDelete.cshtml" />
+    <Content Include="Views\Invoice\TabModified.cshtml" />
+    <Content Include="Views\Invoice\TabReplace.cshtml" />
+    <Content Include="Views\Invoice\Mobile.cshtml" />
+    <Content Include="Views\Invoice\TabError.cshtml" />
+    <Content Include="Views\Invoice\Quickview.cshtml" />
+    <Content Include="Views\TempInvoice\MauN04.cshtml" />
+    <Content Include="Views\TempInvoice\MauN05.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="Temp\" />
+    <Folder Include="Views\AjaxMethod\" />
+    <Folder Include="Views\InvoiceConvert\" />
+    <Folder Include="Views\Root\" />
+    <Folder Include="Views\SettingTemplate\" />
+    <Folder Include="Views\SytemSetting\" />
+    <Folder Include="Views\TempInvoice\Receipt\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\bootstrap-theme.min.css.map" />
+    <Content Include="Content\bootstrap-theme.css.map" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+    <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
+    <Content Include="Scripts\jquery-3.3.1.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\DS.Service\DS.BusinessLogic\DS.BusinessLogic.csproj">
+      <Project>{d577785d-bfbe-43fe-9abf-27438f82d71f}</Project>
+      <Name>DS.BusinessLogic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\DS.Service\DS.BusinessObject\DS.BusinessObject.csproj">
+      <Project>{e2ef73c2-ae18-45c5-9403-3f8e5b97374c}</Project>
+      <Name>DS.BusinessObject</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\DS.Service\DS.Common\DS.Common.csproj">
+      <Project>{fb18d3f8-f9e0-4bb4-bb55-0e121f7d65f4}</Project>
+      <Name>DS.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="Scripts\index.d.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="Microsoft.Office.Core">
+      <Guid>{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>8</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="Microsoft.Office.Interop.Excel">
+      <Guid>{00020813-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>9</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="VBIDE">
+      <Guid>{0002E157-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>5</VersionMajor>
+      <VersionMinor>3</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>59637</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:59637/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

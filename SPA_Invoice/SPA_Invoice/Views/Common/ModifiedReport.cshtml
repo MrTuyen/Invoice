@@ -1,0 +1,144 @@
+﻿<style>
+    .modified_report p {
+        font-size: 14px;
+        margin-bottom: 10px;
+    }
+
+    .modified_report h6, .modified_report h5 {
+        text-align: center;
+        line-height: 15px;
+    }
+
+    .modified_report table {
+        width: 100%;
+    }
+</style>
+<div class="modal fade modal-modified-report modal-report" tabindex="-1" ng-controller="ModalModifiedReportController">
+    <div class="modal-dialog modal-dialog-scrollable modal-full" role="document">
+        <div class="modal-content modified_report">
+            <button type="button" class="close " data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <div class="modal-body">
+                <div class="pl-5 pr-5">
+                    <input type="hidden" ng-model="Report.ID" ng-value="Report.ID" />
+                    <input type="hidden" ng-model="Report.REPORTTYPE" ng-value="Report.REPORTTYPE" />
+                    <br />
+                    <h5><strong>CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</strong></h5>
+                    <h6><strong>Độc lập - Tự do - Hạnh phúc</strong></h6>
+                    <h6><strong>- - - - - - - - - -***- - - - - - - - - -</strong></h6>
+                    <h5 class="mb-4 mt-4"><strong>BIÊN BẢN ĐIỀU CHỈNH HÓA ĐƠN</strong></h5>
+                    <p>
+                        ­- Căn cứ Nghị định 51/2010/NĐCP ngày 14/05/2010 của Chính phủ về việc in, phát hành, sử dụng, quản lý hóa đơn.
+                    </p>
+                    <p>
+                        - Căn cứ Thông tư 32/2011/TT­BTC ngày 14/03/2011 của Bộ Tài chính Hướng dẫn về khởi tạo, phát hành và sử dụng hóa đơn điện tử bán hàng hóa, cung ứng dịch vụ.
+                    </p>
+                    <p>
+                        - Căn cứ Nghị định 119/2018/NĐ­CP ngày 12/09/2018 của Chính phủ quy định về hóa đơn điện tử khi bán hàng hóa, cung cấp dịch vụ.
+                    </p>
+                    <p>
+                        - Căn cứ vào thỏa thuận giữa các bên.
+                    </p>
+                    <hr />
+                    <p>
+                        Hôm nay, ngày <input type="text" class="form-control-sm editor_invoice datepicker invoice_datepicker_icon" ng-model="Report.REPORTTIME" autocomplete="off" /> chúng tôi gồm có:
+                    </p>
+                    <p>
+                        <strong>BÊN A (Bên bán): <span ng-model="Report.COMNAME" ng-bind="Report.COMNAME = Enterprise.COMNAME">{{Enterprise.COMNAME}}</span></strong>
+                    </p>
+                    <p>
+                        Địa chỉ:<span ng-model="Report.CUSNAME" ng-bind="Report.COMADDRESS = Enterprise.COMADDRESS">{{Enterprise.COMADDRESS}}</span>
+                    </p>
+                    <table>
+                        <tr>
+                            <td width="100px"> Mã số thuế: </td>
+                            <td> <span ng-model="Report.COMTAXCODE" ng-bind="Report.COMTAXCODE = Enterprise.COMTAXCODE">{{Enterprise.COMTAXCODE}}</span></td>
+                            <td width="100px"> Số điện thoại:</td>
+                            <td> <input class="form-control form-control-sm editor_invoice" ng-model="Report.COMPHONENUMBER" ng-value="Enterprise.COMPHONENUMBER" type="text" /></td>
+                        </tr>
+                        <tr>
+                            <td width="100px"> Đại diện: </td>
+                            <td> <input class="form-control form-control-sm editor_invoice" ng-model="Report.COMLEGALNAME" ng-value="Enterprise.COMLEGALNAME" type="text" /></td>
+                            <td width="100px"> Chức vụ:</td>
+                            <td> <input class="form-control form-control-sm editor_invoice" ng-model="Report.COMROLE" type="text" /> </td>
+                        </tr>
+                    </table>
+                    <p>
+                        <strong>BÊN B (Bên mua): <span ng-model="Report.CUSNAME" ng-bind="Report.CUSNAME = Invoice.CUSNAME">{{Invoice.CUSNAME}}</span></strong>
+                    </p>
+                    <table>
+                        <tr>
+                            <td>Địa chỉ: </td>
+                            <td colspan="3"><input type="text" class="form-control form-control-sm editor_invoice" ng-model="Report.CUSADDRESS" ng-value="Invoice.CUSADDRESS == null ? Report.CUSADDRESS : Invoice.CUSADDRESS" /></td>
+                        </tr>
+                        <tr>
+                            <td width="100px"> Mã số thuế: </td>
+                            <td>
+                                <input class="form-control form-control-sm editor_invoice" ng-model="Report.CUSTAXCODE" ng-value="Invoice.CUSTAXCODE == null ? Report.CUSTAXCODE : Invoice.CUSTAXCODE" type="text" />
+                            </td>
+                            <td width="100px"> Số điện thoại:</td>
+                            <td> <input class="form-control form-control-sm editor_invoice" ng-model="Report.CUSPHONENUMBER" ng-value="Invoice.CUSPHONENUMBER == null ? Report.CUSPHONENUMBER : Invoice.CUSPHONENUMBER" type="text" /></td>
+                        </tr>
+                        <tr>
+                            <td width="100px"> Đại diện: </td>
+                            <td> <input class="form-control form-control-sm editor_invoice" ng-model="Report.CUSDELEGATE" ng-value="Invoice.CUSBUYER == null ? Report.CUSDELEGATE : Invoice.CUSBUYER" type="text" /> </td>
+                            <td width="100px"> Chức vụ:</td>
+                            <td> <input class="form-control form-control-sm editor_invoice" ng-model="Report.CUSROLE" type="text" /> </td>
+                        </tr>
+                    </table>
+                    <p ng-if="item.IDTEMP > 0">
+                        Hai bên thống nhất lập biên bản này để điều chỉnh hóa đơn có Mẫu số {{Invoice.FORMCODE}} ký hiệu {{Invoice.SYMBOLCODE}} số {{Invoice.NUMBERTEMP | numberFixedLen:7}} ngày {{Invoice.SIGNEDTIMETEMP | dateFormat:'dd/MM/yyyy'}} theo quy định.
+                    </p>
+                    <p ng-if="!(item.IDTEMP > 0)">
+                        Hai bên thống nhất lập biên bản này để điều chỉnh hóa đơn có Mẫu số {{Invoice.FORMCODE}} ký hiệu {{Invoice.SYMBOLCODE}} số {{Invoice.NUMBER | numberFixedLen:7}} ngày {{Invoice.SIGNEDTIME | dateFormat:'dd/MM/yyyy'}} theo quy định.
+                    </p>
+                    <p>
+                        <b>Lý do điều chỉnh:</b> <input class="form-control form-control-sm editor_invoice" ng-model="Report.REASON" ng-value="Invoice.CHANGEREASON" type="text" />
+                    </p>
+                    <p>
+                        Chúng tôi xin cam đoan các thông tin khai ở trên là hoàn toàn chính xác. Nếu có bất kỳ sai sót nào chúng tôi xin chịu trách nhiệm trước pháp luật.
+                    </p>
+                    <table>
+                        <tr>
+                            <td>
+                                <p style="text-align: center;">
+                                    <strong>ĐẠI DIỆN BÊN A</strong>
+                                </p>
+                                <p style="text-align: center;">
+                                    <i>(Chữ ký số, chữ ký điện tử)</i>
+                                </p>
+                            </td>
+                            <td>
+                                <p style="text-align: center;">
+                                    <strong>ĐẠI DIỆN BÊN B</strong>
+                                </p>
+                                <p style="text-align: center;">
+                                    <i>(Chữ ký số, chữ ký điện tử)</i>
+                                </p>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer d-flex justify-content-between">
+                <div class="d-flex justify-content-start">
+                    <button class="btn btn-secondary btn-sm mr-3 pl-3 pr-3" data-dismiss="modal">Hủy</button>
+                </div>
+                <div class="d-flex justify-content-between">
+                </div>
+                <div class="d-flex justify-content-between">
+                    <img src="~/Images/oval-white-loading.svg" class="mr-3" ng-show="IsLoading" />
+                    <div class="page-button-footer">
+                        <button type="button" class="btn btn-success" ng-if="CURRENT_USER_ROLE.includes(USER_ROLE.THEM_MOI_HOA_DON.toString()) && (!IsUpdateModifiedReport)" ng-click="AddReport(2);"><span class="fa fa-send-o"></span> &nbsp; Lưu biên bản điều chỉnh</button>
+                        <button type="button" class="btn btn-success disabled-element" ng-if="!CURRENT_USER_ROLE.includes(USER_ROLE.THEM_MOI_HOA_DON.toString()) && (!IsUpdateModifiedReport)" ng-click="AddReport(2);"><span class="fa fa-send-o"></span> &nbsp; Lưu biên bản điều chỉnh</button>
+
+                        <button type="button" class="btn btn-success" ng-if="CURRENT_USER_ROLE.includes(USER_ROLE.CAP_NHAT_HOA_DON.toString()) && (IsUpdateModifiedReport)" ng-click="UpdateReport();"><span class="fa fa-send-o"></span> &nbsp; Cập nhật biên bản điều chỉnh</button>
+                        <button type="button" class="btn btn-success disabled-element" ng-if="!CURRENT_USER_ROLE.includes(USER_ROLE.CAP_NHAT_HOA_DON.toString()) && IsUpdateModifiedReport" ng-click="UpdateReport();"><span class="fa fa-send-o"></span> &nbsp; Cập nhật biên bản điều chỉnh</button>
+
+                        <button type="button" class="btn btn-warning" ng-if="CURRENT_USER_ROLE.includes(USER_ROLE.KY.toString())" ng-click="SaveAndSignDocumentPDF(2);"><i class="fa fa-key"></i>&nbsp; Lưu và Ký số</button>
+                        <button type="button" class="btn btn-warning disabled-element" ng-if="!CURRENT_USER_ROLE.includes(USER_ROLE.KY.toString())" ng-click="SaveAndSignDocumentPDF(2);"><i class="fa fa-key"></i>&nbsp; Lưu và Ký số</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

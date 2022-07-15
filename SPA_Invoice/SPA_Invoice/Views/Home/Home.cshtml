@@ -1,0 +1,336 @@
+﻿<style>
+    #dateTimePopUp {
+        width: 100%;
+        height: 100% !important;
+        top: 0;
+        display: none;
+    }
+
+    .fill-line {
+        border-bottom: 1px solid #e8d4d4;
+        left: 0;
+        right: 0;
+        position: absolute;
+    }
+
+    svg.icon {
+        width: 16px;
+        height: 16px;
+        fill: currentColor;
+    }
+
+    .getting-started {
+        padding: 16px 0;
+    }
+
+    .btn.btn-link {
+        text-decoration: unset;
+    }
+
+    .btn btn-link:hover {
+        text-decoration: unset !important;
+    }
+    /*view started*/
+    .scroll-y.noscroll-x.fill.body.scrollbox.zerotop {
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        padding: 0 20px 50px;
+        overflow-x: auto;
+    }
+
+    .close-lg {
+        font-size: 60px;
+        font-weight: 300;
+    }
+
+    .gs-header.gradient-border-bottom {
+        border-bottom: 1px solid #eee;
+        border-image: linear-gradient(to right,#fff 0,#eee 25%,#eee 50%,#eee 75%,#fff 100%);
+        border-image-slice: 1;
+        margin-bottom: 40px;
+    }
+
+    .gs-new-container.gs-new-featured {
+        max-width: 768px;
+        display: flex;
+        margin: auto;
+        margin-bottom: 30px;
+    }
+
+    a.featured-item.gs-video-section.text-left.gs-invoice-video {
+        background-color: #f2f7fe;
+        flex-grow: 1;
+        flex-basis: 0;
+        padding: 40px 35px 20px;
+        margin-right: 20px;
+        color: unset;
+    }
+
+    a.featured-item.gs-mobile-section {
+        background-color: #f2f7fe;
+        flex-grow: 1;
+        flex-basis: 0;
+        padding: 40px 35px 20px;
+    }
+
+    .gs-mobile-section:visited {
+        color: unset;
+    }
+
+    .getting-started-help.product-help-opts {
+        padding-top: 90px;
+        padding-bottom: 30px;
+        padding-left: 30px;
+        padding-top: 60px;
+        padding-bottom: 0;
+    }
+
+    .getting-started-help a {
+        color: #222;
+        transition: color .2s ease-in;
+    }
+
+        .getting-started-help a:hover {
+            color: #2a90fb;
+        }
+
+    svg.icon.icon-gs-cta {
+        width: 120px;
+        height: 120px;
+    }
+
+    .font-large {
+        font-size: 16px;
+    }
+
+    .col-lg-4.text-center {
+        flex: 0 0 33.33333%;
+        max-width: 33.33333%;
+    }
+
+    svg.icon-lg {
+        fill: #375505;
+        width: 30px;
+        height: 25px;
+    }
+    .cursor-move{
+        cursor: move!important;
+    }
+   
+</style>
+<div ng-controller="HomeController" ng-init="LoadDashboard()" class="dashboard-page">
+    <div class="d-flex justify-content-between">
+        <h2 class="d-none d-sm-block" style="line-height: 60px;text-transform: uppercase;font-size: 20px;line-height: 69px;margin-bottom:0;">
+            <span style="display: flex;border-bottom: 1px solid #0081d9;"><strong>Tổng quan</strong></span>
+        </h2>
+        <h2 class="d-block d-sm-none"><span style="padding-top: 21px;line-height: 33px; display: flex;border-bottom: 1px solid #0081d9;"><strong>Tổng quan</strong></span></h2>
+        <div class="getting-started">
+            <div class="btn-started-toolbar float-right ">
+                <button id="ember483" class="btn btn-link ember-view" ng-click="ChangeDashboard('2')">
+                    <svg xmlns="https://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon icon-md align-text-bottom"><path d="M357.2 238.4l-143.1-90c-12.4-7.8-28 2-28 17.6v180c0 15.7 15.6 25.4 28 17.6l143.1-90c12.4-7.9 12.4-27.4 0-35.2z"></path><path d="M436.7 74.8C388.4 26.6 324.3 0 256 0 187.7 0 123.6 26.6 75.3 74.8S.5 187.2.5 255.5c0 68.3 26.6 132.4 74.8 180.7C123.6 484.4 187.7 511 256 511c68.3 0 132.4-26.6 180.7-74.8s74.8-112.4 74.8-180.7c0-68.3-26.6-132.4-74.8-180.7zM256 493.2c-63.5 0-123.1-24.7-168.1-69.7C43 378.6 18.3 319 18.3 255.5S43 132.4 87.9 87.4c45-44.9 104.6-69.6 168.1-69.6s123.1 24.7 168.1 69.7c44.9 44.9 69.7 104.6 69.7 168.1s-24.7 123.1-69.7 168.1c-45 44.8-104.6 69.5-168.1 69.5z"></path></svg>&nbsp; Xem video hướng dẫn
+                </button><button id="ember484" class="btn btn-link ember-view"> <svg version="1.1" id="Layer_1" xmlns="https://www.w3.org/2000/svg" x="0" y="0" viewBox="0 0 512 512" xml:space="preserve" class="icon icon-md align-text-bottom"><path d="M240 497.8v-232c0-6.6-5.4-12-12-12H28c-6.6 0-12 5.4-12 12v212c0 17.7 14.3 32 32 32h180c6.6 0 12-5.4 12-12zM284 509.8h180c17.7 0 32-14.3 32-32v-212c0-6.6-5.4-12-12-12H284c-6.6 0-12 5.4-12 12v232c0 6.6 5.4 12 12 12zM379.9 157.8c25.3-15.4 42.6-43.4 42.6-74.7 0-44.5-36.2-80.8-80.8-80.8-21.2 0-42.5 10.8-58.5 29.7-14.3 16.8-22.8 37.9-23.6 58.3-.1 1.9-1.6 3.4-3.5 3.4h-.1c-1.9 0-3.5-1.5-3.5-3.4-.8-20.4-9.2-41.4-23.2-58.2-15.8-19-37-29.8-58.2-29.8-44.5 0-80.8 36.2-80.8 80.8 0 21.5 7.2 43.1 19.8 59.2 4.8 6.1 10.2 11.3 16.1 15.5H48c-17.6 0-32 14.4-32 32v20c0 6.6 5.4 12 12 12h456c6.6 0 12-5.4 12-12v-20c0-17.6-14.4-32-32-32h-84.1zm-174.1 0c-74.8 0-90.5-44.8-90.5-74.7 0-30.8 24.8-55.8 55.5-55.8 25.6 0 56.2 29.6 56.2 66.4v56c0 4.4-3.6 8-8 8l-13.2.1zM302 48.2c11.3-13.3 25.8-20.9 39.6-20.9 30.8 0 55.8 25 55.8 55.8 0 16.7-21.9 74.7-100.7 74.7H292c-4.4 0-8-3.6-8-8v-56c0-15.5 6.9-32.5 18-45.6z"></path></svg>&nbsp; Kết nối với Nova invoice </button>
+            </div>
+        </div>
+    </div>
+    <div class="fill-line"></div>
+    <div class="report-invoice" ng-show="DashboardType.value === '1'">
+        <div class="d-flex text-white" style="justify-content: flex-end; border-radius: 3px;">
+            <div class="p-2">
+                <select class="cb-select-time show-tick" data-width="220px" ng-model="Timepickers.value" ng-change="LoadData()">
+                    <option ng-repeat="o in Timepickers.Options" value="{{o.value}}">{{o.text}}</option>
+                </select>
+
+                <div id="dateTimePopUp" style="display: none;">
+                    <div class="d-flex">
+                        <div class="w-50 pr-2">
+                            <p class="mb-1"><strong>Từ ngày</strong></p>
+                            <input type="date" ng-model="FROMTIME" data-date-format="DD MMMM YYYY" id="pk_fromtime_home" class="w-100 form-control form-control-sm" />
+                        </div>
+                        <div class="w-50 pl-2">
+                            <p class="mb-1"><strong>Đến ngày</strong></p>
+                            <input type="date" ng-model="TOTIME" data-date-format="DD MMMM YYYY" id="pk_fromtime_home" class="w-100 form-control form-control-sm" />
+                        </div>
+                    </div>
+                    <div class="d-flex float-right">
+                        <button class="btn btn-success btn mt-3 w-100" ng-click="LoadData()"><b>Lọc</b></button>
+                    </div>
+                </div>
+
+                <div id="enterpriseInfoPopUp" style="display: none;">
+                    <div class="d-flex">
+                        <div class="w-50 mr-2">
+                            <div class="">
+                                <p class="mb-1"><strong>Mã số thuế <text class="text-danger">(*)</text></strong></p>
+                                <input class="form-control" type="text" ng-model="Enterprise.COMTAXCODE" my-enter="LoadInfoByTaxcode()" ng-blur="LoadInfoByTaxcode()" />
+                                <div id="loadTaxinfo" class="d-none"></div>
+                            </div>
+                            <div class="">
+                                <p class="mb-1"><strong>Tên doanh nghiệp <text class="text-danger">(*)</text></strong></p>
+                                <input type="text" class="form-control" ng-model="Enterprise.COMNAME" />
+                            </div>
+                            <div class="">
+                                <p class="mb-1"><strong>Địa chỉ <text class="text-danger">(*)</text></strong></p>
+                                <input type="text" class="form-control" ng-model="Enterprise.COMADDRESS" />
+                            </div>
+                            <div class="">
+                                <p class="mb-1"><strong>Số điện thoại</strong></p>
+                                <input type="text" class="form-control" ng-model="Enterprise.COMPHONENUMBER" />
+                            </div>
+                            <div class="">
+                                <p class="mb-1"><strong>Tên pháp nhân</strong></p>
+                                <input type="text" class="form-control" ng-model="Enterprise.COMLEGALNAME" />
+                            </div>
+                        </div>
+                        <div class="w-50">
+                            <div class="">
+                                <p class="mb-1"><strong>Email</strong></p>
+                                <input type="text" class="form-control" ng-model="Enterprise.COMEMAIL" />
+                            </div>
+                            <div class="">
+                                <p class="mb-1"><strong>Số tài khoản ngân hàng</strong></p>
+                                <input type="text" class="form-control" ng-model="Enterprise.COMACCOUNTNUMBER" />
+                            </div>
+                            <div class="">
+                                <p class="mb-1"><strong>Ngân hàng</strong></p>
+                                <input type="text" class="form-control" ng-model="Enterprise.COMBANKNAME" />
+                            </div>
+                            <div class="">
+                                <p class="mb-1"><strong>Cơ quan nộp thuế</strong></p>
+                                <input type="text" class="form-control" ng-model="Enterprise.TAXDEPARTEMENT" />
+                            </div>
+                            <div class="">
+                                <p class="mb-1"><strong>Mã cơ quan nộp thuế</strong></p>
+                                <input type="text" class="form-control" ng-model="Enterprise.TAXDEPARTEMENTCODE" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-2 text-danger"><i><strong>Đây là phiên bản miễn phí. Vui lòng điền đầy đủ thông tin phía trên để hoàn thành thông tin cho mẫu hóa đơn và thông báo phát hành.</strong></i></div>
+                    <div class="d-flex float-right">
+                        <button class="btn btn-success btn mt-3 w-100" ng-click="SaveEnterpriseInfo()"><b>Lưu thông tin</b></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row pt-2 cursor-move" sortable>
+            <div class="col-xl-4 dashboard-review-box">
+                <div class="content-review-box d-flex align-items-center justify-content-center">{{TotalMoneyBeforVAT|numberFormat:0}} <small>VND</small></div>
+                <div class="title-review-box d-flex align-items-center justify-content-center">Tổng doanh thu trước thuế</div>
+            </div>
+            <div class="col-xl-4 dashboard-review-box">
+                <div class="content-review-box d-flex align-items-center justify-content-center">{{TotalMoneyAfterVAT|numberFormat:0}} <small>VND</small></div>
+                <div class="title-review-box d-flex align-items-center justify-content-center">Tổng doanh thu sau thuế</div>
+            </div>
+            <div class="col-xl-4 dashboard-review-box">
+                <div class="content-review-box d-flex align-items-center justify-content-center">{{TotalMoneyVAT|numberFormat:0}} <small>VND</small></div>
+                <div class="title-review-box d-flex align-items-center justify-content-center">Tổng tiền thuế</div>
+            </div>
+        </div>
+
+        <div class="row pt-4 cursor-move" sortable>
+            <div class="col-xl-6 dashboard-chart">
+                <div>
+                    <div class="d-flex align-items-center title-chart">
+                        <span class="fa fa-line-chart"></span> Báo cáo doanh thu và tiền thuế
+                    </div>
+                    <div id="chart" class="dashboard-chart-body"></div>
+                </div>
+            </div>
+            <div class="col-xl-6 dashboard-chart">
+                <div>
+                    <div class="d-flex align-items-center title-chart">
+                        <span class="fa fa-bar-chart"></span> Báo cáo số lượng hóa đơn
+                    </div>
+                    <div id="chart2" class="dashboard-chart-body"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="column content-column" ng-show="DashboardType.value === '2'">
+        <div class="scroll-y noscroll-x fill body scrollbox zerotop">
+            <a href="#/home/dashboard" id="ember772" class="close close-lg ember-view" ng-click="ChangeDashboard('1')">×</a>
+            <div class="getting-started text-center">
+                <div class="gs-header gradient-border-bottom">
+                    <h1 class="font-xxxlarge text-semibold"> Xin chào Guest! </h1> <p class="font-weight-light font-medium" style="margin: 5px 0 25px;">
+                        <em>
+                            OnFinance Invoice là một giải pháp lập hóa đơn trực tuyến hoàn chỉnh. Hãy để chúng tôi giúp bạn thiết lập Hóa đơn OnFinance và quản lý hóa đơn hiệu quả.
+                        </em>
+                    </p>
+                </div> <div class="gs-new-container gs-new-featured">
+                    <a class="featured-item gs-video-section text-left gs-invoice-video" href="https://onfinance.asia/" data-ember-action="" data-ember-action-773="773">
+                        <div class="yt-video-container text-center" data-ember-action="" data-ember-action-774="774">
+                            <img src="https://onfinance.asia/images/key1.png" class="img-fluid cursor-pointer">
+                            <svg id="Layer_1" xmlns="https://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon play-button hv-centered">
+                                <path class="play-button-outer-ring" d="M256 6C117.9 6 6 117.9 6 256s111.9 250 250 250 250-111.9 250-250S394.1 6 256 6zm98.3 268.4l-136 84.5c-14.4 9-33.1-1.4-33.1-18.4v-169c0-17 18.6-27.3 33.1-18.4l136 84.5c13.6 8.5 13.6 28.3 0 36.8z"></path>
+                                <path opacity=".9" class="play-button-inner-icon" d="M354.3 237.6l-136-84.5c-14.4-9-33.1 1.4-33.1 18.4v168.9c0 17 18.6 27.3 33.1 18.4l136-84.5c13.6-8.4 13.6-28.2 0-36.7z"></path>
+                            </svg>
+                        </div>
+                        <p class="font-medium pt-3"><strong>Xem hướng dẫn tạo một hóa đơn điện tử:</strong></p>
+                        <ul class="font-small font-light gs-video-steps">
+                            <li class="step">Khởi tạo hóa đơn</li>
+                            <li class="step">Tạo thông tin khách hàng</li>
+                            <li class="step">Quản lý thông tin hàng hóa</li>
+                        </ul>
+                    </a>
+                    <a class="featured-item gs-mobile-section" href="https://support.onfinance.asia/" target="_blank" rel="noopener noreferrer">
+                        <img src="https://onfinance.asia/images/header-banner-1.png" class="app-image">
+                        <p class="font-medium title">Onfinance Invoice!</p>
+                        <p class="font-small font-light desc"> Phần mềm hóa đơn điện tử <span class="highlight">Onfinance Invoice?</span></p>
+                        <div class="app-links text-left">
+                            <ul class="font-small font-light gs-video-steps">
+                                <li class="step">Hóa đơn điện tử là gì?</li>
+                                <li class="step">Vì sao chúng ta cần hóa đơn điện tử?</li>
+                                <li class="step">Đối tượng nên dùng hóa đơn điện tử?</li>
+                            </ul>
+                        </div>
+                    </a>
+                </div>
+            </div> <div class="getting-started-help product-help-opts">
+                <div class="row">
+                    <div class="col-lg-4 text-center">
+                        <a href="#" data-ember-action="" data-ember-action-783="783">
+                            <img src="https://support.onfinance.asia/uploads/1577780724-Compose_Email.png" />
+                            <p class="font-large text-semibold">Thủ tục đăng ký phát hành hóa đơn</p>
+                        </a> <div class="px-3 text-muted font-small">Kiểm tra phát hành thành công hóa đơn điện tử với CQT <a target="_blank" href="https://support.onfinance.asia/search/12">Xem thêm</a></div>
+                    </div> <div class="col-lg-4 text-center">
+                        <a href="https://onfinance.asia/" data-ember-action="" data-ember-action-784="784">
+                            <img src="https://support.onfinance.asia/uploads/1577780856-Group.png" />
+                            <p class="font-large text-semibold">Quản lý khách hàng</p> <div class="px-3 text-muted font-small">Hướng dẫn chỉnh sửa thông tin khách hàng <a target="_blank" href="https://support.onfinance.asia/search/14">Xem thêm</a></div>
+                        </a>
+                    </div> <div class="col-lg-4 text-center">
+                        <a href="https://onfinance.asia/" target="_blank" rel="noreferrer noopener">
+                            <img src="https://support.onfinance.asia/uploads/1577780786-Secure_Files.png" />
+                            <p class="font-large text-semibold">Quản lý hóa đơn</p>
+                        </a> <div class="px-3  text-muted font-small">Tra cứu thông tin hóa đơn điện tử onfinance invoice <a target="_blank" href="https://support.onfinance.asia/search/10">Xem thêm</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @*<div id="modal-onboarding" style="display: none; padding-left: 0!important; padding-right: 0!important;">
+            <div class="d-flex">
+                <div class="col-3 onboarding-leftside">
+                    <div class="text-center">
+                        <img src="~/Images/mini-logo.png" width="50" alt="onfinance logo" />
+                    </div>
+                    <div class="nav flex-column nav-pills mt-5" id="nav-tab" role="tablist" aria-orientation="vertical">
+                        <a class="" data-toggle="tab" role="tab" aria-selected="true">Bắt đầu</a>
+                        <a class="" data-toggle="tab" role="tab" aria-selected="true">Cập nhật thông tin</a>
+                        <a class="" data-toggle="tab" role="tab" aria-selected="true">Tạo mẫu hóa đơn</a>
+                        <a class="" data-toggle="tab" role="tab" aria-selected="true">Tạo thông báo phát hành</a>
+                    </div>
+                </div>
+                <div class="col-9">
+                    <div class="tab-content" id="v-pills-tabContent">
+                        <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+                            <h4 class="text-center"><b>Chào mừng bạn đến với OnFinance Invoice</b></h4>
+                        </div>
+                    </div>
+                    <div class="" style="position: absolute; bottom: -70%; left: 75%; text-align: right">
+                        <button class="btn btn-success mr-3" ng-click="Open()"> Bắt đầu ngay &nbsp;<span class="fa fa-arrow-right"></span> </button>
+                    </div>
+                </div>
+            </div>
+        </div>*@
+</div>

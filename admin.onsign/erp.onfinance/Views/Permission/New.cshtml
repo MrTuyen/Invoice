@@ -1,0 +1,61 @@
+﻿@{
+    ViewBag.Title = "Thêm quyền";
+}
+
+@using SAB.Common
+
+<div class="boxsearch">
+    @using (Html.BeginForm("Index", "Permission", FormMethod.Post, new { id = "frmSearchPermission" }))
+    {
+        @Html.TextBox("keyword", null, new { @class = "seachInput", @placeholder = "Tìm mã quyền hoặc tên quyền" })
+        <input type="submit" value="Tìm" />
+    }
+</div>
+
+<div class="bodycontent spacepadding">
+    @using (Html.BeginForm("New", "Permission", FormMethod.Post, new { id = "frmAddPermission", name = "frmAddPermission" }))
+    {
+        <div class="box-areaprice">
+            <div class="label_input">Mã quyền:</div>
+            <div class="content_input">
+                <input type="number" name="idPermission" id="idPermission" value="@ViewBag.PerID" style="width: 315px;" @(Convert.ToString(ViewBag.PerID) != "" ? "readonly" : "") />
+                <input type="hidden" name="idOldPermission" id="idOldPermission" value="@ViewBag.PerID" readonly />
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="box-areaprice">
+            <div class="label_input">Tên quyền:</div>
+            <div class="content_input"><input type="text" name="namePermission" id="namePermission" value="@ViewBag.PerName" /></div>
+            <div class="clear"></div>
+        </div>
+        <div class="box-areaprice">
+            <div class="label_input">Mô tả quyền:</div>
+            <div class="content_input"><input type="text" name="desPermission" id="desPermission" value="@ViewBag.DesPer" /></div>
+            <div class="clear"></div>
+        </div>
+
+        if (Model != null)
+        {
+            <div class="box-areaprice">
+                <div class="label_input">Chọn nhóm quyền:</div>
+                <div class="content_input">
+                    @foreach (SYSTEM_PERMISSIONGROUP_SYSTEM_PERMISSION_PERMISSIONGROUP_Result p in Model)
+                    {
+                        <div class="block_line">
+                            <input type="checkbox" class="chkgrouppermission" name="grouppermission" id="chk_@p.GROUPID" value="@p.GROUPID" @((p.PERMISSIONID == null ? -1 : p.PERMISSIONID).ToString() == Convert.ToString(ViewBag.PerID) ? "checked" : "") />
+                            <label for="chk_@p.GROUPID">@p.PERMISSIONNAME <span class="detaillabel">(Mã: @p.GROUPID)</span></label>
+                        </div>
+                    }
+                    <div class="clear"></div>
+                </div>
+                <div class="clear"></div>
+            </div>
+        }
+        <div class="box-areaprice">
+            <div class="label_input">&nbsp;</div>
+            <div class="content_input"><input type="submit" value="Lưu" id="btnSubmitNewPermission" /></div>
+            <div class="clear"></div>
+        </div>
+
+    }
+</div>

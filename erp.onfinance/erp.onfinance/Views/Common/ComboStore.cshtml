@@ -1,0 +1,21 @@
+﻿@using TGDD.BHX.Common
+
+
+<select multiple="multiple" id="ddlStore" name="ddlStore" style="width: 200px" ng-model="s_outputstoreid" ng-selected="s_outputstoreid">
+    @if (Model != null)
+    {
+        foreach (StoreModel p in Model)
+        {
+            <option value="@p.STOREID">
+                @p.STOREID - @p.STORENAME
+            </option>
+        }
+    }
+</select>
+<script type="text/javascript">    
+    $("select#ddlStore").multiselect({
+        noneSelectedText: '- Chọn siêu thị -',
+        selectedList: 0,
+        selectedText: 'Chọn # / # siêu thị'
+    }).multiselectfilter();
+</script>

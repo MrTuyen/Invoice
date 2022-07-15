@@ -1,0 +1,13 @@
+{
+  "cusid": "CUSID",
+  "cusname": "CUSNAME",
+  "custaxcode": "CUSTAXCODE",
+  "cusphonenumber": "CUSPHONENUMBER",
+  "cusaddress": "CUSADDRESS",
+  "cusemail": "CUSEMAIL",
+  "cuspaymentmethod": "CUSPAYMENTMETHOD",
+  "cusbankname": "CUSBANKNAME",
+  "cusaccountnumber": "CUSACCOUNTNUMBER",
+  "cuscurrencyunit": "CUSCURRENCYUNIT",
+  "cusnote": "CUSNOTE"
+}

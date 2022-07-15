@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{DA2EB806-DB68-4F48-A963-C90DE64135A7}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DS.DataObject</RootNamespace>
+    <AssemblyName>DS.DataObject</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="SAB.Library.Core">
+      <HintPath>..\..\DLLs\SAB.Library.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="SAB.Library.Data">
+      <HintPath>..\..\DLLs\SAB.Library.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Account\AccountDAO.cs" />
+    <Compile Include="API\PartnerOAuthDAO.cs" />
+    <Compile Include="BaseDAO.cs" />
+    <Compile Include="Category\CategoryDAO.cs" />
+    <Compile Include="Company\CompanyDAO.cs" />
+    <Compile Include="CurrencyUnit\CurrencyUnitDAO.cs" />
+    <Compile Include="Customer\CustomerDAO.cs" />
+    <Compile Include="Email\EmailDAO.cs" />
+    <Compile Include="GlobalDAO.cs" />
+    <Compile Include="hosodoanhnghiep\hosodoanhnghiepDAO.cs" />
+    <Compile Include="Invoice\InvoiceDAO.cs" />
+    <Compile Include="Logs\LogDAO.cs" />
+    <Compile Include="Meter\MeterDAO.cs" />
+    <Compile Include="Number\NumberDAO.cs" />
+    <Compile Include="PaymentMethod\PaymentMethodDAO.cs" />
+    <Compile Include="Product\ProductDAO.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QuantityUnit\QuantityUnitDAO.cs" />
+    <Compile Include="Receipt\ReceiptDAO.cs" />
+    <Compile Include="Report\ReportDAO.cs" />
+    <Compile Include="User\UserDAO.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DS.BusinessObject\DS.BusinessObject.csproj">
+      <Project>{e2ef73c2-ae18-45c5-9403-3f8e5b97374c}</Project>
+      <Name>DS.BusinessObject</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DS.Common\DS.Common.csproj">
+      <Project>{fb18d3f8-f9e0-4bb4-bb55-0e121f7d65f4}</Project>
+      <Name>DS.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

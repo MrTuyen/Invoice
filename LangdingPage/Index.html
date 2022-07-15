@@ -1,0 +1,424 @@
+﻿
+<!DOCTYPE html>
+<base href='something.com' />
+<html lang="vi">
+<head>
+    <title>Onfinance Invoice | Phần mềm hóa đơn điện tử thân thiện nhất</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="/images/mini-logo.png" type="image/x-icon">
+    <meta name="title" content="Onfinance Invoice | Phần mềm hóa đơn điện tử thân thiện nhất" />
+    <meta name="twitter:card" content="Onfinance Invoice | Phần mềm hóa đơn điện tử thân thiện nhất">
+    <meta name="description" content="Phần mềm hóa đơn điện tử thân thiện nhất" />
+    <meta name="keywords" content="Onfinance Invoice" />
+    <meta name="image" content="https://onfinance.asia/images/header-banner-1.png" />
+    <link rel="canonical" href="onfinance.asia" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Onfinance Invoice | Phần mềm hóa đơn điện tử thân thiện nhất" />
+    <meta property="og:image" content="https://onfinance.asia/images/header-banner-1.png" />
+    <meta property="og:url" content="https://onfinance.asia/" />
+    <meta property="og:description" content="Phần mềm hóa đơn điện tử thân thiện nhất" />
+    <meta property="og:site_name" content="Onfinance Invoice | Phần mềm hóa đơn điện tử thân thiện nhất" />
+    <!-- CSS -->
+    <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:300,400,500,600,700&display=swap&subset=vietnamese" rel="stylesheet">
+
+    <link href="/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="/css/awesome.css" rel="stylesheet" type="text/css" />
+    <link href="/css/owl.carousel.min.css" rel="stylesheet" type="text/css" />
+    <link href="/css/owl.theme.default.min.css" rel="stylesheet" type="text/css" />
+    <link href="/css/novaon.homepage.min.css?v=05" rel="stylesheet" type="text/css" />
+    <!--<link href="/css/header_nav.css" rel="stylesheet" type="text/css" />-->
+    <!--<link href="https://autoads.asia/css/css_new/homebundle.css?v=22" rel="stylesheet" type="text/css" />-->
+    <link href="/css/homebundle.min.css" rel="stylesheet" type="text/css" />
+    <link href="/css/header_static.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/header-layout-home.css" type="text/css">
+
+
+    <script src="/Scripts/jquery.3.3.1.min.js" type="text/javascript"></script>
+    <script src="/Scripts/lazyload.min.js" type="text/javascript"></script>
+    <script src="/Scripts/bootstrap.min.js" type="text/javascript"></script>
+    <script src="/Scripts/owl.carousel.min.js" type="text/javascript"></script>
+    <script src="/Scripts/novaon.homepage.js?v=7" type="text/javascript"></script>
+    <script>
+        $(window).scroll(function () {
+            if ($(window).scrollTop() > 0) {
+                $('#menu-fixed').addClass('floatingNav');
+
+
+            } else {
+                $('#menu-fixed').removeClass('floatingNav');
+
+            }
+        });
+
+
+        var _fixedScrollDesktop = 68;
+        var _fixedScrollMobile = 24;
+
+        var _currentScroll = $(window).scrollTop();
+        var _widthPage = $(window).width();
+        window.onresize = function () {
+            _widthPage = $(window).width();
+            _currentScroll = $(window).scrollTop();
+        }
+
+        if (_widthPage > 767) {
+            if (_currentScroll > _fixedScrollDesktop) {
+                $('.layout-home--header').addClass('fix-header');
+            }
+            else {
+                $('.layout-home--header').removeClass('fix-header');
+            }
+        }
+        else {
+            if (_currentScroll > _fixedScrollMobile) {
+                $('.layout-home--header').addClass('fix-header');
+            }
+            else {
+                $('.layout-home--header').removeClass('fix-header');
+            }
+        }
+
+        $(window).on('scroll', function () {
+            _currentScroll = $(window).scrollTop();
+
+            if (_widthPage > 767) {
+                if (_currentScroll > _fixedScrollDesktop) {
+                    $('.layout-home--header').addClass('fix-header');
+                }
+                else {
+                    $('.layout-home--header').removeClass('fix-header');
+                }
+            }
+            else {
+
+                if (_currentScroll > _fixedScrollMobile) {
+                    $('.layout-home--header').addClass('fix-header');
+                }
+                else {
+                    $('.layout-home--header').removeClass('fix-header');
+                }
+            }
+
+            //if (_widthPage < 500) {
+            //    hideHotlineMobile();
+            //}
+        });
+
+
+        function ChangeLeftMenu(param) {
+            // Xóa active cũ
+            $('.lf-menu .all-product-active').each(function (index, item) {
+                $(item).removeClass('all-product-active');
+                $(item).addClass('all-product');
+            });
+            // Flag node
+            var node = $(param).prop('class');
+            if (node == 'all-product') {
+                $(param).removeClass('all-product');
+                $(param).addClass('all-product-active');
+            }
+
+            // Thay đổi nội dung trên frame
+            var val = parseInt($(param).attr('data-menu'));
+            // Ân right menu
+            $('.menu-ri-item').each(function (index, item) {
+                $(item).hide();
+            });
+            // show right menu
+            $($('.menu-ri-item').eq(val)).show();
+        }
+
+    </script>
+
+    <!-- Google Tag Manager -->
+    <script>
+    (function (w, d, s, l, i) {
+        w[l] = w[l] || []; w[l].push({
+            'gtm.start':
+                new Date().getTime(), event: 'gtm.js'
+        }); var f = d.getElementsByTagName(s)[0],
+            j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-KLPQ5MC');</script>
+    <!-- End Google Tag Manager -->
+</head>
+<body class="home">
+    <!-- Google Tag Manager (noscript) -->
+    <noscript>
+        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KLPQ5MC"
+                height="0" width="0" style="display:none;visibility:hidden"></iframe>
+    </noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <div class="page-wrapper">
+        <div id="header-new"></div>
+        <div class="banner-home text-center banner-home-new">
+            <!-- End container -->
+            <div class="container" style="height: 100%;">
+                <div class="container-section1">
+                    <div class="row">
+                        <div class="col-sm-5 col-md-5 mt-sm-5">
+                            <p class="title" style="
+    margin-bottom: 30px;
+">Phần mềm hóa đơn điện tử</p>
+                            <h1 class="title-h1">Onfinance Invoice</h1>
+                            <ul class="login-register list-inline ml0 btn-trial" style="display: block;margin-top: 20px;">
+                                <li class="list-inline-item register btn-trial-new btn-trial-banner" style="
+    /* padding-left: 0px; */
+    margin-left: 0px;
+">
+                                    <a class="screen-991" href="https://e.onfinance.asia/user-account/register">Dùng thử miễn phí</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-sm-7 col-sm-offset-2 col-md-7 col-md-offset-0 banner-img-asl pt-5 pt-sm-0">
+                            <img data-src="/images/header-banner-1.png" class="lazyload" src="/images/header-banner-1.png">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="videoIntroOnshop" tabindex="-1" role="dialog" aria-labelledby="videoIntroOnshop" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header" style="display: none">
+                        <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" style="padding: 5px 5px 0 5px;">
+                        <iframe style="width: 100%" width="560" height="315" src="https://www.youtube.com/embed/vT6N_XXi4rI" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    <div class="modal-footer" style="display: none">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- End banner home -->
+        <main class="content-wrapper">
+            <!--    partner-->
+            <div class="container container-partner container-partner-new visible-not-mobile">
+                <div class="row" style="align-items: flex-end">
+                    <div class="col-sm-2 item">
+                        <p>Đối tác cao cấp của Google</p>
+                        <img data-src="/images/gg-partner.png" class="lazyload">
+                    </div>
+                    <div class="col-sm-2" style="border-right: 2px solid #ED592A">
+                        <p>Top 32 Doanh nghiệp Fast500</p>
+                        <img data-src="/images/fast-500.png" class="lazyload">
+                    </div>
+                    <div class="col-sm-2">
+                        <p>Đối tác tin cậy</p>
+                        <img data-src="/images/unica.png" class="lazyload">
+                    </div>
+                    <div class="col-sm-2">
+                        <img data-src="/images/GHN-new.png" class="lazyload">
+                    </div>
+                    <div class="col-sm-2">
+                        <img data-src="/images/Logo_VTSolutions.png" class="lazyload">
+                    </div>
+                    <div class="col-sm-2">
+                        <img data-src="/images/Logo_Litado.png" class="lazyload">
+                    </div>
+                </div>
+            </div>
+            <!--        end-partner-->
+            <div class="home-feature  ">
+                <div class="container">
+                    <div class="block-content visible-not-mobile">
+                        <!--block-new-1-->
+                        <div class="row">
+                            <div class="col-md-6 col-xs-12">
+                                <img data-src="/images/key1.png" class="lazyload">
+                            </div>
+                            <div class="col-md-6 col-xs-12">
+                                <div id="accordion">
+
+                                    <div class="card">
+                                        <div class="card-header" data-toggle="collapse" href="#collapseOne" aria-expanded="true">
+                                            <a class="card-link">
+                                                Hóa đơn điện tử là gì?
+                                            </a>
+                                            <img data-src="/images/48px_down-arrow.svg" class="lazyload test" />
+                                        </div>
+                                        <div id="collapseOne" class="collapse show test" data-parent="#accordion">
+                                            <div class="card-body">
+                                                Hóa đơn điện tử là tập hợp các dữ liệu điện tử về bán hàng, về cung ứng dịch vụ được doanh nghiệp tạo lập, lưu trữ, quản lý và gửi cho khách hàng bằng phương tiện điện tử.
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="card">
+                                        <div class="card-header" data-toggle="collapse" href="#collapseTwo">
+                                            <a class="collapsed card-link">
+                                                Vì sao chúng ta cần hóa đơn điện tử?
+                                            </a>
+                                            <img data-src="/images/48px_down-arrow.svg" class="lazyload test" />
+                                        </div>
+                                        <div id="collapseTwo" class="collapse" data-parent="#accordion">
+                                            <div class="card-body">
+                                                Giúp doanh nghiệp quản lý dễ dàng hóa đơn với số lượng lớn.<br>
+                                                Tiết kiệm chi phí in ấn và lưu trữ  hóa đơn cho doanh nghiệp.
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="card">
+                                        <div class="card-header" data-toggle="collapse" href="#collapseThree">
+                                            <a class="collapsed card-link">
+                                                Đối tượng nên dùng hóa đơn điện tử?
+                                            </a>
+                                            <img data-src="/images/48px_down-arrow.svg" class="lazyload test" />
+                                        </div>
+                                        <div id="collapseThree" class="collapse" data-parent="#accordion">
+                                            <div class="card-body">
+                                                Doanh nghiệp phát hành với số lượng hóa đơn lớn như Điện, nước, viễn thông, truyền hình… Doanh nghiệp có khách hàng không tập trung, có nhiều chi nhánh ở nhiều tỉnh thành phố.
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="card">
+                                        <div class="card-header" data-toggle="collapse" href="#collapseFour">
+                                            <a class="collapsed card-link">
+                                                Triển khai phần mềm hóa đơn điện tử như thế nào?
+                                            </a>
+                                            <img data-src="/images/48px_down-arrow.svg" class="lazyload test" />
+                                        </div>
+                                        <div id="collapseFour" class="collapse" data-parent="#accordion">
+                                            <div class="card-body">
+                                                Sau khi lựa chọn nhà cung cấp phần mềm, thực hiện thủ tục khai báo sử dụng hóa đơn điện tử tại cơ quan thuế và nhận nhận kết quả sau 2-3 ngày.
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <!--end-block-new-1-->
+                        <!-- End row -->
+                    </div>
+                </div>
+                <!-- End container -->
+            </div>
+
+            <div class="home-feature text-center bg-grey bg-grey-new">
+                <div class="container">
+                    <div class="block-content">
+                        <h2 class="block-title">Lợi ích của Onfinance Invoice</h2>
+                        <div class="row justify-content-xl-center">
+                            <div class="col-md-3">
+                                <div class="feature-item">
+                                    <div class="img">
+                                        <img data-src="/images/cursor@2x.png" class="lazyload" />
+                                    </div>
+                                    <div class="title title-new">Dễ sử dụng</div>
+                                    <span class="desc">Khởi tạo, phát hành và tìm kiếm hoá đơn trên mọi thiết bị và ở mọi lúc mọi nơi.</span>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="feature-item">
+                                    <div class="img">
+                                        <img data-src="/images/paper-plane@2x.png" class="lazyload" />
+                                    </div>
+                                    <div class="title title-new">Nhanh chóng</div>
+                                    <span class="desc" style="letter-spacing: -0.5px;">Kế toán chỉ mất 3s để xuất hóa đơn và gửi qua SMS hoặc Email tới khách hàng .</span>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="feature-item">
+                                    <div class="img">
+                                        <img data-src="/images/insurance@2x.png" class="lazyload" />
+                                    </div>
+                                    <div class="title title-new">An toàn</div>
+                                    <span class="desc" style="letter-spacing: -0.7px;">Lưu trữ hóa đơn trong 10 năm bảo mật dữ liệu an toàn tuyệt đối.</span>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="feature-item">
+                                    <div class="img">
+                                        <img data-src="/images/piggy-bank@2x.png" class="lazyload" />
+                                    </div>
+                                    <div class="title title-new">Tiết kiệm</div>
+                                    <span class="desc">Tiết kiệm 90% chi phí in ấn, vận chuyển, lưu trữ và bảo quản hóa đơn.</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End row -->
+
+                    </div>
+                    <!-- End block-content -->
+                    <div class="login-register login-register-new">
+                        <div class=" register">
+                            <a href="https://e.onfinance.asia/user-account/register" class="btn btn-primary mt-5 btn-trial-new" style="padding: 10px 30px !important;">Dùng thử miễn phí</a>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- End container -->
+            </div>
+        </main>
+        <!-- End content wrapper -->
+
+        <footer class="customers-trust">
+            <div class="container">
+                <h2 class="block-title mt-4">Tại sao chọn OnFinance Invoice?</h2>
+                <div class="row d-xl-flex">
+                    <div class="col-sm-5 d-flex align-items-center order-2 order-sm-1">
+                        <ul class="lstKeyvisual">
+                            <li data-resource="images/screenshot_1575343937.png?v=1">Import tương thích 90% phần mềm kế toán</li>
+                            <li data-resource="images/tao_hoa_don.gif?v=1">Tự tạo mẫu hóa đơn riêng miễn phí.</li>
+                            <li data-resource="images/tim_kiem_nhanh.gif?v=1">Tìm mọi thứ nhanh & thông minh với AI.</li>
+                            <li data-resource="images/screenshot_1575342866.png?v=1">Thao tác hàng loạt trên danh sách hóa đơn.</li>
+                            <li data-resource="images/screenshot_1575343893.png?v=1">Báo cáo doanh thu, tiền thuế cập nhật tức thời.</li>
+                            <li data-resource="images/tuong_thich_mobile.gif?v=1">Tương thích mobile</li>
+                        </ul>
+                    </div>
+                    <div class="col-sm-7 d-flex justify-content-center align-items-center order-1 order-sm-2" style="min-height: 486px">
+                        <img data-src="/images/screenshot_1575342866.png" id="viewKeyvisual" class="lazyload" />
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="title-cus-trust">
+                    <h2>Thành viên trong hệ sinh thái NOVAON với hơn <span style="color: #2CA01C">87.000</span> khách hàng</h2>
+                </div>
+                <div class="image-cus-trust">
+                    <img class="visible-not-mobile lazyload" data-src="/images/partner-gr-new.png" alt="">
+                    <img class="visible-is-mobile lazyload" data-src="/images/partner-mb-gr-new.png" alt="">
+                </div>
+            </div>
+        </footer>
+        <div class="container-fluid p-0 bg-grey" id="boxreviewer">
+        </div>
+        <footer class="footer end footer-new"></footer>
+        <!-- End footer -->
+    </div>
+    <div id="overlay"></div>
+
+    <!--Comodo Trust Seal-->
+    <script type="text/javascript">
+        //<![CDATA[
+        var tlJsHost = ((window.location.protocol == "https:") ? "https://secure.trust-provider.com/" : "http://www.trustlogo.com/");
+        document.write(unescape("%3Cscript src='" + tlJsHost + "trustlogo/javascript/trustlogo.js' type='text/javascript'%3E%3C/script%3E"));
+                //]]>
+    </script>
+
+    <!-- Google Tag Manager (noscript) -->
+    <noscript>
+        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KLPQ5MC"
+                height="0" width="0" style="display:none;visibility:hidden"></iframe>
+    </noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+</body>
+</html>

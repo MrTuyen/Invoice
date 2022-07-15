@@ -1,0 +1,59 @@
+﻿<style>
+    .td_suggest {
+        color: #000;
+        padding-left: 20px !important;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    .td_suggest:hover, .td_suggest.hover {
+        background-color: #F2F2F2 !important;
+    }
+
+    .box_suggest {
+        width: 100%;
+        max-height: 220px;
+        overflow-y: auto;
+        position: absolute;
+        background-color: white;
+        z-index: 9999999;
+        border: 1px solid #D8DCE6;
+        border-radius: 4px;
+        -webkit-box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.1);
+        -moz-box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.1);
+        box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.1);
+    }
+    .suggest_cusname {
+        color: #1d7511;
+    }
+    .suggest_address {
+        font-size: 12px;
+        color: #545454;
+    }
+</style>
+
+<div style="position: relative; width:100%;">
+    <input type="text" placeholder="{{textboxplaceholder}}" class="form-control form-control-sm editor_invoice" maxlength="{{textboxmaxlength}}" ng-model="keyword" 
+           ng-keydown="KeyDown($event)" ng-change="search()" ng-focus="isShowlist = true" ng-blur="LossFocus()" ng-disabled="disabled" focus-on="fucusme" onfocus="this.value = this.value;" />
+
+    <div ng-show="lstObject.length > 0 && isShowlist" class="box_suggest" ng-mouseover="MousOverFocus(true)" ng-mouseleave="MousOverFocus(false)">
+        <table class="table_full table-borderless" style="width:100%;">
+            <tbody>
+                <tr ng-repeat="obj in lstObject track by $index" ng-click="redirect(obj)">
+                    <td class="td_suggest" ng-class="{'hover' : obj.isSelected}">
+                        <span>
+                            {{obj.CUSTAXCODE}} -
+                            <span class="suggest_cusname">
+                                {{obj.CUSBUYER}}
+                            </span>
+                            <br />
+                            <span class="suggest_address">
+                                {{obj.CUSADDRESS}}
+                            </span>
+                        </span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

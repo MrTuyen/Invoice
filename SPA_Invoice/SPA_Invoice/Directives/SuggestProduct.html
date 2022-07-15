@@ -1,0 +1,49 @@
+﻿<style>
+    .td_suggest {
+        color: #000;
+        padding-left: 20px !important;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+        .td_suggest:hover, .td_suggest.hover {
+            background-color: #F2F2F2 !important;
+        }
+
+    .box_suggest {
+        width: 100%;
+        max-height: 220px;
+        overflow-y: auto;
+        position: absolute;
+        background-color: white;
+        z-index: 9999999;
+        border: 1px solid #D8DCE6;
+        border-radius: 4px;
+        -webkit-box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.1);
+        -moz-box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.1);
+        box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.1);
+    }
+</style>
+
+<div style="position: relative; width:100%;">
+    <textarea placeholder="{{textboxplaceholder}}" class="form-control form-control-sm" maxlength="{{textboxmaxlength}}" ng-model="keyword" style="border: none;padding: 6px 10px;max-width: 600px;"
+           ng-keydown="KeyDown($event)" ng-change="search()" ng-focus="isShowlist = true" ng-blur="LossFocus()" ng-disabled="disabled" focus-on="fucusme" onfocus="this.value = this.value;" />
+
+    <div ng-show="lstObject.length > 0 && isShowlist" class="box_suggest" ng-mouseover="MousOverFocus(true)" ng-mouseleave="MousOverFocus(false)">
+        <table class="table_full table-borderless" style="width:100%;">
+            <tbody>
+                <tr ng-repeat="obj in lstObject track by $index" ng-click="redirect(obj)">
+                    <td class="td_suggest" ng-class="{'hover' : obj.isSelected}">
+                        <span>{{obj.PRODUCTNAME}}</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!--<div class="alert alert-secondary alert-dismissible show" role="alert" style="width: 100%; position: absolute; z-index: 9999999;" ng-show="lstObject != null && lstObject.length == 0"
+         ng-click="ModalProduct(keyword, 1)" data-toggle="modal" data-target=".modal-product">
+        <img src="../Images/iconmonstr-plus-thin.svg" style="width: 16px; height: 16px; margin-top: -3px" /> <strong>Thêm mới</strong> "{{keyword}}"
+    </div>-->
+
+</div>
